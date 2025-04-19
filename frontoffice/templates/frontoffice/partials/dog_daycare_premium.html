@@ -1,0 +1,128 @@
+{% load i18n %}
+<section id="dog-daycare-premium" class="relative flex items-center justify-center py-12 md:py-16 overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-accent-600 animate__animated animate__fadeIn">
+    <!-- Subtle abstract dog silhouette pattern -->
+    <div class="absolute inset-0 opacity-5 pointer-events-none bg-dog-silhouette bg-repeat bg-[length:300px_300px]"></div>
+    
+    <!-- Floating training elements (leash, treat, etc.) -->
+    <div class="absolute left-10 top-1/4 w-16 h-16 opacity-70 animate-float-slow">
+        {% include "icons/dog_leash.html" with class="w-full h-full text-white" %}
+    </div>
+    <div class="absolute right-15 bottom-1/3 w-12 h-12 opacity-70 animate-float-slower animate-delay-1000">
+        {% include "icons/dog_collar.html" with class="w-full h-full text-accent-300" %}
+    </div>
+    
+    <!-- Content container -->
+    <div class="relative z-10 px-6 max-w-5xl mx-auto text-center">
+        <!-- Badge showing established service -->
+        <div class="inline-block mb-6 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 animate__animated animate__fadeInDown">
+            <p class="text-sm font-semibold text-white tracking-wider">
+                {% trans "Trusted Since 2023" %} • {% trans "500+ Happy Pups" %}
+            </p>
+        </div>
+        
+        <!-- Main heading with dynamic gradient -->
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 animate__animated animate__fadeIn">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-200 to-white animate-text-shimmer">
+                {% trans "Dog Daycare & Training Premium Experience" %}
+            </span>
+        </h2>
+        
+        <!-- Descriptive text with animated underline -->
+        <div class="relative max-w-2xl mx-auto mb-8">
+            <p class="text-xl md:text-2xl text-white/90 font-medium leading-relaxed animate__animated animate__fadeIn animate__delay-1s">
+                {% trans "Our refined training methodology delivers" %} 
+                <span class="relative whitespace-nowrap font-bold text-white">
+                    <span class="relative z-10">{% trans "exceptional results" %}</span>
+                    <span class="absolute bottom-0 left-0 w-full h-2 bg-accent-400/70 -rotate-1 -z-0 animate-underline-expand"></span>
+                </span>
+                {% trans "for dogs at every life stage" %}
+            </p>
+        </div>
+        
+        <!-- Value proposition cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 animate__animated animate__fadeIn animate__delay-1s">
+            <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:border-accent-400 transition-all duration-500 hover:scale-[1.02]">
+                <div class="w-14 h-14 mx-auto mb-4 p-3 bg-accent-500/20 rounded-full">
+                    {% include "icons/frame.html" with class="w-8 h-8 text-accent-300" %}
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">{% trans "Tailored Programs" %}</h3>
+                <p class="text-white/80">{% trans "Customized training plans for your dog's unique personality" %}</p>
+            </div>
+            
+            <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:border-accent-400 transition-all duration-500 hover:scale-[1.02]">
+                <div class="w-14 h-14 mx-auto mb-4 p-3 bg-accent-500/20 rounded-full">
+                    {% include "icons/dog_puppy_training_to_sit.html" with class="w-8 h-8 text-accent-300" %}
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">{% trans "Expert Guidance" %}</h3>
+                <p class="text-white/80">{% trans "Certified trainers with 10+ years combined experience" %}</p>
+            </div>
+            
+            <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 hover:border-accent-400 transition-all duration-500 hover:scale-[1.02]">
+                <div class="w-14 h-14 mx-auto mb-4 p-3 bg-accent-500/20 rounded-full">
+                    {% include "icons/goal.html" with class="w-8 h-8 text-accent-300" %}
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">{% trans "Proven Results" %}</h3>
+                <p class="text-white/80">{% trans "94% of clients achieve their training goals" %}</p>
+            </div>
+        </div>
+        
+        <!-- Animated CTA button with paw print trail -->
+        <div class="animate__animated animate__fadeIn animate__delay-2s relative">
+            <div class="absolute -left-10 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {% include "icons/paw.html" with class="w-6 h-6 text-accent-300 animate-paw-trail" %}
+            </div>
+            <a href="{% url 'frontoffice:contact_us' %}" class="relative inline-flex items-center px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-full transition-all duration-300 group shadow-lg hover:shadow-xl hover:scale-105">
+                <span class="relative z-10">{% trans "Explore Our Methods" %}</span>
+                <span class="ml-3 transform group-hover:translate-x-2 transition-transform duration-300">
+                    {% include "icons/arrow_right.html" with class="w-5 h-5" %}
+                </span>
+                <span class="absolute inset-0 rounded-full border-2 border-white/30 group-hover:border-white/50 transition-all duration-500 animate-pulse-slow"></span>
+            </a>
+            <div class="absolute -right-10 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                {% include "icons/paw.html" with class="w-6 h-6 text-accent-300 animate-paw-trail" %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes textShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.animate-text-shimmer {
+    background-size: 200% auto;
+    animation: textShimmer 8s ease infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(3deg); }
+}
+.animate-float-slow { animation: float 8s ease-in-out infinite; }
+.animate-float-slower { animation: float 10s ease-in-out infinite; }
+.animate-delay-1000 { animation-delay: 1s; }
+
+@keyframes underlineExpand {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+}
+.animate-underline-expand {
+    transform-origin: left;
+    animation: underlineExpand 1.5s ease-out forwards;
+}
+
+@keyframes pawTrail {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+.animate-paw-trail { animation: pawTrail 1s ease-out infinite; }
+
+@keyframes pulseSlow {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.05); }
+}
+.animate-pulse-slow { animation: pulseSlow 3s ease infinite; }
+</style>

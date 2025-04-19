@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="bg-white p-6 rounded-lg shadow">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-primary-800">{% trans "My Pets" %}</h1>
+    <a href="{% url 'pets:create' %}" class="px-4 py-2 bg-accent-500 text-white rounded-full hover:bg-accent-600 transition-colors">
+      {% trans "Add Pet" %}
+    </a>
+  </div>
+
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {% for pet in pets %}
+      <div class="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+        {% if pet.photo %}
+          <div class="relative h-48 overflow-hidden">
+            <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+          </div>
+        {% else %}
+          <div class="h-48 bg-primary-100 flex items-center justify-center">
+            <span class="text-primary-400">{% include "icons/paw.html" with class="w-12 h-12" %}</span>
+          </div>
+        {% endif %}
+        <div class="p-4">
+          <h3 class="font-bold text-lg">{{ pet.name }}</h3>
+          <p class="text-primary-600">{{ pet.get_species_display }} • {{ pet.breed }}</p>
+          <div class="mt-4 flex space-x-2 justify-end">
+            <a href="{% url 'pets:detail' pet.pk %}" class="px-3 py-1 border border-primary-600 text-primary-600 rounded-full hover:bg-primary-50 transition-colors">
+              {% trans "View" %}
+            </a>
+            <a href="{% url 'pets:update' pet.pk %}" class="px-3 py-1 border border-secondary-600 text-secondary-600 rounded-full hover:bg-secondary-50 transition-colors">
+              {% trans "Edit" %}
+            </a>
+            <a href="{% url 'pets:delete' pet.pk %}" class="px-3 py-1 border border-red-600 text-red-600 rounded-full hover:bg-red-50 transition-colors">
+              {% trans "Delete" %}
+            </a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-span-full text-center py-12">
+        <p class="text-primary-500">{% trans "You haven't added any pets yet." %}</p>
+        <a href="{% url 'pets:create' %}" class="mt-4 inline-block px-4 py-2 bg-accent-500 text-white rounded-full hover:bg-accent-600 transition-colors">
+          {% trans "Add Your First Pet" %}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

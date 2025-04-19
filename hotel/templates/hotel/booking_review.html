@@ -1,0 +1,249 @@
+<!-- hotel/booking_review.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
+                    {% trans "Review Your Booking" %}
+                </span>
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
+            </h1>
+            <p class="text-xl text-primary-600 max-w-3xl mx-auto">
+                {% trans "Please verify all details before confirmation" %}
+            </p>
+        </div>
+
+        <div class="max-w-6xl mx-auto">
+            <!-- Step indicator -->
+            <div class="flex justify-between mb-8">
+                <div class="flex-1 text-center border-b-2 border-primary-200 pb-2">
+                    <span class="bg-primary-200 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</span>
+                    <span class="text-primary-500">{% trans "Select Stay" %}</span>
+                </div>
+                <div class="flex-1 text-center border-b-2 border-primary-200 pb-2">
+                    <span class="bg-primary-200 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</span>
+                    <span class="text-primary-500">{% trans "Add Services" %}</span>
+                </div>
+                <div class="flex-1 text-center border-b-2 border-accent-500 pb-2">
+                    <span class="bg-accent-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</span>
+                    <span class="font-medium text-accent-700">{% trans "Review & Pay" %}</span>
+                </div>
+            </div>
+
+            <!-- Booking Summary -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
+                    {% include "icons/info.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                    {% trans "Stay Details" %}
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Accommodation" %}</h3>
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 rounded-lg p-3 mr-4">
+                                {% include "icons/pet_hotel.html" with class="w-6 h-6 text-accent-500" %}
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary-800">{{ stay.item_description }}</p>
+                                <p class="text-primary-600">{{ stay.sales_price }}€ {% trans "per day" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Dates" %}</h3>
+                        <ul class="space-y-2">
+                            <li class="flex justify-between">
+                                <span>{% trans "Check-in" %}</span>
+                                <span class="font-medium">{{ start_date|date:"M j, Y" }}</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>{% trans "Check-out" %}</span>
+                                <span class="font-medium">{{ end_date|date:"M j, Y" }}</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>{% trans "Duration" %}</span>
+                                <span class="font-medium">{{ duration }} {% trans "day" %}{{ duration|pluralize }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3 class="font-medium text-primary-700 mb-2">{% trans "Pets Staying" %}</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    {% for pet in pets %}
+                    <div class="flex items-center p-3 border border-primary-200 rounded-lg">
+                        <div class="w-12 h-12 rounded-full bg-primary-100 mr-3 overflow-hidden flex-shrink-0">
+                            {% if pet.photo %}
+                            <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                            {% else %}
+                            {% include "icons/paw.html" with class="w-full h-full p-2 text-primary-400" %}
+                            {% endif %}
+                        </div>
+                        <div>
+                            <p class="font-medium text-primary-800">{{ pet.name }}</p>
+                            <p class="text-sm text-primary-600">{{ pet.breed.name }} • {{ pet.get_size_display }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Services Summary -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
+                    {% include "icons/dog_training.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                    {% trans "Selected Services" %}
+                </h2>
+                
+                {% if pet_services %}
+                    {% for pet_id, pet_data in pet_services.items %}
+                    <div class="mb-6 last:mb-0">
+                        <h3 class="font-medium text-primary-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-primary-100 mr-2 flex items-center justify-center overflow-hidden">
+                                {% if pet_data.pet.photo %}
+                                <img src="{{ pet_data.pet.photo.url }}" alt="{{ pet_data.pet.name }}" class="w-full h-full object-cover">
+                                {% else %}
+                                {% include "icons/paw.html" with class="w-4 h-4 text-primary-400" %}
+                                {% endif %}
+                            </span>
+                            <span>{{ pet_data.pet.name }}</span>
+                        </h3>
+                        
+                        {% if pet_data.services %}
+                        <div class="border border-primary-100 rounded-lg overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-primary-50">
+                                    <tr>
+                                        <th class="text-left py-3 px-4">{% trans "Service" %}</th>
+                                        <th class="text-right py-3 px-4">{% trans "Price" %}</th>
+                                        <th class="text-right py-3 px-4">{% trans "Qty" %}</th>
+                                        <th class="text-right py-3 px-4">{% trans "Total" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for service in pet_data.services %}
+                                    <tr class="border-t border-primary-100">
+                                        <td class="py-3 px-4">{{ service.service.item_description }}</td>
+                                        <td class="text-right py-3 px-4">{{ service.price }}€</td>
+                                        <td class="text-right py-3 px-4">{{ service.quantity }}</td>
+                                        <td class="text-right py-3 px-4 font-medium">{{ service.total }}€</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="bg-primary-50 rounded-lg p-4 text-center">
+                            <p class="text-primary-700">{% trans "No additional services selected" %}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="bg-primary-50 rounded-lg p-4 text-center">
+                    <p class="text-primary-700">{% trans "No additional services selected" %}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Pricing Summary -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
+                    {% include "icons/receipt_percent.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                    {% trans "Pricing Summary" %}
+                </h2>
+                
+                <div class="border border-primary-100 rounded-lg overflow-hidden">
+                    <table class="w-full">
+                        <tbody>
+                            <!-- Accommodation -->
+                            <tr class="border-b border-primary-100">
+                                <td class="py-3 px-4 font-medium">{% trans "Accommodation" %}</td>
+                                <td class="text-right py-3 px-4">
+                                    {{ pricing.stay.unit_price }}€ × {{ duration }} {% trans "days" %} × {{ pets|length }} {% trans "pets" %}
+                                </td>
+                                <td class="text-right py-3 px-4 font-bold">{{ pricing.stay.total }}€</td>
+                            </tr>
+                            
+                            <!-- Services -->
+                            {% for service_id, service_data in pricing.services.items %}
+                            <tr class="border-b border-primary-100">
+                                <td class="py-3 px-4 font-medium">{{ service_data.service.item_description }}</td>
+                                <td class="text-right py-3 px-4">
+                                    {{ service_data.service.sales_price }}€ × {{ service_data.quantity }}
+                                </td>
+                                <td class="text-right py-3 px-4 font-bold">{{ service_data.total }}€</td>
+                            </tr>
+                            {% endfor %}
+                            
+                            <!-- Grand Total -->
+                            <tr class="bg-primary-50">
+                                <td class="py-3 px-4 font-bold">{% trans "Grand Total" %}</td>
+                                <td class="text-right py-3 px-4"></td>
+                                <td class="text-right py-3 px-4 font-bold text-xl text-accent-600">{{ pricing.grand_total }}€</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <form method="post" action="{% url 'hotel:booking_confirm' %}" class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                {% csrf_token %}
+                
+                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
+                    {% include "icons/credit_card.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                    {% trans "Payment & Confirmation" %}
+                </h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium text-primary-700 mb-3">{% trans "Special Requests" %}</h3>
+                    <textarea name="special_requests" rows="3" class="w-full px-4 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent" placeholder="{% trans "Any special instructions for our team?" %}"></textarea>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex items-start">
+                        <input type="checkbox" name="terms_accepted" id="terms_accepted" required class="mt-1 mr-3">
+                        <label for="terms_accepted" class="text-primary-700">
+                            <!-- url 'terms' -->
+                            {% trans "I agree to the" %} <a href="#" class="text-accent-600 hover:text-accent-700 underline">{% trans "Terms & Conditions" %}</a>
+                            
+                            <!-- url 'privacy' -->
+                            {% trans "and" %} <a href="#" class="text-accent-600 hover:text-accent-700 underline">{% trans "Privacy Policy" %}</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <a href="{% url 'hotel:booking_services' %}" class="flex items-center text-primary-600 hover:text-primary-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                        <span class="mr-1">←</span>
+                        {% trans "Back to Services" %}
+                    </a>
+                    <button type="submit" class="flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                        {% trans "Confirm & Pay Now" %}
+                        <span class="ml-2">→</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any necessary JavaScript here
+    // For example, payment method toggles or form validation
+});
+</script>
+{% endblock %}

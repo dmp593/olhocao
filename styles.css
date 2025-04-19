@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Kurale&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Kurale", serif;
+  --font-sans: "Sour Gummy", sans-serif;
+
+  /* Primary Palette (Slate-Charcoal) */
+  --color-primary: oklch(0.26 0.0018 106.53); /* #232322 */
+  
+  --color-primary-50: oklch(0.98 0.002 260);
+  --color-primary-100: oklch(0.95 0.004 260);
+  --color-primary-200: oklch(0.89 0.007 260);
+  --color-primary-300: oklch(0.81 0.011 260);
+  --color-primary-400: oklch(0.68 0.015 260);
+  --color-primary-500: oklch(0.56 0.017 260);
+  --color-primary-600: oklch(0.46 0.017 260);
+  --color-primary-700: oklch(0.38 0.016 260);
+  --color-primary-800: oklch(0.31 0.015 260);
+  --color-primary-900: oklch(0.25 0.014 260);
+  --color-primary-950: oklch(0.18 0.012 260);
+
+  /* Secondary Palette (Vibrant Orange) */
+  --color-secondary: oklch(0.7 0.18 47.27); /* #ff7a29 */
+
+  --color-secondary-50: oklch(0.988 0.028 55.8);
+  --color-secondary-100: oklch(0.975 0.055 55.8);
+  --color-secondary-200: oklch(0.955 0.085 55.8);
+  --color-secondary-300: oklch(0.925 0.115 55.8);
+  --color-secondary-400: oklch(0.885 0.145 55.8);
+  --color-secondary-500: oklch(0.83 0.175 55.8);
+  --color-secondary-600: oklch(0.76 0.18 55.8);
+  --color-secondary-700: oklch(0.66 0.175 55.8);
+  --color-secondary-800: oklch(0.55 0.16 55.8);
+  --color-secondary-900: oklch(0.45 0.14 55.8);
+  --color-secondary-950: oklch(0.30 0.12 55.8);
+
+  /* Accent Palette (Teal) */
+  --color-accent: oklch(0.7 0.123 182.5); /* #14b8a6 */
+
+  --color-accent-50: oklch(0.978 0.022 180.5);
+  --color-accent-100: oklch(0.955 0.042 180.5);
+  --color-accent-200: oklch(0.915 0.068 180.5);
+  --color-accent-300: oklch(0.865 0.095 180.5);
+  --color-accent-400: oklch(0.80 0.12 180.5);
+  --color-accent-500: oklch(0.72 0.135 180.5);
+  --color-accent-600: oklch(0.635 0.135 180.5);
+  --color-accent-700: oklch(0.535 0.125 180.5);
+  --color-accent-800: oklch(0.435 0.115 180.5);
+  --color-accent-900: oklch(0.345 0.10 180.5);
+  --color-accent-950: oklch(0.20 0.08 180.5);
+}
+
+/**
+  * A catch-all path to Django template files, JavaScript, and Python files
+  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
+  *
+  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
+  * the scope of this path.
+  */
+@source "./**/*.{html,py,js}";

@@ -1,0 +1,1 @@
+/Users/dmp593/Code/personal/olhocao/.venv/lib/python3.13/site-packages/modeltranslation/static/modeltranslation/js/tabbed_translation_fields.js

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
+                    {% trans "Payment Needed" %}
+                </span>
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
+            </h1>
+            <p class="text-xl text-primary-600 max-w-3xl mx-auto">
+                {% trans "We couldn't confirm your payment yet" %}
+            </p>
+        </div>
+
+        <div class="max-w-3xl mx-auto">
+            <!-- Booking Info Card -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
+                    {% include "icons/bell_alert.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                    {% trans "Booking #" %}{{ booking.id }}
+                </h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium text-primary-700 mb-2">{% trans "Possible Reasons" %}</h3>
+                    <ul class="space-y-3 text-primary-700">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-accent-500">•</span>
+                            <span>{% trans "Payment is still processing (may take a few minutes)" %}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-accent-500">•</span>
+                            <span>{% trans "Payment authorization failed" %}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-accent-500">•</span>
+                            <span>{% trans "Network issue during verification" %}</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Total Amount" %}</h3>
+                        <p class="text-2xl font-bold text-accent-600">
+                            {{ booking.total_price_eur }}€
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Status" %}</h3>
+                        <span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                            {% trans "Pending Payment" %}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="bg-primary-50 rounded-lg p-4 mb-6">
+                    <h3 class="font-medium text-primary-700 mb-2 flex items-center">
+                        {% include "icons/information_circle.html" with class="w-5 h-5 mr-2 text-primary-600" %}
+                        {% trans "Important" %}
+                    </h3>
+                    <p class="text-primary-700">
+                        {% trans "Your booking is reserved for 30 minutes. Complete payment to confirm your spot." %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="{{ payment_url }}" class="flex items-center justify-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                    {% include "icons/credit_card.html" with class="w-5 h-5 mr-2" %}
+                    {% trans "Retry Payment Now" %}
+                </a>
+                
+                <a href="{% url 'hotel:booking_list' %}" class="flex items-center justify-center border-2 border-primary-500 text-primary-600 hover:text-primary-800 font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                    {% trans "View in my Bookings" %}
+                </a>
+            </div>
+            
+            <!-- Support Info -->
+            <div class="text-center mt-8 text-primary-600">
+                <p class="mb-2">{% trans "Need help with your payment?" %}</p>
+                <a href="mailto:support@example.com" class="text-accent-600 hover:text-accent-700 font-medium underline">
+                    {% include "icons/envelope.html" with class="w-4 h-4 inline mr-1" %}
+                    {% trans "Contact Support" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // auto-refresh the page every minute to check payment status
+    setTimeout(window.location.reload, 60000);
+});
+</script>
+{% endblock %}

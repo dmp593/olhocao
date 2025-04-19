@@ -1,0 +1,180 @@
+{% load i18n %}
+<section id="testimonials" class="py-16 bg-gradient-to-b from-primary-900 to-primary-600 overflow-hidden relative">
+    <!-- Background elements -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-paws bg-repeat bg-[length:150px_150px]"></div>
+    <div class="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower"></div>
+    <div class="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower animate__delay-2s"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section header with animated paws -->
+        <div class="text-center mb-16 animate__animated animate__fadeIn">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300 mx-2">
+                    {% trans "Happy Tails" %}
+                </span>
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
+            </h2>
+            <p class="text-xl text-primary-100 max-w-2xl mx-auto relative inline-block">
+                {% trans "What pet parents say about our services" %}
+                <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
+            </p>
+        </div>
+
+        <!-- Testimonials grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- Miguel Filipe -->
+            <div class="animate__animated animate__fadeInUp">
+                <div class="flex flex-col justify-between bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full transition-all duration-500 hover:shadow-xl hover:border-accent-300/50 hover:bg-white/15">
+                    <div class="flex items-center mb-6">
+                        <img src="https://picsum.photos/200/200?random=4" alt="Miguel Filipe" 
+                             class="w-16 h-16 rounded-full object-cover mr-4 border-4 border-accent-500/80 shadow-lg">
+                        <div>
+                            <h4 class="font-bold text-white">Miguel Filipe</h4>
+                            <p class="text-sm text-primary-200">{% trans "Dog Owner" %}</p>
+                        </div>
+                    </div>
+                    <p class="text-primary-100 mb-6 italic relative pl-6 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-gradient-to-b from-accent-400 to-accent-600">
+                        "{% trans "I always receive excellent service and Shelby loves coming to the center. She is always learning new things. Whenever I can, we go to group classes." %}"
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="text-accent-400">★★★★★</div>
+                        <span class="text-xs bg-accent-500 text-white px-3 py-1 rounded-full flex items-center">
+                            {% include "icons/paw.html" with class="w-3 h-3 mr-1" %}
+                            {% trans "Verified" %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ana Nogueira -->
+            <div class="animate__animated animate__fadeInUp animate__delay-1s">
+                <div class="flex flex-col justify-between bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full transition-all duration-500 hover:shadow-xl hover:border-accent-300/50 hover:bg-white/15">
+                    <div class="flex items-center mb-6">
+                        <img src="https://picsum.photos/200/200?random=5" alt="Ana Nogueira" 
+                             class="w-16 h-16 rounded-full object-cover mr-4 border-4 border-accent-500/80 shadow-lg">
+                        <div>
+                            <h4 class="font-bold text-white">Ana Nogueira</h4>
+                            <p class="text-sm text-primary-200">{% trans "Dog Owner" %}</p>
+                        </div>
+                    </div>
+                    <p class="text-primary-100 mb-6 italic relative pl-6 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-gradient-to-b from-accent-400 to-accent-600">
+                        "{% trans "I trust Olhó Cão because they've always been the best with Ghost; I trust them 100%. They offer daycare, classes, everything with the trainers." %}"
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="text-accent-400">★★★★★</div>
+                        <span class="text-xs bg-accent-500 text-white px-3 py-1 rounded-full flex items-center">
+                            {% include "icons/paw.html" with class="w-3 h-3 mr-1" %}
+                            {% trans "Verified" %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Luís Dinis -->
+            <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="flex flex-col justify-between bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full transition-all duration-500 hover:shadow-xl hover:border-accent-300/50 hover:bg-white/15">
+                    <div class="flex items-center mb-6">
+                        <img src="https://picsum.photos/200/200?random=6" alt="Luís Dinis" 
+                             class="w-16 h-16 rounded-full object-cover mr-4 border-4 border-accent-500/80 shadow-lg">
+                        <div>
+                            <h4 class="font-bold text-white">Luís Dinis</h4>
+                            <p class="text-sm text-primary-200">{% trans "Dog Owner" %}</p>
+                        </div>
+                    </div>
+                    <p class="text-primary-100 mb-6 italic relative pl-6 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-gradient-to-b from-accent-400 to-accent-600">
+                        "{% trans "The training sessions are very comprehensive for people who aren't used to dealing with other dogs. I trust Olhó Cão because they have great professionals and achieve excellent results. It's worth trying because you'll love it for sure." %}"
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <div class="text-accent-400">★★★★★</div>
+                        <span class="text-xs bg-accent-500 text-white px-3 py-1 rounded-full flex items-center">
+                            {% include "icons/paw.html" with class="w-3 h-3 mr-1" %}
+                            {% trans "Verified" %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats with bone separator -->
+        <div class="relative flex justify-center my-12">
+            {% include "icons/bone.html" with class="w-24 text-accent-500/50 rotate-90" %}
+        </div>
+
+        <!-- Animated Stats Bar -->
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 animate__animated animate__fadeIn">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-white mb-2 animate-count" data-target="1200">0</div>
+                    <div class="text-primary-200 flex justify-center items-center">
+                        {% include "icons/paw.html" with class="w-4 h-4 mr-2 text-accent-400" %}
+                        {% trans "Dogs Cared" %}
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-white mb-2 animate-count" data-target="350">0</div>
+                    <div class="text-primary-200 flex justify-center items-center">
+                        {% include "icons/paw.html" with class="w-4 h-4 mr-2 text-accent-400" %}
+                        {% trans "Group Classes" %}
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-white mb-2 animate-count" data-target="15">0</div>
+                    <div class="text-primary-200 flex justify-center items-center">
+                        {% include "icons/paw.html" with class="w-4 h-4 mr-2 text-accent-400" %}
+                        {% trans "Certified Trainers" %}
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-white mb-2 animate-count" data-target="8">0</div>
+                    <div class="text-primary-200 flex justify-center items-center">
+                        {% include "icons/paw.html" with class="w-4 h-4 mr-2 text-accent-400" %}
+                        {% trans "Years of Experience" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Bone Button -->
+        <div class="mt-16 relative h-20 flex items-center justify-center animate__animated animate__pulse animate__infinite animate__slower">
+            {% include "icons/bone.html" with class="w-83 text-accent-500/30" %}
+            <a href="{% url "accounts:signup" %}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hover:text-accent-600 font-bold text-white px-8 py-3 transition-all duration-300">
+                <span class="z-10 flex items-center text-nowrap text-xl">
+                    {% trans "Join Our Happy Pack" %}
+                    <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Add this to your CSS -->
+<style>
+    .animate-count {
+        transition: all 1s ease-out;
+    }
+</style>
+
+<script>
+    // Simple counter animation for stats
+    document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.animate-count');
+        const speed = 200;
+        
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            function updateCount() {
+                const count = +counter.innerText;
+                const increment = target / speed;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            }
+            counter.innerText = '0';
+            updateCount();
+        });
+    });
+</script>

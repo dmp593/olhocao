@@ -1,0 +1,78 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+	<head>
+    <title>Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal</title>
+		<meta charset="UTF-8">
+		<link rel="canonical" href="https://www.olhocaocentrocanino.com"/>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
+		
+		<meta property="og:title" content="Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal"/>
+		<meta property="og:description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
+		<meta property="og:url" content="https://www.olhocaocentrocanino.com"/>
+		<meta property="og:site_name" content="Olho Cao Centro Canino"/>
+		<meta property="og:type" content="website"/>
+		
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org/",
+				"@type": "LocalBusiness",
+				"name": "Olho Cão Centro Canino",
+				"url": "https://www.olhocaocentrocanino.com",
+				"image": "https://static.wixstatic.com/media/bfbec2_df6c097894e14f27a3acb7ffd6c4208d~mv2.gif",
+				"address": {
+					"@type": "PostalAddress",
+					"addressCountry": "PT",
+					"addressLocality": "Leiria"
+				},
+				"telephone": "+351 924 454 382"
+			}
+		</script>
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org/",
+				"@type": "WebSite",
+				"name": "Olho Cao Centro Canino",
+				"url": "https://www.olhocaocentrocanino.com"
+			}
+		</script>
+		
+		<link rel="alternate" href="https://www.olhocaocentrocanino.com/" hreflang="x-default"/>
+		<link rel="alternate" href="https://www.olhocaocentrocanino.com/" hreflang="en-us"/>
+		<link rel="alternate" href="https://www.olhocaocentrocanino.com/" hreflang="pt-pt"/>
+		
+		<meta name="twitter:card" content="summary_large_image"/>
+		<meta name="twitter:title" content="Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal"/>
+		<meta name="twitter:description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
+		<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+	<style>.bg-paws { background-image: url("{% static 'paws.svg' %}"); }</style>
+	<style>.bg-dog-travel-bag { background-image: url("{% static 'dog_travel_bag.svg' %}"); }</style>
+	<style>.bg-dog-silhouette { background-image: url("{% static 'dog_silhouette.svg' %}"); }</style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+	{% block styles %}{% endblock %}
+	</head>
+
+	<body class="font-sans leading-normal tracking-normal">
+		<!-- Messages from App 'django.contrib.messages' -->
+		{% include "components/messages.html" %}
+
+		<!-- Navbar -->
+		{% include "components/navbar.html" %}
+
+		<!-- Main Content -->
+		<main class="flex-grow mt-20"> <!-- navbar height: h-20 (class) -->
+			{% block content %}{% endblock %}
+		</main>
+
+		<!-- Footer -->
+		{% include "components/footer.html" %}
+		<script src="{% static 'js/components/navbar.js' %}"></script>
+		<script src="{% static 'js/components/messages.js' %}"></script>
+		{% block scripts %}{% endblock %}
+	</body>
+</html>

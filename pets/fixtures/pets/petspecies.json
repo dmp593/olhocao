@@ -1,0 +1,18 @@
+[
+    {
+        "model": "pets.petspecies",
+        "pk": 1,
+        "fields": {
+            "name_en_GB": "Dog",
+            "name_pt_PT": "Cão"
+        }
+    },
+    {
+        "model": "pets.petspecies",
+        "pk": 2,
+        "fields": {
+            "name_en_GB": "Cat",
+            "name_pt_PT": "Gato"
+        }
+    }
+]

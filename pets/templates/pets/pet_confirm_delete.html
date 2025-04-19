@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="bg-white p-6 rounded-lg shadow max-w-md mx-auto text-center">
+  <h1 class="text-2xl font-bold text-primary-800 mb-4">{% trans "Delete Pet" %}</h1>
+  
+  {% if pet.photo %}
+    <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="h-32 object-cover mx-auto rounded-lg mb-4">
+  {% endif %}
+  
+  <p class="mb-6">{% trans "Are you sure you want to delete" %} <strong>{{ pet.name }}</strong>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="flex justify-center space-x-3">
+      <a href="{% url 'pets:detail' pet.pk %}" class="px-4 py-2 border border-primary-300 rounded-full hover:bg-primary-50 transition-colors">
+        {% trans "Cancel" %}
+      </a>
+      <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
+        {% trans "Delete" %}
+      </button>
+    </div>
+  </form>
+</section>
+{% endblock %}

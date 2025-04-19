@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="mt-32 mb-16 bg-primary/7 p-6 rounded-lg shadow max-w-3xl mx-auto">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-primary-800">{{ pet.name }}</h1>
+      <p class="text-primary-600">{{ pet.get_species_display }} • {{ pet.breed }}</p>
+    </div>
+    <div class="flex space-x-2">
+      <a href="{% url 'pets:update' pet.pk %}" class="px-3 py-1 border border-secondary-600 text-secondary-600 rounded-full hover:bg-secondary-50 transition-colors">
+        {% trans "Edit" %}
+      </a>
+      <a href="{% url 'pets:delete' pet.pk %}" class="px-3 py-1 border border-red-600 text-red-600 rounded-full hover:bg-red-50 transition-colors">
+        {% trans "Delete" %}
+      </a>
+    </div>
+  </div>
+
+  {% if pet.photo %}
+    <div class="relative mb-6 rounded-lg overflow-hidden">
+      <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-64 object-cover">
+    </div>
+  {% endif %}
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <div>
+      <h2 class="font-bold text-lg mb-3">{% trans "Basic Info" %}</h2>
+      <div class="space-y-2">
+        <p><span class="font-medium">{% trans "Birthdate:" %}</span> {{ pet.birthdate|date:"Y-m-d" }}</p>
+        <p><span class="font-medium">{% trans "Weight:" %}</span> {{ pet.weight }} kg</p>
+        <p><span class="font-medium">{% trans "Microchip:" %}</span> {{ pet.microship_number|default:"-" }}</p>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-3">{% trans "Health Info" %}</h2>
+      <div class="space-y-2">
+        <p><span class="font-medium">{% trans "Sterilized:" %}</span> {{ pet.is_sterilized|yesno }}</p>
+        <p><span class="font-medium">{% trans "Vaccinated:" %}</span> {{ pet.is_vaccinated|yesno }}</p>
+        <p><span class="font-medium">{% trans "Allergies:" %}</span> {{ pet.allergies|default:"-"|linebreaks }}</p>
+        <p><span class="font-medium">{% trans "Medication:" %}</span> {{ pet.medication|default:"-"|linebreaks }}</p>
+      </div>
+    </div>
+  </div>
+
+  {% if pet.notes %}
+    <div class="mt-6">
+      <h2 class="font-bold text-lg mb-2">{% trans "Notes" %}</h2>
+      <p class="text-primary-700">{{ pet.notes|linebreaks }}</p>
+    </div>
+  {% endif %}
+
+  <div class="mt-8">
+    <a href="{% url 'pets:list' %}" class="px-4 py-2 bg-accent-500 text-white rounded-full hover:bg-accent-600 transition-colors">
+      {% trans "Back to My Pets" %}
+    </a>
+  </div>
+</section>
+{% endblock %}

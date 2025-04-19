@@ -1,0 +1,65 @@
+{% load i18n %}
+{% load hotel_tags %}
+
+{% with current_date=current_date %}
+<div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-2
+        border-b-4
+        {% if booking.status == 'pending' and not booking.is_past %}border-red-500
+        {% elif booking.is_active %}border-accent-500
+        {% elif booking.is_upcoming %}border-primary-500
+        {% else %}border-primary-300{% endif %}">
+    <div class="p-6">
+        
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h3 class="text-xl font-bold text-primary-800">
+                    {{ booking.all_pets }}
+                </h3>
+                <p class="text-sm text-primary-600">
+                    {{ booking.earliest_start_date|date:"M j" }} - {{ booking.latest_end_date|date:"M j, Y" }}
+                </p>
+            </div>
+            <span class="px-3 py-1 text-sm rounded-full 
+                {% if booking.status == 'pending' and not booking.is_past %}bg-red-100 text-red-800
+                {% elif booking.is_active %}bg-accent-100 text-accent-800
+                {% elif booking.is_upcoming %}bg-primary-100 text-primary-800
+                {% else %}bg-primary-50 text-primary-600{% endif %}">
+                {% if booking.status == 'pending' %}
+                    {% if booking.is_past %}Expired{% else %}Payment Needed{% endif %}
+                {% elif booking.is_active %}Active
+                {% elif booking.is_upcoming %}Upcoming
+                {% else %}Completed{% endif %}
+            </span>
+        </div>
+
+        <div class="space-y-2 text-primary-700">
+            {% for stay in booking.stays.all %}
+            <div class="flex items-center justify-between py-2 border-b border-primary-100">
+                <div>
+                    <p class="font-medium">{{ stay.pet.name }}</p>
+                    <p class="text-sm">{{ stay.stay_name }}</p>
+                </div>
+                <p class="text-sm">{{ stay.duration_days }} {% trans "days" %}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+            <p class="text-lg font-bold text-primary-800">
+                {{ booking.total_price_eur }}€
+            </p>
+            {% if booking.status == 'pending' and not booking.is_past %}
+            <a href="{% url 'hotel:booking_retry' booking.id %}" 
+               class="px-4 py-2 bg-accent-500 text-white rounded-full text-sm hover:bg-accent-600 transition-colors">
+                {% trans "Complete Payment" %}
+            </a>
+            {% else %}
+            <a href="{% url 'hotel:booking_detail' booking.id %}"
+               class="px-4 py-2 text-primary-600 hover:text-accent-500 transition-colors text-sm">
+                {% trans "View Details" %}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endwith %}

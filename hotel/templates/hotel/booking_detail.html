@@ -1,0 +1,379 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block content %}
+<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white">
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Booking Header with Status Badge -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 animate-fade-in">
+            <div>
+                <h1 class="text-4xl font-bold text-primary-800 mb-2">
+                    {% trans "Booking Details" %}
+                    <span class="text-accent-500">#{{ booking.id }}</span>
+                </h1>
+                <div class="flex items-center space-x-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                        {% if booking.status == 'confirmed' %}bg-green-100 text-green-800
+                        {% elif booking.status == 'pending' %}bg-yellow-100 text-yellow-800
+                        {% else %}bg-red-100 text-red-800{% endif %} animate-pulse">
+                        {{ booking.get_status_display }}
+                    </span>
+                    <span class="text-primary-600">
+                        {% if booking.is_past %}
+                            {% trans "Completed stay" %}
+                        {% elif booking.is_active %}
+                            {% trans "Currently active" %}
+                        {% elif booking.is_upcoming %}
+                            {% trans "Upcoming stay" %}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="mt-4 md:mt-0 flex space-x-3">
+                {% if booking.status == 'pending' %}
+                <a href="{{ payment_url }}" 
+                   class="flex items-center px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-full transition-all duration-300 hover:scale-105">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                    {% trans "Complete Payment" %}
+                </a>
+                {% endif %}
+                <a href="{% url 'hotel:booking_list' %}" 
+                   class="flex items-center px-4 py-2 border border-primary-300 text-primary-700 hover:bg-primary-50 rounded-full transition-all duration-300 hover:scale-105">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    {% trans "Back to my Hotel Bookings" %}
+                </a>
+            </div>
+        </div>
+
+        <!-- Booking Summary Card -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 animate-fade-in-up">
+            <div class="p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Pets Summary -->
+                    <div class="border-r border-primary-100 pr-6">
+                        <h3 class="text-lg font-medium text-primary-700 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            {% trans "Pets" %}
+                        </h3>
+                        <ul class="space-y-3">
+                            {% for stay in booking.stays.all %}
+                            <li class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center mr-3">
+                                    <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-primary-800">{{ stay.pet.name }}</p>
+                                    <p class="text-sm text-primary-600">{{ stay.pet.breed }}</p>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <!-- Dates Summary -->
+                    <div class="border-r border-primary-100 pr-6">
+                        <h3 class="text-lg font-medium text-primary-700 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            {% trans "Dates" %}
+                        </h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-primary-600">{% trans "Check-in" %}</p>
+                                <p class="font-medium text-primary-800">{{ booking.earliest_start_date|date:"M j, Y" }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-primary-600">{% trans "Check-out" %}</p>
+                                <p class="font-medium text-primary-800">{{ booking.latest_end_date|date:"M j, Y" }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-primary-600">{% trans "Total days" %}</p>
+                                <p class="font-medium text-primary-800">
+                                    {% with stay=booking.stays.first %}
+                                    {{ stay.duration_days }}
+                                    {% endwith %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Summary -->
+                    <div>
+                        <h3 class="text-lg font-medium text-primary-700 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {% trans "Price Summary" %}
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-primary-600">{% trans "Base price" %}</span>
+                                <span class="font-medium text-primary-800">{{ booking.total_price_eur }}€</span>
+                            </div>
+                            {% for stay in booking.stays.all %}
+                                {% for service in stay.services.all %}
+                                <div class="flex justify-between">
+                                    <span class="text-primary-600">{{ service.service_name }}</span>
+                                    <span class="font-medium text-primary-800">{{ service.total_price_eur }}€</span>
+                                </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <div class="border-t border-primary-200 pt-2 mt-2">
+                                <div class="flex justify-between font-bold text-lg">
+                                    <span class="text-primary-800">{% trans "Total" %}</span>
+                                    <span class="text-accent-500">{{ booking.total_price_eur }}€</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stays and Services Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content - Stays -->
+            <div class="lg:col-span-2">
+                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center animate-fade-in">
+                    <svg class="w-6 h-6 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    {% trans "Stays" %}
+                </h2>
+                
+                {% for stay in booking.stays.all %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6 animate-fade-in-up" style="animation-delay: {{ forloop.counter0|add:1|multiply:100 }}ms">
+                    <div class="p-6 border-b border-primary-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold text-primary-800">{{ stay.stay_name }}</h3>
+                                <p class="text-primary-600">{{ stay.start_date|date:"M j, Y" }} - {{ stay.end_date|date:"M j, Y" }}</p>
+                            </div>
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
+                                {{ stay.unit_price_eur }}€/night
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Pet Info -->
+                    <div class="p-6 border-b border-primary-100">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-primary-800">{{ stay.pet.name }}</h4>
+                                <p class="text-sm text-primary-600">
+                                    {{ stay.pet.breed }} • 
+                                    {{ stay.pet.age }} • 
+                                    {{ stay.pet.gender }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Services -->
+                    {% if stay.services.exists %}
+                    <div class="p-6">
+                        <h4 class="text-lg font-medium text-primary-700 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                            {% trans "Additional Services" %}
+                        </h4>
+                        <ul class="divide-y divide-primary-100">
+                            {% for service in stay.services.all %}
+                            <li class="py-3">
+                                <div class="flex justify-between">
+                                    <div>
+                                        <p class="font-medium text-primary-800">{{ service.service_name }}</p>
+                                        <p class="text-sm text-primary-600">
+                                            {% if service.service_type == 'daily' %}
+                                                {% trans "Daily service" %}
+                                            {% elif service.service_type == 'timed' %}
+                                                {{ service.scheduled_time|date:"M j, Y H:i" }}
+                                            {% else %}
+                                                {% trans "One-time service" %}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <span class="font-medium text-primary-800">{{ service.total_price_eur }}€</span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Sidebar - Actions and Notes -->
+            <div>
+                <!-- Payment Status Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6 animate-fade-in-up" style="animation-delay: 300ms">
+                    <div class="p-6 border-b border-primary-100">
+                        <h3 class="text-lg font-medium text-primary-700 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            {% trans "Payment Status" %}
+                        </h3>
+                        {% if booking.status == 'paid' %}
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-primary-600">{% trans "Paid on" %}</span>
+                                <span class="font-medium text-primary-800">{{ booking.paid_at|date:"M j, Y" }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-primary-600">{% trans "Amount" %}</span>
+                                <span class="font-bold text-accent-500">{{ booking.total_price_eur }}€</span>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="mt-4">
+                            {% if payment_url %}
+                            <p class="text-primary-600 mb-4">{% trans "This booking requires payment confirmation" %}</p>
+                            <a href="{{ payment_url }}" 
+                               class="flex items-center px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-full transition-all duration-300 hover:scale-105">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                                {% trans "Complete Payment" %} {% include "icons/arrow_right.html" with class="ml-1 w-4 h-4" %}
+                            </a>
+                            {% else %}
+                            <div class="flex items-center px-4 py-2 bg-gray-300 text-gray-600 rounded-full cursor-not-allowed">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                {% trans "Payment Unavailable" %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Notes Card -->
+                {% if booking.notes %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6 animate-fade-in-up" style="animation-delay: 400ms">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-primary-700 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            {% trans "Booking Notes" %}
+                        </h3>
+                        <div class="prose text-primary-700">
+                            {{ booking.notes|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Actions Card -->
+                {% comment %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden animate-fade-in-up" style="animation-delay: 500ms">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-primary-700 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            {% trans "Actions" %}
+                        </h3>
+                        <div class="space-y-3">
+                            <a href="#" class="flex items-center justify-between p-3 hover:bg-primary-50 rounded-lg transition-all duration-200 hover:translate-x-1">
+                                <span class="text-primary-700">{% trans "Modify Booking" %}</span>
+                                <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                            </a>
+                            <a href="#" class="flex items-center justify-between p-3 hover:bg-primary-50 rounded-lg transition-all duration-200 hover:translate-x-1">
+                                <span class="text-primary-700">{% trans "Request Cancellation" %}</span>
+                                <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </a>
+                            <a href="#" class="flex items-center justify-between p-3 hover:bg-primary-50 rounded-lg transition-all duration-200 hover:translate-x-1">
+                                <span class="text-primary-700">{% trans "Contact Support" %}</span>
+                                <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                                </svg>
+                            </a>
+                            {% if booking.is_active %}
+                            <a href="#" class="flex items-center justify-between p-3 hover:bg-primary-50 rounded-lg transition-all duration-200 hover:translate-x-1">
+                                <span class="text-primary-700">{% trans "Send Update Request" %}</span>
+                                <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endcomment %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add intersection observer for scroll animations
+    const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-up');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        elements.forEach(element => {
+            element.classList.add('opacity-0');
+            if (element.classList.contains('animate-fade-in-up')) {
+                element.classList.add('translate-y-4');
+            }
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(element);
+        });
+    };
+
+    animateOnScroll();
+
+    // Add hover animations to action buttons
+    const actionButtons = document.querySelectorAll('a[href="#"]');
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Add a temporary animation class
+            this.classList.add('animate-pulse');
+            setTimeout(() => {
+                this.classList.remove('animate-pulse');
+            }, 500);
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,196 @@
+{% load i18n %}
+{% load static %}
+
+<section id="our-services" class="relative py-16 bg-primary-100 overflow-hidden animate__animated animate__fadeIn">
+    <!-- Enhanced background pattern with animated bones -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-paws bg-repeat bg-[length:128px_128px]">
+        <div class="absolute top-20 left-10 animate__animated animate__rotateIn animate__infinite animate__slower">
+            {% include "icons/bone.html" with class="w-20 text-primary-300" %}
+        </div>
+        <div class="absolute bottom-1/4 right-20 animate__animated animate__bounceIn animate__infinite animate__slower animate__delay-1s">
+            {% include "icons/bone.html" with class="w-16 text-primary-300" %}
+        </div>
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="flex flex-col items-center justify-center text-center">
+            <!-- Main heading with animated dog icons -->
+            <h2 class="text-4xl md:text-5xl font-bold text-primary-800 mb-6 animate__animated animate__fadeInDown">
+                <span class="inline-block mr-3 animate__animated animate__tada animate__infinite animate__slower">{% include "icons/dog.html" %}</span>
+                {% trans "Premium Care for Your Pets" %}
+                <span class="inline-block ml-3 animate__animated animate__tada animate__infinite animate__slower animate__delay-1s">{% include "icons/cat.html" %}</span>
+            </h2>
+            
+            <!-- Subheading with animated underline -->
+            <p class="text-xl md:text-2xl text-secondary-800 mb-12 relative inline-block animate__animated animate__fadeIn">
+                {% trans "Tailored services for every need" %}
+                <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
+            </p>
+            
+            <!-- Services grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Hotel Service -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 animate__animated animate__fadeInUp">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-accent-500 animate__animated animate__swing animate__infinite animate__slower">
+                        {% include "icons/pet_hotel.html" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-800 mb-4">{% trans "Pet Hotel" %}</h3>
+                    <p class="text-secondary-600 mb-4">
+                        {% trans "Luxury accommodations for dogs and cats with 24/7 supervision, play areas, and personalized care." %}
+                    </p>
+                    <ul class="text-left text-secondary-500 space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Climate-controlled suites" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Daily exercise sessions" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Check your pet via WhatsApp" %}
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Dog Day Care Service -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-accent-500 animate__animated animate__wobble animate__infinite animate__slower">
+                        {% include "icons/dog_running.html" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-800 mb-4">{% trans "Dog Daycare" %}</h3>
+                    <p class="text-secondary-600 mb-4">
+                        {% trans "Certified training programs for pet professionals and enthusiasts." %}
+                    </p>
+                    <ul class="text-left text-secondary-500 space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Behavioral certification" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Safety protocols" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Professional development" %}
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Home Training -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-accent-500 animate__animated animate__heartBeat animate__infinite animate__slower">
+                        {% include "icons/home.html" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-800 mb-4">{% trans "Home Training" %}</h3>
+                    <p class="text-secondary-600 mb-4">
+                        {% trans "Personalized training sessions in the comfort of your home." %}
+                    </p>
+                    <ul class="text-left text-secondary-500 space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Basic obedience training" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Behavioral modification" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Puppy socialization" %}
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Bath & Grooming -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 animate__animated animate__fadeInUp">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-accent-500 animate__animated animate__rubberBand animate__infinite animate__slower">
+                        {% include "icons/grooming.html" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-800 mb-4">{% trans "Baths & Grooming" %}</h3>
+                    <p class="text-secondary-600 mb-4">
+                        {% trans "Spa treatments to keep your pet looking and feeling their best." %}
+                    </p>
+                    <ul class="text-left text-secondary-500 space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Breed-specific haircuts" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Medicated baths" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Nail trimming & ear cleaning" %}
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Training Programs -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 animate__animated animate__fadeInUp animate__delay-1s">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-accent-500 animate__animated animate__shakeY animate__infinite animate__slower">
+                        {% include "icons/dog_training.html" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-800 mb-4">{% trans "Training Programs" %}</h3>
+                    <p class="text-secondary-600 mb-4">
+                        {% trans "Comprehensive training for all ages and skill levels." %}
+                    </p>
+                    <ul class="text-left text-secondary-500 space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Group obedience classes" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Agility training" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2 text-accent-500">{% include "icons/paw.html" %}</span>
+                            {% trans "Therapy dog preparation" %}
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Special Offers Card -->
+                <div class="bg-accent-500 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 animate__animated animate__pulse animate__infinite animate__slower">
+                    <div class="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-white">
+                        {% include "icons/star.html" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">{% trans "Special Packages" %}</h3>
+                    <p class="text-white mb-6">
+                        {% trans "Bundle multiple services for discounted rates!" %}
+                    </p>
+                    <ul class="text-left text-white space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            {% trans "Hotel + Training combo" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            {% trans "Monthly grooming memberships" %}
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            {% trans "Multi-pet discounts" %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bone-shaped CTA -->
+            <div class="mt-16 relative h-24 flex items-center justify-center animate__animated animate__fadeIn">
+                {% include "icons/bone.html" with class="w-90 text-primary-500 hover:text-primary-600" %}
+                
+                <a href="{% url 'hotel:booking_stay' %}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-white px-8 py-3 rounded-full transition-all duration-300 group">
+                    <span class="z-10 flex items-center text-nowrap text-xl">
+                        {% trans "Book an Hotel Stay!" %}
+                        <span class="ml-2 group-hover:translate-x-2 transition-transform duration-300">→</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

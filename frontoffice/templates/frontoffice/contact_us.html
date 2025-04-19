@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<section id="contact-us" class="relative py-16 bg-gradient-to-b from-primary-50 to-white overflow-hidden animate__animated animate__fadeIn">
+    <!-- Background elements -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-paws bg-repeat bg-[length:64px_64px]">
+        <div class="absolute top-20 left-20 animate__animated animate__rotateIn animate__infinite animate__slower">
+            {% include "icons/bone.html" with class="w-16 text-primary-300" %}
+        </div>
+        <div class="absolute bottom-20 right-20 animate__animated animate__rotateIn animate__infinite animate__slower animate__delay-1s">
+            {% include "icons/bone.html" with class="w-16 text-primary-300" %}
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section header with animated elements -->
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-primary-800 mb-6 animate__animated animate__fadeInDown">
+                <span class="inline-block mr-3 animate__animated animate__wobble animate__infinite animate__slower">{% include "icons/pet_hotel.html" %}</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500">
+                    {% trans "Come visit us" %}
+                </span>
+                <span class="inline-block ml-3 animate__animated animate__wobble animate__infinite animate__slower animate__delay-1s">{% include "icons/pet_hotel.html" %}</span>
+            </h2>
+
+            <p class="text-xl md:text-2xl text-primary-600 max-w-3xl mx-auto relative inline-block animate__animated animate__fadeIn">
+                {% trans "Your pup's home away from home" %}
+                <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+            <!-- Contact Form Section -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInLeft">
+                <div class="bg-primary-700 px-6 py-4">
+                    <h3 class="text-2xl font-bold text-white flex items-center">
+                        {% include "icons/envelope.html" with class="w-6 h-6 mr-2 text-accent-300" %}
+                        {% trans "Send us a message" %}
+                    </h3>
+                </div>
+                <div class="p-8">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="mb-6 p-4 rounded-lg bg-green-100 text-green-700 font-medium flex items-center animate__animated animate__fadeIn">
+                            {% include "icons/check_circle.html" with class="w-5 h-5 mr-2" %}
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" novalidate class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Subject -->
+                        <div class="space-y-1">
+                            <label for="id_subject" class="block text-sm font-medium text-primary-700">
+                                {% trans "Subject" %}
+                            </label>
+                            <div class="relative">
+                                {{ form.subject|add_class:"w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    {% include "icons/tag.html" with class="w-5 h-5 text-primary-400" %}
+                                </div>
+                            </div>
+                            {% if form.subject.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.subject.errors }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Name -->
+                        <div class="space-y-1">
+                            <label for="id_name" class="block text-sm font-medium text-primary-700">
+                                {% trans "Your Name" %}
+                            </label>
+                            <div class="relative">
+                                {{ form.name|add_class:"w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    {% include "icons/user.html" with class="w-5 h-5 text-primary-400" %}
+                                </div>
+                            </div>
+                            {% if form.name.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.name.errors }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Contact Info Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Phone -->
+                            <div class="space-y-1">
+                                <label for="id_phone" class="block text-sm font-medium text-primary-700">
+                                    {% trans "Phone" %}
+                                </label>
+                                <div class="relative">
+                                    {{ form.phone|add_class:"w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        {% include "icons/phone.html" with class="w-5 h-5 text-primary-400" %}
+                                    </div>
+                                </div>
+                                {% if form.phone.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.phone.errors }}</p>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="space-y-1">
+                                <label for="id_email" class="block text-sm font-medium text-primary-700">
+                                    {% trans "Email" %}
+                                </label>
+                                <div class="relative">
+                                    {{ form.email|add_class:"w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        {% include "icons/envelope.html" with class="w-5 h-5 text-primary-400" %}
+                                    </div>
+                                </div>
+                                {% if form.email.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.email.errors }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Message -->
+                        <div class="space-y-1">
+                            <label for="id_message" class="block text-sm font-medium text-primary-700">
+                                {% trans "Your Message" %}
+                            </label>
+                            <div class="relative">
+                                {{ form.message|add_class:"w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent min-h-[150px]" }}
+                                <div class="absolute top-3 left-3">
+                                    {% include "icons/chat_bubble_bottom_center_text.html" with class="w-5 h-5 text-primary-400" %}
+                                </div>
+                            </div>
+                            {% if form.message.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.message.errors }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="w-full flex justify-center items-center py-3 px-6 rounded-full text-lg font-medium text-white bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                            {% include "icons/paper_airplane.html" with class="w-5 h-5 mr-2 text-white" %}
+                            {% trans "Send Message" %}
+                            <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Right Column (Map and Info) -->
+            <div class="space-y-8 animate__animated animate__fadeInRight">
+                <!-- Map Section -->
+                <div class="relative h-96 rounded-2xl shadow-xl overflow-hidden group">
+                    <iframe class="w-full h-full" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3069.5229487954834!2d-8.857333988379324!3d39.70542879850564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd220b27073dc999%3A0x3b6d42f3a0673a84!2sOlh%C3%B3C%C3%A3o%20Centro%20Canino!5e0!3m2!1spt-PT!2spt!4v1744540891849!5m2!1spt-PT!2spt"
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    {% comment %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary-900/50 to-transparent flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-white">
+                            <h3 class="text-2xl font-bold">{% trans "Our Location" %}</h3>
+                            <p>Rua Quinta dos Frades, 904, 2400-821 Leiria</p>
+                        </div>
+                    </div>
+                    {% endcomment %}
+                </div>
+                
+                <!-- Info Cards -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Hours Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex items-start">
+                            <span class="mr-4 mt-1 text-accent-500">{% include "icons/clock.html" with class="w-6 h-6" %}</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-primary-800 mb-3">{% trans "Opening Hours" %}</h3>
+                                <ul class="space-y-2 text-primary-600">
+                                    <li class="flex items-center">
+                                        <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                        {% trans "Mon-Fri: 8AM - 8PM" %}
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                        {% trans "Sat: 9AM - 1PM" %}
+                                    </li>
+                                    <li class="flex items-end pt-2 text-secondary-400 font-medium italic">
+                                        {% trans "Except Holidays" %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex items-start">
+                            <span class="mr-4 mt-1 text-accent-500">{% include "icons/phone.html" with class="w-6 h-6" %}</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-primary-800 mb-3">{% trans "Contact Us" %}</h3>
+                                <ul class="space-y-2 text-primary-600">
+                                    <li class="flex items-center">
+                                        <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                        <a href="tel:+351924454382" class="hover:text-accent-500 transition-colors">924 454 382</a>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                        <a href="tel:+351916749407" class="hover:text-accent-500 transition-colors">916 749 407</a>
+                                    </li>
+                                    <li class="flex items-center pt-2">
+                                        <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                        <a href="mailto:geral@olhocao.pt" class="hover:text-accent-500 transition-colors">geral@olhocao.pt</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Amenities Card -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="flex items-start">
+                        <span class="mr-4 mt-1 text-accent-500">{% include "icons/dog_bowl.html" with class="w-6 h-6" %}</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-primary-800 mb-3">{% trans "Amenities" %}</h3>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-primary-600">
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Pet friendly" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Free treats" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Play area" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Water bowls" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Pawdicures available" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Squirrel surveillance team" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Complimentary belly rubs" %}
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
+                                    {% trans "Howl-friendly karaoke nights" %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="text-center">
+                    <a href="https://maps.app.goo.gl/hMmN8RMx1bPk3uUj6" target="_blank" 
+                       class="inline-flex items-center px-6 py-3 bg-accent-500 text-white font-medium rounded-full hover:bg-accent-600 transition-colors duration-300 shadow-lg hover:shadow-xl group">
+                        {% include "icons/map_pin.html" with class="w-5 h-5 mr-2 text-white" %}
+                        <span>{% trans "Get Directions" %}</span>
+                        <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

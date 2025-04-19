@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section id="about-us" class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+    <!-- Background elements -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-paws bg-repeat bg-[length:150px_150px]"></div>
+    <div class="absolute -top-20 left-1/4 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower"></div>
+    <div class="absolute -bottom-20 right-1/4 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower animate__delay-2s"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section header with animated paws -->
+        <div class="text-center mb-16 animate__animated animate__fadeIn">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
+                    {% trans "Our Story" %}
+                </span>
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
+            </h1>
+            <p class="text-xl text-primary-600 max-w-3xl mx-auto relative inline-block">
+                {% trans "Passion for dogs since 2022" %}
+                <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
+            </p>
+        </div>
+
+        <!-- History Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+            <div class="animate__animated animate__fadeInLeft">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
+                    <h2 class="text-3xl font-bold text-primary-800 mb-6 flex items-center">
+                        {% include "icons/clock.html" with class="w-8 h-8 mr-3 text-accent-500" %}
+                        {% trans "Olhó Cão History" %}
+                    </h2>
+                    <div class="prose text-primary-700 space-y-4">
+                        <p>{% trans "Founded on December 23, 2022, Olhó Cão is a dog training school focused on basic and advanced obedience, socialization, sports training, search and rescue, behavioral problem solving, and preparation for dog shows." %}</p>
+                        <p>{% trans "The center also offers dog hotel services, dog daycare (ATL), and through its brand LavóCão, provides bathing and grooming services." %}</p>
+                        <p>{% trans "Located in Azoia, the center offers excellent services primarily serving Leiria and Marinha Grande areas." %}</p>
+                        <p>{% trans "Suse Paixão and Luís Costa are the CEOs of the company, with Renato Vieira as the veterinary doctor responsible for the dogs' medical care and treatments." %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="animate__animated animate__fadeInRight animate__delay-1s">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl h-96">
+                    <video class="w-full h-full object-cover"
+                        src="{% static 'frontoffice/about-us/facility.mp4' %}"
+                        allowfullscreen
+                        autoplay
+                        muted
+                        loop
+                        controls></video>
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary-900/50 to-transparent flex items-end p-8">
+                        <div class="text-white">
+                            <h3 class="text-2xl font-bold">{% trans "Our Facility" %}</h3>
+                            <p>{% trans "A safe and stimulating environment for your dogs" %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary-800 mb-4 flex items-center justify-center">
+                {% include "icons/team.html" with class="w-8 h-8 mr-3 text-accent-500" %}
+                {% trans "Meet Our Trainers" %}
+            </h2>
+            <p class="text-xl text-primary-600 max-w-3xl mx-auto">
+                {% trans "Passionate professionals dedicated to your dog's wellbeing" %}
+            </p>
+        </div>
+
+        <!-- Trainers Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Trainer 1 -->
+            <div class="animate__animated animate__fadeInUp">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
+                    <div class="relative h-64">
+                        <img src="{% static 'frontoffice/about-us/trainers/luis.jpg' %}" alt="Luís Costa" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-primary-800 mb-2">Luís Costa</h3>
+                        <p class="text-accent-500 font-medium mb-4">{% trans "Founder & CEO" %}</p>
+                        <p class="text-primary-700 mb-4">{% trans "I'm passionate about working with dogs and nothing makes me happier than seeing owners and their dogs happy with achieved training goals." %}</p>
+                        <div class="flex items-center text-primary-600">
+                            {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
+                            <span class="text-sm">{% trans "Specializes in obedience training" %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trainer 2 -->
+            <div class="animate__animated animate__fadeInUp animate__delay-1s">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
+                    <div class="relative h-64">
+                        <img src="{% static 'frontoffice/about-us/trainers/suse.jpg' %}" alt="Suse Paixão" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-primary-800 mb-2">Suse Paixão</h3>
+                        <p class="text-accent-500 font-medium mb-4">{% trans "Founder & CEO" %}</p>
+                        <p class="text-primary-700 mb-4">{% trans "It's a privilege to be part of this project, seeing dogs and their owners overcome difficulties and enjoy a better relationship." %}</p>
+                        <div class="flex items-center text-primary-600">
+                            {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
+                            <span class="text-sm">{% trans "Specializes in behavioral training" %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trainer 3 -->
+            <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
+                    <div class="relative h-64">
+                        <img src="{% static 'frontoffice/about-us/trainers/diogo.jpg' %}" alt="Diogo Luz" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-primary-800 mb-2">Diogo Luz</h3>
+                        <p class="text-accent-500 font-medium mb-4">{% trans "Trainer" %}</p>
+                        <p class="text-primary-700 mb-4">{% trans "With a degree in sports, I love combining nature and physical activity with dogs. Helping families live in harmony is my goal." %}</p>
+                        <div class="flex items-center text-primary-600">
+                            {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
+                            <span class="text-sm">{% trans "Specializes in sports training" %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-24 text-center animate__animated animate__fadeIn">
+            <div class="relative inline-block">
+                <div class="absolute -inset-1 bg-accent-500/30 rounded-full blur-lg group-hover:bg-accent-500/50 transition-all duration-300 animate__animated animate__pulse animate__infinite animate__slower"></div>
+                <a href="#" class="relative inline-flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold text-lg py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <span>{% trans "Meet Our Team" %}</span>
+                    <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

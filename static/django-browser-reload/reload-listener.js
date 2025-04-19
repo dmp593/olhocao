@@ -1,0 +1,1 @@
+/Users/dmp593/Code/personal/olhocao/.venv/lib/python3.13/site-packages/django_browser_reload/static/django-browser-reload/reload-listener.js

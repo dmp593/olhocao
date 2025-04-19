@@ -1,0 +1,184 @@
+{% load static %}
+{% load i18n %}
+
+<nav class="fixed w-full top-0 z-[1001] duration-300 bg-white md:bg-gradient-to-r md:from-white md:to-primary-200 text-primary shadow-xl" id="navbar">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            <!-- Logo and Brand Name with animated paw -->
+            <div class="flex-shrink-0 flex items-center">
+                <a href="{% url 'frontoffice:home' %}" class="flex items-center group">
+                    <img src="{% static 'olhocao_transparent.gif' %}" alt="Olhó Cão" class="h-16 mr-3 transition-transform duration-300 group-hover:scale-105">
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center">
+                <a href="{% url 'frontoffice:home' %}#our-services" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
+                    <span class="relative">
+                        {% trans "Services" %}
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="{% url 'frontoffice:contact_us' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
+                    <span class="relative">
+                        {% trans "Contact Us" %}
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="{% url 'frontoffice:pricing' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
+                    <span class="relative">
+                        {% trans "Pricing" %}
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="{% url 'frontoffice:about_us' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
+                    <span class="relative">
+                        {% trans "About Us" %}
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                
+                <!-- Language Toggle with animated bone -->
+                <button id="language-toggle" class="px-2 rounded-full transition-all duration-300 group relative cursor-pointer">
+                    <div class="flex items-center">
+                        {% if request.LANGUAGE_CODE == 'en' %}
+                            <img src="{% static 'flags/pt.png' %}" alt="Portuguese" class="w-8 h-8 rounded-full border-2 border-primary group-hover:border-accent-400 transition-all duration-300">
+                        {% else %}
+                            <img src="{% static 'flags/uk.png' %}" alt="English" class="w-8 h-8 rounded-full border-2 border-primary group-hover:border-accent-400 transition-all duration-300">
+                        {% endif %}
+                        <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            {% include "icons/bone.html" with class="w-4 h-4 text-accent-500" %}
+                        </span>
+                    </div>
+                </button>
+
+                <!-- User Dropdown -->
+                {% if user.is_authenticated %}
+                <div class="relative">
+                    <button id="user-menu-button" class="px-2 flex rounded-full transition-all duration-300 group relative cursor-pointer" data-target="user-menu" data-target-close-on-outside-click="true">
+                        <div class="flex items-center">
+                            {% include "icons/user.html" with class="w-8 h-8 border-2 rounded-full p-1 group-hover:border-accent-400" %}
+                        </div>
+                        <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            {% include "icons/bone.html" with class="w-4 h-4 text-accent-500" %}
+                        </span>
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div id="user-menu" class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-1 hidden z-50">
+                        <a href="{% url 'accounts:user_change' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-2" %}
+                            {% trans "Manage Account" %}
+                        </a>
+                        {% if user.is_staff %}
+                        
+                        {% endif %}
+                        <a href="{% url 'pets:list' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
+                            {% trans "Manage Pets" %}
+                        </a>
+                        <a href="{% url 'hotel:booking_list' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/pet_hotel.html" with class="w-4 h-4 mr-3" %}
+                            {% trans "View Hotel Bookings" %}
+                        </a>
+                        <a href="{% url 'accounts:password_change' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/key.html" with class="w-4 h-4 mr-2" %}
+                            {% trans "Change Password" %}
+                        </a>
+                        <form action="{% url 'accounts:logout' %}" method="post" class="block text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% csrf_token %}
+                            <button type="submit" class="block flex cursor-pointer items-center px-4 py-2 w-full">
+                                {% include "icons/logout.html" with class="w-4 h-4 mr-2" %}
+                                {% trans "Logout" %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'accounts:login' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 hover:text-accent-500">
+                    <div class="flex items-center">
+                        {% include "icons/login.html" with class="w-8 h-8 transition-all duration-300" %}
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Mobile Menu Button with animated paw -->
+            <button id="mobile-menu-button" class="md:hidden p-3 rounded-lg transition-all duration-300 group" data-target="mobile-menu" data-target-close-on-outside-click="true">
+                {% include "icons/dog_tag_military.html" with class="w-6 h-6 text-accent-500" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu with gradient background -->
+    <div id="mobile-menu" class="md:hidden hidden bg-gradient-to-b from-white to-primary-200 shadow-xl">
+        <div class="px-4 pt-2 pb-6">
+            <a href="{% url 'frontoffice:home' %}#our-services" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
+                <span class="flex items-center">
+                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
+                    {% trans "Services" %}
+                </span>
+            </a>
+            <a href="{% url 'frontoffice:contact_us' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
+                <span class="flex items-center">
+                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
+                    {% trans "Contact Us" %}
+                </span>
+            </a>
+            <a href="{% url 'frontoffice:pricing' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
+                <span class="flex items-center">
+                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
+                    {% trans "Pricing" %}
+                </span>
+            </a>
+            <a href="{% url 'frontoffice:about_us' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
+                <span class="flex items-center">
+                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
+                    {% trans "About" %}
+                </span>
+            </a>
+            
+            <!-- Mobile User Menu -->
+            <div class="pt-2">
+                <div class="font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300">
+                    <span class="flex items-center">
+                        {% include "icons/user.html" with class="w-6 h-6 mr-3 text-accent-500" %}
+                        {% trans "My Account" %}
+                    </span>
+                </div>
+                <div class="pl-12">
+                    <a href="{% url 'accounts:user_change' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Manage Account" %}
+                    </a>
+                    <a href="{% url 'pets:list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/pets.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Manage Pets" %}
+                    </a>
+                    <a href="{% url 'hotel:booking_list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/pet_hotel.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "View Hotel Bookings" %}
+                    </a>
+                    <a href="{% url 'accounts:logout' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/logout.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Logout" %}
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile Language Toggle -->
+            <div class="pt-4 border-t border-white/10">
+                <button id="mobile-language-toggle" class="flex items-center font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 w-full">
+                    <span class="mr-3">
+                        {% if request.LANGUAGE_CODE == 'en' %}
+                            <img src="{% static 'flags/pt.png' %}" alt="Portuguese" class="w-8 h-8 rounded-full border-2 border-white/30">
+                        {% else %}
+                            <img src="{% static 'flags/uk.png' %}" alt="English" class="w-8 h-8 rounded-full border-2 border-white/30">
+                        {% endif %}
+                    </span>
+                    {% trans "Change Language" %}
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

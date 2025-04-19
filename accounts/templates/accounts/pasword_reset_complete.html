@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white">
+  <div class="container mx-auto px-4 text-center">
+    <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl animate__animated animate__fadeInUp">
+      <div class="w-20 h-20 mx-auto mb-6 text-green-500">
+        {% include "icons/shield_check.html" %}
+      </div>
+      <h1 class="text-3xl font-bold text-primary-800 mb-4">{% trans "Password Reset Complete" %}</h1>
+      <p class="text-secondary-600 mb-8">{% trans "Your new password has been set. You can now log in with your new password." %}</p>
+      <a href="{% url 'accounts:login' %}" class="inline-flex items-center px-6 py-3 bg-accent-500 text-white font-medium rounded-full hover:bg-accent-600 transition-colors duration-300">
+        {% trans "Log In Now" %}
+        <span class="ml-2">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

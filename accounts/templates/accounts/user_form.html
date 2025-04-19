@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block content %}
+<section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-md mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
+      <!-- Header -->
+      <div class="bg-primary-700 px-6 py-8 text-center">
+        <h2 class="text-3xl font-bold text-white">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
+            {% trans "Account Settings" %}
+          </span>
+        </h2>
+        <p class="text-primary-100 mt-2">{% trans "Update your personal information" %}</p>
+      </div>
+
+      <!-- Form -->
+      <form method="post" class="p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div class="space-y-4">
+          {% for field in form %}
+            {% if field.name != 'password' %}
+              <div>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-primary-700 mb-1">
+                  {{ field.label }}
+                  {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                </label>
+                
+                {% if field.name == 'username' %}
+                  <div class="relative">
+                    {{ field|add_class:"block w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      {% include "icons/user.html" with class="h-5 w-5 text-primary-400" %}
+                    </div>
+                  </div>
+                {% elif field.name == 'email' %}
+                  <div class="relative">
+                    {{ field|add_class:"block w-full pl-10 pr-3 py-2 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      {% include "icons/envelope.html" with class="h-5 w-5 text-primary-400" %}
+                    </div>
+                  </div>
+                {% else %}
+                  {{ field|add_class:"block w-full px-3 py-2 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent" }}
+                {% endif %}
+                
+                {% if field.help_text %}
+                  <p class="mt-1 text-xs text-primary-500">{{ field.help_text }}</p>
+                {% endif %}
+                
+                {% if field.errors %}
+                  <div class="mt-1 text-sm text-red-500">
+                    {{ field.errors }}
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <!-- Password change link -->
+        <div class="pt-2">
+          <a href="{% url 'accounts:password_change' %}" class="text-sm font-medium text-accent-500 hover:text-accent-600 flex items-center">
+            {% include "icons/key.html" with class="w-4 h-4 mr-1" %}
+            {% trans "Change password" %}
+          </a>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="w-full flex justify-center items-center py-3 px-4 rounded-full text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors">
+          {% include "icons/check_circle.html" with class="w-5 h-5 mr-2 text-white" %}
+          {% trans "Save Changes" %}
+        </button>
+      </form>
+
+      <!-- Footer link -->
+      <div class="bg-primary-50 px-6 py-4 text-center">
+        <a href="{% url 'frontoffice:home' %}" class="text-sm font-medium text-secondary-500 hover:text-secondary-600">
+          {% trans "Back to home" %}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

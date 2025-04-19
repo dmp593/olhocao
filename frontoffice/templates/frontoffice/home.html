@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<style>
+  .h-screen-minus-navbar { height: calc(100vh - 5rem); }
+</style>
+
+{% include 'components/slider.html' with slides=home_slides height="h-screen-minus-navbar" only %}
+{% include 'frontoffice/partials/our_services.html' %}
+{% include "frontoffice/partials/dog_daycare_premium.html" %}
+{% include 'components/slider.html' with slides=benefits_slides height="h-screen-minus-navbar" only %}
+{% include 'frontoffice/partials/testimonials.html' %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/components/slider.js' %}"></script>
+{% endblock %}

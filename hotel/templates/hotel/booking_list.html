@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <h1 class="text-4xl font-bold text-primary-800 mb-4 md:mb-0">
+                {% trans "My Hotel Bookings" %}
+                <span class="text-accent-500">🐾</span>
+            </h1>
+            
+            <!-- Filter Dropdown -->
+            <div class="relative">
+                <form method="get" class="flex items-center">
+                    <label for="status-filter" class="sr-only">{% trans "Filter by status" %}</label>
+                    <select 
+                        id="status-filter" 
+                        name="status"
+                        onchange="this.form.submit()"
+                        class="appearance-none bg-white border border-primary-300 rounded-lg pl-4 pr-10 py-2 text-primary-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    >
+                        <option value="all" {% if status_filter == 'all' %}selected{% endif %}>
+                            {% trans "All Bookings" %}
+                        </option>
+                        <option value="payment" {% if status_filter == 'payment' %}selected{% endif %}>
+                            {% trans "Needs Payment" %}
+                        </option>
+                        <option value="active" {% if status_filter == 'active' %}selected{% endif %}>
+                            {% trans "Active Stays" %}
+                        </option>
+                        <option value="upcoming" {% if status_filter == 'upcoming' %}selected{% endif %}>
+                            {% trans "Upcoming Stays" %}
+                        </option>
+                        <option value="past" {% if status_filter == 'past' %}selected{% endif %}>
+                            {% trans "Past Stays" %}
+                        </option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-primary-500">
+                        {% include "icons/chevron_down.html" with class="w-4 h-4" %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bookings Grid -->
+        {% if page_obj.object_list %}
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+            {% for booking in page_obj %}
+                {% include "hotel/partials/booking_card.html" with booking=booking %}
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center items-center mt-8">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
+                        {% include "icons/chevron_double_left.html" with class="w-4 h-4" %}
+                    </a>
+                    <a href="?page={{ page_obj.previous_page_number }}&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
+                        {% include "icons/chevron_left.html" with class="w-4 h-4" %}
+                    </a>
+                {% endif %}
+
+                <span class="px-3 py-1 text-primary-700">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
+                        {% include "icons/chevron_right.html" with class="w-4 h-4" %}
+                    </a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
+                        {% include "icons/chevron_double_right.html" with class="w-4 h-4" %}
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% else %}
+        <div class="bg-white rounded-xl shadow-md p-8 text-center">
+            <div class="text-primary-400 mb-4">
+                {% include "icons/inbox.html" with class="w-16 h-16 mx-auto" %}
+            </div>
+            <h3 class="text-xl font-medium text-primary-800 mb-2">
+                {% trans "No bookings found" %}
+            </h3>
+            <p class="text-primary-600">
+                {% if status_filter != 'all' %}
+                    {% trans "You don't have any bookings with this status" %}
+                {% else %}
+                    {% trans "You haven't made any bookings yet" %}
+                {% endif %}
+            </p>
+            {% if status_filter != 'all' %}
+                <a href="?status=all" class="mt-4 inline-block text-accent-500 hover:text-accent-600">
+                    {% trans "View all bookings" %} →
+                </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

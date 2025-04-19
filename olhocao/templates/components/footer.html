@@ -1,0 +1,122 @@
+{% load i18n %}
+
+<footer class="bg-gradient-to-b from-primary-800 to-primary-900 text-white pt-16 pb-8 shadow-lg relative overflow-hidden">
+    <!-- Background elements -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none"></div>
+    <div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower"></div>
+    <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower animate__delay-2s"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
+            <!-- Address Section -->
+            <div class="animate__animated animate__fadeIn">
+                <div class="flex items-center justify-center md:justify-start mb-6">
+                    {% include "icons/paw.html" with class="w-8 h-8 text-accent-500 mr-3" %}
+                    <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
+                        {% trans "Find Us" %}
+                    </h3>
+                </div>
+                <div class="space-y-3 text-center md:text-left">
+                    <p class="flex items-center justify-center md:justify-start">
+                        <span class="mr-2">📍</span> Rua Quinta dos Frades, 904
+                    </p>
+                    <p>2400-821 Leiria, Portugal</p>
+                    <p class="pt-4 text-primary-200">
+                        {% trans "Open Monday-Friday: 9AM-6PM" %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Partnerships Section -->
+            <div class="animate__animated animate__fadeIn animate__delay-1s">
+                <div class="flex items-center justify-center md:justify-start mb-6">
+                    {% include "icons/handshake.html" with class="w-8 h-8 text-accent-500 mr-3" %}
+                    <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
+                        {% trans "Our Partners" %}
+                    </h3>
+                </div>
+                <ul class="space-y-3 text-center md:text-left">
+                    <li class="group">
+                        <a href="https://outvets.pt/" target="_blank" class="flex items-center justify-center md:justify-start hover:text-accent-300 transition-colors duration-300">
+                            <span class="mr-2">🏥</span> {% trans "Our Veterinary" %}: <span class="ml-1 underline underline-offset-4 decoration-accent-500">OutVets</span>
+                            <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        </a>
+                    </li>
+                    <li class="group">
+                        <a href="https://www.facebook.com/profile.php?id=100063537554454" target="_blank" class="flex items-center justify-center md:justify-start hover:text-accent-300 transition-colors duration-300">
+                            <span class="mr-2">🛍️</span> {% trans "Material and Accessories" %}: <span class="ml-1 underline underline-offset-4 decoration-accent-500">KaliuZ K9</span>
+                            <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        </a>
+                    </li>
+                    <li class="group">
+                        <a href="https://www.fortissimusbellator.pt/" target="_blank" class="flex items-center justify-center md:justify-start hover:text-accent-300 transition-colors duration-300">
+                            <span class="mr-2">🐕</span> {% trans "Dog Breeder" %}: <span class="ml-1 underline underline-offset-4 decoration-accent-500">Fortissimus Bellator</span>
+                            <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        </a>
+                        <span class="ml-6 text-sm italic text-primary-300">#BreedingLegendaries</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact & Social Section -->
+            <div class="animate__animated animate__fadeIn animate__delay-2s">
+                <div class="flex items-center justify-center md:justify-start mb-6">
+                    {% include "icons/contact.html" with class="w-8 h-8 text-accent-500 mr-3" %}
+                    <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
+                        {% trans "Connect With Us" %}
+                    </h3>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex justify-center md:justify-start space-x-6 mb-8">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/treinocaninodanascentedoliz" target="_blank" 
+                       class="p-3 bg-white/10 backdrop-blur-sm rounded-full shadow-lg hover:bg-accent-500 hover:scale-110 transition-all duration-300 group border border-white/20 hover:border-accent-400">
+                        <svg class="w-6 h-6 text-white group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/olhocao_centrocanino/" target="_blank" 
+                       class="p-3 bg-white/10 backdrop-blur-sm rounded-full shadow-lg hover:bg-accent-500 hover:scale-110 transition-all duration-300 group border border-white/20 hover:border-accent-400">
+                        <svg class="w-6 h-6 text-white group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="text-center md:text-left space-y-2">
+                    <p class="flex items-center justify-center md:justify-start">
+                        <span class="mr-2">✉️</span> info@olhocao.pt
+                    </p>
+                    <p class="flex items-center justify-center md:justify-start">
+                        <span class="mr-2">📞</span> +351 123 456 789
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bone Separator -->
+        <div class="relative flex justify-center my-12">
+            {% include "icons/bone.html" with class="w-24 text-accent-500/30" %}
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/20 animate__animated animate__fadeIn">
+            <p class="text-sm text-primary-200 mb-4 md:mb-0">
+                &copy; {% now "Y" %} OlhóCão. {% trans "All rights reserved" %}.
+            </p>
+            <p class="text-sm text-primary-200 group">
+                {% trans "Developed with" %} 
+                <span class="animate__animated animate__heartBeat animate__infinite animate__slower">❤️</span> 
+                {% trans "by" %} 
+                <a href="https://www.linkedin.com/in/dmp593/" target="_blank" 
+                   class="underline underline-offset-4 decoration-accent-500 hover:text-accent-300 transition-colors duration-300">
+                    Daniel Pinto
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>

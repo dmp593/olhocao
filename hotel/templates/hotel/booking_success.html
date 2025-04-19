@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="w-24 h-24 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                {% include "icons/check_circle.html" with class="w-12 h-12 text-accent-600" %}
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
+                {% trans "Booking Confirmed!" %}
+            </h1>
+            
+            <p class="text-xl text-primary-600 mb-8">
+                {% trans "Thank you for your reservation. We're excited to care for your pets!" %}
+            </p>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 text-left">
+                <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center">
+                    {% include "icons/receipt_percent.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                    {% trans "Booking Details" %}
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Booking Reference" %}</h3>
+                        <p class="text-primary-800 font-mono bg-primary-50 p-2 rounded-lg inline-block">
+                            #{{ booking_id }}
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Status" %}</h3>
+                        <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            {% trans "Confirmed" %}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium text-primary-700 mb-2">{% trans "What's Next?" %}</h3>
+                    <ul class="space-y-2 text-primary-700">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-accent-500">✓</span>
+                            <span>{% trans "You'll receive a confirmation email shortly" %}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-accent-500">✓</span>
+                            <span>{% trans "Our team will contact you if we need additional information" %}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-accent-500">✓</span>
+                            <span>{% trans "See you on" %} {{ booking.stays.first.start_date|date:"M j, Y" }}!</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <a href="{% url 'hotel:booking_list' %}" class="inline-flex items-center text-accent-600 hover:text-accent-700 font-medium">
+                    {% trans "View in your Hotel Bookings" %}
+                    <span class="ml-1">→</span>
+                </a>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="{% url 'frontoffice:home' %}" class="flex items-center justify-center bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                    {% trans "Back to Home" %}
+                </a>
+                <a href="{% url 'hotel:booking_stay' %}" class="flex items-center justify-center border-2 border-primary-500 text-primary-600 hover:text-primary-800 font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                    {% trans "Create Another Booking" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
