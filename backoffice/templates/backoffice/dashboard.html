@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block styles %}
+<style>
+    .day-column:hover .activity-blocks div {
+        transform: translateY(-2px);
+    }
+    .btn-primary {
+        @apply bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-full flex items-center transition-all;
+    }
+    .btn-secondary {
+        @apply border border-primary-300 text-primary-700 hover:bg-primary-50 px-4 py-2 rounded-full flex items-center transition-all;
+    }
+    .btn-icon {
+        @apply p-2 rounded-full hover:bg-primary-100 transition-colors;
+    }
+    .guest-card {
+        @apply p-4 rounded-lg border border-primary-100 hover:border-accent-300 transition-all;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="relative py-8 bg-primary-50">
+    <div class="container mx-auto px-4">
+        <!-- Header with Quick Actions -->
+        <div class="flex flex-col md:flex-row gap-4 mb-8 items-start md:items-center">
+            <h1 class="text-3xl font-bold text-primary-800 flex items-center">
+                {% include "icons/pet_hotel.html" with class="w-8 h-8 mr-3 text-accent-500" %}
+                {% trans "Hotel Management Dashboard" %}
+            </h1>
+            <div class="flex gap-2 ml-auto">
+                <button class="btn-secondary">
+                    {% include "icons/user_plus.html" with class="w-4 h-4 mr-2" %}
+                    {% trans "Quick Check-In" %}
+                </button>
+                <button class="btn-primary">
+                    {% include "icons/funnel.html" with class="w-4 h-4 mr-2" %}
+                    {% trans "Filters" %}
+                </button>
+            </div>
+        </div>
+
+        <!-- Timeline Heatmap -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex justify-between mb-4">
+                <h2 class="text-xl font-semibold text-primary-700">
+                    {% trans "14-Day Activity Overview" %}
+                </h2>
+                <div class="flex gap-2">
+                    <button class="btn-icon">{% include "icons/chevron_left.html" %}</button>
+                    <button class="btn-icon">{% include "icons/chevron_right.html" %}</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-7 gap-4">
+                {% for day in days %}
+                <div class="day-column relative group cursor-pointer" data-date="{{ day.date|date:'Y-m-d' }}">
+                    <div class="text-center mb-2 text-sm font-medium text-primary-600">
+                        {{ day.date|date:"D M j" }}
+                    </div>
+                    <div class="activity-blocks space-y-1">
+                        <div class="bg-green-100 rounded-lg p-2 text-center transition-all hover:scale-105">
+                            <div class="text-xs text-green-800">Check-ins</div>
+                            <div class="font-bold text-green-600">{{ day.checkins }}</div>
+                        </div>
+                        <div class="bg-blue-100 rounded-lg p-2 text-center transition-all hover:scale-105">
+                            <div class="text-xs text-blue-800">Current</div>
+                            <div class="font-bold text-blue-600">{{ day.current }}</div>
+                        </div>
+                        <div class="bg-red-100 rounded-lg p-2 text-center transition-all hover:scale-105">
+                            <div class="text-xs text-red-800">Check-outs</div>
+                            <div class="font-bold text-red-600">{{ day.checkouts }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Dynamic Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Current Guests Panel -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        {% include "icons/users.html" with class="w-5 h-5 mr-2 text-accent-500" %}
+                        {% trans "Current Guests" %} ({{ current_count }})
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for stay in current_stays %}
+                        <div class="guest-card">
+                            <div class="flex items-start">
+                                <div class="pet-avatar">
+                                    {% if stay.pet.photo %}
+                                    <img src="{{ stay.pet.photo.url }}" alt="{{ stay.pet.name }}" class="rounded-full w-12 h-12">
+                                    {% else %}
+                                    <div class="bg-primary-100 rounded-full w-12 h-12 flex items-center justify-center">
+                                        {% include "icons/paw.html" with class="w-6 h-6 text-primary-600" %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="font-medium text-primary-800">{{ stay.pet.name }}</h4>
+                                        <span class="text-sm text-primary-600">{{ stay.days_remaining }} days left</span>
+                                    </div>
+                                    <div class="text-sm text-primary-600">
+                                        {{ stay.pet.breed }} • Room {{ stay.room_number }}
+                                    </div>
+                                    <div class="mt-2 flex gap-2">
+                                        <button class="btn-icon-sm bg-green-100 text-green-800">
+                                            {% include "icons/check_circle.html" %}
+                                        </button>
+                                        <button class="btn-icon-sm bg-blue-100 text-blue-800">
+                                            {% include "icons/pencil_square.html" %}
+                                        </button>
+                                        <button class="btn-icon-sm bg-red-100 text-red-800">
+                                            {% include "icons/logout.html" %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Timeline -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        {% include "icons/clock.html" with class="w-5 h-5 mr-2 text-accent-500" %}
+                        {% trans "Next 24 Hours" %}
+                    </h3>
+                    <div class="space-y-4">
+                        {% for event in upcoming_events %}
+                        <div class="event-item">
+                            <div class="flex items-start">
+                                <div class="event-icon">
+                                    {% if event.type == 'checkin' %}
+                                    {% include "icons/login.html" with class="w-5 h-5 text-green-600" %}
+                                    {% else %}
+                                    {% include "icons/logout.html" with class="w-5 h-5 text-red-600" %}
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="text-sm font-medium text-primary-800">
+                                        {{ event.pet_name }}
+                                    </div>
+                                    <div class="text-xs text-primary-600">
+                                        {{ event.time }} • {{ event.owner_name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Day column interactions
+        document.querySelectorAll('.day-column').forEach(column => {
+            column.addEventListener('click', function() {
+                const date = this.dataset.date;
+                // Implement date-specific modal or panel update
+                console.log('Selected date:', date);
+            });
+        });
+    });
+</script>
+{% endblock %}

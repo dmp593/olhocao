@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from accounts.models import Account
+from hotel.managers import BookingManager, BookingStayManager
 from pets.models import Pet
 
 
@@ -73,6 +74,8 @@ class Booking(models.Model):
         return (self.status == BookingStatus.PAID and 
                 all(stay.start_date > now for stay in self.stays.all()))
 
+    objects = BookingManager()
+
     def __str__(self):
         return f"Booking #{self.pk}"
 
@@ -105,6 +108,8 @@ class BookingStay(models.Model):
     def total_price_eur(self):
         return self.unit_price_eur * self.duration_days + sum(svc.total_price_eur for svc in self.services.all())
     
+    objects = BookingStayManager()
+
     def clean(self):
         # Validate pet belongs to booking account user
         if self.pet.owner != self.booking.account.user:
