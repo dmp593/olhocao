@@ -88,7 +88,12 @@ class BookingStay(models.Model):
         related_query_name="stay"
     )
 
-    pet = models.ForeignKey(Pet, on_delete=models.PROTECT)
+    pet = models.ForeignKey(
+        Pet,
+        on_delete=models.PROTECT,
+        related_name='booking_stays',
+        related_query_name='booking_stay',
+    )
 
     # Stay information from external API
     stay_id = models.CharField(max_length=50)
@@ -108,6 +113,15 @@ class BookingStay(models.Model):
     def total_price_eur(self):
         return self.unit_price_eur * self.duration_days + sum(svc.total_price_eur for svc in self.services.all())
     
+    @property
+    def days_remaining(self):
+        today = timezone.now().date()
+
+        if self.end_date >= today:
+            return 0
+        
+        return (self.end_date - today).days
+
     objects = BookingStayManager()
 
     def clean(self):

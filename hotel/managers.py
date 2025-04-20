@@ -9,7 +9,7 @@ class BookingManager(managers.Manager):
         return self.get_queryset().filter(
             stay__start_date__lte=today,
             stay__end_date__gte=today
-        )
+        ).all()
 
 
 class BookingStayManager(managers.Manager):
@@ -19,4 +19,4 @@ class BookingStayManager(managers.Manager):
         return self.get_queryset().filter(
             start_date__lte=today,
             end_date__gte=today
-        )
+        ).all()
