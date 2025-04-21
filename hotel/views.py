@@ -353,6 +353,7 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
                 cancel_url=self.request.build_absolute_uri(
                     reverse_lazy('hotel:booking_retry', kwargs={'booking_id': booking.id})
                 ),
+                customer_email=self.request.user.email,
                 metadata={
                     'booking_id': str(booking.id),
                     'account_id': str(self.request.user.account.id),
@@ -533,6 +534,7 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
                 cancel_url=self.request.build_absolute_uri(
                     reverse_lazy('hotel:booking_retry', kwargs={'booking_id': booking.id})
                 ),
+                customer_email=self.request.user.email,
                 metadata={
                     'booking_id': str(booking.id),
                     'account_id': str(self.request.user.account.id),
@@ -636,11 +638,12 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'booking'
     
     def get_queryset(self):
-        """
-        Only allow users to see their own bookings
-        """
         qs = super().get_queryset()
-        return qs.filter(account__user=self.request.user)
+
+        if not self.request.user or not self.request.user.is_staff:
+            return qs.filter(account__user=self.request.user)
+
+        return qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -686,6 +689,7 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
                     cancel_url=self.request.build_absolute_uri(
                         reverse_lazy('hotel:booking_retry', kwargs={'booking_id': booking.id})
                     ),
+                    customer_email=self.request.user.email,
                     metadata={
                         'booking_id': str(booking.id),
                         'account_id': str(self.request.user.account.id),
@@ -701,7 +705,7 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
             except stripe.error.StripeError as e:
                 logger.error(f"Stripe error in booking detail: {str(e)}")
                 messages.error(self.request, "Error creating payment session. Please try again later.")
-        
+
         # Add additional context if needed
         context['page_title'] = f"Booking #{self.object.id}"
         

@@ -13,6 +13,12 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center">
+                <a href="{% url 'hotel:booking_stay' %}#our-services" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
+                    <span class="relative text-secondary">
+                        {% trans "Book Hotel" %}
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-secondary group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
                 <a href="{% url 'frontoffice:home' %}#our-services" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
                     <span class="relative">
                         {% trans "Services" %}
@@ -21,7 +27,7 @@
                 </a>
                 <a href="{% url 'frontoffice:contact_us' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
                     <span class="relative">
-                        {% trans "Contact Us" %}
+                        {% trans "Contact" %}
                         <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
                     </span>
                 </a>
@@ -33,7 +39,7 @@
                 </a>
                 <a href="{% url 'frontoffice:about_us' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
                     <span class="relative">
-                        {% trans "About Us" %}
+                        {% trans "About" %}
                         <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
                     </span>
                 </a>
@@ -113,6 +119,12 @@
     <!-- Mobile Menu with gradient background -->
     <div id="mobile-menu" class="md:hidden hidden bg-gradient-to-b from-white to-primary-200 shadow-xl">
         <div class="px-4 pt-2 pb-6">
+            <a href="{% url 'hotel:booking_stay' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
+                <span class="flex items-center text-secondary">
+                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
+                    {% trans "Book Hotel" %}
+                </span>
+            </a>
             <a href="{% url 'frontoffice:home' %}#our-services" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
                 <span class="flex items-center">
                     {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
@@ -122,7 +134,7 @@
             <a href="{% url 'frontoffice:contact_us' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
                 <span class="flex items-center">
                     {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
-                    {% trans "Contact Us" %}
+                    {% trans "Contact" %}
                 </span>
             </a>
             <a href="{% url 'frontoffice:pricing' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">

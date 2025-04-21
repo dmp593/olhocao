@@ -2,149 +2,115 @@
 {% load i18n %}
 {% load static %}
 
-{% block styles %}
-<style>
-    .day-column:hover .activity-blocks div {
-        transform: translateY(-2px);
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<section class="relative py-8 bg-primary-50">
+<section class="relative py-8 bg-primary-50 min-h-screen-minus-navbar">
     <div class="container mx-auto px-4">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row gap-4 mb-8 items-start md:items-center">
-            <h1 class="text-3xl font-bold text-primary-800 flex items-center">
-                {% include "icons/pet_hotel.html" with class="w-8 h-8 mr-3 text-accent-500" %}
-                {% trans "Hotel Management Dashboard" %}
-            </h1>
+        <!-- Date Navigation -->
+        <div class="mb-8 bg-white p-4 rounded-xl shadow">
+            <form method="get" class="flex flex-col md:flex-row gap-4 items-end md:items-center">
+                <div class="flex flex-col md:flex-row gap-4 w-full">
+                    <div class="flex-1">
+                        <label for="start_date" class="block text-sm font-medium text-gray-700">
+                            {% trans "Start Date" %}
+                        </label>
+                        <input type="date" id="start_date" name="start_date" 
+                               value="{{ start_date|date:'Y-m-d' }}" 
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent-500 focus:ring-accent-500">
+                    </div>
+                    <div class="flex-1">
+                        <label for="end_date" class="block text-sm font-medium text-gray-700">
+                            {% trans "End Date" %}
+                        </label>
+                        <input type="date" id="end_date" name="end_date" 
+                               value="{{ end_date|date:'Y-m-d' }}" 
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent-500 focus:ring-accent-500">
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-accent-600 hover:bg-accent-700 focus:ring-accent-500">
+                        {% trans "Filter" %}
+                    </button>
+                    <a href="?start_date={% now 'Y-m-d' %}&end_date={% now 'Y-m-d' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-gray-700 bg-white border-gray-300 hover:bg-gray-50 focus:ring-gray-500">
+                        {% trans "Today" %}
+                    </a>
+                </div>
+            </form>
+            
+            <!-- Previous/Next Navigation -->
+            <div class="mt-4 flex justify-between">
+                <a href="?start_date={{ previous_start|date:'Y-m-d' }}&end_date={{ previous_end|date:'Y-m-d' }}"
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-gray-700 bg-white border-gray-300 hover:bg-gray-50 focus:ring-gray-500">
+                    ← {% trans "Previous" %}
+                </a>
+                <a href="?start_date={{ next_start|date:'Y-m-d' }}&end_date={{ next_end|date:'Y-m-d' }}"
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-gray-700 bg-white border-gray-300 hover:bg-gray-50 focus:ring-gray-500">
+                    {% trans "Next" %} →
+                </a>
+            </div>
         </div>
 
-        <!-- Timeline Heatmap -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <div class="flex justify-between mb-4">
-                <h2 class="text-xl font-semibold text-primary-700">
-                    {% trans "14-Day Activity Overview" %}
+        <!-- Dashboard Content -->
+        <div class="grid gap-6 md:grid-cols-2">
+            <!-- Check-ins Section -->
+            <div class="bg-green-100/70 p-6 rounded-xl">
+                <h2 class="text-2xl font-semibold text-primary mb-4 text-center">
+                    {% trans "Check-ins" %}
                 </h2>
-                <div class="flex gap-2">
-                    <button class="p-2 rounded-full hover:bg-primary-100 transition-colors">{% include "icons/chevron_left.html" %}</button>
-                    <button class="p-2 rounded-full hover:bg-primary-100 transition-colors">{% include "icons/chevron_right.html" %}</button>
-                </div>
+                {% for stay in checkins %}
+                    {% include "backoffice/_stay_card.html" with stay=stay %}
+                {% empty %}
+                    <p class="text-gray-600 text-center">{% trans "No check-ins" %}</p>
+                {% endfor %}
             </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-col-3 lg:grid-cols-5 xl:grid-cols-7 gap-10 sm:gap-3 lg:gap-6 xl:gap-9">
-                {% for day in days %}
-                <div class="day-column relative group cursor-pointer" data-date="{{ day.date|date:'Y-m-d' }}">
-                    <div class="text-center mb-2 text-sm font-medium text-primary-600">
-                        {{ day.date|date:"D M j" }}
-                    </div>
-                    <div class="activity-blocks space-y-1">
-                        <div class="bg-green-100 rounded-lg p-2 text-center transition-all hover:scale-105">
-                            <div class="text-xs text-green-800">{% trans "Check-ins" %}</div>
-                            <div class="font-bold text-green-600">{{ day.checkins }}</div>
-                        </div>
-                        <div class="bg-blue-100 rounded-lg p-2 text-center transition-all hover:scale-105">
-                            <div class="text-xs text-blue-800">{% trans "Stayings" %}</div>
-                            <div class="font-bold text-blue-600">{{ day.stayings }}</div>
-                        </div>
-                        <div class="bg-red-100 rounded-lg p-2 text-center transition-all hover:scale-105">
-                            <div class="text-xs text-red-800">{% trans "Check-outs" %}</div>
-                            <div class="font-bold text-red-600">{{ day.checkouts }}</div>
-                        </div>
-                    </div>
-                </div>
+
+            <!-- Check-outs Section -->
+            <div class="bg-yellow-100/70 p-6 rounded-xl">
+                <h2 class="text-2xl font-semibold text-primary mb-4 text-center">
+                    {% trans "Check-outs" %}
+                </h2>
+                {% for stay in checkouts %}
+                    {% include "backoffice/_stay_card.html" with stay=stay %}
+                {% empty %}
+                    <p class="text-gray-600 text-center">{% trans "No check-outs" %}</p>
                 {% endfor %}
             </div>
         </div>
 
-        <!-- Dynamic Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Current Guests Panel -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4 flex items-center">
-                        {% include "icons/users.html" with class="w-5 h-5 mr-2 text-accent-500" %}
-                        {% trans "Current Guests" %} ({{ current_stays|length }})
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {% for stay in current_stays %}
-                        <div class="p-4 rounded-lg border border-primary-100 hover:border-accent-300 transition-all">
-                            <div class="flex items-start">
-                                <div class="pet-avatar">
-                                    {% if stay.pet.photo %}
-                                    <img src="{{ stay.pet.photo.url }}" alt="{{ stay.pet.name }}" class="rounded-full w-12 h-12">
-                                    {% else %}
-                                    <div class="bg-primary-100 rounded-full w-12 h-12 flex items-center justify-center">
-                                        {% include "icons/paw.html" with class="w-6 h-6 text-primary-600" %}
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                <div class="ml-4 flex-1">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="font-medium text-primary-800">{{ stay.pet.name }}</h4>
-                                        <span class="text-sm text-primary-600">{{ stay.days_remaining }} {% trans "days left" %}</span>
-                                    </div>
-                                    <div class="text-sm text-primary-600">
-                                        {{ pet.breed }} • {{ stay.stay_name }}
-                                    </div>
-                                </div>
-                            </div>
+        <!-- Active Stays Section -->
+        <div class="mt-6 bg-blue-100/70 p-6 rounded-xl">
+            <h2 class="text-2xl font-semibold text-primary mb-4 text-center">
+                {% trans "Active Stays" %}
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for stay in stays %}
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">{{ stay.stay_name }}</h3>
+                            <span class="text-sm text-gray-600">
+                                {{ stay.start_date|date:"M d" }} - {{ stay.end_date|date:"M d" }}
+                            </span>
                         </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Upcoming Timeline -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-semibold mb-4 flex items-center">
-                        {% include "icons/clock.html" with class="w-5 h-5 mr-2 text-accent-500" %}
-                        {% trans "Next 24 Hours" %}
-                    </h3>
-                    <div class="space-y-4">
-                        {% for event in upcoming_events %}
-                        <div class="event-item">
-                            <div class="flex items-start">
-                                <div class="event-icon">
-                                    {% if event.type == 'checkin' %}
-                                    {% include "icons/login.html" with class="w-5 h-5 text-green-600" %}
-                                    {% else %}
-                                    {% include "icons/logout.html" with class="w-5 h-5 text-red-600" %}
-                                    {% endif %}
-                                </div>
-                                <div class="ml-3 flex-1">
-                                    <div class="text-sm font-medium text-primary-800">
-                                        {{ event.pet_name }}
-                                    </div>
-                                    <div class="text-xs text-primary-600">
-                                        {{ event.time }} • {{ event.owner_name }}
-                                    </div>
-                                </div>
-                            </div>
+                        <p class="text-sm mb-2">
+                            <a href="{% url 'pets:detail' stay.pet.pk %}" target="_blank" 
+                               class="text-accent-600 hover:text-accent-700">
+                                {{ stay.pet.name }}
+                            </a>
+                        </p>
+                        <div class="text-sm text-gray-600">
+                            <p>{% trans "Booking" %}: #{{ stay.booking.pk }}</p>
+                            <p>{% trans "Total" %}: {{ stay.total_price_eur }}€</p>
                         </div>
-                        {% endfor %}
+                        {% if stay.notes %}
+                            <div class="mt-2 text-sm text-gray-700">
+                                <strong>{% trans "Notes" %}:</strong> {{ stay.notes }}
+                            </div>
+                        {% endif %}
                     </div>
-                </div>
+                {% empty %}
+                    <p class="text-gray-600">{% trans "No active stays" %}</p>
+                {% endfor %}
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block scripts %}
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Day column interactions
-        document.querySelectorAll('.day-column').forEach(column => {
-            column.addEventListener('click', function() {
-                const date = this.dataset.date;
-                // Implement date-specific modal or panel update
-                console.log('Selected date:', date);
-            });
-        });
-    });
-</script>
 {% endblock %}
