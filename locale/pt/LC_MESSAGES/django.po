@@ -1,0 +1,1964 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-22 09:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/models.py:18
+msgid "user"
+msgstr ""
+
+#: accounts/models.py:19
+msgid "The user that this account belongs to"
+msgstr ""
+
+#: accounts/models.py:28
+msgid "Customer ID (toconline)"
+msgstr ""
+
+#: accounts/models.py:29
+msgid "The ID of the customer in the toconline platform (invoice system)"
+msgstr ""
+
+#: accounts/templates/accounts/logged_out.html:16
+msgid "See You Soon!"
+msgstr ""
+
+#: accounts/templates/accounts/logged_out.html:19
+msgid "You've been safely logged out"
+msgstr ""
+
+#: accounts/templates/accounts/logged_out.html:26
+msgid ""
+"Thanks for visiting Olhó Cão. We hope to see you and your furry friend again "
+"soon!"
+msgstr ""
+
+#: accounts/templates/accounts/logged_out.html:37
+msgid "Login Again"
+msgstr ""
+
+#: accounts/templates/accounts/logged_out.html:44
+msgid "Or return to"
+msgstr ""
+
+#: accounts/templates/accounts/logged_out.html:46
+msgid "home page"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:15
+msgid "Welcome Back!"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:18
+msgid "Access your account to manage your pet's care"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:44
+msgid "Remember me"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:48
+msgid "Forgot password?"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:54
+msgid "Sign In"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:60
+msgid "Don't have an account?"
+msgstr ""
+
+#: accounts/templates/accounts/login.html:62
+msgid "Sign up now"
+msgstr ""
+
+#: accounts/templates/accounts/password_change_done.html:11
+msgid "Password Changed!"
+msgstr ""
+
+#: accounts/templates/accounts/password_change_done.html:12
+msgid "Your password has been successfully updated."
+msgstr ""
+
+#: accounts/templates/accounts/password_change_done.html:14
+#: accounts/templates/accounts/password_reset_done.html:17
+#: accounts/templates/accounts/user_change_done.html:47
+#: hotel/templates/hotel/booking_success.html:68
+msgid "Back to Home"
+msgstr ""
+
+#: accounts/templates/accounts/password_change_form.html:15
+#: accounts/templates/accounts/password_reset_confirm.html:12
+#: accounts/templates/accounts/password_reset_form.html:15
+#: olhocao/templates/components/navbar.html:92
+msgid "Change Password"
+msgstr ""
+
+#: accounts/templates/accounts/password_change_form.html:18
+#: accounts/templates/accounts/password_reset_form.html:18
+msgid "Password leashed!"
+msgstr ""
+
+#: accounts/templates/accounts/password_change_form.html:19
+#: accounts/templates/accounts/password_reset_form.html:19
+msgid "Now it won’t run away like last time."
+msgstr ""
+
+#: accounts/templates/accounts/password_change_form.html:41
+#: accounts/templates/accounts/password_reset_confirm.html:31
+msgid "Update Password"
+msgstr ""
+
+#: accounts/templates/accounts/password_reset_done.html:11
+msgid "Check Your Inbox"
+msgstr ""
+
+#: accounts/templates/accounts/password_reset_done.html:12
+msgid ""
+"We've emailed you instructions for setting your password. You should receive "
+"the email shortly!"
+msgstr ""
+
+#: accounts/templates/accounts/password_reset_done.html:14
+msgid "Didn't receive an email? Check your spam folder or"
+msgstr ""
+
+#: accounts/templates/accounts/password_reset_done.html:14
+msgid "try again"
+msgstr ""
+
+#: accounts/templates/accounts/password_reset_form.html:41
+msgid "Send Reset Link"
+msgstr ""
+
+#: accounts/templates/accounts/pasword_reset_complete.html:11
+msgid "Password Reset Complete"
+msgstr ""
+
+#: accounts/templates/accounts/pasword_reset_complete.html:12
+msgid ""
+"Your new password has been set. You can now log in with your new password."
+msgstr ""
+
+#: accounts/templates/accounts/pasword_reset_complete.html:14
+msgid "Log In Now"
+msgstr ""
+
+#: accounts/templates/accounts/signup.html:14
+msgid "Create an Account"
+msgstr ""
+
+#: accounts/templates/accounts/signup.html:17
+msgid "Join our pack of happy pet parents"
+msgstr ""
+
+#: accounts/templates/accounts/signup.html:39
+msgid "Sign Up"
+msgstr ""
+
+#: accounts/templates/accounts/signup.html:45
+msgid "Already have an account?"
+msgstr ""
+
+#: accounts/templates/accounts/signup.html:47
+msgid "Log in"
+msgstr ""
+
+#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:62
+msgid "Account Updated"
+msgstr ""
+
+#: accounts/templates/accounts/user_change_done.html:19
+msgid "Your changes have been saved"
+msgstr ""
+
+#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:64
+msgid "Your account information has been successfully updated."
+msgstr ""
+
+#: accounts/templates/accounts/user_change_done.html:43
+msgid "Edit Again"
+msgstr ""
+
+#: accounts/templates/accounts/user_form.html:16
+msgid "Account Settings"
+msgstr ""
+
+#: accounts/templates/accounts/user_form.html:19
+msgid "Update your personal information"
+msgstr ""
+
+#: accounts/templates/accounts/user_form.html:71
+msgid "Change password"
+msgstr ""
+
+#: accounts/templates/accounts/user_form.html:78
+#: backoffice/templates/backoffice/legal_documents/edit.html:35
+#: pets/templates/pets/pet_form.html:65
+msgid "Save Changes"
+msgstr ""
+
+#: accounts/templates/accounts/user_form.html:85
+msgid "Back to home"
+msgstr ""
+
+#: backoffice/forms.py:14
+msgid "Document Title"
+msgstr ""
+
+#: backoffice/forms.py:15 backoffice/models.py:25
+msgid "Effective Date"
+msgstr ""
+
+#: backoffice/forms.py:24 backoffice/models.py:53
+msgid "Section Title"
+msgstr ""
+
+#: backoffice/forms.py:25 backoffice/forms.py:38
+msgid "Display Order"
+msgstr ""
+
+#: backoffice/forms.py:37
+msgid "Content"
+msgstr ""
+
+#: backoffice/models.py:7
+msgid "Terms and Conditions"
+msgstr ""
+
+#: backoffice/models.py:8 hotel/templates/hotel/booking_review.html:221
+msgid "Privacy Policy"
+msgstr ""
+
+#: backoffice/models.py:14
+msgid "Document Type"
+msgstr ""
+
+#: backoffice/models.py:15
+msgid ""
+"Select whether this is a Terms and Conditions or Privacy Policy document."
+msgstr ""
+
+#: backoffice/models.py:20
+msgid "Title"
+msgstr ""
+
+#: backoffice/models.py:21
+msgid "Main title of the legal document shown to users."
+msgstr ""
+
+#: backoffice/models.py:26
+msgid "Date from which this document is considered effective."
+msgstr ""
+
+#: backoffice/models.py:31
+msgid "Last Updated"
+msgstr ""
+
+#: backoffice/models.py:32
+msgid "Automatically updated whenever the document is changed."
+msgstr ""
+
+#: backoffice/models.py:39
+msgid "Legal Document"
+msgstr ""
+
+#: backoffice/models.py:40
+#: backoffice/templates/backoffice/legal_documents/list.html:9
+msgid "Legal Documents"
+msgstr ""
+
+#: backoffice/models.py:48
+msgid "Document"
+msgstr ""
+
+#: backoffice/models.py:49
+msgid "The legal document this section belongs to."
+msgstr ""
+
+#: backoffice/models.py:54
+msgid "Title of the section (e.g., Reservations, Data Collection, etc.)."
+msgstr ""
+
+#: backoffice/models.py:58 backoffice/models.py:87
+#: backoffice/templates/backoffice/legal_documents/edit.html:60
+#: frontoffice/models.py:14
+msgid "Order"
+msgstr ""
+
+#: backoffice/models.py:59
+msgid "Defines the display order of sections within the document."
+msgstr ""
+
+#: backoffice/models.py:64
+msgid "Legal Section"
+msgstr ""
+
+#: backoffice/models.py:65
+msgid "Legal Sections"
+msgstr ""
+
+#: backoffice/models.py:68 backoffice/models.py:76
+msgid "Section"
+msgstr ""
+
+#: backoffice/models.py:77
+msgid "The section this line item belongs to."
+msgstr ""
+
+#: backoffice/models.py:81
+msgid "Text"
+msgstr ""
+
+#: backoffice/models.py:82
+msgid ""
+"The actual content of this line item (e.g., a clause, condition, or "
+"explanation)."
+msgstr ""
+
+#: backoffice/models.py:88
+msgid "Defines the display order of line items within the section."
+msgstr ""
+
+#: backoffice/models.py:93
+msgid "Line Item"
+msgstr ""
+
+#: backoffice/models.py:94
+msgid "Line Items"
+msgstr ""
+
+#: backoffice/templates/backoffice/_stay_card.html:34
+msgid "Medicated"
+msgstr ""
+
+#: backoffice/templates/backoffice/_stay_card.html:39
+msgid "Allergies"
+msgstr ""
+
+#: backoffice/templates/backoffice/_stay_card.html:47
+#: hotel/templates/hotel/booking_detail.html:280
+msgid "Booking Notes"
+msgstr ""
+
+#: backoffice/templates/backoffice/_stay_card.html:53
+#: olhocao/templates/components/navbar.html:24
+#: olhocao/templates/components/navbar.html:131
+msgid "Services"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:14
+msgid "Start Date"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:22
+msgid "End Date"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:31
+msgid "Filter"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:34
+msgid "Today"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:43
+msgid "Previous"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:47
+msgid "Next"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:57
+msgid "Check-ins"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:62
+msgid "No check-ins"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:69
+msgid "Check-outs"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:74
+msgid "No check-outs"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:82
+#: hotel/templates/hotel/booking_list.html:31
+msgid "Active Stays"
+msgstr ""
+
+#: backoffice/templates/backoffice/dashboard.html:88
+msgid "No active stays"
+msgstr ""
+
+#: backoffice/templates/backoffice/legal_documents/edit.html:10
+msgid "Edit Legal Document"
+msgstr ""
+
+#: backoffice/templates/backoffice/legal_documents/edit.html:44
+msgid "Document Sections"
+msgstr ""
+
+#: backoffice/templates/backoffice/legal_documents/edit.html:49
+msgid "Add Section"
+msgstr ""
+
+#: backoffice/templates/backoffice/legal_documents/edit.html:92
+msgid "No sections added yet."
+msgstr ""
+
+#: backoffice/templates/backoffice/legal_documents/list.html:33
+#: pets/templates/pets/pet_detail.html:13 pets/templates/pets/pet_list.html:33
+msgid "Edit"
+msgstr ""
+
+#: backoffice/templates/backoffice/legal_documents/list.html:40
+msgid "No legal documents found."
+msgstr ""
+
+#: backoffice/views.py:68
+msgid "Legal document updated successfully"
+msgstr ""
+
+#: backoffice/views.py:86
+msgid "Section added successfully"
+msgstr ""
+
+#: backoffice/views.py:99
+msgid "Section updated successfully"
+msgstr ""
+
+#: backoffice/views.py:117
+msgid "Line item added successfully"
+msgstr ""
+
+#: backoffice/views.py:129
+msgid "Line item updated successfully"
+msgstr ""
+
+#: frontoffice/models.py:8 frontoffice/models.py:34
+msgid "Name"
+msgstr ""
+
+#: frontoffice/models.py:9
+msgid "Contact Subject Name"
+msgstr ""
+
+#: frontoffice/models.py:15
+msgid "Contact Subject Order"
+msgstr ""
+
+#: frontoffice/models.py:28
+#: frontoffice/templates/frontoffice/contact_us.html:61
+msgid "Subject"
+msgstr ""
+
+#: frontoffice/models.py:29
+msgid "Contact Subject"
+msgstr ""
+
+#: frontoffice/models.py:35
+#: frontoffice/templates/frontoffice/contact_us.html:77
+msgid "Your Name"
+msgstr ""
+
+#: frontoffice/models.py:40
+#: frontoffice/templates/frontoffice/contact_us.html:95
+msgid "Phone"
+msgstr ""
+
+#: frontoffice/models.py:41
+msgid "Your Phone"
+msgstr ""
+
+#: frontoffice/models.py:45
+#: frontoffice/templates/frontoffice/contact_us.html:111
+msgid "Email"
+msgstr ""
+
+#: frontoffice/models.py:46
+msgid "Your Email Account"
+msgstr ""
+
+#: frontoffice/models.py:50
+msgid "Message"
+msgstr ""
+
+#: frontoffice/models.py:51
+#: frontoffice/templates/frontoffice/contact_us.html:128
+msgid "Your Message"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:19
+msgid "Our Story"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:24
+msgid "Passion for dogs since 2022"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:35
+msgid "Olhó Cão History"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:38
+msgid ""
+"Founded on December 23, 2022, Olhó Cão is a dog training school focused on "
+"basic and advanced obedience, socialization, sports training, search and "
+"rescue, behavioral problem solving, and preparation for dog shows."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:39
+msgid ""
+"The center also offers dog hotel services, dog daycare (ATL), and through "
+"its brand LavóCão, provides bathing and grooming services."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:40
+msgid ""
+"Located in Azoia, the center offers excellent services primarily serving "
+"Leiria and Marinha Grande areas."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:41
+msgid ""
+"Suse Paixão and Luís Costa are the CEOs of the company, with Renato Vieira "
+"as the veterinary doctor responsible for the dogs' medical care and "
+"treatments."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:56
+msgid "Our Facility"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:57
+msgid "A safe and stimulating environment for your dogs"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:68
+msgid "Meet Our Trainers"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:71
+msgid "Passionate professionals dedicated to your dog's wellbeing"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:86
+#: frontoffice/templates/frontoffice/about_us.html:105
+msgid "Founder & CEO"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:87
+msgid ""
+"I'm passionate about working with dogs and nothing makes me happier than "
+"seeing owners and their dogs happy with achieved training goals."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:90
+msgid "Specializes in obedience training"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:106
+msgid ""
+"It's a privilege to be part of this project, seeing dogs and their owners "
+"overcome difficulties and enjoy a better relationship."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:109
+msgid "Specializes in behavioral training"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:124
+msgid "Trainer"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:125
+msgid ""
+"With a degree in sports, I love combining nature and physical activity with "
+"dogs. Helping families live in harmony is my goal."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:128
+msgid "Specializes in sports training"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/about_us.html:140
+msgid "Meet Our Team"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:25
+msgid "Come visit us"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:31
+msgid "Your pup's home away from home"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:42
+msgid "Send us a message"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:143
+msgid "Send Message"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:178
+msgid "Opening Hours"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:182
+msgid "Mon-Fri: 8AM - 8PM"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:186
+msgid "Sat: 9AM - 1PM"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:189
+msgid "Except Holidays"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:201
+msgid "Contact Us"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:226
+msgid "Amenities"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:230
+msgid "Pet friendly"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:234
+msgid "Free treats"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:238
+msgid "Play area"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:242
+msgid "Water bowls"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:246
+msgid "Pawdicures available"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:250
+msgid "Squirrel surveillance team"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:254
+msgid "Complimentary belly rubs"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:258
+msgid "Howl-friendly karaoke nights"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/contact_us.html:270
+msgid "Get Directions"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:19
+msgid "Trusted Since 2023"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:19
+msgid "500+ Happy Pups"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:26
+msgid "Dog Daycare & Training Premium Experience"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:33
+msgid "Our refined training methodology delivers"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:35
+msgid "exceptional results"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:38
+msgid "for dogs at every life stage"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:48
+msgid "Tailored Programs"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:49
+msgid "Customized training plans for your dog's unique personality"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:56
+msgid "Expert Guidance"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:57
+msgid "Certified trainers with 10+ years combined experience"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:64
+msgid "Proven Results"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:65
+#, python-format
+msgid "94%% of clients achieve their training goals"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:75
+msgid "Explore Our Methods"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:20
+msgid "Premium Care for Your Pets"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:26
+msgid "Tailored services for every need"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:37
+msgid "Pet Hotel"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:39
+msgid ""
+"Luxury accommodations for dogs and cats with 24/7 supervision, play areas, "
+"and personalized care."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:44
+msgid "Climate-controlled suites"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:48
+msgid "Daily exercise sessions"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:52
+msgid "Check your pet via WhatsApp"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:62
+msgid "Dog Daycare"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:64
+msgid "Certified training programs for pet professionals and enthusiasts."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:69
+msgid "Behavioral certification"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:73
+msgid "Safety protocols"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:77
+msgid "Professional development"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:87
+msgid "Home Training"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:89
+msgid "Personalized training sessions in the comfort of your home."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:94
+msgid "Basic obedience training"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:98
+msgid "Behavioral modification"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:102
+msgid "Puppy socialization"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:112
+msgid "Baths & Grooming"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:114
+msgid "Spa treatments to keep your pet looking and feeling their best."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:119
+msgid "Breed-specific haircuts"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:123
+msgid "Medicated baths"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:127
+msgid "Nail trimming & ear cleaning"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:137
+msgid "Training Programs"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:139
+msgid "Comprehensive training for all ages and skill levels."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:144
+msgid "Group obedience classes"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:148
+msgid "Agility training"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:152
+msgid "Therapy dog preparation"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:162
+msgid "Special Packages"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:164
+msgid "Bundle multiple services for discounted rates!"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:169
+msgid "Hotel + Training combo"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:173
+msgid "Monthly grooming memberships"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:177
+msgid "Multi-pet discounts"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/our_services.html:189
+msgid "Book an Hotel Stay!"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:14
+msgid "Happy Tails"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:19
+msgid "What pet parents say about our services"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:34
+#: frontoffice/templates/frontoffice/partials/testimonials.html:58
+#: frontoffice/templates/frontoffice/partials/testimonials.html:82
+msgid "Dog Owner"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:38
+msgid ""
+"I always receive excellent service and Shelby loves coming to the center. "
+"She is always learning new things. Whenever I can, we go to group classes."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:44
+#: frontoffice/templates/frontoffice/partials/testimonials.html:68
+#: frontoffice/templates/frontoffice/partials/testimonials.html:92
+msgid "Verified"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:62
+#, python-format
+msgid ""
+"I trust Olhó Cão because they've always been the best with Ghost; I trust "
+"them 100%%. They offer daycare, classes, everything with the trainers."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:86
+msgid ""
+"The training sessions are very comprehensive for people who aren't used to "
+"dealing with other dogs. I trust Olhó Cão because they have great "
+"professionals and achieve excellent results. It's worth trying because "
+"you'll love it for sure."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:111
+msgid "Dogs Cared"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:118
+msgid "Group Classes"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:125
+msgid "Certified Trainers"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:132
+msgid "Years of Experience"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/partials/testimonials.html:143
+msgid "Join Our Happy Pack"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/pricing.html:13
+#: olhocao/templates/components/navbar.html:36
+#: olhocao/templates/components/navbar.html:143
+msgid "Pricing"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/pricing.html:18
+msgid "Our exciting services you can trust"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/pricing.html:53
+msgid "Book Now"
+msgstr ""
+
+#: frontoffice/views.py:21 frontoffice/views.py:22
+msgid "OlhóCão having fun!"
+msgstr ""
+
+#: frontoffice/views.py:23
+msgid ""
+"OlhóCão is a wild park where your dog goes full zoomies, makes furry "
+"friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."
+msgstr ""
+
+#: frontoffice/views.py:25 frontoffice/views.py:33 frontoffice/views.py:41
+#: frontoffice/views.py:49
+msgid "Discover Our Services"
+msgstr ""
+
+#: frontoffice/views.py:29 frontoffice/views.py:30
+msgid "LavóCão so he smells nice!"
+msgstr ""
+
+#: frontoffice/views.py:31
+msgid ""
+"We wash, fluff, and de-funk your furry beast. LavóCão turns your stink "
+"monster into a soft, snuggly cloud that’s finally welcome on the couch again."
+msgstr ""
+
+#: frontoffice/views.py:37 frontoffice/views.py:38
+msgid "TreinóCão to be a good boy!"
+msgstr ""
+
+#: frontoffice/views.py:39
+msgid ""
+"From couch destroyer to polite pupper—TreinóCão teaches obedience, social "
+"skills, and how *not* to embarrass you at the park."
+msgstr ""
+
+#: frontoffice/views.py:45 frontoffice/views.py:46
+msgid "DeixóCão: we take care while you take off!"
+msgstr ""
+
+#: frontoffice/views.py:47
+msgid ""
+"Vacation time? DeixóCão is your dog's home away from home—with playtime, "
+"cuddles, and way too many treats. You relax, we handle the tail-wagging."
+msgstr ""
+
+#: frontoffice/views.py:55 frontoffice/views.py:56
+msgid "Trust in the best training"
+msgstr ""
+
+#: frontoffice/views.py:57
+msgid ""
+"Our pros have years of experience and Jedi-level dog-whispering skills. Your "
+"furry tornado is in safe hands."
+msgstr ""
+
+#: frontoffice/views.py:61 frontoffice/views.py:62
+msgid "Fun for everyone!"
+msgstr ""
+
+#: frontoffice/views.py:63
+msgid ""
+"It’s basically a theme park for dogs. Walks, jumps, races, tail chases, "
+"group zoomies—we've got it all. Humans might get jealous."
+msgstr ""
+
+#: frontoffice/views.py:67 frontoffice/views.py:68
+msgid "Socialization and cognitive development"
+msgstr ""
+
+#: frontoffice/views.py:69
+msgid ""
+"Shy pups? Overly excited bark machines? We help them mingle, grow brains, "
+"and maybe even learn not to eat your socks."
+msgstr ""
+
+#: frontoffice/views.py:73 frontoffice/views.py:74
+msgid "More comfort for the whole family"
+msgstr ""
+
+#: frontoffice/views.py:75
+msgid ""
+"No time? No car? No problem. We pick up and drop off your pup, all clean and "
+"happy. It’s like Uber, but fluffier."
+msgstr ""
+
+#: frontoffice/views.py:79 frontoffice/views.py:80
+msgid "Tailored for your dog’s needs"
+msgstr ""
+
+#: frontoffice/views.py:81
+msgid ""
+"Big or small, shy or hyper—we customize the fun. Your dog’s happiness "
+"program is designed like a 5-star dogcation."
+msgstr ""
+
+#: frontoffice/views.py:135
+msgid "Thank you! Your message has been sent."
+msgstr ""
+
+#: hotel/models.py:19 hotel/models.py:213
+msgid "Pending"
+msgstr ""
+
+#: hotel/models.py:20
+msgid "Cancelled"
+msgstr ""
+
+#: hotel/models.py:21
+msgid "Paid"
+msgstr ""
+
+#: hotel/models.py:83
+msgid "Booking"
+msgstr ""
+
+#: hotel/models.py:135
+msgid "Daily Service"
+msgstr ""
+
+#: hotel/models.py:136
+msgid "Timed Service"
+msgstr ""
+
+#: hotel/models.py:137
+msgid "Fixed Service"
+msgstr ""
+
+#: hotel/models.py:214
+msgid "Completed"
+msgstr ""
+
+#: hotel/models.py:215
+msgid "Failed"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:14
+#: hotel/templates/hotel/booking_success.html:24
+msgid "Booking Details"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:26
+msgid "Completed stay"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:28
+msgid "Currently active"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:30
+msgid "Upcoming stay"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:43
+#: hotel/templates/hotel/booking_detail.html:257
+#: hotel/templates/hotel/partials/booking_card.html:54
+msgid "Complete Payment"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:51
+msgid "Back to my Hotel Bookings"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:66
+msgid "Pets"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:91
+#: hotel/templates/hotel/booking_review.html:62
+msgid "Dates"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:95
+#: hotel/templates/hotel/booking_review.html:65
+#: hotel/templates/hotel/booking_stay_service_list.html:71
+msgid "Check-in"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:99
+#: hotel/templates/hotel/booking_review.html:69
+#: hotel/templates/hotel/booking_stay_service_list.html:75
+msgid "Check-out"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:103
+msgid "Total days"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:119
+msgid "Price Summary"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:123
+msgid "Base price"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:136
+#: hotel/templates/hotel/booking_review.html:129
+msgid "Total"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:154
+msgid "Stays"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:197
+msgid "Additional Services"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:207
+msgid "Daily service"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:211
+#: hotel/templates/hotel/booking_stay_service_list.html:134
+msgid "One-time service"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:235
+msgid "Payment Status"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:240
+msgid "Paid on"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:244
+msgid "Amount"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:251
+msgid "This booking requires payment confirmation"
+msgstr ""
+
+#: hotel/templates/hotel/booking_detail.html:264
+msgid "Payment Unavailable"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:10
+msgid "My Hotel Bookings"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:17
+msgid "Filter by status"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:25
+msgid "All Bookings"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:28
+msgid "Needs Payment"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:34
+msgid "Upcoming Stays"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:37
+msgid "Past Stays"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:87
+msgid "No bookings found"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:91
+msgid "You don't have any bookings with this status"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:93
+msgid "You haven't made any bookings yet"
+msgstr ""
+
+#: hotel/templates/hotel/booking_list.html:98
+msgid "View all bookings"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:13
+msgid "Payment Needed"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:18
+msgid "We couldn't confirm your payment yet"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:27
+msgid "Booking #"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:31
+msgid "Possible Reasons"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:35
+msgid "Payment is still processing (may take a few minutes)"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:39
+msgid "Payment authorization failed"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:43
+msgid "Network issue during verification"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:50
+msgid "Total Amount"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:56
+#: hotel/templates/hotel/booking_success.html:35
+msgid "Status"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:58
+msgid "Pending Payment"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:66
+msgid "Important"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:69
+msgid ""
+"Your booking is reserved for 30 minutes. Complete payment to confirm your "
+"spot."
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:78
+msgid "Retry Payment Now"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:82
+msgid "View in my Bookings"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:88
+msgid "Need help with your payment?"
+msgstr ""
+
+#: hotel/templates/hotel/booking_retry.html:91
+msgid "Contact Support"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:14
+msgid "Review Your Booking"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:19
+msgid "Please verify all details before confirmation"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:28
+#: hotel/templates/hotel/booking_stay_list.html:29
+#: hotel/templates/hotel/booking_stay_service_list.html:29
+msgid "Select Stay"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:32
+#: hotel/templates/hotel/booking_stay_list.html:33
+#: hotel/templates/hotel/booking_stay_service_list.html:13
+#: hotel/templates/hotel/booking_stay_service_list.html:33
+msgid "Add Services"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:36
+#: hotel/templates/hotel/booking_stay_list.html:37
+#: hotel/templates/hotel/booking_stay_service_list.html:37
+msgid "Review & Pay"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:44
+#: hotel/templates/hotel/booking_stay_service_list.html:68
+msgid "Stay Details"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:49
+#: hotel/templates/hotel/booking_review.html:170
+msgid "Accommodation"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:56
+msgid "per day"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:73
+#: hotel/templates/hotel/booking_stay_service_list.html:79
+msgid "Duration"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:74
+#: hotel/templates/hotel/booking_stay_service_list.html:80
+#: hotel/templates/hotel/booking_stay_service_list.html:140
+msgid "day"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:80
+msgid "Pets Staying"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:104
+msgid "Selected Services"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:126
+#: hotel/templates/hotel/booking_stay_service_list.html:99
+msgid "Service"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:127
+#: hotel/templates/hotel/booking_stay_service_list.html:100
+msgid "Price"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:128
+msgid "Qty"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:146
+#: hotel/templates/hotel/booking_review.html:153
+msgid "No additional services selected"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:162
+msgid "Pricing Summary"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:172
+#: hotel/templates/hotel/partials/booking_card.html:42
+msgid "days"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:172
+msgid "pets"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:190
+msgid "Grand Total"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:205
+msgid "Payment & Confirmation"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:209
+msgid "Special Requests"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:210
+msgid "Any special instructions for our team?"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:218
+msgid "I agree to the"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:218
+msgid "Terms & Conditions"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:221
+msgid "and"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:229
+msgid "Back to Services"
+msgstr ""
+
+#: hotel/templates/hotel/booking_review.html:232
+msgid "Confirm & Pay Now"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:13
+msgid "Book a Stay"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:18
+msgid "Choose accommodation for your pet"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:45
+msgid "Select Accommodation"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:61
+msgid "Per day"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:72
+msgid "Select Your Pet"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:79
+msgid "Select all pets"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:108
+msgid "You don't have any pets registered yet."
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:110
+msgid "Add a pet"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:121
+msgid "Select Dates"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:127
+msgid "Check-in Date"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:135
+msgid "Check-out Date"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_list.html:148
+msgid "Continue to Services"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:18
+msgid "Customize services for each pet"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:45
+msgid "Your Booking Summary"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:50
+msgid "Selected Pets"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:91
+msgid "Available Services"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:125
+#, python-format
+msgid ""
+"\n"
+"                                            Daily Service (max 1 day)\n"
+"                                            "
+msgid_plural ""
+"\n"
+"                                            Daily Service (max %(days)s "
+"days)\n"
+"                                        "
+msgstr[0] ""
+msgstr[1] ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:132
+msgid "Specific time service"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:168
+msgid "Daily services can be booked up to once per day of stay."
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:169
+msgid "Other services can be booked up to the max duration of stay."
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:175
+msgid "No additional services available at this time."
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:184
+msgid "Back to Stay Selection"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:187
+msgid "Review Booking"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:257
+msgid "You can book this up to once per day of your stay"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:259
+msgid "This service is scheduled for a specific time"
+msgstr ""
+
+#: hotel/templates/hotel/booking_stay_service_list.html:261
+msgid "One-time service (max 1 per stay)"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:14
+msgid "Booking Confirmed!"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:18
+msgid "Thank you for your reservation. We're excited to care for your pets!"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:29
+msgid "Booking Reference"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:37
+msgid "Confirmed"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:43
+msgid "What's Next?"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:47
+msgid "You'll receive a confirmation email shortly"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:51
+msgid "Our team will contact you if we need additional information"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:55
+msgid "See you on"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:61
+msgid "View in your Hotel Bookings"
+msgstr ""
+
+#: hotel/templates/hotel/booking_success.html:71
+msgid "Create Another Booking"
+msgstr ""
+
+#: hotel/templates/hotel/partials/booking_card.html:59
+msgid "View Details"
+msgstr ""
+
+#: olhocao/settings.py:186
+msgid "English"
+msgstr ""
+
+#: olhocao/settings.py:187
+msgid "Portuguese"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:16
+msgid "Find Us"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:25
+msgid "Open Monday-Friday: 9AM-6PM"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:35
+msgid "Our Partners"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:41
+msgid "Our Veterinary"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:47
+msgid "Material and Accessories"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:53
+msgid "Dog Breeder"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:66
+msgid "Connect With Us"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:109
+msgid "All rights reserved"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:112
+msgid "Developed with"
+msgstr ""
+
+#: olhocao/templates/components/footer.html:114
+msgid "by"
+msgstr ""
+
+#: olhocao/templates/components/messages.html:35
+msgid "Close"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:18
+#: olhocao/templates/components/navbar.html:125
+msgid "Book Hotel"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:30
+#: olhocao/templates/components/navbar.html:137
+msgid "Contact"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:42
+#: olhocao/templates/components/navbar.html:149
+msgid "About"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:77
+#: olhocao/templates/components/navbar.html:164
+msgid "Manage Account"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:84
+#: olhocao/templates/components/navbar.html:168
+msgid "Manage Pets"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:88
+#: olhocao/templates/components/navbar.html:172
+msgid "View Hotel Bookings"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:98
+#: olhocao/templates/components/navbar.html:176
+msgid "Logout"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:158
+msgid "My Account"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:191
+msgid "Change Language"
+msgstr ""
+
+#: pets/models.py:30 pets/models.py:77
+msgid "name"
+msgstr ""
+
+#: pets/models.py:31
+msgid "The species name of the pet"
+msgstr ""
+
+#: pets/models.py:36
+msgid "is active"
+msgstr ""
+
+#: pets/models.py:37
+msgid "Whether the pet species is active in the system or not"
+msgstr ""
+
+#: pets/models.py:44 pets/models.py:45
+msgid "Pet Species"
+msgstr ""
+
+#: pets/models.py:54
+msgid "species"
+msgstr ""
+
+#: pets/models.py:55
+msgid "The species of the pet"
+msgstr ""
+
+#: pets/models.py:61
+msgid "breed"
+msgstr ""
+
+#: pets/models.py:62
+msgid "The breed of the pet"
+msgstr ""
+
+#: pets/models.py:68
+msgid "male"
+msgstr ""
+
+#: pets/models.py:69
+msgid "female"
+msgstr ""
+
+#: pets/models.py:71
+msgid "gender"
+msgstr ""
+
+#: pets/models.py:72
+msgid "The gender of the pet"
+msgstr ""
+
+#: pets/models.py:78
+msgid "The name of the pet"
+msgstr ""
+
+#: pets/models.py:82
+msgid "birthdate"
+msgstr ""
+
+#: pets/models.py:83
+msgid "The birthdate of the pet"
+msgstr ""
+
+#: pets/models.py:91
+msgid "weight (kg)"
+msgstr ""
+
+#: pets/models.py:92
+msgid "The weight of the pet in kilograms"
+msgstr ""
+
+#: pets/models.py:100
+msgid "weight (cm)"
+msgstr ""
+
+#: pets/models.py:101
+msgid "The weight of the pet in centimeters"
+msgstr ""
+
+#: pets/models.py:107
+msgid "microchip number"
+msgstr ""
+
+#: pets/models.py:108
+msgid "The microchip number of the pet"
+msgstr ""
+
+#: pets/models.py:114
+msgid "photo"
+msgstr ""
+
+#: pets/models.py:115
+msgid "The photo of the pet"
+msgstr ""
+
+#: pets/models.py:120
+msgid "is sterilized"
+msgstr ""
+
+#: pets/models.py:121
+msgid "Whether the pet is sterilized or not"
+msgstr ""
+
+#: pets/models.py:126
+msgid "is vaccinated"
+msgstr ""
+
+#: pets/models.py:127
+msgid "Whether the pet is vaccinated or not"
+msgstr ""
+
+#: pets/models.py:132
+msgid "is allergic"
+msgstr ""
+
+#: pets/models.py:133
+msgid "Whether the pet is allergic or not"
+msgstr ""
+
+#: pets/models.py:138
+msgid "is medicated"
+msgstr ""
+
+#: pets/models.py:139
+msgid "Whether the pet is medicated or not"
+msgstr ""
+
+#: pets/models.py:144
+msgid "medication"
+msgstr ""
+
+#: pets/models.py:145
+msgid "Medication of the pet"
+msgstr ""
+
+#: pets/models.py:150
+msgid "allergies"
+msgstr ""
+
+#: pets/models.py:151
+msgid "Allergies of the pet"
+msgstr ""
+
+#: pets/models.py:156
+msgid "notes"
+msgstr ""
+
+#: pets/models.py:157
+msgid "Additional notes about the pet"
+msgstr ""
+
+#: pets/models.py:165
+msgid "owner"
+msgstr ""
+
+#: pets/models.py:166
+msgid "The owner of the pet"
+msgstr ""
+
+#: pets/models.py:171
+msgid "created at"
+msgstr ""
+
+#: pets/models.py:172
+msgid "The date and time when the pet was created"
+msgstr ""
+
+#: pets/models.py:177
+msgid "updated at"
+msgstr ""
+
+#: pets/models.py:178
+msgid "The date and time when the pet was last updated"
+msgstr ""
+
+#: pets/models.py:184
+msgid "deleted at"
+msgstr ""
+
+#: pets/models.py:185
+msgid "The date and time when the pet was deleted"
+msgstr ""
+
+#: pets/models.py:197
+#, python-format
+msgid "%d weeks old"
+msgstr ""
+
+#: pets/models.py:204
+#, python-format
+msgid "%d months old"
+msgstr ""
+
+#: pets/models.py:209
+#, python-format
+msgid "%d years old"
+msgstr ""
+
+#: pets/templates/pets/pet_confirm_delete.html:6
+msgid "Delete Pet"
+msgstr ""
+
+#: pets/templates/pets/pet_confirm_delete.html:12
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: pets/templates/pets/pet_confirm_delete.html:18
+#: pets/templates/pets/pet_form.html:62
+msgid "Cancel"
+msgstr ""
+
+#: pets/templates/pets/pet_confirm_delete.html:21
+#: pets/templates/pets/pet_detail.html:16 pets/templates/pets/pet_list.html:36
+msgid "Delete"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:29
+msgid "Basic Info"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:31
+msgid "Birthdate:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:32
+msgid "Weight:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:33
+msgid "Microchip:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:38
+msgid "Health Info"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:40
+msgid "Sterilized:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:41
+msgid "Vaccinated:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:42
+msgid "Allergies:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:43
+msgid "Medication:"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:50
+msgid "Notes"
+msgstr ""
+
+#: pets/templates/pets/pet_detail.html:57
+msgid "Back to My Pets"
+msgstr ""
+
+#: pets/templates/pets/pet_form.html:9
+msgid "Edit Pet"
+msgstr ""
+
+#: pets/templates/pets/pet_form.html:9
+msgid "Add New Pet"
+msgstr ""
+
+#: pets/templates/pets/pet_form.html:32
+msgid "Remove photo"
+msgstr ""
+
+#: pets/templates/pets/pet_form.html:65 pets/templates/pets/pet_list.html:9
+msgid "Add Pet"
+msgstr ""
+
+#: pets/templates/pets/pet_list.html:7
+msgid "My Pets"
+msgstr ""
+
+#: pets/templates/pets/pet_list.html:30
+msgid "View"
+msgstr ""
+
+#: pets/templates/pets/pet_list.html:43
+msgid "You haven't added any pets yet."
+msgstr ""
+
+#: pets/templates/pets/pet_list.html:45
+msgid "Add Your First Pet"
+msgstr ""

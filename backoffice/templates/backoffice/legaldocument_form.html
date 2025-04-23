@@ -1,0 +1,604 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block content %}
+<section class="relative py-12 bg-gradient-to-b from-primary-50 to-white">
+  <div class="container mx-auto px-4 max-w-5xl">
+    <!-- Form Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-serif font-bold text-primary-900 mb-3">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500">
+          {% if object %}{% trans "Edit Legal Document" %}{% else %}{% trans "Create Legal Document" %}{% endif %}
+        </span>
+      </h1>
+      <p class="text-lg text-primary-600 font-sans">
+        {% trans "Manage your legal documents and policies" %}
+      </p>
+    </div>
+
+    <!-- Main Form -->
+    <form method="post" id="legalDocumentForm" class="bg-white rounded-xl shadow-lg overflow-hidden">
+      {% csrf_token %}
+      
+      <!-- Display non-field errors -->
+      {% if doc_form.non_field_errors %}
+      <div class="p-4 bg-red-50 border-l-4 border-red-500">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            {% include "icons/exclamation_triangle.html" with class="h-5 w-5 text-red-500" %}
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">
+              {% trans "There were errors with your submission" %}
+            </h3>
+            <div class="mt-2 text-sm text-red-700">
+              {{ doc_form.non_field_errors }}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Document Details Card -->
+      <div class="p-8 border-b border-primary-100">
+        <h2 class="text-2xl font-serif font-bold text-primary-800 mb-6 flex items-center">
+          {% include "icons/document.html" with class="w-6 h-6 mr-3 text-accent-500" %}
+          {% trans "Document Details" %}
+        </h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Document Type -->
+          <div class="form-group">
+            <label for="{{ doc_form.doc_type.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.doc_type.label }}
+            </label>
+            <div class="relative">
+              {{ doc_form.doc_type|add_class:"appearance-none block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans bg-white pr-10" }}
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                {% include "icons/chevron_down.html" with class="w-5 h-5 text-primary-400" %}
+              </div>
+            </div>
+            {% if doc_form.doc_type.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.doc_type.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+          
+          <!-- Effective Date -->
+          <div class="form-group">
+            <label for="{{ doc_form.effective_date.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.effective_date.label }}
+            </label>
+            <div class="relative">
+              {{ doc_form.effective_date }}
+              {% comment %}
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                {% include "icons/calendar.html" with class="w-5 h-5 text-primary-400" %}
+              </div>
+              {% endcomment %}
+            </div>
+            {% if doc_form.effective_date.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.effective_date.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+          
+          <!-- Document Title -->
+          <div class="form-group md:col-span-2">
+            <label for="{{ doc_form.title.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.title.label }}
+            </label>
+            {{ doc_form.title|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+            {% if doc_form.title.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.title.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sections Card -->
+      <div class="p-8">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-serif font-bold text-primary-800 flex items-center">
+            {% include "icons/list_bullet.html" with class="w-6 h-6 mr-3 text-accent-500" %}
+            {% trans "Document Sections" %}
+          </h2>
+          <button type="button" id="add-section-btn" 
+                  class="flex items-center px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white font-sans rounded-lg transition-colors duration-200">
+            {% include "icons/plus.html" with class="w-5 h-5 mr-1" %}
+            {% trans "Add Section" %}
+          </button>
+        </div>
+        
+        <!-- Display section formset errors -->
+        {% if section_formset.non_form_errors %}
+        <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              {% include "icons/exclamation_triangle.html" with class="h-5 w-5 text-red-500" %}
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">
+                {% trans "Section errors" %}
+              </h3>
+              <div class="mt-2 text-sm text-red-700">
+                {{ section_formset.non_form_errors }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        
+        <!-- Sections Container -->
+        <div id="section-container" class="space-y-6">
+          {{ section_formset.management_form }}
+          
+          <!-- Empty Form Template (hidden) -->
+          <div id="empty-section-form" class="hidden">
+            {{ section_formset.empty_form|safe }}
+          </div>
+          
+          <!-- Existing Sections -->
+          {% for section_form in section_formset.forms %}
+          <div class="section bg-primary-50 border border-primary-200 rounded-lg overflow-hidden" data-section-index="{{ forloop.counter0 }}">
+            <div class="section-header bg-primary-100 px-6 py-4 flex justify-between items-center cursor-move">
+              <div class="flex items-center">
+                <span class="drag-handle mr-3 text-primary-500 hover:text-primary-700">
+                  {% include "icons/drag_handle.html" with class="w-5 h-5" %}
+                </span>
+                <h3 class="font-serif font-medium text-primary-800">
+                  {% trans "Section" %} <span class="section-number">{{ forloop.counter }}</span>
+                </h3>
+              </div>
+              <button type="button" class="remove-section-btn text-sm font-sans text-secondary-600 hover:text-secondary-700 flex items-center">
+                {% include "icons/trash.html" with class="w-4 h-4 mr-1" %}
+                {% trans "Remove" %}
+              </button>
+            </div>
+            
+            <div class="section-body p-6">
+              <div class="grid gap-6">
+                <!-- Hidden Fields -->
+                {{ section_form.id }}
+                {{ section_form.order }}
+                
+                <!-- Title Field -->
+                <div class="form-group">
+                  <label for="{{ section_form.title.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+                    {{ section_form.title.label }}
+                  </label>
+                  {{ section_form.title|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+                  {% if section_form.title.errors %}
+                  <p class="mt-1 text-sm text-red-600">{{ section_form.title.errors|join:", " }}</p>
+                  {% endif %}
+                </div>
+                
+                <!-- Line Items -->
+                <div class="line-items-container">
+                  <div class="flex justify-between items-center mb-4">
+                    <h4 class="font-serif font-medium text-primary-800 flex items-center">
+                      {% include "icons/list_bullet.html" with class="w-5 h-5 mr-2 text-accent-500" %}
+                      {% trans "Clauses" %}
+                    </h4>
+                    <button type="button" class="add-lineitem-btn text-sm font-sans text-accent-600 hover:text-accent-700 flex items-center">
+                      {% include "icons/plus.html" with class="w-4 h-4 mr-1" %}
+                      {% trans "Add Clause" %}
+                    </button>
+                  </div>
+                  
+                  <!-- Display line item formset errors -->
+                  {% with section_form.instance.id as section_id %}
+                    {% for lineitem_formset in lineitem_formsets %}
+                      {% if lineitem_formset.instance.id == section_id %}
+
+                        {% if lineitem_formset.non_form_errors %}
+                        <div class="mb-4 p-4 bg-red-50 border-l-4 border-red-500">
+                          <div class="flex">
+                            <div class="flex-shrink-0">
+                              {% include "icons/exclamation_triangle.html" with class="h-5 w-5 text-red-500" %}
+                            </div>
+                            <div class="ml-3">
+                              <h3 class="text-sm font-medium text-red-800">
+                                {% trans "Clause errors" %}
+                              </h3>
+                              <div class="mt-2 text-sm text-red-700">
+                                {{ lineitem_formset.non_form_errors }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endwith %}
+                  
+                  <div class="line-items space-y-4" data-section-index="{{ forloop.counter0 }}">
+                    {% with section_form.instance.id as section_id %}
+                      {% for lineitem_formset in lineitem_formsets %}
+                        {% if lineitem_formset.instance.id == section_id %}
+                          {{ lineitem_formset.management_form }}
+                          {% for form in lineitem_formset.forms %}
+                          <div class="lineitem bg-white border border-primary-100 rounded-lg p-4 shadow-xs flex items-start">
+                            <span class="drag-handle mr-3 mt-3 text-primary-400 hover:text-primary-600 cursor-move">
+                              {% include "icons/drag_handle.html" with class="w-4 h-4" %}
+                            </span>
+                            <div class="flex-grow">
+                              <!-- Hidden Fields -->
+                              {{ form.id }}
+                              {{ form.order }}
+                              
+                              <!-- Text Field -->
+                              <div class="form-group">
+                                <label for="{{ form.text.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+                                  {{ form.text.label }}
+                                </label>
+                                {{ form.text|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+                                {% if form.text.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.text.errors|join:", " }}</p>
+                                {% endif %}
+                              </div>
+                            </div>
+                            <button type="button" class="remove-lineitem-btn ml-4 mt-3 text-secondary-600 hover:text-secondary-700">
+                              {% include "icons/x_mark.html" with class="w-5 h-5" %}
+                            </button>
+                          </div>
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endwith %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <!-- Form Actions -->
+      <div class="bg-primary-50 px-8 py-6 flex justify-between border-t border-primary-100">
+        <a href="{% url 'backoffice:legal_documents' %}" 
+           class="px-6 py-3 border border-primary-300 text-primary-700 font-sans rounded-lg hover:bg-primary-100 transition-colors duration-200 flex items-center">
+          {% include "icons/arrow_left.html" with class="w-5 h-5 mr-2" %}
+          {% trans "Cancel" %}
+        </a>
+        <button type="submit" 
+                class="px-8 py-3 bg-secondary-500 hover:bg-secondary-600 text-white font-sans rounded-lg transition-colors duration-200 flex items-center">
+          {% include "icons/floppy_disk.html" with class="w-5 h-5 mr-2" %}
+          {% trans "Save Document" %}
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize variables
+    const sectionContainer = document.getElementById('section-container');
+    const addSectionBtn = document.getElementById('add-section-btn');
+    const totalForms = document.getElementById('id_sections-TOTAL_FORMS');
+    
+    // Get the empty form template from Django's formset
+    const emptySectionForm = document.getElementById('empty-section-form').innerHTML;
+    
+    // Initialize Sortable for sections
+    new Sortable(sectionContainer, {
+      handle: '.drag-handle',
+      animation: 150,
+      onEnd: function() {
+        updateSectionIndices();
+      }
+    });
+    
+    // Initialize Sortable for line items in existing sections
+    document.querySelectorAll('.line-items').forEach(container => {
+      new Sortable(container, {
+        handle: '.drag-handle',
+        animation: 150,
+        onEnd: function() {
+          updateLineItemIndices(container.dataset.sectionIndex);
+        }
+      });
+    });
+    
+    // Add new section
+    addSectionBtn.addEventListener('click', function() {
+      const newIndex = parseInt(totalForms.value);
+      
+      // Create new section from template
+      const newSection = createNewSection(newIndex);
+      
+      // Add to container
+      sectionContainer.appendChild(newSection);
+      totalForms.value = newIndex + 1;
+      
+      // Initialize Sortable for new section's line items
+      const lineItemsContainer = newSection.querySelector('.line-items');
+      if (lineItemsContainer) {
+        new Sortable(lineItemsContainer, {
+          handle: '.drag-handle',
+          animation: 150,
+          onEnd: function() {
+            updateLineItemIndices(newIndex);
+          }
+        });
+      }
+      
+      // Add event listeners for new section
+      addSectionEventListeners(newSection);
+    });
+    
+    // Function to create a new section from scratch (not using empty form)
+    function createNewSection(index) {
+      const sectionDiv = document.createElement('div');
+      sectionDiv.className = 'section bg-primary-50 border border-primary-200 rounded-lg overflow-hidden';
+      sectionDiv.dataset.sectionIndex = index;
+      
+      sectionDiv.innerHTML = `
+        <div class="section-header bg-primary-100 px-6 py-4 flex justify-between items-center cursor-move">
+          <div class="flex items-center">
+            <span class="drag-handle mr-3 text-primary-500 hover:text-primary-700">
+              {% include "icons/drag_handle.html" with class="w-5 h-5" %}
+            </span>
+            <h3 class="font-serif font-medium text-primary-800">
+              {% trans "Section" %} <span class="section-number">${index + 1}</span>
+            </h3>
+          </div>
+          <button type="button" class="remove-section-btn text-sm font-sans text-secondary-600 hover:text-secondary-700 flex items-center">
+            {% include "icons/trash.html" with class="w-4 h-4 mr-1" %}
+            {% trans "Remove" %}
+          </button>
+        </div>
+        
+        <div class="section-body p-6">
+          <div class="grid gap-6">
+            <!-- Hidden Fields -->
+            <input type="hidden" name="sections-${index}-id" id="id_sections-${index}-id">
+            <input type="hidden" name="sections-${index}-order" id="id_sections-${index}-order" value="${index}">
+            <input type="hidden" name="sections-${index}-DELETE" id="id_sections-${index}-DELETE" value="">
+
+            <!-- Title Field -->
+            <div class="form-group">
+              <label for="id_sections-${index}-title" class="block font-sans font-medium text-primary-700 mb-2">
+                {% trans "Section Title" %}
+              </label>
+              <input type="text" name="sections-${index}-title" id="id_sections-${index}-title" 
+                     class="block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans">
+              <div class="error-message mt-1 text-sm text-red-600 hidden"></div>
+            </div>
+            
+            <!-- Line Items -->
+            <div class="line-items-container">
+              <div class="flex justify-between items-center mb-4">
+                <h4 class="font-serif font-medium text-primary-800 flex items-center">
+                  {% include "icons/list_bullet.html" with class="w-5 h-5 mr-2 text-accent-500" %}
+                  {% trans "Clauses" %}
+                </h4>
+                <button type="button" class="add-lineitem-btn text-sm font-sans text-accent-600 hover:text-accent-700 flex items-center">
+                  {% include "icons/plus.html" with class="w-4 h-4 mr-1" %}
+                  {% trans "Add Clause" %}
+                </button>
+              </div>
+              
+              <div class="line-items space-y-4" data-section-index="${index}">
+                <!-- Management form for line items -->
+                <input type="hidden" name="lineitems-${index}-TOTAL_FORMS" value="0" id="id_lineitems-${index}-TOTAL_FORMS">
+                <input type="hidden" name="lineitems-${index}-INITIAL_FORMS" value="0" id="id_lineitems-${index}-INITIAL_FORMS">
+                <input type="hidden" name="lineitems-${index}-MIN_NUM_FORMS" value="0" id="id_lineitems-${index}-MIN_NUM_FORMS">
+                <input type="hidden" name="lineitems-${index}-MAX_NUM_FORMS" value="1000" id="id_lineitems-${index}-MAX_NUM_FORMS">
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      return sectionDiv;
+    }
+    
+    // Add event listeners to all existing sections
+    document.querySelectorAll('.section').forEach(section => {
+      addSectionEventListeners(section);
+    });
+    
+    // Function to add event listeners to a section
+    function addSectionEventListeners(section) {
+      const sectionIndex = section.dataset.sectionIndex;
+      const lineItemsContainer = section.querySelector('.line-items');
+      const addLineItemBtn = section.querySelector('.add-lineitem-btn');
+      const removeSectionBtn = section.querySelector('.remove-section-btn');
+      
+      // Add line item
+      addLineItemBtn.addEventListener('click', function() {
+        const lineItemPrefix = `lineitems-${sectionIndex}`;
+        const totalLineItems = document.getElementById(`id_${lineItemPrefix}-TOTAL_FORMS`);
+        const newIndex = totalLineItems ? parseInt(totalLineItems.value) : 0;
+        
+        // Create new line item
+        const lineItemDiv = document.createElement('div');
+        lineItemDiv.className = 'lineitem bg-white border border-primary-100 rounded-lg p-4 shadow-xs flex items-start';
+        lineItemDiv.innerHTML = `
+          <span class="drag-handle mr-3 mt-3 text-primary-400 hover:text-primary-600 cursor-move">
+            {% include "icons/drag_handle.html" with class="w-4 h-4" %}
+          </span>
+          <div class="flex-grow">
+            <input type="hidden" name="${lineItemPrefix}-${newIndex}-id" id="id_${lineItemPrefix}-${newIndex}-id">
+            <input type="hidden" name="${lineItemPrefix}-${newIndex}-order" id="id_${lineItemPrefix}-${newIndex}-order" value="${newIndex}">
+            <input type="hidden" name="${lineItemPrefix}-${newIndex}-DELETE" id="id_${lineItemPrefix}-${newIndex}-DELETE" value="${newIndex}">
+            <div class="form-group">
+              <label for="id_${lineItemPrefix}-${newIndex}-text" class="block font-sans font-medium text-primary-700 mb-2">
+                {% trans "Text" %}
+              </label>
+              <textarea rows="3" name="${lineItemPrefix}-${newIndex}-text" id="id_${lineItemPrefix}-${newIndex}-text" 
+                        class="block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans"></textarea>
+              <div class="error-message mt-1 text-sm text-red-600 hidden"></div>
+            </div>
+          </div>
+          <button type="button" class="remove-lineitem-btn ml-4 mt-3 text-secondary-600 hover:text-secondary-700">
+            {% include "icons/x_mark.html" with class="w-5 h-5" %}
+          </button>
+        `;
+        
+        lineItemsContainer.appendChild(lineItemDiv);
+        
+        // Update line items count
+        if (totalLineItems) {
+          totalLineItems.value = newIndex + 1;
+        }
+      });
+    }
+    
+    // Function to update section indices after reordering
+    function updateSectionIndices() {
+      const sections = sectionContainer.querySelectorAll('.section');
+      
+      sections.forEach((section, index) => {
+        // Update section number display
+        section.querySelector('.section-number').textContent = index + 1;
+        
+        // Update section form fields
+        section.querySelectorAll('[name]').forEach(field => {
+          const name = field.name.replace(/sections-\d+-/, `sections-${index}-`);
+          field.name = name;
+          if (field.id) field.id = `id_${name}`;
+        });
+        
+        // Update order field
+        const orderField = section.querySelector('[name$="-order"]');
+        if (orderField) orderField.value = index;
+        
+        // Update line items to reference new section index
+        const lineItemsContainer = section.querySelector('.line-items');
+        if (lineItemsContainer) {
+          lineItemsContainer.dataset.sectionIndex = index;
+          
+          const lineItemPrefix = `lineitems-${index}`;
+          const lineItems = lineItemsContainer.querySelectorAll('.lineitem');
+          
+          // Update line items management form
+          const totalLineItems = document.getElementById(`id_${lineItemPrefix}-TOTAL_FORMS`);
+          if (totalLineItems) totalLineItems.value = lineItems.length;
+          
+          // Update each line item
+          lineItems.forEach((lineItem, lineIndex) => {
+            lineItem.querySelectorAll('[name]').forEach(field => {
+              const name = field.name.replace(/lineitems-\d+-\d+-/, `lineitems-${index}-${lineIndex}-`);
+              field.name = name;
+              if (field.id) field.id = `id_${name}`;
+            });
+            
+            // Update order field
+            const lineItemOrder = lineItem.querySelector('[name$="-order"]');
+            if (lineItemOrder) lineItemOrder.value = lineIndex;
+          });
+        }
+      });
+      
+      // Update total forms count
+      totalForms.value = sections.length;
+    }
+    
+    // Function to handle section removal
+    function removeSection(section) {
+      const sectionIndex = section.dataset.sectionIndex;
+      const sectionIdField = section.querySelector('[name$="-id"]');
+      
+      // If this is an existing section (has an ID), mark it for deletion
+      if (sectionIdField && sectionIdField.value) {
+        let deleteField = section.querySelector('[name$="-DELETE"]');
+        
+        // Create or update DELETE field
+        if (!deleteField) {
+          deleteField = document.createElement('input');
+          deleteField.type = 'hidden';
+          deleteField.name = sectionIdField.name.replace('-id', '-DELETE');
+          section.appendChild(deleteField);
+        }
+        
+        deleteField.value = 'on';
+        section.style.display = 'none'; // Hide instead of removing
+      } else {
+        // If it's a new section, just remove it
+        section.remove();
+      }
+      
+      updateSectionIndices();
+    }
+
+    // Function to update line item indices after reordering
+    function updateLineItemIndices(sectionIndex) {
+      const section = document.querySelector(`.section[data-section-index="${sectionIndex}"]`);
+      if (!section) return;
+      
+      const lineItemsContainer = section.querySelector('.line-items');
+      if (!lineItemsContainer) return;
+      
+      const lineItems = lineItemsContainer.querySelectorAll('.lineitem');
+      const lineItemPrefix = `lineitems-${sectionIndex}`;
+      
+      lineItems.forEach((lineItem, lineIndex) => {
+        lineItem.querySelectorAll('[name]').forEach(field => {
+          const name = field.name.replace(/lineitems-\d+-\d+-/, `lineitems-${sectionIndex}-${lineIndex}-`);
+          field.name = name;
+          if (field.id) field.id = `id_${name}`;
+        });
+        
+        // Update order field
+        const orderField = lineItem.querySelector('[name$="-order"]');
+        if (orderField) orderField.value = lineIndex;
+      });
+      
+      // Update line items count
+      const totalLineItems = document.getElementById(`id_${lineItemPrefix}-TOTAL_FORMS`);
+      if (totalLineItems) totalLineItems.value = lineItems.length;
+    }
+
+    // Function to handle line item removal
+    function removeLineItem(lineItem) {
+      const section = lineItem.closest('.section');
+      const sectionIndex = section.dataset.sectionIndex;
+
+      const lineItemIdField = lineItem.querySelector('[name$="-id"]');
+      
+      // If this is an existing line item (has an ID), mark it for deletion
+      if (lineItemIdField && lineItemIdField.value) {
+        // Create or update DELETE field
+        let deleteField = lineItem.querySelector('[name$="-DELETE"]');
+        
+        if (!deleteField) {
+          deleteField = document.createElement('input');
+          deleteField.type = 'hidden';
+          deleteField.name = lineItemIdField.name.replace('-id', '-DELETE');
+          lineItem.appendChild(deleteField);
+        }
+        deleteField.value = 'on';
+        lineItem.style.display = 'none'; // Hide instead of removing
+      } else {
+        // If it's a new line item, just remove it
+        lineItem.remove();
+      }
+      
+      updateLineItemIndices(sectionIndex);
+    }
+    
+    // Event delegation for dynamically added remove buttons
+    document.addEventListener('click', function(e) {
+      // Handle section removal
+      if (e.target.closest('.remove-section-btn')) {
+        const section = e.target.closest('.section');
+        removeSection(section);
+      }
+      
+      // Handle line item removal
+      if (e.target.closest('.remove-lineitem-btn')) {
+        const lineItem = e.target.closest('.lineitem');
+        removeLineItem(lineItem);
+      }
+
+    });
+  });
+</script>
+{% endblock %}

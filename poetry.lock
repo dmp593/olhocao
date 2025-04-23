@@ -197,6 +197,25 @@ asgiref = ">=3.6"
 django = ">=4.2"
 
 [[package]]
+name = "django-dump-die"
+version = "0.1.7"
+description = "A Django app to add Laravel/Symfony-like dump and die functionality."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "django-dump-die-0.1.7.tar.gz", hash = "sha256:48468d6618346cbf5ff56de58b491695427eb8d0e9545db5a95465a0be74301a"},
+    {file = "django_dump_die-0.1.7-py3-none-any.whl", hash = "sha256:37f5c62d9b1d950ed8fdb17d420b78b90f54f8a4aabe93b973f5b7daa3e6892e"},
+]
+
+[package.dependencies]
+django = ">=3.2.0"
+
+[package.extras]
+dev = ["black", "coverage", "pylint", "pylint-django"]
+doc = ["doc8", "esbonio", "pip-tools", "rstcheck", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme"]
+
+[[package]]
 name = "django-environ"
 version = "0.12.0"
 description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
@@ -376,4 +395,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4"
-content-hash = "9bfb9e3a58b3084a31937d1658f12d76c1f79cd2186ccf2c5acd36a9f780d547"
+content-hash = "bbc74c249ca337e03448f55a7214b19bb49e6f8cd6223c1e0380edd703435a54"

@@ -432,6 +432,18 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
         )
 
         if booking.status == models.BookingStatus.PAID:
+            if not booking.toconline_sale_document_id:
+                sale_document_id = toconline.create(
+                    TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
+                    {
+                        'document_type': 'FR',
+                        'customer_business_name': booking.account.user.get_full_name()
+                    }
+                )
+
+                booking.toconline_sale_document_id = sale_document_id
+                booking.save()
+
             return redirect('hotel:booking_success', booking_id=booking.id)
 
         session_id = request.GET.get('session_id')

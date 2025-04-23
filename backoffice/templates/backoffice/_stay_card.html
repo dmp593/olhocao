@@ -1,36 +1,69 @@
 {% load i18n %}
 
 <div class="bg-white p-4 rounded-lg shadow mb-4">
-    <div class="flex justify-between items-start mb-2">
-        <h3 class="font-semibold">{{ stay.booking }} - {{ stay.stay_name }}</h3>
-        <span class="text-sm text-gray-600">
-            {{ stay.start_date|date:"M d" }} - {{ stay.end_date|date:"M d" }}
-        </span>
+    <div class="flex items-start gap-4">
+        {% if stay.pet.photo %}
+        <img src="{{ stay.pet.photo.url }}" 
+             alt="{{ stay.pet.name }}"
+             class="w-16 h-16 rounded-full object-cover border-2 border-accent-200">
+        {% else %}
+        <div class="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center">🐾</div>
+        {% endif %}
+        
+        <div class="flex-1">
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <h3 class="font-semibold">{{ stay.booking }} - {{ stay.stay_name }}</h3>
+                    <p class="text-sm text-primary-600">
+                        {{ stay.start_date|date:"M d" }} - {{ stay.end_date|date:"M d" }}
+                    </p>
+                </div>
+                <span class="text-sm font-medium text-accent-600">
+                    €{{ stay.total_price_eur }}
+                </span>
+            </div>
+            
+            <div class="flex gap-2 items-center mb-2">
+                <a href="{% url 'pets:detail' stay.pet.pk %}" target="_blank" 
+                   class="text-accent-600 hover:text-accent-700 font-medium">
+                    {{ stay.pet.name }}
+                </a>
+                <div class="flex gap-1">
+                    {% if stay.pet.is_medicated %}
+                    <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">
+                        💊 {% trans "Medicated" %}
+                    </span>
+                    {% endif %}
+                    {% if stay.pet.is_allergic %}
+                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
+                        ⚠️ {% trans "Allergies" %}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if stay.booking.notes %}
+            <div class="mt-2 text-sm text-primary-700">
+                <strong>{% trans "Booking Notes" %}:</strong> {{ stay.booking.notes }}
+            </div>
+            {% endif %}
+
+            {% if stay.services.exists %}
+            <div class="mt-2 text-sm">
+                <strong>{% trans "Services" %}:</strong>
+                <ul class="list-disc pl-5">
+                    {% for service in stay.services.all %}
+                    <li>
+                        {{ service.service_name }} 
+                        {% comment %}
+                        <span class="text-primary-600">({{ service.service_type }})</span>
+                        {% endcomment %}
+                        {% if service.quantity > 1 %}<span class="text-secondary"> x {{ service.quantity }}</span>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
     </div>
-    <p class="text-sm mb-2">
-        <a href="{% url 'pets:detail' stay.pet.pk %}" target="_blank" 
-           class="text-accent-600 hover:text-accent-700">
-            {{ stay.pet.name }}
-        </a>
-    </p>
-    {% if stay.booking.notes %}
-        <div class="mt-2 text-sm text-gray-700">
-            <strong>{% trans "Booking Notes" %}:</strong> {{ stay.booking.notes }}
-        </div>
-    {% endif %}
-    {% if stay.notes %}
-        <div class="mt-2 text-sm text-gray-700">
-            <strong>{% trans "Stay Notes" %}:</strong> {{ stay.notes }}
-        </div>
-    {% endif %}
-    {% if stay.services.exists %}
-        <div class="mt-2 text-sm">
-            <strong>{% trans "Services" %}:</strong>
-            <ul class="list-disc pl-5">
-                {% for service in stay.services.all %}
-                    <li>{{ service.service_name }} x {{ service.quantity }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
 </div>

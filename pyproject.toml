@@ -19,6 +19,7 @@ dependencies = [
     "stripe (>=12.0.0,<13.0.0)",
     "deepl (>=1.21.1,<2.0.0)",
     "cachetools (>=5.5.2,<6.0.0)",
+    "django-dump-die (>=0.1.7,<0.2.0)",
 ]
 
 

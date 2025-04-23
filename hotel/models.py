@@ -31,7 +31,13 @@ class Booking(models.Model):
     )
 
     stripe_session_id = models.CharField(
-        max_length=100, blank=True
+        max_length=100,
+        blank=True
+    )
+
+    toconline_sale_document_id = models.CharField(
+        max_length=100,
+        blank=True
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -74,7 +80,7 @@ class Booking(models.Model):
                 all(stay.start_date > now for stay in self.stays.all()))
 
     def __str__(self):
-        return f"Booking #{self.pk}"
+        return _("Booking") + f" #{self.pk}"
 
 
 class BookingStay(models.Model):

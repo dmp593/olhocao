@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-serif font-bold text-primary-900">{% trans "Legal Documents" %}</h1>
+    <a href="{% url 'backoffice:legal_document_create' %}" 
+       class="px-6 py-3 bg-secondary-500 hover:bg-secondary-600 text-white font-sans rounded-lg transition-colors duration-200">
+      {% trans "Add New Legal Document" %}
+    </a>
+  </div>
+
+  {% if legal_documents %}
+    <div class="space-y-6">
+      {% for document in legal_documents %}
+      <div class="bg-primary-50 border border-primary-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
+        <div class="flex justify-between items-start">
+          <div>
+            <h2 class="text-xl font-serif font-semibold text-primary-900">{{ document.get_doc_type_display }}</h2>
+            {% if document.title %}
+            <p class="font-sans text-primary-700 mt-1">{{ document.title }}</p>
+            {% endif %}
+          </div>
+          <div class="text-sm font-sans text-primary-500">
+            <span class="font-medium">{% trans "Effective since" %}:</span> {{ document.effective_date|date:"F j, Y" }}
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-primary-100">
+          <div class="flex items-center space-x-4">
+            <span class="text-sm font-sans text-primary-600">
+              <span class="font-medium">{% trans "Last Updated" %}:</span> {{ document.updated_at|date:"F j, Y" }}
+            </span>
+            <a href="{% url 'backoffice:legal_document_update' document.pk %}" class="text-sm font-sans text-accent-600 hover:text-accent-700 font-medium">
+              {% trans "Edit" %}
+            </a>
+            <a href="#" class="text-sm font-sans text-secondary-600 hover:text-secondary-700 font-medium">
+              {% trans "Remove" %}
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="bg-primary-50 border border-primary-200 rounded-lg p-8 text-center">
+      <p class="font-sans text-primary-600">{% trans "No legal documents available." %}</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

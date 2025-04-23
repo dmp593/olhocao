@@ -93,7 +93,7 @@ XS_SHARING_ALLOWED_METHODS = ['HEAD', 'GET', 'OPTIONS',]
 INSTALLED_APPS = [
     # 3rd party apps that need to be before Django apps
     'modeltranslation',
-
+    
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -104,6 +104,7 @@ INSTALLED_APPS = [
 
     # 3rd party apps,
     'django_browser_reload',
+    'django_dump_die',
 
     # local apps
     'accounts',
@@ -115,6 +116,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django_dump_die.middleware.DumpAndDieMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
