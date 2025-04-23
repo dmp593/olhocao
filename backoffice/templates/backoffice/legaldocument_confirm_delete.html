@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section class="relative py-12 bg-gradient-to-b from-primary-50 to-white">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden p-8">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-serif font-bold text-primary-900 mb-2">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500">
+            {% trans "Delete Legal Document" %}
+          </span>
+        </h1>
+        <p class="text-lg text-red-600 font-sans">
+          {% trans "Are you sure you want to permanently delete this document?" %}
+        </p>
+      </div>
+
+      <!-- Document Details -->
+      <div class="mb-8 text-center">
+        <h2 class="text-xl font-serif font-semibold text-primary-800 mb-4">
+          "{{ object.title }}"
+        </h2>
+        <p class="text-primary-600">
+          {% trans "Document Type" %}: {{ object.get_doc_type_display }}
+        </p>
+        <p class="text-primary-600">
+          {% trans "Effective Date" %}: {{ object.effective_date|date:"DATE_FORMAT" }}
+        </p>
+      </div>
+
+      <!-- Form -->
+      <form method="post" class="text-center">
+        {% csrf_token %}
+        
+        <!-- Error Display -->
+        {% if form.non_field_errors %}
+        <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              {% include "icons/exclamation_circle.html" with class="h-5 w-5 text-red-500" %}
+            </div>
+            <div class="ml-3">
+              <div class="mt-2 text-sm text-red-700">
+                {{ form.non_field_errors }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4 mt-10">
+          <a href="{% url 'backoffice:legal_documents' %}" 
+             class="px-6 py-3 border border-primary-300 text-primary-700 rounded-lg hover:bg-primary-50 transition-colors duration-200">
+            {% trans "Cancel" %}
+          </a>
+          <button type="submit" 
+                  class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200">
+            {% trans "Confirm Delete" %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- Add any required scripts here -->
+{% endblock %}

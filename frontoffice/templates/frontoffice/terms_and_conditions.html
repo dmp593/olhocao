@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section id="terms" class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+    <!-- Background elements -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-paws bg-repeat bg-[length:150px_150px]"></div>
+    <div class="absolute -top-20 left-1/4 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower"></div>
+    <div class="absolute -bottom-20 right-1/4 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower animate__delay-2s"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <!-- Section header with animated elements -->
+        <div class="text-center mb-16 animate__animated animate__fadeIn">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">📜</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
+                    {% if object.title %}{{ object.title }}{% else %}{% trans "Terms and Conditions" %}{% endif %}
+                </span>
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">📜</span>
+            </h1>
+            <p class="text-xl text-primary-600 max-w-3xl mx-auto relative inline-block">
+                {% trans "Effective Date: " %}{{ object.effective_date|date:"F j, Y" }}
+                <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
+            </p>
+        </div>
+
+        <!-- Content Section -->
+        <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 animate__animated animate__fadeInUp">
+            {% if object %}
+                <article class="prose prose-lg text-primary-700 max-w-none">
+                    {% for section in object.sections.all %}
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center">
+                                <span class="inline-block w-4 h-4 rounded-full bg-accent-500 mr-3"></span>
+                                {{ section.title }}
+                            </h2>
+                            
+                            <ul class="space-y-4">
+                                {% for item in section.items.all %}
+                                    <li class="flex items-start">
+                                        <span class="inline-block mt-1 mr-3 text-accent-500">{% include "icons/chevron_right.html" with class="w-4 h-4" %}</span>
+                                        <span class="text-primary-700">{{ item.text }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </article>
+            {% else %}
+                <div class="text-center py-12">
+                    <div class="inline-block p-4 bg-primary-100 rounded-full mb-4">
+                        {% include "icons/document_text.html" with class="w-12 h-12 text-primary-500" %}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-800 mb-2">{% trans "No Terms Available" %}</h3>
+                    <p class="text-primary-600">{% trans "We're currently updating our terms and conditions. Please check back later." %}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-16 text-center animate__animated animate__fadeIn">
+            <a href="{% url 'frontoffice:contact_us' %}" 
+               class="inline-flex items-center px-6 py-3 bg-primary-500 text-white font-medium rounded-full hover:bg-primary-600 transition-colors duration-300 shadow-lg hover:shadow-xl group">
+                {% include "icons/question_mark_circle.html" with class="w-5 h-5 mr-2 text-white" %}
+                <span>{% trans "Have Questions?" %}</span>
+                <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

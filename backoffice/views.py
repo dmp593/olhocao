@@ -1,9 +1,10 @@
 from datetime import timedelta
-from django.utils.dateparse import parse_date
-from django.views.generic import TemplateView
-from django.utils import timezone
-from django.views.generic import ListView
+
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.utils.dateparse import parse_date
+from django.views.generic import TemplateView, ListView, DeleteView
+from django.utils import timezone
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,15 +12,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from hotel.models import BookingStay
 
 from .models import LegalDocument
-from .forms import LegalDocumentForm
 
 from .forms import (
     LegalDocumentForm,
     create_section_formset,
     create_lineitem_formset,
 )
-
-from .models import LegalDocument, LegalDocumentSection
 
 
 class DashboardView(TemplateView):
@@ -64,7 +62,7 @@ class DashboardView(TemplateView):
 
 
 class LegalDocumentListView(ListView):
-    model = LegalDocument
+    queryset = LegalDocument.objects.filter(deleted_at__isnull=True).all()
     context_object_name = 'legal_documents'
 
 
@@ -73,15 +71,21 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
     success_url = reverse_lazy('backoffice:legal_documents')
 
     def get(self, request, pk=None):
-        doc_form = LegalDocumentForm(
-            instance=get_object_or_404(LegalDocument, pk=pk) if pk else None
-        )
+        legal_doc = None
 
-        SectionFormSet = create_section_formset(extra=0 if pk else 1)
-        LineItemFormSet = create_lineitem_formset(extra=0 if pk else 1)
+        if pk:
+            try:
+                legal_doc = LegalDocument.objects_active.get(pk=pk)
+            except LegalDocument.DoesNotExist:
+                return redirect('backoffice:legal_document_create')
+        
+        doc_form = LegalDocumentForm(instance=legal_doc)
+
+        SectionFormSet = create_section_formset()
+        LineItemFormSet = create_lineitem_formset()
 
         section_formset = SectionFormSet(
-            instance=doc_form.instance,
+            instance=legal_doc,
             prefix='sections'
         )
 
@@ -94,17 +98,28 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
         ]
 
         return render(request, self.template_name, {
-            'object': doc_form.instance,
+            'object': legal_doc,
             'doc_form': doc_form,
             'section_formset': section_formset,
             'lineitem_formsets': lineitem_formsets,
         })
 
     def post(self, request, pk=None):
-        doc_form = LegalDocumentForm(
-            request.POST,
-            instance=get_object_or_404(LegalDocument, pk=pk) if pk else None
-        )
+        legal_doc = None
+
+        if pk:
+            try:
+                legal_doc = LegalDocument.objects_active.get(pk=pk)
+            except LegalDocument.DoesNotExist:
+                
+                messages.error(
+                    self.request,
+                    _('Legal document not found.')
+                )
+
+                return redirect('backoffice:legal_documents')
+        
+        doc_form = LegalDocumentForm(request.POST, instance=legal_doc)
 
         SectionFormSet = create_section_formset()
         LineItemFormSet = create_lineitem_formset()
@@ -144,3 +159,21 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
         )
 
         return redirect(self.success_url)
+
+
+class LegalDocumentDeleteView(DeleteView):
+    queryset = LegalDocument.objects.all()
+    success_url = reverse_lazy('backoffice:legal_documents')
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        
+        self.object.deleted_at = timezone.now()
+        self.object.save()
+
+        messages.success(
+            self.request,
+            _('Legal Document deleted.')
+        )
+
+        return HttpResponseRedirect(success_url)

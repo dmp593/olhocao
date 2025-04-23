@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from olhocao import managers
+
 
 class LegalDocument(models.Model):
     class DocumentType(models.TextChoices):
@@ -39,6 +41,9 @@ class LegalDocument(models.Model):
         verbose_name=_('Deleted At'),
         help_text=_('Marks this document as deleted/deprecated.')
     )
+
+    objects = managers.Manager()
+    objects_active = managers.Manager(deleted_at__isnull=True)
 
     def __str__(self):
         if self.title:

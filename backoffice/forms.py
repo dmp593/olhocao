@@ -1,11 +1,14 @@
 from django import forms
-from django.forms import modelformset_factory, inlineformset_factory
+from django.forms import inlineformset_factory
+
 from .models import (
     LegalDocument, LegalDocumentSection, LegalDocumentSectionLineItem
 )
 
+from modeltranslation.forms import TranslationModelForm
 
-class LegalDocumentForm(forms.ModelForm):
+
+class LegalDocumentForm(TranslationModelForm):
     class Meta:
         model = LegalDocument
         fields = ["doc_type", "title", "effective_date"]
@@ -19,7 +22,7 @@ class LegalDocumentForm(forms.ModelForm):
             ),
         }
 
-class LegalDocumentSectionForm(forms.ModelForm):
+class LegalDocumentSectionForm(TranslationModelForm):
     class Meta:
         model = LegalDocumentSection
         fields = ["title", "order"]
@@ -28,7 +31,7 @@ class LegalDocumentSectionForm(forms.ModelForm):
         }
 
 
-class LegalDocumentSectionLineItemForm(forms.ModelForm):
+class LegalDocumentSectionLineItemForm(TranslationModelForm):
     class Meta:
         model = LegalDocumentSectionLineItem
         fields = ["text", "order"]

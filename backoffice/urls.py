@@ -29,5 +29,11 @@ urlpatterns = [
         'legal-documents/<int:pk>/edit/',
         views.LegalDocumentCreateOrUpdateView.as_view(),
         name='legal_document_update'
+    ),
+
+    path(
+        'legal-documents/<int:pk>/delete/',
+        views.LegalDocumentDeleteView.as_view(),
+        name='legal_document_delete'
     )
 ]

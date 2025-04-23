@@ -1,9 +1,11 @@
+from typing import Any
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView
-from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic import TemplateView, FormView, DetailView
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
+from django.utils.timezone import now
 
+from backoffice.models import LegalDocument
 from olhocao.deepl import trans
 from olhocao.toconline import toconline, TocOnlineResource
 
@@ -134,3 +136,29 @@ class ContactUsView(FormView):
         form.save()
         messages.success(self.request, _("Thank you! Your message has been sent."))
         return super().form_valid(form)
+
+
+class LegalDocumentDetailView(TemplateView):
+    doc_type: LegalDocument.DocumentType
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        where = {
+            'doc_type': self.doc_type,
+            'effective_date__lte': now().today(),
+        }
+
+        context["object"] = LegalDocument.objects_active.filter(**where).first()
+
+        return context
+
+
+class TermsAndConditionsView(LegalDocumentDetailView):
+    template_name = 'frontoffice/terms_and_conditions.html'
+    doc_type = LegalDocument.DocumentType.TERMS
+
+
+class PrivacyPolicyView(LegalDocumentDetailView):
+    template_name = 'frontoffice/privacy_policy.html'
+    doc_type = LegalDocument.DocumentType.PRIVACY

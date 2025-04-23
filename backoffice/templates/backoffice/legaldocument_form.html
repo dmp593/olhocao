@@ -274,7 +274,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     // Initialize variables
@@ -427,7 +427,7 @@
           <div class="flex-grow">
             <input type="hidden" name="${lineItemPrefix}-${newIndex}-id" id="id_${lineItemPrefix}-${newIndex}-id">
             <input type="hidden" name="${lineItemPrefix}-${newIndex}-order" id="id_${lineItemPrefix}-${newIndex}-order" value="${newIndex}">
-            <input type="hidden" name="${lineItemPrefix}-${newIndex}-DELETE" id="id_${lineItemPrefix}-${newIndex}-DELETE" value="${newIndex}">
+            <input type="hidden" name="${lineItemPrefix}-${newIndex}-DELETE" id="id_${lineItemPrefix}-${newIndex}-DELETE" value="">
             <div class="form-group">
               <label for="id_${lineItemPrefix}-${newIndex}-text" class="block font-sans font-medium text-primary-700 mb-2">
                 {% trans "Text" %}
