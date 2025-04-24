@@ -19,7 +19,7 @@ from django.contrib.auth.views import (
 )
 
 
-from olhocao.toconline import toconline
+from olhocao.toconline import toconline, TocOnlineResource
 
 from accounts.forms import UserChangeForm
 from accounts.models import Account
@@ -30,11 +30,6 @@ def signup_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             toconline.authenticate()
-
-            # TODO
-            # if toconline customer exists, fetch id from email...
-            # else create customer in toconline
-
             user = form.save()
             Account(user=user).save()
             login(request, user)
@@ -52,6 +47,82 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=...):
         return self.request.user
+
+    def get_initial(self):
+        user = self.get_object()
+        data = super().get_initial()
+
+        if user.account and user.account.has_toconline_customer:
+            toconline_customer = user.account.toconline_customer
+
+            data['vat'] = toconline_customer['attributes']['tax_registration_number']
+            data['phone'] = toconline_customer['attributes']['mobile_number']
+
+        return data
+
+    def form_valid(self, form):
+        self.object = form.save()
+        toconline_customer = None
+
+        if not self.object.account.has_toconline_customer:
+            toconline_customer = toconline.first(
+                TocOnlineResource.CUSTOMERS,
+                tax_registration_number=form.cleaned_data['vat']
+            )
+
+            if not toconline_customer:
+                toconline_customer = toconline.first(
+                    TocOnlineResource.CUSTOMERS,
+                    email=self.object.email
+                )
+
+            if not toconline_customer:
+                toconline_customer = toconline.first(
+                    TocOnlineResource.CUSTOMERS,
+                    mobile_number=form.cleaned_data['phone']
+                )
+
+            if not toconline_customer:
+                toconline_customer = toconline.first(
+                    TocOnlineResource.CUSTOMERS,
+                    phone_number=form.cleaned_data['phone']
+                )
+
+            if not toconline_customer:
+                toconline_customer = toconline.create(
+                    TocOnlineResource.CUSTOMERS,
+                    business_name=self.object.get_full_name(),
+                    contact_name=self.object.get_full_name(),
+                    email=self.object.email,
+                    mobile_number=form.cleaned_data['phone'],
+                    internal_observations='Created by olhocao.pt',
+                    tax_registration_number=form.cleaned_data['vat']
+                )
+            else:
+                toconline.update(
+                    TocOnlineResource.CUSTOMERS,
+                    pk=toconline_customer['id'],
+                    business_name=self.object.get_full_name(),
+                    contact_name=self.object.get_full_name(),
+                    email=self.object.email,
+                    mobile_number=form.cleaned_data['phone'],
+                    tax_registration_number=form.cleaned_data['vat']
+                )
+
+            self.object.account.toconline_customer_id = toconline_customer['id']
+            self.object.account.save()
+        else:
+            toconline.update(
+                TocOnlineResource.CUSTOMERS,
+                pk=self.object.account.toconline_customer_id,
+                business_name=self.object.get_full_name(),
+                contact_name=self.object.get_full_name(),
+                email=self.object.email,
+                mobile_number=form.cleaned_data['phone'],
+                tax_registration_number=form.cleaned_data['vat']
+            )
+
+        return super().form_valid(form)
 
 
 class UserChangeDoneView(LoginRequiredMixin, TemplateView):

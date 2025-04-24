@@ -82,15 +82,44 @@
             <p class="mt-1 text-sm text-red-600">{{ doc_form.effective_date.errors|join:", " }}</p>
             {% endif %}
           </div>
-          
-          <!-- Document Title -->
+
+          <!-- Name -->
           <div class="form-group md:col-span-2">
-            <label for="{{ doc_form.title.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
-              {{ doc_form.title.label }}
+            <label for="{{ doc_form.name_pt.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.name_pt.label }}
             </label>
-            {{ doc_form.title|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
-            {% if doc_form.title.errors %}
-            <p class="mt-1 text-sm text-red-600">{{ doc_form.title.errors|join:", " }}</p>
+            {{ doc_form.name_pt|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+            {% if doc_form.name_pt.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.name_pt.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+          <div class="form-group md:col-span-2">
+            <label for="{{ doc_form.name_en.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.name_en.label }}
+            </label>
+            {{ doc_form.name_en|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+            {% if doc_form.name_en.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.name_en.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Heading -->
+          <div class="form-group md:col-span-2">
+            <label for="{{ doc_form.heading_pt.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.heading_pt.label }}
+            </label>
+            {{ doc_form.heading_pt|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+            {% if doc_form.heading_pt.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.heading_pt.errors|join:", " }}</p>
+            {% endif %}
+          </div>
+          <div class="form-group md:col-span-2">
+            <label for="{{ doc_form.heading_en.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+              {{ doc_form.heading_en.label }}
+            </label>
+            {{ doc_form.heading_en|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+            {% if doc_form.heading_en.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ doc_form.heading_en.errors|join:", " }}</p>
             {% endif %}
           </div>
         </div>
@@ -164,12 +193,21 @@
                 
                 <!-- Title Field -->
                 <div class="form-group">
-                  <label for="{{ section_form.title.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
-                    {{ section_form.title.label }}
+                  <label for="{{ section_form.title_pt.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+                    {{ section_form.title_pt.label }}
                   </label>
-                  {{ section_form.title|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
-                  {% if section_form.title.errors %}
-                  <p class="mt-1 text-sm text-red-600">{{ section_form.title.errors|join:", " }}</p>
+                  {{ section_form.title_pt|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+                  {% if section_form.title_pt.errors %}
+                  <p class="mt-1 text-sm text-red-600">{{ section_form.title_pt.errors|join:", " }}</p>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ section_form.title_en.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+                    {{ section_form.title_en.label }}
+                  </label>
+                  {{ section_form.title_en|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+                  {% if section_form.title_en.errors %}
+                  <p class="mt-1 text-sm text-red-600">{{ section_form.title_en.errors|join:", " }}</p>
                   {% endif %}
                 </div>
                 
@@ -229,12 +267,21 @@
                               
                               <!-- Text Field -->
                               <div class="form-group">
-                                <label for="{{ form.text.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
-                                  {{ form.text.label }}
+                                <label for="{{ form.text_pt.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+                                  {{ form.text_pt.label }}
                                 </label>
-                                {{ form.text|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
-                                {% if form.text.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.text.errors|join:", " }}</p>
+                                {{ form.text_pt|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+                                {% if form.text_pt.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.text_pt.errors|join:", " }}</p>
+                                {% endif %}
+                              </div>
+                              <div class="form-group mt-4">
+                                <label for="{{ form.text_en.id_for_label }}" class="block font-sans font-medium text-primary-700 mb-2">
+                                  {{ form.text_en.label }}
+                                </label>
+                                {{ form.text_en|add_class:"block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans" }}
+                                {% if form.text_en.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.text_en.errors|join:", " }}</p>
                                 {% endif %}
                               </div>
                             </div>
@@ -363,10 +410,18 @@
 
             <!-- Title Field -->
             <div class="form-group">
-              <label for="id_sections-${index}-title" class="block font-sans font-medium text-primary-700 mb-2">
-                {% trans "Section Title" %}
+              <label for="id_sections-${index}-title_pt" class="block font-sans font-medium text-primary-700 mb-2">
+                {% trans "Section Title" %} [pt]
               </label>
-              <input type="text" name="sections-${index}-title" id="id_sections-${index}-title" 
+              <input type="text" name="sections-${index}-title_pt" id="id_sections-${index}-title_pt" 
+                     class="block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans">
+              <div class="error-message mt-1 text-sm text-red-600 hidden"></div>
+            </div>
+            <div class="form-group">
+              <label for="id_sections-${index}-title_en" class="block font-sans font-medium text-primary-700 mb-2">
+                {% trans "Section Title" %} [en]
+              </label>
+              <input type="text" name="sections-${index}-title_en" id="id_sections-${index}-title_en" 
                      class="block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans">
               <div class="error-message mt-1 text-sm text-red-600 hidden"></div>
             </div>
@@ -429,10 +484,18 @@
             <input type="hidden" name="${lineItemPrefix}-${newIndex}-order" id="id_${lineItemPrefix}-${newIndex}-order" value="${newIndex}">
             <input type="hidden" name="${lineItemPrefix}-${newIndex}-DELETE" id="id_${lineItemPrefix}-${newIndex}-DELETE" value="">
             <div class="form-group">
-              <label for="id_${lineItemPrefix}-${newIndex}-text" class="block font-sans font-medium text-primary-700 mb-2">
-                {% trans "Text" %}
+              <label for="id_${lineItemPrefix}-${newIndex}-text_pt" class="block font-sans font-medium text-primary-700 mb-2">
+                {% trans "Text" %} [pt]
               </label>
-              <textarea rows="3" name="${lineItemPrefix}-${newIndex}-text" id="id_${lineItemPrefix}-${newIndex}-text" 
+              <textarea rows="3" name="${lineItemPrefix}-${newIndex}-text_pt" id="id_${lineItemPrefix}-${newIndex}-text_pt" 
+                        class="block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans"></textarea>
+              <div class="error-message mt-1 text-sm text-red-600 hidden"></div>
+            </div>
+            <div class="form-group">
+              <label for="id_${lineItemPrefix}-${newIndex}-text_en" class="block font-sans font-medium text-primary-700 mb-2">
+                {% trans "Text" %} [en]
+              </label>
+              <textarea rows="3" name="${lineItemPrefix}-${newIndex}-text_en" id="id_${lineItemPrefix}-${newIndex}-text_en" 
                         class="block w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent font-sans"></textarea>
               <div class="error-message mt-1 text-sm text-red-600 hidden"></div>
             </div>

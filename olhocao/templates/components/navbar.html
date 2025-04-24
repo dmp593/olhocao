@@ -72,13 +72,16 @@
                     
                     <!-- Dropdown Menu -->
                     <div id="user-menu" class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-1 hidden z-50">
-                        <a href="{% url 'accounts:user_change' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
-                            {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-2" %}
-                            {% trans "Manage Account" %}
-                        </a>
                         {% if user.is_staff %}
-                        
-                        {% endif %}
+                        <a href="{% url 'backoffice:dashboard' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/dashboard.html" with class="w-4 h-4 mr-2" %}
+                            {% trans "Dashboard" %}
+                        </a>
+                        <a href="{% url 'backoffice:legal_documents' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/license.html" with class="w-4 h-4 mr-3" %}
+                            {% trans "Legal Documents" %}
+                        </a>
+                        {% else %}
                         <a href="{% url 'pets:list' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
                             {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
                             {% trans "Manage Pets" %}
@@ -86,6 +89,11 @@
                         <a href="{% url 'hotel:booking_list' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
                             {% include "icons/pet_hotel.html" with class="w-4 h-4 mr-3" %}
                             {% trans "View Hotel Bookings" %}
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'accounts:user_change' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-2" %}
+                            {% trans "Manage Account" %}
                         </a>
                         <a href="{% url 'accounts:password_change' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
                             {% include "icons/key.html" with class="w-4 h-4 mr-2" %}
@@ -111,13 +119,13 @@
 
             <!-- Mobile Menu Button with animated paw -->
             <button id="mobile-menu-button" class="md:hidden p-3 rounded-lg transition-all duration-300 group" data-target="mobile-menu" data-target-close-on-outside-click="true">
-                {% include "icons/dog_tag_military.html" with class="w-6 h-6 text-accent-500" %}
+                {% include "icons/dog_tag_military.html" with class="size-10 text-accent" %}
             </button>
         </div>
     </div>
 
     <!-- Mobile Menu with gradient background -->
-    <div id="mobile-menu" class="md:hidden hidden bg-gradient-to-b from-white to-primary-200 shadow-xl">
+    <div id="mobile-menu" class="md:hidden hidden fixed inset-x-0 top-20 bottom-0 bg-gradient-to-b from-white to-primary-200 shadow-xl overflow-y-auto overscroll-contain">
         <div class="px-4 pt-2 pb-6">
             <a href="{% url 'hotel:booking_stay' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
                 <span class="flex items-center text-secondary">
@@ -159,17 +167,32 @@
                     </span>
                 </div>
                 <div class="pl-12">
-                    <a href="{% url 'accounts:user_change' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
-                        {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-3" %}
-                        {% trans "Manage Account" %}
+                    {% if user.is_staff %}
+                    <a href="{% url 'backoffice:dashboard' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/dashboard.html" with class="w-4 h-4 mr-2" %}
+                        {% trans "Dashboard" %}
                     </a>
+                    <a href="{% url 'backoffice:legal_documents' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/license.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Legal Documents" %}
+                    </a>
+                    {% else %}
                     <a href="{% url 'pets:list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
-                        {% include "icons/pets.html" with class="w-4 h-4 mr-3" %}
+                        {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
                         {% trans "Manage Pets" %}
                     </a>
                     <a href="{% url 'hotel:booking_list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
                         {% include "icons/pet_hotel.html" with class="w-4 h-4 mr-3" %}
                         {% trans "View Hotel Bookings" %}
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'accounts:user_change' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Manage Account" %}
+                    </a>
+                    <a href="{% url 'accounts:password_change' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Change Password" %}
                     </a>
                     <a href="{% url 'accounts:logout' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
                         {% include "icons/logout.html" with class="w-4 h-4 mr-3" %}
@@ -180,7 +203,7 @@
             
             <!-- Mobile Language Toggle -->
             <div class="pt-4 border-t border-white/10">
-                <button id="mobile-language-toggle" class="flex items-center font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 w-full">
+                <button id="mobile-language-toggle" class="flex items-center font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 w-full cursor-pointer">
                     <span class="mr-3">
                         {% if request.LANGUAGE_CODE == 'en' %}
                             <img src="{% static 'flags/pt.png' %}" alt="Portuguese" class="w-8 h-8 rounded-full border-2 border-white/30">
@@ -188,7 +211,7 @@
                             <img src="{% static 'flags/uk.png' %}" alt="English" class="w-8 h-8 rounded-full border-2 border-white/30">
                         {% endif %}
                     </span>
-                    {% trans "Change Language" %}
+                    {% trans "Switch Language" %}
                 </button>
             </div>
         </div>

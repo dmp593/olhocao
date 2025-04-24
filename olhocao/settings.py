@@ -185,15 +185,15 @@ LOGOUT_REDIRECT_URL = '/accounts/logout/'
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGES = [
-    ("en-GB", _("English")),
-    ("pt-PT", _("Portuguese")),
+    ("en", _("English")),
+    ("pt", _("Portuguese")),
 ]
 
 LOCALE_PATHS = [
     BASE_DIR / 'locale'
 ]
 
-LANGUAGE_CODE = 'pt-pt'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 

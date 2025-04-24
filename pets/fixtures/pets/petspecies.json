@@ -3,16 +3,16 @@
         "model": "pets.petspecies",
         "pk": 1,
         "fields": {
-            "name_en_GB": "Dog",
-            "name_pt_PT": "Cão"
+            "name_en": "Dog",
+            "name_pt": "Cão"
         }
     },
     {
         "model": "pets.petspecies",
         "pk": 2,
         "fields": {
-            "name_en_GB": "Cat",
-            "name_pt_PT": "Gato"
+            "name_en": "Cat",
+            "name_pt": "Gato"
         }
     }
 ]

@@ -323,6 +323,9 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
+        if not form.cleaned_data['terms_accepted']:
+            return redirect('hotel:booking_stay')
+
         booking_data = self.request.session.get('booking_data', {})
         if not booking_data:
             return redirect('hotel:booking_stay')

@@ -1,17 +1,25 @@
 from django import forms
 from django.forms import inlineformset_factory
-
-from .models import (
-    LegalDocument, LegalDocumentSection, LegalDocumentSectionLineItem
-)
-
 from modeltranslation.forms import TranslationModelForm
 
+from .translation import (
+    LegalDocument,
+    LegalDocumentSection,
+    LegalDocumentSectionLineItem
+)
 
-class LegalDocumentForm(TranslationModelForm):
+
+class LegalDocumentForm(forms.ModelForm):
     class Meta:
         model = LegalDocument
-        fields = ["doc_type", "title", "effective_date"]
+        fields = [
+            "doc_type",
+            "name_pt",
+            "name_en",
+            "heading_pt",
+            "heading_en",
+            "effective_date"
+        ]
         widgets = {
             'effective_date': forms.DateInput(
                 format='%Y-%m-%d',
@@ -22,21 +30,34 @@ class LegalDocumentForm(TranslationModelForm):
             ),
         }
 
-class LegalDocumentSectionForm(TranslationModelForm):
+class LegalDocumentSectionForm(forms.ModelForm):
     class Meta:
         model = LegalDocumentSection
-        fields = ["title", "order"]
+        fields = [
+            "title_pt",
+            "title_en",
+            "order"
+        ]
         widgets = {
             "order": forms.HiddenInput()
         }
 
 
-class LegalDocumentSectionLineItemForm(TranslationModelForm):
+class LegalDocumentSectionLineItemForm(forms.ModelForm):
     class Meta:
         model = LegalDocumentSectionLineItem
-        fields = ["text", "order"]
+        fields = [
+            "text_pt",
+            "text_en",
+            "order"
+        ]
         widgets = {
-            "text": forms.Textarea(
+            "text_pt": forms.Textarea(
+                attrs={
+                    'rows': 3,
+                }
+            ),
+            "text_en": forms.Textarea(
                 attrs={
                     'rows': 3,
                 }

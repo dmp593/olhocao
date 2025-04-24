@@ -6,7 +6,7 @@ from .models import (
 
 
 class LegalDocumentTranslationOptions(TranslationOptions):
-    fields = ('title',)
+    fields = ('name', 'heading',)
 
 
 class LegalDocumentSectionTranslationOptions(TranslationOptions):

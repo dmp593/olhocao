@@ -53,14 +53,14 @@ class PetServiceForm(forms.Form):
 class BookingPaymentForm(forms.Form):
     terms_accepted = forms.BooleanField(
         required=True,
-        label="I agree to the terms and conditions",
+        label=_("I agree to the terms and conditions"),
         error_messages={
-            'required': 'You must accept the terms and conditions'
+            'required': _('You must accept the terms and conditions')
         }
     )
 
     special_requests = forms.CharField(
         required=False,
         widget=forms.Textarea(attrs={'rows': 3}),
-        label="Special requests or instructions"
+        label=_("Special requests or instructions")
     )

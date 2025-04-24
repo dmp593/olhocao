@@ -31,7 +31,7 @@ class Account(models.Model):
 
     @property
     def has_toconline_customer(self):
-        return bool(self.stripe_customer_id)
+        return bool(self.toconline_customer_id)
 
     @property
     def toconline_customer(self):

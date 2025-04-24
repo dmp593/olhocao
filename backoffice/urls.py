@@ -8,7 +8,7 @@ app_name = 'backoffice'
 
 urlpatterns = [
     path(
-        '',
+        'dashboard/',
         views.DashboardView.as_view(),
         name='dashboard'
     ),

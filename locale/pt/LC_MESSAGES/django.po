@@ -1667,7 +1667,7 @@ msgid "My Account"
 msgstr ""
 
 #: olhocao/templates/components/navbar.html:191
-msgid "Change Language"
+msgid "Switch Language"
 msgstr ""
 
 #: pets/models.py:30 pets/models.py:77

@@ -7,7 +7,7 @@ from django.views.generic import TemplateView, ListView, DeleteView
 from django.utils import timezone
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 
 from hotel.models import BookingStay
 
@@ -80,7 +80,7 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
                 return redirect('backoffice:legal_document_create')
         
         doc_form = LegalDocumentForm(instance=legal_doc)
-
+        
         SectionFormSet = create_section_formset()
         LineItemFormSet = create_lineitem_formset()
 
@@ -149,7 +149,7 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
 
         doc_form.save()
         section_formset.save()
-        
+
         for lineitem_formset in lineitem_formsets:
             lineitem_formset.save()
 

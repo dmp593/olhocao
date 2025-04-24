@@ -16,20 +16,30 @@
             <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
                 <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">📜</span>
                 <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
-                    {% if object.title %}{{ object.title }}{% else %}{% trans "Terms and Conditions" %}{% endif %}
+                    {% if object.name %}{{ object.name }}{% else %}{% trans "Terms and Conditions" %}{% endif %}
                 </span>
                 <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">📜</span>
             </h1>
+            {% if object.effective_date %}
             <p class="text-xl text-primary-600 max-w-3xl mx-auto relative inline-block">
                 {% trans "Effective Date: " %}{{ object.effective_date|date:"F j, Y" }}
                 <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
             </p>
+            {% endif %}
         </div>
 
-        <!-- Content Section -->
+        <!-- Content Heading & Section -->
         <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 animate__animated animate__fadeInUp">
             {% if object %}
                 <article class="prose prose-lg text-primary-700 max-w-none">
+                    <!-- Display the heading text if it exists -->
+                    {% if object.heading %}
+                        <div class="mb-8 text-center">
+                            <p class="text-lg text-primary-700 italic">{{ object.heading }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Display sections -->
                     {% for section in object.sections.all %}
                         <div class="mb-8">
                             <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center">
@@ -51,7 +61,7 @@
             {% else %}
                 <div class="text-center py-12">
                     <div class="inline-block p-4 bg-primary-100 rounded-full mb-4">
-                        {% include "icons/document_text.html" with class="w-12 h-12 text-primary-500" %}
+                        {% include "icons/document.html" with class="w-12 h-12 text-primary-500" %}
                     </div>
                     <h3 class="text-2xl font-bold text-primary-800 mb-2">{% trans "No Terms Available" %}</h3>
                     <p class="text-primary-600">{% trans "We're currently updating our terms and conditions. Please check back later." %}</p>

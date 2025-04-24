@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Language Toggle
-    document.getElementById('language-toggle').addEventListener('click', function () {
+    function toggleLanguage() {
         const currentLang = document.documentElement.lang
         const newLang = currentLang === 'en' ? 'pt' : 'en'
         
         document.cookie = `django_language=${newLang}; path=/; max-age=31536000`
         window.location.reload()
-    })
+    }
+
+    document.getElementById('language-toggle').addEventListener('click', toggleLanguage)
+    document.getElementById('mobile-language-toggle').addEventListener('click', toggleLanguage)
 
     for (const element of document.querySelectorAll('[data-target]')) {
         element.addEventListener('click', function (event) {

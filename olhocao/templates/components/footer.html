@@ -99,7 +99,7 @@
         </div>
 
         <!-- Bone Separator -->
-        <div class="relative flex justify-center my-12">
+        <div class="relative flex justify-center my-6">
             {% include "icons/bone.html" with class="w-24 text-accent-500/30" %}
         </div>
 
@@ -108,6 +108,19 @@
             <p class="text-sm text-primary-200 mb-4 md:mb-0">
                 &copy; {% now "Y" %} OlhóCão. {% trans "All rights reserved" %}.
             </p>
+            {% comment %}
+            <div class="text-sm text-primary-200 mb-4 md:mb-0 text-center md:text-left">
+                <p>&copy; {% now "Y" %} OlhóCão. {% trans "All rights reserved" %}.</p>
+                <div class="mt-2 space-x-4">
+                    <a href="{% url 'frontoffice:terms_and_conditions' %}" class="hover:text-accent-300 transition-colors duration-300 underline underline-offset-4 decoration-accent-500">
+                        {% trans "Terms and Conditions" %}
+                    </a>
+                    <a href="{% url 'frontoffice:privacy_policy' %}" class="hover:text-accent-300 transition-colors duration-300 underline underline-offset-4 decoration-accent-500">
+                        {% trans "Privacy Policy" %}
+                    </a>
+                </div>
+            </div>
+            {% endcomment %}
             <p class="text-sm text-primary-200 group">
                 {% trans "Developed with" %} 
                 <span class="animate__animated animate__heartBeat animate__infinite animate__slower">❤️</span> 

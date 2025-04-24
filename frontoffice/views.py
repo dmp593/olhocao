@@ -1,6 +1,6 @@
 from typing import Any
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, DetailView
+from django.views.generic import TemplateView, FormView
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now

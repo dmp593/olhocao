@@ -195,7 +195,7 @@ class TocOnline:
         self,
         resource: TocOnlineResource | str,
         limit: str | int | None = None,
-        **kwargs: dict[str, str]
+        **kwargs
     ):
         self.ensure_authenticated()
 
@@ -217,6 +217,14 @@ class TocOnline:
 
         response.raise_for_status()
         return response.json()['data']
+
+    def first(self, resource: TocOnlineResource | str, **kwargs):
+        data = self.list(resource, limit=1, **kwargs)
+
+        if len(data) == 0:
+            return None
+
+        return data[0]
 
     # cache data for no longer than five minutes
     @cached(cache=cache_get)
@@ -249,6 +257,32 @@ class TocOnline:
             json={
                 "data": {
                     "attributes": kwargs,
+                    "type": resource
+                }
+            },
+            timeout=7
+        )
+
+        response.raise_for_status()
+        self.clear_cached()
+
+        return response.json()['data']
+    
+    def update(
+        self,
+        resource: TocOnlineResource | str,
+        pk: str,
+        **kwargs
+    ):
+        self.ensure_authenticated()
+
+        response = requests.patch(
+            f"{self.base_url}/api/{resource}",
+            headers=self.default_headers,
+            json={
+                "data": {
+                    "attributes": kwargs,
+                    "id": pk,
                     "type": resource
                 }
             },

@@ -3,31 +3,31 @@
         "model": "frontoffice.contactsubject",
         "pk": 1,
         "fields": {
-            "name_en_GB": "General",
-            "name_pt_PT": "Geral"
+            "name_en": "General",
+            "name_pt": "Geral"
         }
     },
     {
         "model": "frontoffice.contactsubject",
         "pk": 2,
         "fields": {
-            "name_en_GB": "Dog Daycare",
-            "name_pt_PT": "ATL"
+            "name_en": "Dog Daycare",
+            "name_pt": "ATL"
         }
     },
     {
         "model": "frontoffice.contactsubject",
         "pk": 3,
         "fields": {
-            "name_en_GB": "Training",
-            "name_pt_PT": "Treino"
+            "name_en": "Training",
+            "name_pt": "Treino"
         }
     },
     {
         "model": "frontoffice.contactsubject",
         "fields": {
-            "name_en_GB": "Hotel",
-            "name_pt_PT": "Hotel"
+            "name_en": "Hotel",
+            "name_pt": "Hotel"
         }
     }
 ]

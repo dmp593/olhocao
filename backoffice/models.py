@@ -16,11 +16,19 @@ class LegalDocument(models.Model):
         help_text=_('Select whether this is a Terms and Conditions or Privacy Policy document.')
     )
 
-    title = models.CharField(
+    name = models.CharField(
         max_length=255,
+        null=True,
         blank=True,
-        verbose_name=_('Title'),
-        help_text=_('Main title of the legal document shown to users.')
+        verbose_name=_('Name'),
+        help_text=_('Name of the legal document shown to users.')
+    )
+
+    heading = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_('Heading'),
+        help_text=_('Heading of the legal document.')
     )
 
     effective_date = models.DateField(
@@ -46,8 +54,8 @@ class LegalDocument(models.Model):
     objects_active = managers.Manager(deleted_at__isnull=True)
 
     def __str__(self):
-        if self.title:
-            f'{self.title} ({self.effective_date})'
+        if self.name:
+            f'{self.name} ({self.effective_date})'
 
         return f'{self.get_doc_type_display()} ({self.effective_date})'
 

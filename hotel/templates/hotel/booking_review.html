@@ -215,10 +215,10 @@
                         <input type="checkbox" name="terms_accepted" id="terms_accepted" required class="mt-1 mr-3">
                         <label for="terms_accepted" class="text-primary-700">
                             <!-- url 'terms' -->
-                            {% trans "I agree to the" %} <a href="{% url 'frontoffice:terms_and_conditions' %}" class="text-accent-600 hover:text-accent-700 underline">{% trans "Terms & Conditions" %}</a>
+                            {% trans "I agree to the" %} <a href="{% url 'frontoffice:terms_and_conditions' %}" target="_blank" class="text-accent-600 hover:text-accent-700 underline">{% trans "Terms & Conditions" %}</a>
                             
                             <!-- url 'privacy' -->
-                            {% trans "and" %} <a href="{% url 'frontoffice:privacy_policy' %}" class="text-accent-600 hover:text-accent-700 underline">{% trans "Privacy Policy" %}</a>
+                            {% trans "and" %} <a href="{% url 'frontoffice:privacy_policy' %}" target="_blank" class="text-accent-600 hover:text-accent-700 underline">{% trans "Privacy Policy" %}</a>
                         </label>
                     </div>
                 </div>
