@@ -1,0 +1,246 @@
+[
+    {
+      "model": "backoffice.legaldocument",
+      "pk": 2,
+      "fields": {
+        "doc_type": "privacy",
+        "name_en": "Privacy Policy",
+        "name_pt": "Política de Privacidade",
+        "heading_en": "At OlhóCão, we take your privacy seriously.\nThis Privacy Policy explains how we collect, use and protect your personal data.",
+        "heading_pt": "No OlhóCão, levamos a sua privacidade a sério.\nEsta Política de Privacidade explica como recolhemos, utilizamos e protegemos os seus dados pessoais.",
+        "effective_date": "2023-01-01",
+        "updated_at": "2023-01-01T00:00:00Z",
+        "deleted_at": null
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsection",
+      "pk": 9,
+      "fields": {
+        "document": 2,
+        "title_en": "Data We Collect",
+        "title_pt": "Dados que Recolhemos",
+        "order": 1
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 18,
+      "fields": {
+        "section": 9,
+        "text_en": "We may collect: Name, phone number, email and address",
+        "text_pt": "Podemos recolher: Nome, número de telefone, e-mail e morada",
+        "order": 1
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 19,
+      "fields": {
+        "section": 9,
+        "text_en": "Pet data (name, breed, age, medical history, behavior)",
+        "text_pt": "Dados do animal (nome, raça, idade, historial médico, comportamento)",
+        "order": 2
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 20,
+      "fields": {
+        "section": 9,
+        "text_en": "Payment information (securely processed by third parties)",
+        "text_pt": "Informações de pagamento (processadas de forma segura por terceiros)",
+        "order": 3
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsection",
+      "pk": 10,
+      "fields": {
+        "document": 2,
+        "title_en": "How We Use Your Data",
+        "title_pt": "Como Utilizamos os Seus Dados",
+        "order": 2
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 21,
+      "fields": {
+        "section": 10,
+        "text_en": "We use your data to: Manage bookings and provide services",
+        "text_pt": "Utilizamos os seus dados para: Gerir reservas e prestar serviços",
+        "order": 1
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 22,
+      "fields": {
+        "section": 10,
+        "text_en": "Communicate with you about your pet",
+        "text_pt": "Comunicar consigo sobre o seu animal",
+        "order": 2
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 23,
+      "fields": {
+        "section": 10,
+        "text_en": "Improve our services",
+        "text_pt": "Melhorar os nossos serviços",
+        "order": 3
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 24,
+      "fields": {
+        "section": 10,
+        "text_en": "Send communications and promotions (with your consent)",
+        "text_pt": "Enviar comunicações e promoções (com o seu consentimento)",
+        "order": 4
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsection",
+      "pk": 11,
+      "fields": {
+        "document": 2,
+        "title_en": "Data Sharing",
+        "title_pt": "Partilha de Dados",
+        "order": 3
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 25,
+      "fields": {
+        "section": 11,
+        "text_en": "We never sell your data.",
+        "text_pt": "Nunca vendemos os seus dados.",
+        "order": 1
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 26,
+      "fields": {
+        "section": 11,
+        "text_en": "We only share data with trusted service providers (e.g. veterinarians, groomers) when necessary.",
+        "text_pt": "Apenas partilhamos dados com prestadores de serviços de confiança (ex: veterinários, groomers) quando necessário.",
+        "order": 2
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 27,
+      "fields": {
+        "section": 11,
+        "text_en": "We comply with legislation and may disclose data if required by law.",
+        "text_pt": "Cumprimos a legislação e podemos divulgar dados se exigido por lei.",
+        "order": 3
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsection",
+      "pk": 12,
+      "fields": {
+        "document": 2,
+        "title_en": "Data Security",
+        "title_pt": "Segurança dos Dados",
+        "order": 4
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 28,
+      "fields": {
+        "section": 12,
+        "text_en": "We implement appropriate measures to protect your personal data.",
+        "text_pt": "Implementamos medidas adequadas para proteger os seus dados pessoais.",
+        "order": 1
+      }
+    },
+    {
+      "model": "backoffice.legaldocumentsectionlineitem",
+      "pk": 29,
+      "fields": {
+        "section": 12,
+        "text_en": "",
+        "text_pt": "As reservas e pagamentos online são realizados através de plataformas seguras e encriptadas.",
+        "order": 2
+      }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 13,
+        "fields": {
+          "document": 2,
+          "title_en": "",
+          "title_pt": "Os Seus Direitos",
+          "order": 5
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 30,
+        "fields": {
+          "section": 13,
+          "text_en": "",
+          "text_pt": "Pode solicitar acesso, alteração ou eliminação dos seus dados a qualquer momento.",
+          "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 31,
+        "fields": {
+          "section": 13,
+          "text_en": "",
+          "text_pt": "Pode cancelar comunicações promocionais clicando em \"cancelar subscrição\" nos emails ou contactando-nos diretamente.",
+          "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 14,
+        "fields": {
+            "document": 2,
+            "title_en": "",
+            "title_pt": "Alterações a Esta Política",
+            "order": 6
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 32,
+        "fields": {
+          "section": 14,
+          "text_en": "",
+          "text_pt": "Podemos atualizar esta Política de Privacidade periodicamente. Recomendamos a sua consulta regular.",
+          "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 15,
+        "fields": {
+            "document": 2,
+            "title_en": "",
+            "title_pt": "Contactos",
+            "order": 7
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 33,
+        "fields": {
+          "section": 15,
+          "text_en": "",
+          "text_pt": "Para qualquer questão relacionada com os nossos Termos ou Política de Privacidade, contacte-nos através de:\n\nTelefone: 916749407\nMorada: Rua Quinta dos Frades, 904, 2400-821 Leiria, Portugal",
+          "order": 1
+        }
+    }
+]

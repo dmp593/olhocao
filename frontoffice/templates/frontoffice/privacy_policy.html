@@ -29,12 +29,12 @@
         </div>
 
         <!-- Content & Heading Section -->
-        <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20 animate__animated animate__fadeInUp">
+        <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 text-pretty md:text-balance border border-white/20 animate__animated animate__fadeInUp">
             {% if object %}
                 <article class="prose prose-lg text-primary-700 max-w-none">
                     <!-- Display the heading text if it exists -->
                     {% if object.heading %}
-                        <div class="mb-8 text-center">
+                        <div class="mb-8 whitespace-pre-line">
                             <p class="text-lg text-primary-700 italic">{{ object.heading }}</p>
                         </div>
                     {% endif %}
@@ -50,7 +50,7 @@
                                 {% for item in section.items.all %}
                                     <li class="flex items-start">
                                         <span class="inline-block mt-1 mr-3 text-accent-500">{% include "icons/chevron_right.html" with class="w-4 h-4" %}</span>
-                                        <span class="text-primary-700">{{ item.text }}</span>
+                                        <span class="text-primary-700 whitespace-pre-line">{{ item.text }}</span>
                                     </li>
                                 {% endfor %}
                             </ul>

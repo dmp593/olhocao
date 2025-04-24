@@ -1,0 +1,266 @@
+[
+    {
+        "model": "backoffice.legaldocument",
+        "pk": 1,
+        "fields": {
+            "doc_type": "terms",
+            "name_en": "Terms and Conditions",
+            "name_pt": "Termos e Condições",
+            "heading_en": "Welcome to OlhóCão!\nThese Terms and Conditions (\"Terms\") govern the use of our services, including pet hotel, grooming, training, and leisure activities (\"Services\"). By booking or using any of our services, you agree to these Terms.",
+            "heading_pt": "Bem-vindo ao OlhóCão!\nEstes Termos e Condições (\"Termos\") regulam a utilização dos nossos serviços, incluindo hotel para animais, banho e tosquia, treino e atividades de lazer (\"Serviços\"). Ao reservar ou utilizar qualquer um dos nossos serviços, está a aceitar estes Termos.",
+            "effective_date": "2023-01-01",
+            "updated_at": "2023-01-01T00:00:00Z",
+            "deleted_at": null
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 1,
+        "fields": {
+            "document": 1,
+            "title_en": "Eligibility",
+            "title_pt": "Elegibilidade",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 1,
+        "fields": {
+            "section": 1,
+            "text_en": "All animals must be up to date with vaccinations (including rabies, distemper and others required by law).",
+            "text_pt": "Todos os animais devem ter as vacinas em dia (incluindo raiva, esgana e outras exigidas por lei).",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 2,
+        "fields": {
+            "section": 1,
+            "text_en": "The owner must present proof of vaccination before service is provided.",
+            "text_pt": "O tutor deve apresentar comprovativo de vacinação antes da prestação do serviço.",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 3,
+        "fields": {
+            "section": 1,
+            "text_en": "We reserve the right to refuse aggressive or sick animals.",
+            "text_pt": "Reservamo-nos o direito de recusar animais agressivos ou doentes.",
+            "order": 3
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 2,
+        "fields": {
+            "document": 1,
+            "title_en": "Bookings and Cancellations",
+            "title_pt": "Reservas e Cancelamentos",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 4,
+        "fields": {
+            "section": 2,
+            "text_en": "All services require prior booking.",
+            "text_pt": "Todos os serviços requerem reserva prévia.",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 5,
+        "fields": {
+            "section": 2,
+            "text_en": "Cancellations must be made at least 72 hours in advance to avoid charges.",
+            "text_pt": "Cancelamentos devem ser feitos com pelo menos 72 horas de antecedência para evitar cobrança de taxa.",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 6,
+        "fields": {
+            "section": 2,
+            "text_en": "Refunds will be made by bank transfer.",
+            "text_pt": "A devolução será feita feito por transferência bancária.",
+            "order": 3
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 7,
+        "fields": {
+            "section": 2,
+            "text_en": "No-shows may result in full service charge.",
+            "text_pt": "A não comparência pode implicar a cobrança do valor total do serviço.",
+            "order": 4
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 3,
+        "fields": {
+            "document": 1,
+            "title_en": "Health and Safety",
+            "title_pt": "Saúde e Segurança",
+            "order": 3
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 8,
+        "fields": {
+            "section": 3,
+            "text_en": "We take all precautions to ensure your pet's safety, but we are not responsible for pre-existing conditions or injuries resulting from them.",
+            "text_pt": "Tomamos todas as precauções para garantir a segurança do seu animal, mas não nos responsabilizamos por condições pré-existentes ou lesões que resultem das mesmas.",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 9,
+        "fields": {
+            "section": 3,
+            "text_en": "In case of emergency, we will contact the owner and, if necessary, seek veterinary assistance. Veterinary costs are the owner's responsibility.",
+            "text_pt": "Em caso de emergência, entraremos em contacto com o tutor e, se necessário, recorreremos a assistência veterinária. Os custos veterinários são da responsabilidade do tutor.",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 4,
+        "fields": {
+            "document": 1,
+            "title_en": "Grooming and Training",
+            "title_pt": "Tosquia e Treino",
+            "order": 4
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 10,
+        "fields": {
+            "section": 4,
+            "text_en": "Grooming sessions may take longer depending on coat type and animal behavior. We will never force or stress your animal.",
+            "text_pt": "As sessões de tosquia podem demorar mais tempo dependendo do tipo de pelo e do comportamento do animal. Nunca forçaremos ou causaremos stress ao seu animal.",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 11,
+        "fields": {
+            "section": 4,
+            "text_en": "Training results vary according to the animal's behavior and the owner's follow-through; we do not guarantee specific results.",
+            "text_pt": "Os resultados do treino variam conforme o comportamento do animal e o seguimento das orientações pelo tutor; não garantimos resultados específicos.",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 5,
+        "fields": {
+            "document": 1,
+            "title_en": "Liability",
+            "title_pt": "Responsabilidade",
+            "order": 5
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 12,
+        "fields": {
+            "section": 5,
+            "text_en": "We are not responsible for loss, injury or death resulting from unforeseen incidents, natural causes or phenomena beyond our control.",
+            "text_pt": "Não nos responsabilizamos por perdas, lesões ou morte resultantes de incidentes imprevistos, causas naturais ou fenómenos fora do nosso controlo.",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 13,
+        "fields": {
+            "section": 5,
+            "text_en": "The owner is responsible for any damage or injury caused by their animal during the stay or use of services.",
+            "text_pt": "O tutor é responsável por quaisquer danos ou lesões causados pelo seu animal durante a estadia ou utilização dos serviços.",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 6,
+        "fields": {
+            "document": 1,
+            "title_en": "Photos and Videos",
+            "title_pt": "Fotografias e Vídeos",
+            "order": 6
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 14,
+        "fields": {
+            "section": 6,
+            "text_en": "We may take photos or videos of your pet for promotional purposes. Please inform us if you do not authorize the use of your pet's images.",
+            "text_pt": "Podemos tirar fotografias ou vídeos do seu animal para fins promocionais. Informe-nos se não autoriza a utilização de imagens do seu animal.",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 7,
+        "fields": {
+            "document": 1,
+            "title_en": "Payments",
+            "title_pt": "Pagamentos",
+            "order": 7
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 15,
+        "fields": {
+            "section": 7,
+            "text_en": "Payment is made at the time of delivery or after service, unless otherwise agreed.",
+            "text_pt": "O pagamento é feito no momento da entrega ou após o serviço, salvo acordo em contrário.",
+            "order": 1
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 16,
+        "fields": {
+            "section": 7,
+            "text_en": "We accept debit or credit card.",
+            "text_pt": "Aceitamos cartão de débito ou crédito.",
+            "order": 2
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsection",
+        "pk": 8,
+        "fields": {
+            "document": 1,
+            "title_en": "Acceptance",
+            "title_pt": "Aceitação",
+            "order": 8
+        }
+    },
+    {
+        "model": "backoffice.legaldocumentsectionlineitem",
+        "pk": 17,
+        "fields": {
+            "section": 8,
+            "text_en": "By using our services, you declare that you have read and accepted these Terms and that all information provided about your animal is true and complete.",
+            "text_pt": "Ao utilizar os nossos serviços, declara que leu e aceitou estes Termos e que todas as informações fornecidas sobre o seu animal são verdadeiras e completas.",
+            "order": 1
+        }
+    }
+]

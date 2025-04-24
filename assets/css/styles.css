@@ -1694,8 +1694,23 @@
   .text-nowrap {
     text-wrap: nowrap;
   }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .whitespace-break-spaces {
+    white-space: break-spaces;
+  }
   .whitespace-nowrap {
     white-space: nowrap;
+  }
+  .whitespace-pre {
+    white-space: pre;
+  }
+  .whitespace-pre-line {
+    white-space: pre-line;
+  }
+  .whitespace-pre-wrap {
+    white-space: pre-wrap;
   }
   .text-accent {
     color: var(--color-accent);
@@ -2827,6 +2842,11 @@
     @media (width >= 48rem) {
       font-size: var(--text-xl);
       line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+  .md\:text-balance {
+    @media (width >= 48rem) {
+      text-wrap: balance;
     }
   }
   .lg\:col-span-2 {
