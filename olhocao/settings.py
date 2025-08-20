@@ -57,9 +57,11 @@ env = environ.Env(
 
     DEEPL_AUTH_KEY=(str, 'fake-auth-key'),
 
-    STRIPE_PUBLIC_KEY=(str, 'STRIPE_PUBLIC_KEY'),
-    STRIPE_SECRET_KEY=(str, 'STRIPE_SECRET_KEY'),
-    STRIPE_WEBHOOK_SECRET=(str, 'STRIPE_WEBHOOK_SECRET'),
+    STRIPE_LIVE_SECRET_KEY=(str, 'STRIPE_LIVE_SECRET_KEY'),
+    STRIPE_TEST_SECRET_KEY=(str, 'STRIPE_TEST_SECRET_KEY'),
+    STRIPE_LIVE_MODE=(bool, False),
+    DJSTRIPE_WEBHOOK_SECRET=(str, 'DJSTRIPE_WEBHOOK_SECRET'),
+    DJSTRIPE_FOREIGN_KEY_TO_FIELD=(str, 'id'),
 )
 
 
@@ -93,7 +95,7 @@ XS_SHARING_ALLOWED_METHODS = ['HEAD', 'GET', 'OPTIONS',]
 INSTALLED_APPS = [
     # 3rd party apps that need to be before Django apps
     'modeltranslation',
-    
+
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -105,6 +107,7 @@ INSTALLED_APPS = [
     # 3rd party apps,
     'django_browser_reload',
     'django_dump_die',
+    'djstripe',
 
     # local apps
     'accounts',
@@ -251,6 +254,8 @@ TOC_ONLINE_OAUTH_REDIRECT_URI = env('TOC_ONLINE_OAUTH_REDIRECT_URI')
 DEEPL_AUTH_KEY = env('DEEPL_AUTH_KEY')
 
 
-STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+STRIPE_LIVE_SECRET_KEY = env('STRIPE_LIVE_SECRET_KEY')
+STRIPE_TEST_SECRET_KEY = env('STRIPE_TEST_SECRET_KEY')
+STRIPE_LIVE_MODE = env('STRIPE_LIVE_MODE')
+DJSTRIPE_WEBHOOK_SECRET = env('DJSTRIPE_WEBHOOK_SECRET')
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = env('DJSTRIPE_FOREIGN_KEY_TO_FIELD')

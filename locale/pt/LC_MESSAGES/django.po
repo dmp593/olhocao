@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-22 09:55+0000\n"
+"POT-Creation-Date: 2025-06-30 14:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/forms.py:13 accounts/forms.py:67
+msgid "First Name"
+msgstr ""
+
+#: accounts/forms.py:14 accounts/forms.py:68
+msgid "Enter your legal first name as it appears on official documents."
+msgstr ""
+
+#: accounts/forms.py:20 accounts/forms.py:74
+msgid "Last Name"
+msgstr ""
+
+#: accounts/forms.py:21 accounts/forms.py:75
+msgid "Enter your legal last name as it appears on official documents."
+msgstr ""
+
+#: accounts/forms.py:27 accounts/forms.py:81
+msgid "VAT Number"
+msgstr ""
+
+#: accounts/forms.py:28 accounts/forms.py:82
+msgid "Your tax identification number (required for invoicing)."
+msgstr ""
+
+#: accounts/forms.py:34 accounts/forms.py:88
+msgid "Phone Number"
+msgstr ""
+
+#: accounts/forms.py:35 accounts/forms.py:89
+msgid "We'll use this to contact you about your account or services."
+msgstr ""
+
+#: accounts/forms.py:40 accounts/forms.py:94
+msgid "Email Address"
+msgstr ""
+
+#: accounts/forms.py:41 accounts/forms.py:95
+msgid "Your primary email address for billing and account notifications."
+msgstr ""
 
 #: accounts/models.py:18
 msgid "user"
@@ -106,7 +146,8 @@ msgstr ""
 #: accounts/templates/accounts/password_change_form.html:15
 #: accounts/templates/accounts/password_reset_confirm.html:12
 #: accounts/templates/accounts/password_reset_form.html:15
-#: olhocao/templates/components/navbar.html:92
+#: olhocao/templates/components/navbar.html:100
+#: olhocao/templates/components/navbar.html:195
 msgid "Change Password"
 msgstr ""
 
@@ -180,7 +221,7 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:62
+#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:133
 msgid "Account Updated"
 msgstr ""
 
@@ -188,7 +229,7 @@ msgstr ""
 msgid "Your changes have been saved"
 msgstr ""
 
-#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:64
+#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:135
 msgid "Your account information has been successfully updated."
 msgstr ""
 
@@ -196,170 +237,185 @@ msgstr ""
 msgid "Edit Again"
 msgstr ""
 
-#: accounts/templates/accounts/user_form.html:16
+#: accounts/templates/accounts/user_form.html:17
 msgid "Account Settings"
 msgstr ""
 
-#: accounts/templates/accounts/user_form.html:19
+#: accounts/templates/accounts/user_form.html:20
 msgid "Update your personal information"
 msgstr ""
 
-#: accounts/templates/accounts/user_form.html:71
+#: accounts/templates/accounts/user_form.html:133
 msgid "Change password"
 msgstr ""
 
-#: accounts/templates/accounts/user_form.html:78
-#: backoffice/templates/backoffice/legal_documents/edit.html:35
+#: accounts/templates/accounts/user_form.html:140
 #: pets/templates/pets/pet_form.html:65
 msgid "Save Changes"
 msgstr ""
 
-#: accounts/templates/accounts/user_form.html:85
+#: accounts/templates/accounts/user_form.html:147
 msgid "Back to home"
 msgstr ""
 
-#: backoffice/forms.py:14
-msgid "Document Title"
-msgstr ""
-
-#: backoffice/forms.py:15 backoffice/models.py:25
-msgid "Effective Date"
-msgstr ""
-
-#: backoffice/forms.py:24 backoffice/models.py:53
-msgid "Section Title"
-msgstr ""
-
-#: backoffice/forms.py:25 backoffice/forms.py:38
-msgid "Display Order"
-msgstr ""
-
-#: backoffice/forms.py:37
-msgid "Content"
-msgstr ""
-
-#: backoffice/models.py:7
+#: backoffice/models.py:9
+#: frontoffice/templates/frontoffice/terms_and_conditions.html:19
 msgid "Terms and Conditions"
 msgstr ""
 
-#: backoffice/models.py:8 hotel/templates/hotel/booking_review.html:221
+#: backoffice/models.py:10
+#: frontoffice/templates/frontoffice/privacy_policy.html:19
+#: hotel/templates/hotel/booking_review.html:222
 msgid "Privacy Policy"
 msgstr ""
 
-#: backoffice/models.py:14
+#: backoffice/models.py:15
+#: backoffice/templates/backoffice/legaldocument_confirm_delete.html:27
 msgid "Document Type"
 msgstr ""
 
-#: backoffice/models.py:15
+#: backoffice/models.py:16
 msgid ""
 "Select whether this is a Terms and Conditions or Privacy Policy document."
 msgstr ""
 
-#: backoffice/models.py:20
-msgid "Title"
+#: backoffice/models.py:23 frontoffice/models.py:8 frontoffice/models.py:34
+msgid "Name"
 msgstr ""
 
-#: backoffice/models.py:21
-msgid "Main title of the legal document shown to users."
+#: backoffice/models.py:24
+msgid "Name of the legal document shown to users."
 msgstr ""
 
-#: backoffice/models.py:26
-msgid "Date from which this document is considered effective."
+#: backoffice/models.py:30
+msgid "Heading"
 msgstr ""
 
 #: backoffice/models.py:31
-msgid "Last Updated"
+msgid "Heading of the legal document."
 msgstr ""
 
-#: backoffice/models.py:32
+#: backoffice/models.py:35
+#: backoffice/templates/backoffice/legaldocument_confirm_delete.html:30
+msgid "Effective Date"
+msgstr ""
+
+#: backoffice/models.py:36
+msgid "Date from which this document is considered effective."
+msgstr ""
+
+#: backoffice/models.py:41
+#: backoffice/templates/backoffice/legaldocument_list.html:53
+msgid "Last Updated At"
+msgstr ""
+
+#: backoffice/models.py:42
 msgid "Automatically updated whenever the document is changed."
 msgstr ""
 
-#: backoffice/models.py:39
+#: backoffice/models.py:49
+msgid "Deleted At"
+msgstr ""
+
+#: backoffice/models.py:50
+msgid "Marks this document as deleted/deprecated."
+msgstr ""
+
+#: backoffice/models.py:63
 msgid "Legal Document"
 msgstr ""
 
-#: backoffice/models.py:40
-#: backoffice/templates/backoffice/legal_documents/list.html:9
+#: backoffice/models.py:64
+#: backoffice/templates/backoffice/legaldocument_list.html:7
+#: olhocao/templates/components/navbar.html:82
+#: olhocao/templates/components/navbar.html:177
 msgid "Legal Documents"
 msgstr ""
 
-#: backoffice/models.py:48
+#: backoffice/models.py:74
 msgid "Document"
 msgstr ""
 
-#: backoffice/models.py:49
+#: backoffice/models.py:75
 msgid "The legal document this section belongs to."
 msgstr ""
 
-#: backoffice/models.py:54
-msgid "Title of the section (e.g., Reservations, Data Collection, etc.)."
-msgstr ""
-
-#: backoffice/models.py:58 backoffice/models.py:87
-#: backoffice/templates/backoffice/legal_documents/edit.html:60
-#: frontoffice/models.py:14
-msgid "Order"
-msgstr ""
-
-#: backoffice/models.py:59
-msgid "Defines the display order of sections within the document."
-msgstr ""
-
-#: backoffice/models.py:64
-msgid "Legal Section"
-msgstr ""
-
-#: backoffice/models.py:65
-msgid "Legal Sections"
-msgstr ""
-
-#: backoffice/models.py:68 backoffice/models.py:76
-msgid "Section"
-msgstr ""
-
-#: backoffice/models.py:77
-msgid "The section this line item belongs to."
+#: backoffice/models.py:80
+#: backoffice/templates/backoffice/legaldocument_form.html:415
+#: backoffice/templates/backoffice/legaldocument_form.html:423
+msgid "Section Title"
 msgstr ""
 
 #: backoffice/models.py:81
+msgid "Title of the section (e.g., Reservations, Data Collection, etc.)."
+msgstr ""
+
+#: backoffice/models.py:86 backoffice/models.py:113 frontoffice/models.py:14
+msgid "Order"
+msgstr ""
+
+#: backoffice/models.py:87
+msgid "Defines the display order of sections within the document."
+msgstr ""
+
+#: backoffice/models.py:92
+msgid "Legal Section"
+msgstr ""
+
+#: backoffice/models.py:93
+msgid "Legal Sections"
+msgstr ""
+
+#: backoffice/models.py:102
+#: backoffice/templates/backoffice/legaldocument_form.html:180
+#: backoffice/templates/backoffice/legaldocument_form.html:396
+msgid "Section"
+msgstr ""
+
+#: backoffice/models.py:103
+msgid "The section this line item belongs to."
+msgstr ""
+
+#: backoffice/models.py:107
+#: backoffice/templates/backoffice/legaldocument_form.html:489
+#: backoffice/templates/backoffice/legaldocument_form.html:497
 msgid "Text"
 msgstr ""
 
-#: backoffice/models.py:82
+#: backoffice/models.py:108
 msgid ""
 "The actual content of this line item (e.g., a clause, condition, or "
 "explanation)."
 msgstr ""
 
-#: backoffice/models.py:88
+#: backoffice/models.py:114
 msgid "Defines the display order of line items within the section."
 msgstr ""
 
-#: backoffice/models.py:93
+#: backoffice/models.py:119
 msgid "Line Item"
 msgstr ""
 
-#: backoffice/models.py:94
+#: backoffice/models.py:120
 msgid "Line Items"
 msgstr ""
 
-#: backoffice/templates/backoffice/_stay_card.html:34
+#: backoffice/templates/backoffice/_stay_card.html:35
 msgid "Medicated"
 msgstr ""
 
-#: backoffice/templates/backoffice/_stay_card.html:39
+#: backoffice/templates/backoffice/_stay_card.html:40
 msgid "Allergies"
 msgstr ""
 
-#: backoffice/templates/backoffice/_stay_card.html:47
+#: backoffice/templates/backoffice/_stay_card.html:48
 #: hotel/templates/hotel/booking_detail.html:280
 msgid "Booking Notes"
 msgstr ""
 
-#: backoffice/templates/backoffice/_stay_card.html:53
+#: backoffice/templates/backoffice/_stay_card.html:54
 #: olhocao/templates/components/navbar.html:24
-#: olhocao/templates/components/navbar.html:131
+#: olhocao/templates/components/navbar.html:139
 msgid "Services"
 msgstr ""
 
@@ -412,53 +468,121 @@ msgstr ""
 msgid "No active stays"
 msgstr ""
 
-#: backoffice/templates/backoffice/legal_documents/edit.html:10
+#: backoffice/templates/backoffice/legaldocument_confirm_delete.html:13
+msgid "Delete Legal Document"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_confirm_delete.html:17
+msgid "Are you sure you want to permanently delete this document?"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_confirm_delete.html:58
+#: backoffice/templates/backoffice/legaldocument_form.html:311
+#: pets/templates/pets/pet_confirm_delete.html:18
+#: pets/templates/pets/pet_form.html:62
+msgid "Cancel"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_confirm_delete.html:62
+msgid "Confirm Delete"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:13
 msgid "Edit Legal Document"
 msgstr ""
 
-#: backoffice/templates/backoffice/legal_documents/edit.html:44
+#: backoffice/templates/backoffice/legaldocument_form.html:13
+msgid "Create Legal Document"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:17
+msgid "Manage your legal documents and policies"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:34
+msgid "There were errors with your submission"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:48
+msgid "Document Details"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:134
 msgid "Document Sections"
 msgstr ""
 
-#: backoffice/templates/backoffice/legal_documents/edit.html:49
+#: backoffice/templates/backoffice/legaldocument_form.html:139
 msgid "Add Section"
 msgstr ""
 
-#: backoffice/templates/backoffice/legal_documents/edit.html:92
-msgid "No sections added yet."
+#: backoffice/templates/backoffice/legaldocument_form.html:152
+msgid "Section errors"
 msgstr ""
 
-#: backoffice/templates/backoffice/legal_documents/list.html:33
+#: backoffice/templates/backoffice/legaldocument_form.html:185
+#: backoffice/templates/backoffice/legaldocument_form.html:401
+msgid "Remove"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:220
+#: backoffice/templates/backoffice/legaldocument_form.html:435
+msgid "Clauses"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:224
+#: backoffice/templates/backoffice/legaldocument_form.html:439
+msgid "Add Clause"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:241
+msgid "Clause errors"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_form.html:316
+msgid "Save Document"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_list.html:13
+msgid "Add New Document"
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_list.html:25
 #: pets/templates/pets/pet_detail.html:13 pets/templates/pets/pet_list.html:33
 msgid "Edit"
 msgstr ""
 
-#: backoffice/templates/backoffice/legal_documents/list.html:40
-msgid "No legal documents found."
+#: backoffice/templates/backoffice/legaldocument_list.html:30
+#: pets/templates/pets/pet_confirm_delete.html:21
+#: pets/templates/pets/pet_detail.html:16 pets/templates/pets/pet_list.html:36
+msgid "Delete"
 msgstr ""
 
-#: backoffice/views.py:68
-msgid "Legal document updated successfully"
+#: backoffice/templates/backoffice/legaldocument_list.html:49
+msgid "Effective Since"
 msgstr ""
 
-#: backoffice/views.py:86
-msgid "Section added successfully"
+#: backoffice/templates/backoffice/legaldocument_list.html:65
+msgid "No legal documents"
 msgstr ""
 
-#: backoffice/views.py:99
-msgid "Section updated successfully"
+#: backoffice/templates/backoffice/legaldocument_list.html:66
+msgid "Get started by adding a new legal document."
+msgstr ""
+
+#: backoffice/templates/backoffice/legaldocument_list.html:73
+msgid "New Document"
 msgstr ""
 
 #: backoffice/views.py:117
-msgid "Line item added successfully"
+msgid "Legal document not found."
 msgstr ""
 
-#: backoffice/views.py:129
-msgid "Line item updated successfully"
+#: backoffice/views.py:158
+msgid "Legal document created."
 msgstr ""
 
-#: frontoffice/models.py:8 frontoffice/models.py:34
-msgid "Name"
+#: backoffice/views.py:176
+msgid "Legal Document deleted."
 msgstr ""
 
 #: frontoffice/models.py:9
@@ -933,7 +1057,7 @@ msgstr ""
 
 #: frontoffice/templates/frontoffice/pricing.html:13
 #: olhocao/templates/components/navbar.html:36
-#: olhocao/templates/components/navbar.html:143
+#: olhocao/templates/components/navbar.html:151
 msgid "Pricing"
 msgstr ""
 
@@ -945,139 +1069,158 @@ msgstr ""
 msgid "Book Now"
 msgstr ""
 
-#: frontoffice/views.py:21 frontoffice/views.py:22
+#: frontoffice/templates/frontoffice/privacy_policy.html:25
+#: frontoffice/templates/frontoffice/terms_and_conditions.html:25
+msgid "Effective Date: "
+msgstr ""
+
+#: frontoffice/templates/frontoffice/privacy_policy.html:65
+msgid "No Privacy Policy Available"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/privacy_policy.html:66
+msgid "We're currently updating our privacy policy. Please check back later."
+msgstr ""
+
+#: frontoffice/templates/frontoffice/privacy_policy.html:76
+#: frontoffice/templates/frontoffice/terms_and_conditions.html:77
+msgid "Have Questions?"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/terms_and_conditions.html:66
+msgid "No Terms Available"
+msgstr ""
+
+#: frontoffice/templates/frontoffice/terms_and_conditions.html:67
+msgid ""
+"We're currently updating our terms and conditions. Please check back later."
+msgstr ""
+
+#: frontoffice/views.py:23 frontoffice/views.py:24
 msgid "OlhóCão having fun!"
 msgstr ""
 
-#: frontoffice/views.py:23
+#: frontoffice/views.py:25
 msgid ""
 "OlhóCão is a wild park where your dog goes full zoomies, makes furry "
 "friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."
 msgstr ""
 
-#: frontoffice/views.py:25 frontoffice/views.py:33 frontoffice/views.py:41
-#: frontoffice/views.py:49
+#: frontoffice/views.py:27 frontoffice/views.py:35 frontoffice/views.py:43
+#: frontoffice/views.py:51
 msgid "Discover Our Services"
 msgstr ""
 
-#: frontoffice/views.py:29 frontoffice/views.py:30
+#: frontoffice/views.py:31 frontoffice/views.py:32
 msgid "LavóCão so he smells nice!"
 msgstr ""
 
-#: frontoffice/views.py:31
+#: frontoffice/views.py:33
 msgid ""
 "We wash, fluff, and de-funk your furry beast. LavóCão turns your stink "
 "monster into a soft, snuggly cloud that’s finally welcome on the couch again."
 msgstr ""
 
-#: frontoffice/views.py:37 frontoffice/views.py:38
+#: frontoffice/views.py:39 frontoffice/views.py:40
 msgid "TreinóCão to be a good boy!"
 msgstr ""
 
-#: frontoffice/views.py:39
+#: frontoffice/views.py:41
 msgid ""
 "From couch destroyer to polite pupper—TreinóCão teaches obedience, social "
 "skills, and how *not* to embarrass you at the park."
 msgstr ""
 
-#: frontoffice/views.py:45 frontoffice/views.py:46
+#: frontoffice/views.py:47 frontoffice/views.py:48
 msgid "DeixóCão: we take care while you take off!"
 msgstr ""
 
-#: frontoffice/views.py:47
+#: frontoffice/views.py:49
 msgid ""
 "Vacation time? DeixóCão is your dog's home away from home—with playtime, "
 "cuddles, and way too many treats. You relax, we handle the tail-wagging."
 msgstr ""
 
-#: frontoffice/views.py:55 frontoffice/views.py:56
+#: frontoffice/views.py:57 frontoffice/views.py:58
 msgid "Trust in the best training"
 msgstr ""
 
-#: frontoffice/views.py:57
+#: frontoffice/views.py:59
 msgid ""
 "Our pros have years of experience and Jedi-level dog-whispering skills. Your "
 "furry tornado is in safe hands."
 msgstr ""
 
-#: frontoffice/views.py:61 frontoffice/views.py:62
+#: frontoffice/views.py:63 frontoffice/views.py:64
 msgid "Fun for everyone!"
 msgstr ""
 
-#: frontoffice/views.py:63
+#: frontoffice/views.py:65
 msgid ""
 "It’s basically a theme park for dogs. Walks, jumps, races, tail chases, "
 "group zoomies—we've got it all. Humans might get jealous."
 msgstr ""
 
-#: frontoffice/views.py:67 frontoffice/views.py:68
+#: frontoffice/views.py:69 frontoffice/views.py:70
 msgid "Socialization and cognitive development"
 msgstr ""
 
-#: frontoffice/views.py:69
+#: frontoffice/views.py:71
 msgid ""
 "Shy pups? Overly excited bark machines? We help them mingle, grow brains, "
 "and maybe even learn not to eat your socks."
 msgstr ""
 
-#: frontoffice/views.py:73 frontoffice/views.py:74
+#: frontoffice/views.py:75 frontoffice/views.py:76
 msgid "More comfort for the whole family"
 msgstr ""
 
-#: frontoffice/views.py:75
+#: frontoffice/views.py:77
 msgid ""
 "No time? No car? No problem. We pick up and drop off your pup, all clean and "
 "happy. It’s like Uber, but fluffier."
 msgstr ""
 
-#: frontoffice/views.py:79 frontoffice/views.py:80
+#: frontoffice/views.py:81 frontoffice/views.py:82
 msgid "Tailored for your dog’s needs"
 msgstr ""
 
-#: frontoffice/views.py:81
+#: frontoffice/views.py:83
 msgid ""
 "Big or small, shy or hyper—we customize the fun. Your dog’s happiness "
 "program is designed like a 5-star dogcation."
 msgstr ""
 
-#: frontoffice/views.py:135
+#: frontoffice/views.py:137
 msgid "Thank you! Your message has been sent."
 msgstr ""
 
-#: hotel/models.py:19 hotel/models.py:213
+#: hotel/forms.py:55
+msgid "I agree to the terms and conditions"
+msgstr ""
+
+#: hotel/forms.py:57
+msgid "You must accept the terms and conditions"
+msgstr ""
+
+#: hotel/forms.py:64
+msgid "Special requests or instructions"
+msgstr ""
+
+#: hotel/models.py:16
 msgid "Pending"
 msgstr ""
 
-#: hotel/models.py:20
+#: hotel/models.py:17
 msgid "Cancelled"
 msgstr ""
 
-#: hotel/models.py:21
+#: hotel/models.py:18
 msgid "Paid"
 msgstr ""
 
 #: hotel/models.py:83
 msgid "Booking"
-msgstr ""
-
-#: hotel/models.py:135
-msgid "Daily Service"
-msgstr ""
-
-#: hotel/models.py:136
-msgid "Timed Service"
-msgstr ""
-
-#: hotel/models.py:137
-msgid "Fixed Service"
-msgstr ""
-
-#: hotel/models.py:214
-msgid "Completed"
-msgstr ""
-
-#: hotel/models.py:215
-msgid "Failed"
 msgstr ""
 
 #: hotel/templates/hotel/booking_detail.html:14
@@ -1112,19 +1255,19 @@ msgid "Pets"
 msgstr ""
 
 #: hotel/templates/hotel/booking_detail.html:91
-#: hotel/templates/hotel/booking_review.html:62
+#: hotel/templates/hotel/booking_review.html:63
 msgid "Dates"
 msgstr ""
 
 #: hotel/templates/hotel/booking_detail.html:95
-#: hotel/templates/hotel/booking_review.html:65
-#: hotel/templates/hotel/booking_stay_service_list.html:71
+#: hotel/templates/hotel/booking_review.html:66
+#: hotel/templates/hotel/booking_stay_service_list.html:73
 msgid "Check-in"
 msgstr ""
 
 #: hotel/templates/hotel/booking_detail.html:99
-#: hotel/templates/hotel/booking_review.html:69
-#: hotel/templates/hotel/booking_stay_service_list.html:75
+#: hotel/templates/hotel/booking_review.html:70
+#: hotel/templates/hotel/booking_stay_service_list.html:77
 msgid "Check-out"
 msgstr ""
 
@@ -1141,7 +1284,7 @@ msgid "Base price"
 msgstr ""
 
 #: hotel/templates/hotel/booking_detail.html:136
-#: hotel/templates/hotel/booking_review.html:129
+#: hotel/templates/hotel/booking_review.html:130
 msgid "Total"
 msgstr ""
 
@@ -1158,7 +1301,7 @@ msgid "Daily service"
 msgstr ""
 
 #: hotel/templates/hotel/booking_detail.html:211
-#: hotel/templates/hotel/booking_stay_service_list.html:134
+#: hotel/templates/hotel/booking_stay_service_list.html:125
 msgid "One-time service"
 msgstr ""
 
@@ -1222,313 +1365,278 @@ msgstr ""
 msgid "View all bookings"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:13
+#: hotel/templates/hotel/booking_retry.html:14
 msgid "Payment Needed"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:18
+#: hotel/templates/hotel/booking_retry.html:19
 msgid "We couldn't confirm your payment yet"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:27
+#: hotel/templates/hotel/booking_retry.html:28
 msgid "Booking #"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:31
+#: hotel/templates/hotel/booking_retry.html:32
 msgid "Possible Reasons"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:35
+#: hotel/templates/hotel/booking_retry.html:36
 msgid "Payment is still processing (may take a few minutes)"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:39
+#: hotel/templates/hotel/booking_retry.html:40
 msgid "Payment authorization failed"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:43
+#: hotel/templates/hotel/booking_retry.html:44
 msgid "Network issue during verification"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:50
+#: hotel/templates/hotel/booking_retry.html:51
 msgid "Total Amount"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:56
+#: hotel/templates/hotel/booking_retry.html:57
 #: hotel/templates/hotel/booking_success.html:35
 msgid "Status"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:58
+#: hotel/templates/hotel/booking_retry.html:59
 msgid "Pending Payment"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:66
+#: hotel/templates/hotel/booking_retry.html:67
 msgid "Important"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:69
+#: hotel/templates/hotel/booking_retry.html:70
 msgid ""
 "Your booking is reserved for 30 minutes. Complete payment to confirm your "
 "spot."
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:78
+#: hotel/templates/hotel/booking_retry.html:79
 msgid "Retry Payment Now"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:82
+#: hotel/templates/hotel/booking_retry.html:83
 msgid "View in my Bookings"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:88
+#: hotel/templates/hotel/booking_retry.html:89
 msgid "Need help with your payment?"
 msgstr ""
 
-#: hotel/templates/hotel/booking_retry.html:91
+#: hotel/templates/hotel/booking_retry.html:92
 msgid "Contact Support"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:14
+#: hotel/templates/hotel/booking_review.html:15
 msgid "Review Your Booking"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:19
+#: hotel/templates/hotel/booking_review.html:20
 msgid "Please verify all details before confirmation"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:28
-#: hotel/templates/hotel/booking_stay_list.html:29
-#: hotel/templates/hotel/booking_stay_service_list.html:29
+#: hotel/templates/hotel/booking_review.html:29
+#: hotel/templates/hotel/booking_stay_list.html:31
+#: hotel/templates/hotel/booking_stay_service_list.html:31
 msgid "Select Stay"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:32
-#: hotel/templates/hotel/booking_stay_list.html:33
-#: hotel/templates/hotel/booking_stay_service_list.html:13
-#: hotel/templates/hotel/booking_stay_service_list.html:33
+#: hotel/templates/hotel/booking_review.html:33
+#: hotel/templates/hotel/booking_stay_list.html:35
+#: hotel/templates/hotel/booking_stay_service_list.html:15
+#: hotel/templates/hotel/booking_stay_service_list.html:35
 msgid "Add Services"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:36
-#: hotel/templates/hotel/booking_stay_list.html:37
-#: hotel/templates/hotel/booking_stay_service_list.html:37
+#: hotel/templates/hotel/booking_review.html:37
+#: hotel/templates/hotel/booking_stay_list.html:39
+#: hotel/templates/hotel/booking_stay_service_list.html:39
 msgid "Review & Pay"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:44
-#: hotel/templates/hotel/booking_stay_service_list.html:68
+#: hotel/templates/hotel/booking_review.html:45
+#: hotel/templates/hotel/booking_stay_service_list.html:70
 msgid "Stay Details"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:49
-#: hotel/templates/hotel/booking_review.html:170
+#: hotel/templates/hotel/booking_review.html:50
+#: hotel/templates/hotel/booking_review.html:171
 msgid "Accommodation"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:56
+#: hotel/templates/hotel/booking_review.html:57
 msgid "per day"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:73
-#: hotel/templates/hotel/booking_stay_service_list.html:79
+#: hotel/templates/hotel/booking_review.html:74
+#: hotel/templates/hotel/booking_stay_service_list.html:81
 msgid "Duration"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:74
-#: hotel/templates/hotel/booking_stay_service_list.html:80
-#: hotel/templates/hotel/booking_stay_service_list.html:140
+#: hotel/templates/hotel/booking_review.html:75
+#: hotel/templates/hotel/booking_stay_service_list.html:82
 msgid "day"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:80
+#: hotel/templates/hotel/booking_review.html:81
 msgid "Pets Staying"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:104
+#: hotel/templates/hotel/booking_review.html:105
 msgid "Selected Services"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:126
-#: hotel/templates/hotel/booking_stay_service_list.html:99
+#: hotel/templates/hotel/booking_review.html:127
+#: hotel/templates/hotel/booking_stay_service_list.html:101
 msgid "Service"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:127
-#: hotel/templates/hotel/booking_stay_service_list.html:100
+#: hotel/templates/hotel/booking_review.html:128
+#: hotel/templates/hotel/booking_stay_service_list.html:102
 msgid "Price"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:128
+#: hotel/templates/hotel/booking_review.html:129
 msgid "Qty"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:146
-#: hotel/templates/hotel/booking_review.html:153
+#: hotel/templates/hotel/booking_review.html:147
+#: hotel/templates/hotel/booking_review.html:154
 msgid "No additional services selected"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:162
+#: hotel/templates/hotel/booking_review.html:163
 msgid "Pricing Summary"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:172
+#: hotel/templates/hotel/booking_review.html:173
 #: hotel/templates/hotel/partials/booking_card.html:42
 msgid "days"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:172
+#: hotel/templates/hotel/booking_review.html:173
 msgid "pets"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:190
+#: hotel/templates/hotel/booking_review.html:191
 msgid "Grand Total"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:205
+#: hotel/templates/hotel/booking_review.html:206
 msgid "Payment & Confirmation"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:209
+#: hotel/templates/hotel/booking_review.html:210
 msgid "Special Requests"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:210
+#: hotel/templates/hotel/booking_review.html:211
 msgid "Any special instructions for our team?"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:218
+#: hotel/templates/hotel/booking_review.html:219
 msgid "I agree to the"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:218
+#: hotel/templates/hotel/booking_review.html:219
 msgid "Terms & Conditions"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:221
+#: hotel/templates/hotel/booking_review.html:222
 msgid "and"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:229
+#: hotel/templates/hotel/booking_review.html:230
 msgid "Back to Services"
 msgstr ""
 
-#: hotel/templates/hotel/booking_review.html:232
+#: hotel/templates/hotel/booking_review.html:233
 msgid "Confirm & Pay Now"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:13
+#: hotel/templates/hotel/booking_stay_list.html:15
 msgid "Book a Stay"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:18
+#: hotel/templates/hotel/booking_stay_list.html:20
 msgid "Choose accommodation for your pet"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:45
+#: hotel/templates/hotel/booking_stay_list.html:47
 msgid "Select Accommodation"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:61
+#: hotel/templates/hotel/booking_stay_list.html:65
 msgid "Per day"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:72
+#: hotel/templates/hotel/booking_stay_list.html:76
 msgid "Select Your Pet"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:79
+#: hotel/templates/hotel/booking_stay_list.html:83
 msgid "Select all pets"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:108
+#: hotel/templates/hotel/booking_stay_list.html:112
 msgid "You don't have any pets registered yet."
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:110
+#: hotel/templates/hotel/booking_stay_list.html:114
 msgid "Add a pet"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:121
+#: hotel/templates/hotel/booking_stay_list.html:125
 msgid "Select Dates"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:127
+#: hotel/templates/hotel/booking_stay_list.html:131
 msgid "Check-in Date"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:135
+#: hotel/templates/hotel/booking_stay_list.html:139
 msgid "Check-out Date"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_list.html:148
+#: hotel/templates/hotel/booking_stay_list.html:152
 msgid "Continue to Services"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:18
+#: hotel/templates/hotel/booking_stay_service_list.html:20
 msgid "Customize services for each pet"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:45
+#: hotel/templates/hotel/booking_stay_service_list.html:47
 msgid "Your Booking Summary"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:50
+#: hotel/templates/hotel/booking_stay_service_list.html:52
 msgid "Selected Pets"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:91
+#: hotel/templates/hotel/booking_stay_service_list.html:93
 msgid "Available Services"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:125
-#, python-format
-msgid ""
-"\n"
-"                                            Daily Service (max 1 day)\n"
-"                                            "
-msgid_plural ""
-"\n"
-"                                            Daily Service (max %(days)s "
-"days)\n"
-"                                        "
-msgstr[0] ""
-msgstr[1] ""
-
-#: hotel/templates/hotel/booking_stay_service_list.html:132
-msgid "Specific time service"
+#: hotel/templates/hotel/booking_stay_service_list.html:157
+msgid "Each service can be booked up to the max days of stay."
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:168
-msgid "Daily services can be booked up to once per day of stay."
-msgstr ""
-
-#: hotel/templates/hotel/booking_stay_service_list.html:169
-msgid "Other services can be booked up to the max duration of stay."
-msgstr ""
-
-#: hotel/templates/hotel/booking_stay_service_list.html:175
+#: hotel/templates/hotel/booking_stay_service_list.html:163
 msgid "No additional services available at this time."
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:184
+#: hotel/templates/hotel/booking_stay_service_list.html:172
 msgid "Back to Stay Selection"
 msgstr ""
 
-#: hotel/templates/hotel/booking_stay_service_list.html:187
+#: hotel/templates/hotel/booking_stay_service_list.html:175
 msgid "Review Booking"
-msgstr ""
-
-#: hotel/templates/hotel/booking_stay_service_list.html:257
-msgid "You can book this up to once per day of your stay"
-msgstr ""
-
-#: hotel/templates/hotel/booking_stay_service_list.html:259
-msgid "This service is scheduled for a specific time"
-msgstr ""
-
-#: hotel/templates/hotel/booking_stay_service_list.html:261
-msgid "One-time service (max 1 per stay)"
 msgstr ""
 
 #: hotel/templates/hotel/booking_success.html:14
@@ -1575,11 +1683,35 @@ msgstr ""
 msgid "View Details"
 msgstr ""
 
-#: olhocao/settings.py:186
+#: hotel/views.py:151
+msgid "Booking Session Expired"
+msgstr ""
+
+#: hotel/views.py:239 hotel/views.py:336
+msgid "Please start your booking from the beginning"
+msgstr ""
+
+#: hotel/views.py:427
+msgid "Payment processing error. Please try again."
+msgstr ""
+
+#: hotel/views.py:509
+msgid "This booking can no longer be paid as the stay dates have passed"
+msgstr ""
+
+#: hotel/views.py:517
+msgid "This booking doesn't require payment"
+msgstr ""
+
+#: hotel/views.py:565 hotel/views.py:696
+msgid "Error creating payment session. Please try again later."
+msgstr ""
+
+#: olhocao/settings.py:191
 msgid "English"
 msgstr ""
 
-#: olhocao/settings.py:187
+#: olhocao/settings.py:192
 msgid "Portuguese"
 msgstr ""
 
@@ -1615,11 +1747,11 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
-#: olhocao/templates/components/footer.html:112
+#: olhocao/templates/components/footer.html:126
 msgid "Developed with"
 msgstr ""
 
-#: olhocao/templates/components/footer.html:114
+#: olhocao/templates/components/footer.html:128
 msgid "by"
 msgstr ""
 
@@ -1628,45 +1760,50 @@ msgid "Close"
 msgstr ""
 
 #: olhocao/templates/components/navbar.html:18
-#: olhocao/templates/components/navbar.html:125
+#: olhocao/templates/components/navbar.html:133
 msgid "Book Hotel"
 msgstr ""
 
 #: olhocao/templates/components/navbar.html:30
-#: olhocao/templates/components/navbar.html:137
+#: olhocao/templates/components/navbar.html:145
 msgid "Contact"
 msgstr ""
 
 #: olhocao/templates/components/navbar.html:42
-#: olhocao/templates/components/navbar.html:149
+#: olhocao/templates/components/navbar.html:157
 msgid "About"
 msgstr ""
 
-#: olhocao/templates/components/navbar.html:77
-#: olhocao/templates/components/navbar.html:164
-msgid "Manage Account"
+#: olhocao/templates/components/navbar.html:78
+#: olhocao/templates/components/navbar.html:173
+msgid "Dashboard"
 msgstr ""
 
-#: olhocao/templates/components/navbar.html:84
-#: olhocao/templates/components/navbar.html:168
+#: olhocao/templates/components/navbar.html:87
+#: olhocao/templates/components/navbar.html:182
 msgid "Manage Pets"
 msgstr ""
 
-#: olhocao/templates/components/navbar.html:88
-#: olhocao/templates/components/navbar.html:172
+#: olhocao/templates/components/navbar.html:91
+#: olhocao/templates/components/navbar.html:186
 msgid "View Hotel Bookings"
 msgstr ""
 
-#: olhocao/templates/components/navbar.html:98
-#: olhocao/templates/components/navbar.html:176
+#: olhocao/templates/components/navbar.html:96
+#: olhocao/templates/components/navbar.html:191
+msgid "Manage Account"
+msgstr ""
+
+#: olhocao/templates/components/navbar.html:106
+#: olhocao/templates/components/navbar.html:199
 msgid "Logout"
 msgstr ""
 
-#: olhocao/templates/components/navbar.html:158
+#: olhocao/templates/components/navbar.html:166
 msgid "My Account"
 msgstr ""
 
-#: olhocao/templates/components/navbar.html:191
+#: olhocao/templates/components/navbar.html:214
 msgid "Switch Language"
 msgstr ""
 
@@ -1875,16 +2012,6 @@ msgstr ""
 
 #: pets/templates/pets/pet_confirm_delete.html:12
 msgid "Are you sure you want to delete"
-msgstr ""
-
-#: pets/templates/pets/pet_confirm_delete.html:18
-#: pets/templates/pets/pet_form.html:62
-msgid "Cancel"
-msgstr ""
-
-#: pets/templates/pets/pet_confirm_delete.html:21
-#: pets/templates/pets/pet_detail.html:16 pets/templates/pets/pet_list.html:36
-msgid "Delete"
 msgstr ""
 
 #: pets/templates/pets/pet_detail.html:29

@@ -6,6 +6,60 @@ from django.utils.translation import gettext_lazy as _
 from . import models
 
 
+class SignUpForm(auth_forms.UserCreationForm):
+    first_name = forms.CharField(
+        max_length=50,
+        required=True,
+        label=_("First Name"),
+        help_text=_("Enter your legal first name as it appears on official documents.")
+    )
+
+    last_name = forms.CharField(
+        max_length=50,
+        required=True,
+        label=_("Last Name"),
+        help_text=_("Enter your legal last name as it appears on official documents.")
+    )
+
+    vat = forms.CharField(
+        max_length=30,
+        required=True,
+        label=_("VAT Number"),
+        help_text=_("Your tax identification number (required for invoicing).")
+    )
+
+    phone = forms.CharField(
+        max_length=30,
+        required=True,
+        label=_("Phone Number"),
+        help_text=_("We'll use this to contact you about your account or services.")
+    )
+
+    email = forms.EmailField(
+        required=True,
+        label=_("Email Address"),
+        help_text=_("Your primary email address for billing and account notifications.")
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+            'first_name',
+            'last_name',
+            'vat',
+            'phone',
+            'email',
+            'username',
+            'password1',
+            'password2'
+        )
+
+    def save(self, commit: bool = True):
+        instance = super().save(commit)
+        account, created = models.Account.objects.get_or_create(user=instance)
+        return instance
+
+
 class UserChangeForm(auth_forms.UserChangeForm):
     first_name = forms.CharField(
         max_length=50,
@@ -38,7 +92,7 @@ class UserChangeForm(auth_forms.UserChangeForm):
     email = forms.EmailField(
         required=True,
         label=_("Email Address"),
-        help_text=_("Your primary email address for account notifications.")
+        help_text=_("Your primary email address for billing and account notifications.")
     )
 
     def __init__(self, *args, **kwargs):

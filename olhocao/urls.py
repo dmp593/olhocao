@@ -28,5 +28,6 @@ urlpatterns = [
     path('hotel/', include('hotel.urls')),
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('stripe/', include('djstripe.urls', namespace='djstripe')),
     path('__reload__/', include('django_browser_reload.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

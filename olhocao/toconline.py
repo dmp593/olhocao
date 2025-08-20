@@ -65,7 +65,7 @@ class TocOnlineResource(StrEnum):
     CUSTOMERS = 'customers'
     PRODUCTS = 'products'
     SERVICES = 'services'
-    COMERCIAL_SALES_DOCUMENTS = 'commercial_sales_documents'
+    COMERCIAL_SALES_DOCUMENTS = 'v1/commercial_sales_documents'
     ITEM_FAMILY = 'item_families'
     UNIT_OF_MEASURE = 'units_of_measure'
 
@@ -85,7 +85,7 @@ class TocOnline:
         self.token = None
 
     @property
-    def default_headers(self):
+    def default_headers(self) -> dict:
         headers = {
             'Accept': 'application/json',
         }
@@ -216,7 +216,9 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        return response.json()['data']
+
+        json_response = response.json()
+        return json_response['data'] if 'data' in json_response else json_response
 
     def first(self, resource: TocOnlineResource | str, **kwargs):
         data = self.list(resource, limit=1, **kwargs)
@@ -242,7 +244,9 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        return response.json()['data']
+
+        json_response = response.json()
+        return json_response['data'] if 'data' in json_response else json_response
 
     def create(
         self,
@@ -253,21 +257,27 @@ class TocOnline:
 
         response = requests.post(
             f"{self.base_url}/api/{resource}",
+            
             headers=self.default_headers,
+
             json={
                 "data": {
                     "attributes": kwargs,
-                    "type": resource
-                }
-            },
+                    "type": resource,
+                },
+            }
+            if resource != TocOnlineResource.COMERCIAL_SALES_DOCUMENTS
+            else kwargs,
+
             timeout=7
         )
 
         response.raise_for_status()
         self.clear_cached()
 
-        return response.json()['data']
-    
+        json_response = response.json()
+        return json_response['data'] if 'data' in json_response else json_response
+
     def update(
         self,
         resource: TocOnlineResource | str,
@@ -292,7 +302,8 @@ class TocOnline:
         response.raise_for_status()
         self.clear_cached()
 
-        return response.json()['data']
+        json_response = response.json()
+        return json_response['data'] if 'data' in json_response else json_response
 
     def delete(
         self,
@@ -309,6 +320,34 @@ class TocOnline:
 
         response.raise_for_status()
         self.clear_cached()
+
+    @cached(cache=cache_get)
+    def get_sales_document_pdf(self, document_id: str):
+        self.ensure_authenticated()
+
+        response = requests.get(
+            f"{self.base_url}/api/url_for_print/{document_id}",
+            headers={
+                'Accept': '*/*',
+                'Authorization': f"Bearer {self.token.access_token}",
+            },
+            params={
+                'filter[type]': 'Document',
+                'filter[copies]': 1
+            },
+            timeout=10
+        )
+
+        response.raise_for_status()
+        json_response = response.json()
+
+        url_attrs = json_response.get('data').get('attributes', {}).get('url', {})
+        url = f"{url_attrs['scheme']}://{url_attrs['host']}:{url_attrs['port']}{url_attrs['path']}"
+
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+
+        return response.content
 
 
 toconline = TocOnline(

@@ -2,50 +2,64 @@
 {% load i18n %}
 
 {% block content %}
-<section class="bg-white p-6 rounded-lg shadow">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="text-2xl font-bold text-primary-800">{% trans "My Pets" %}</h1>
-    <a href="{% url 'pets:create' %}" class="px-4 py-2 bg-accent-500 text-white rounded-full hover:bg-accent-600 transition-colors">
-      {% trans "Add Pet" %}
-    </a>
-  </div>
-
-  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {% for pet in pets %}
-      <div class="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-        {% if pet.photo %}
-          <div class="relative h-48 overflow-hidden">
-            <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
-          </div>
-        {% else %}
-          <div class="h-48 bg-primary-100 flex items-center justify-center">
-            <span class="text-primary-400">{% include "icons/paw.html" with class="w-12 h-12" %}</span>
-          </div>
-        {% endif %}
-        <div class="p-4">
-          <h3 class="font-bold text-lg">{{ pet.name }}</h3>
-          <p class="text-primary-600">{{ pet.get_species_display }} • {{ pet.breed }}</p>
-          <div class="mt-4 flex space-x-2 justify-end">
-            <a href="{% url 'pets:detail' pet.pk %}" class="px-3 py-1 border border-primary-600 text-primary-600 rounded-full hover:bg-primary-50 transition-colors">
-              {% trans "View" %}
-            </a>
-            <a href="{% url 'pets:update' pet.pk %}" class="px-3 py-1 border border-secondary-600 text-secondary-600 rounded-full hover:bg-secondary-50 transition-colors">
-              {% trans "Edit" %}
-            </a>
-            <a href="{% url 'pets:delete' pet.pk %}" class="px-3 py-1 border border-red-600 text-red-600 rounded-full hover:bg-red-50 transition-colors">
-              {% trans "Delete" %}
-            </a>
-          </div>
+<section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white animate__animated animate__fadeIn">
+  <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-6xl mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
+      <div class="bg-primary-700 px-6 py-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-0">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
+            {% trans "My Pets" %}
+          </span>
+        </h2>
+      </div>
+      <div class="p-8">
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {% for pet in pets %}
+            <div class="bg-primary-50 border border-primary-100 rounded-2xl shadow hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+              {% if pet.photo %}
+                <div class="relative h-56 overflow-hidden">
+                  <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                </div>
+              {% else %}
+                <div class="h-56 bg-primary-100 flex items-center justify-center">
+                  <span class="text-primary-400">{% include "icons/paw.html" with class="w-16 h-16" %}</span>
+                </div>
+              {% endif %}
+              <div class="p-6">
+                <h3 class="font-bold text-2xl text-primary-800 mb-1">{{ pet.name }}</h3>
+                <p class="text-primary-600 mb-4">{{ pet.get_species_display }} • {{ pet.breed }}</p>
+                <div class="flex space-x-2 justify-end">
+                  <a href="{% url 'pets:detail' pet.pk %}" class="px-4 py-2 border border-primary-600 text-primary-600 rounded-full hover:bg-primary-50 transition-colors">
+                    {% trans "View" %}
+                  </a>
+                  <a href="{% url 'pets:update' pet.pk %}" class="px-4 py-2 border border-secondary-600 text-secondary-600 rounded-full hover:bg-secondary-50 transition-colors">
+                    {% trans "Edit" %}
+                  </a>
+                  <a href="{% url 'pets:delete' pet.pk %}" class="px-4 py-2 border border-red-600 text-red-600 rounded-full hover:bg-red-50 transition-colors">
+                    {% trans "Delete" %}
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <div class="col-span-full text-center py-16 animate__animated animate__fadeIn animate__delay-1s">
+              <p class="text-primary-500 text-xl mb-4">{% trans "You haven't added any pets yet." %}</p>
+              <a href="{% url 'pets:create' %}" class="inline-flex items-center px-6 py-3 rounded-full text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors animate__animated animate__pulse animate__infinite animate__slower">
+                {% include "icons/paw.html" with class="w-6 h-6 mr-2" %}
+                {% trans "Add Your First Pet" %}
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="flex justify-end mt-10">
+          <a href="{% url 'pets:create' %}" class="inline-flex items-center px-6 py-3 rounded-full text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors animate__animated animate__pulse animate__infinite animate__slower">
+            {% include "icons/paw.html" with class="w-6 h-6 mr-2" %}
+            {% trans "Add Pet" %}
+          </a>
         </div>
       </div>
-    {% empty %}
-      <div class="col-span-full text-center py-12">
-        <p class="text-primary-500">{% trans "You haven't added any pets yet." %}</p>
-        <a href="{% url 'pets:create' %}" class="mt-4 inline-block px-4 py-2 bg-accent-500 text-white rounded-full hover:bg-accent-600 transition-colors">
-          {% trans "Add Your First Pet" %}
-        </a>
-      </div>
-    {% endfor %}
+    </div>
   </div>
 </section>
 {% endblock %}

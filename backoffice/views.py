@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect, render
 
-from hotel.models import BookingStay
+from hotel.models import BookingStay, BookingStatus
 
 from .models import LegalDocument
 
@@ -44,7 +44,8 @@ class DashboardView(TemplateView):
         # Get stays overlapping with date range
         stays = BookingStay.objects.filter(
             start_date__lte=end_date,
-            end_date__gte=start_date
+            end_date__gte=start_date,
+            booking__status=BookingStatus.PAID,
         ).select_related('booking', 'pet').order_by('start_date')
 
         context.update({

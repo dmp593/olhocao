@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block content %}
+<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
+                    {% trans "Confirm Booking Cancellation" %}
+                </span>
+                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
+            </h1>
+            <p class="text-xl text-primary-600 max-w-3xl mx-auto">
+                {% trans "Are you sure you want to cancel this booking? This action cannot be undone." %}
+            </p>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
+                {% include "icons/info.html" with class="w-6 h-6 mr-2 text-accent-500" %}
+                {% trans "Booking Summary" %}
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <h3 class="font-medium text-primary-700 mb-2">{% trans "Pets" %}</h3>
+                    <ul class="space-y-2">
+                        {% for stay in booking.stays.all %}
+                        <li class="flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-primary-100 mr-3 flex items-center justify-center">
+                                {% if stay.pet.photo %}
+                                <img src="{{ stay.pet.photo.url }}" alt="{{ stay.pet.name }}" class="w-full h-full rounded-full object-cover">
+                                {% else %}
+                                {% include "icons/paw.html" with class="w-4 h-4 text-primary-400" %}
+                                {% endif %}
+                            </span>
+                            <span>{{ stay.pet.name }} ({{ stay.pet.breed }})</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-medium text-primary-700 mb-2">{% trans "Dates" %}</h3>
+                    <ul class="space-y-2">
+                        <li class="flex justify-between">
+                            <span>{% trans "Check-in" %}</span>
+                            <span class="font-medium">{{ booking.earliest_start_date|date:"M j, Y" }}</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>{% trans "Check-out" %}</span>
+                            <span class="font-medium">{{ booking.latest_end_date|date:"M j, Y" }}</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>{% trans "Duration" %}</span>
+                            <span class="font-medium">{% with stay=booking.stays.first %}{{ stay.duration_days }}{% endwith %} {% trans "day" %}{{ stay.duration_days|pluralize }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+                <span class="text-lg font-bold text-primary-800">
+                    {{ booking.total_price_eur|divide:100|floatformat:2 }}€
+                </span>
+                <a href="{% url 'hotel:booking_detail' booking.id %}" class="flex items-center text-primary-600 hover:text-primary-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                    <span class="mr-1">←</span>
+                    {% trans "Back to Booking Details" %}
+                </a>
+            </div>
+        </div>
+
+        <!-- Refund Notice -->
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 max-w-3xl mx-auto rounded">
+            <span class="font-semibold">{% trans "Important:" %}</span>
+            {{ refund_notice }}
+        </div>
+
+        <!-- Confirm Cancel Form -->
+        <form action="{% url "hotel:booking_cancel" booking.id %}" method="post" class="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto text-center">
+            {% csrf_token %}
+            <a href="{% url 'hotel:booking_detail' booking.id %}" class="bg-gray-200 hover:bg-gray-300 text-primary-700 font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
+                {% trans "No, Go Back" %}
+            </a>
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 mr-4">
+                {% trans "Yes, Cancel Booking" %}
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

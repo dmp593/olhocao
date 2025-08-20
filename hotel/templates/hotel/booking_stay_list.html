@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load custom_filters %}
+{% load product_filters %}
 
 {% block content %}
 <section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
@@ -48,16 +50,18 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {% for stay in stays %}
                     <div class="relative">
-                        <input type="radio" name="stay_id" id="stay-{{ stay.id }}" value="{{ stay.id }}" 
-                               class="absolute opacity-0 peer" {% if forloop.first %}checked{% endif %}>
+                        <input type="radio" name="stay_id" id="stay-{{ stay.id }}" value="{{ stay.id }}" class="absolute opacity-0 peer" {% if forloop.first %}checked{% endif %}>
                         <label for="stay-{{ stay.id }}" 
                                class="block p-4 border-2 border-primary-200 rounded-lg cursor-pointer transition-all duration-200 peer-checked:border-accent-500 peer-checked:ring-2 peer-checked:ring-accent-200 peer-checked:bg-accent-50 h-full">
                             <div class="flex justify-between items-start mb-2">
-                                <h3 class="text-lg font-bold text-primary-800">{{ stay.item_description }}</h3>
+                                <h3 class="text-lg font-bold text-primary-800">{{ stay|product_name }}</h3>
                                 <span class="bg-accent-100 text-accent-800 text-lg font-bold px-3 py-1 rounded-full">
-                                    {{ stay.sales_price }}€
+                                    {{ stay.default_price.unit_amount|divide:100|floatformat:2 }} {{ stay.default_price.currency }}
                                 </span>
                             </div>
+                            {% if stay.images|length > 0 %}
+                                <img src="{{ stay.images.0 }}" alt="{{ stay.name }}" loading="lazy">
+                            {% endif %}
                             <p class="text-primary-600 text-sm">{% trans "Per day" %}</p>
                         </label>
                     </div>

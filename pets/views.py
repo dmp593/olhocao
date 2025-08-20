@@ -20,7 +20,10 @@ class PetListView(LoginRequiredMixin, ListView):
     context_object_name = "pets"
 
     def get_queryset(self):
-        return Pet.objects.filter(owner__user=self.request.user)
+        if self.request.user.is_staff:
+            return Pet.objects.all()
+
+        return Pet.objects.filter(owner__user=self.request.user).all()
 
 
 class PetDetailView(LoginRequiredMixin, DetailView):
@@ -28,7 +31,10 @@ class PetDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "pet"
 
     def get_queryset(self):
-        return Pet.objects.filter(owner__user=self.request.user)
+        if self.request.user.is_staff:
+            return Pet.objects.all()
+
+        return Pet.objects.filter(owner__user=self.request.user).all()
 
 
 class PetCreateView(LoginRequiredMixin, CreateView):

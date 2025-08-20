@@ -1,18 +1,15 @@
-from enum import StrEnum
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
+from djstripe.models import (
+    Product as StripeProduct,
+    Price as StripePrice
+)
+
 from accounts.models import Account
 from pets.models import Pet
-
-
-class ServiceGroup(StrEnum):
-    GENERAL_SERVICE = "G1"  # General Service
-    PREMIUM_SERVICE = "G2"  # Premium Service
-    EXTRA_SERVICE = "G3"    # Extra or Complementary Service
-    SPECIAL_SERVICE = "G4"  # Special or Occasional Service
-    OTHER_SERVICES = "G5"   # Other or Secondary Services
 
 
 class BookingStatus(models.TextChoices):
@@ -22,20 +19,28 @@ class BookingStatus(models.TextChoices):
 
 
 class Booking(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.PROTECT)
-    
+    account = models.ForeignKey(
+        Account,
+        on_delete=models.PROTECT
+    )
+
     status = models.CharField(
         max_length=20,
         choices=BookingStatus.choices,
         default=BookingStatus.PENDING
     )
 
-    stripe_session_id = models.CharField(
+    stripe_checkout_session_id = models.CharField(
         max_length=100,
         blank=True
     )
 
     toconline_sale_document_id = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    toconline_amend_document_id = models.CharField(
         max_length=100,
         blank=True
     )
@@ -79,6 +84,16 @@ class Booking(models.Model):
         return (self.status == BookingStatus.PAID and 
                 all(stay.start_date > now for stay in self.stays.all()))
 
+    @property
+    def can_modify(self):
+        days_until_start = self.earliest_start_date - timezone.now().date()
+        return days_until_start.days >= 7 and self.status != BookingStatus.CANCELLED
+
+    @property
+    def can_cancel(self):
+        days_until_start = self.earliest_start_date - timezone.now().date()
+        return days_until_start.days >= 7 and self.status != BookingStatus.CANCELLED
+
     def __str__(self):
         return _("Booking") + f" #{self.pk}"
 
@@ -99,14 +114,28 @@ class BookingStay(models.Model):
     )
 
     # Stay information from external API
-    stay_id = models.CharField(max_length=50)
-    stay_name = models.CharField(max_length=100)
-    unit_price_eur = models.DecimalField(max_digits=10, decimal_places=2)
+    stripe_product_id = models.CharField(max_length=50)
 
     start_date = models.DateField()
     end_date = models.DateField()
 
     notes = models.TextField(blank=True)
+
+    @property
+    def stripe_product(self):
+        return StripeProduct.objects.get(id=self.stripe_product_id)
+    
+    @property
+    def stripe_price(self):
+        return StripePrice.objects.get(product=self.stripe_product_id)
+
+    @property
+    def stay_name(self):
+        return self.stripe_product.name
+    
+    @property
+    def unit_price_eur(self):
+        return self.stripe_price.unit_amount
 
     @property
     def duration_days(self):
@@ -131,12 +160,6 @@ class BookingStay(models.Model):
             raise ValidationError("Pet does not belong to the booking account")
 
 
-class ServiceType(models.TextChoices):
-    DAILY = "daily", _("Daily Service")  # Repeats each day of stay
-    TIMED = "timed", _("Timed Service")  # Specific date/time
-    FIXED = "fixed", _("Fixed Service")  # Fixed/One-time regardless of duration
-
-
 class BookingService(models.Model):
     stay = models.ForeignKey(
         BookingStay,
@@ -148,16 +171,7 @@ class BookingService(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.PROTECT)
 
     # Service Details (from billing system)
-    service_id = models.CharField(max_length=50)
-    service_name = models.CharField(max_length=100)
-    service_type = models.CharField(
-        max_length=20,
-        choices=ServiceType.choices,
-        default=ServiceType.FIXED
-    )
-
-    # Service Price
-    unit_price_eur = models.DecimalField(max_digits=10, decimal_places=2)
+    stripe_product_id = models.CharField(max_length=50)
 
     # For timed services
     scheduled_time = models.DateTimeField(null=True, blank=True)
@@ -168,48 +182,32 @@ class BookingService(models.Model):
     notes = models.TextField(blank=True)
 
     @property
+    def stripe_product(self):
+        return StripeProduct.objects.get(id=self.stripe_product_id)
+    
+    @property
+    def stripe_price(self):
+        return StripePrice.objects.get(product=self.stripe_product_id)
+
+    @property
+    def service_name(self):
+        return self.stripe_product.name
+
+    @property
+    def unit_price_eur(self):
+        return self.stripe_price.unit_amount
+
+    @property
     def total_price_eur(self):
-        if self.service_type == ServiceType.DAILY:
-            # Daily services multiply by stay duration
-            return self.unit_price_eur * self.quantity * self.stay.duration_days
-        elif self.service_type == ServiceType.TIMED:
-            # Timed services are priced by unit price only (no quantity)
-            return self.unit_price_eur
-        else:  # FIXED
-            # Fixed services can have quantity (e.g., 2 special treats)
-            return self.unit_price_eur * self.quantity
+        return self.unit_price_eur * self.quantity
 
     def clean(self):
-        # Validate service type specific rules
-        if self.service_type == ServiceType.TIMED:
-            if not self.scheduled_time:
-                raise ValidationError("Timed services require a scheduled time")
-            if self.quantity != 1:
-                raise ValidationError("Timed services must have quantity = 1")
-                
-        elif self.service_type == ServiceType.DAILY:
-            if self.scheduled_time:
-                raise ValidationError("Daily services cannot have a scheduled time")
-            if self.quantity != 1:
-                raise ValidationError("Daily services must have quantity = 1")
-            if not hasattr(self, 'stay') or not self.stay:
-                raise ValidationError("Daily services require a stay duration")
-                
-        elif self.service_type == ServiceType.ONE_TIME:
-            if self.scheduled_time:
-                raise ValidationError("One-time services cannot have a scheduled time")
-            if self.quantity < 1:
-                raise ValidationError("Quantity must be ≥ 1 for one-time services")
-                
+        if self.quantity < 1:
+            raise ValidationError("Quantity must be ≥ 1 for one-time services")
+
         if self.scheduled_time and hasattr(self, 'stay') and self.stay:
             # Validate scheduled_time is during the stay period
             if self.scheduled_time.date() < self.stay.start_date or self.scheduled_time.date() > self.stay.end_date:
                 raise ValidationError(
                     "Scheduled time must be within the stay period"
                 )
-
-
-class PaymentStatus(models.TextChoices):
-    PENDING = "pending", _("Pending")
-    COMPLETED = "completed", _("Completed")
-    FAILED = "failed", _("Failed")

@@ -1,7 +1,8 @@
-<!-- hotel/booking_review.html -->
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load custom_filters %}
+{% load product_filters %}
 
 {% block content %}
 <section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
@@ -52,8 +53,8 @@
                                 {% include "icons/pet_hotel.html" with class="w-6 h-6 text-accent-500" %}
                             </div>
                             <div>
-                                <p class="font-bold text-primary-800">{{ stay.item_description }}</p>
-                                <p class="text-primary-600">{{ stay.sales_price }}€ {% trans "per day" %}</p>
+                                <p class="font-bold text-primary-800">{{ stay|product_name }}</p>
+                                <p class="text-primary-600">{{ stay.default_price.unit_amount|divide:100|floatformat:2 }} {{ stay.default_price.currency }} {% trans "per day" %}</p>
                             </div>
                         </div>
                     </div>
@@ -104,8 +105,8 @@
                     {% trans "Selected Services" %}
                 </h2>
                 
-                {% if pet_services %}
-                    {% for pet_id, pet_data in pet_services.items %}
+                {% if pets_services %}
+                    {% for pet_id, pet_data in pets_services.items %}
                     <div class="mb-6 last:mb-0">
                         <h3 class="font-medium text-primary-700 mb-3 flex items-center">
                             <span class="w-8 h-8 rounded-full bg-primary-100 mr-2 flex items-center justify-center overflow-hidden">
@@ -132,10 +133,10 @@
                                 <tbody>
                                     {% for service in pet_data.services %}
                                     <tr class="border-t border-primary-100">
-                                        <td class="py-3 px-4">{{ service.service.item_description }}</td>
-                                        <td class="text-right py-3 px-4">{{ service.price }}€</td>
+                                        <td class="py-3 px-4">{{ service.service|product_name }}</td>
+                                        <td class="text-right py-3 px-4">{{ service.unit_price|divide:100|floatformat:2 }}€</td>
                                         <td class="text-right py-3 px-4">{{ service.quantity }}</td>
-                                        <td class="text-right py-3 px-4 font-medium">{{ service.total }}€</td>
+                                        <td class="text-right py-3 px-4 font-medium">{{ service.total_price|divide:100|floatformat:2 }}€</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -169,19 +170,19 @@
                             <tr class="border-b border-primary-100">
                                 <td class="py-3 px-4 font-medium">{% trans "Accommodation" %}</td>
                                 <td class="text-right py-3 px-4">
-                                    {{ pricing.stay.unit_price }}€ × {{ duration }} {% trans "days" %} × {{ pets|length }} {% trans "pets" %}
+                                    {{ pricing.stay.unit_price|divide:100|floatformat:2 }}€ × {{ duration }} {% trans "days" %} × {{ pets|length }} {% trans "pets" %}
                                 </td>
-                                <td class="text-right py-3 px-4 font-bold">{{ pricing.stay.total }}€</td>
+                                <td class="text-right py-3 px-4 font-bold">{{ pricing.stay.total_price|divide:100|floatformat:2 }}€</td>
                             </tr>
                             
                             <!-- Services -->
                             {% for service_id, service_data in pricing.services.items %}
                             <tr class="border-b border-primary-100">
-                                <td class="py-3 px-4 font-medium">{{ service_data.service.item_description }}</td>
+                                <td class="py-3 px-4 font-medium">{{ service_data.service|product_name }}</td>
                                 <td class="text-right py-3 px-4">
-                                    {{ service_data.service.sales_price }}€ × {{ service_data.quantity }}
+                                    {{ service_data.service.default_price.unit_amount|divide:100|floatformat:2 }} {{ service_data.service.default_price.currency }} × {{ service_data.quantity }}
                                 </td>
-                                <td class="text-right py-3 px-4 font-bold">{{ service_data.total }}€</td>
+                                <td class="text-right py-3 px-4 font-bold">{{ service_data.total_price|divide:100|floatformat:2 }}€</td>
                             </tr>
                             {% endfor %}
                             
@@ -189,7 +190,7 @@
                             <tr class="bg-primary-50">
                                 <td class="py-3 px-4 font-bold">{% trans "Grand Total" %}</td>
                                 <td class="text-right py-3 px-4"></td>
-                                <td class="text-right py-3 px-4 font-bold text-xl text-accent-600">{{ pricing.grand_total }}€</td>
+                                <td class="text-right py-3 px-4 font-bold text-xl text-accent-600">{{ pricing.grand_total|divide:100|floatformat:2 }}€</td>
                             </tr>
                         </tbody>
                     </table>

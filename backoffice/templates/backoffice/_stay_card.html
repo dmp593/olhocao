@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load custom_filters %}
 
 <div class="bg-white p-4 rounded-lg shadow mb-4">
     <div class="flex items-start gap-4">
@@ -19,7 +20,7 @@
                     </p>
                 </div>
                 <span class="text-sm font-medium text-accent-600">
-                    €{{ stay.total_price_eur }}
+                    {{ stay.total_price_eur|divide:100|floatformat:2 }} €
                 </span>
             </div>
             

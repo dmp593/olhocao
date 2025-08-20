@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load custom_filters %}
+{% load product_filters %}
 
 {% block content %}
 <section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
@@ -118,41 +120,28 @@
                             {% for service in services %}
                             <tr class="border-b border-primary-100 service-row" data-service-id="{{ service.id }}">
                                 <td class="py-4 pl-2">
-                                    <div class="font-bold text-primary-800">{{ service.item_description }}</div>
+                                    <div class="font-bold text-primary-800">{{ service|product_name }}</div>
                                     <div class="text-sm text-primary-600">
-                                        {% if service.service_type == 'daily' %}
-
-                                        {% blocktrans count duration as days %}
-                                            Daily Service (max 1 day)
-                                            {% plural %}
-                                            Daily Service (max {{ days }} days)
-                                        {% endblocktrans %}
-                                        
-                                        {% elif service.service_type == 'timed' %}
-                                        {% trans "Specific time service" %}
-                                        {% else %}
                                         {% trans "One-time service" %}
-                                        {% endif %}
                                     </div>
                                 </td>
                                 <td class="text-right py-4 pr-4">
                                     <span class="bg-accent-100 text-accent-800 text-lg font-bold px-3 py-1 rounded-full whitespace-nowrap">
-                                        {{ service.sales_price }}€ {% if service.service_type == 'daily' %}/{% trans "day" %}{% endif %}
+                                        {{ service.default_price.unit_amount|divide:100|floatformat:2 }} {{ service.default_price.currency }}
                                     </span>
                                 </td>
                                 {% for pet in pets %}
                                 <td class="text-center py-4 px-2">
                                     <input type="number"
-                                           name="pet_{{ pet.id }}_service_{{ service.id }}"
-                                           id="pet_{{ pet.id }}_service_{{ service.id }}"
+                                           name="pet-{{ pet.id }}-service-{{ service.id }}"
+                                           id="pet-{{ pet.id }}-service-{{ service.id }}"
                                            min="0"
-                                           max="{% if service.service_type == 'fixed' %}{{ duration }}{% else %}1{% endif %}"
+                                           max="{{ duration }}"
                                            value="0"
                                            class="w-20 text-center border border-primary-300 rounded-lg py-1 px-2 focus:ring-2 focus:ring-accent-500 focus:border-transparent service-quantity"
                                            data-pet-id="{{ pet.id }}"
                                            data-service-id="{{ service.id }}"
-                                           data-service-type="{{ service.service_type }}"
-                                           aria-label="Quantity for {{ pet.name }} - {{ service.item_description }}">
+                                           aria-label="Quantity for {{ pet.name }} - {{ service.name }}">
                                 </td>
                                 {% endfor %}
                             </tr>
@@ -165,8 +154,7 @@
                     <p class="flex items-start">
                         <span class="mr-2">{% include "icons/info.html" with class="w-4 h-4 flex-shrink-0" %}</span>
                         <span>
-                            {% trans "Daily services can be booked up to once per day of stay." %}
-                            {% trans "Other services can be booked up to the max duration of stay." %}
+                            {% trans "Each service can be booked up to the max days of stay." %}
                         </span>
                     </p>
                 </div>
@@ -246,25 +234,6 @@ document.addEventListener('DOMContentLoaded', function() {
             row.classList.remove('bg-accent-50');
         }
     }
-    
-    // Service type tooltips
-    document.querySelectorAll('[data-service-type]').forEach(el => {
-        el.addEventListener('focus', function() {
-            const type = this.getAttribute('data-service-type');
-            let message = '';
-            
-            if (type === 'daily') {
-                message = '{% trans "You can book this up to once per day of your stay" %}';
-            } else if (type === 'timed') {
-                message = '{% trans "This service is scheduled for a specific time" %}';
-            } else {
-                message = '{% trans "One-time service (max 1 per stay)" %}';
-            }
-            
-            // You could implement a tooltip here if desired
-            console.log(message); // For now just logging to console
-        });
-    });
 });
 </script>
 {% endblock %}

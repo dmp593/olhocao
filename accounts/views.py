@@ -21,13 +21,13 @@ from django.contrib.auth.views import (
 
 from olhocao.toconline import toconline, TocOnlineResource
 
-from accounts.forms import UserChangeForm
+from accounts.forms import SignUpForm, UserChangeForm
 from accounts.models import Account
 
 
 def signup_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             toconline.authenticate()
             user = form.save()
@@ -35,7 +35,7 @@ def signup_view(request):
             login(request, user)
             return redirect("frontoffice:home")
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, "accounts/signup.html", {"form": form})
 
 
@@ -52,7 +52,7 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
         user = self.get_object()
         data = super().get_initial()
 
-        if user.account and user.account.has_toconline_customer:
+        if hasattr(user, 'account') and user.account.has_toconline_customer:
             toconline_customer = user.account.toconline_customer
 
             data['vat'] = toconline_customer['attributes']['tax_registration_number']

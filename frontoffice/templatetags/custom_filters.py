@@ -11,3 +11,8 @@ def add_class(field, css_class):
 @register.filter
 def multiply(value, by):
     return value * by
+
+
+@register.filter
+def divide(value, by):
+    return value / by

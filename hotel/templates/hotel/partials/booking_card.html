@@ -1,5 +1,5 @@
 {% load i18n %}
-{% load hotel_tags %}
+{% load custom_filters %}
 
 {% with current_date=current_date %}
 <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-2
@@ -46,8 +46,14 @@
 
         <div class="mt-4 flex items-center justify-between">
             <p class="text-lg font-bold text-primary-800">
-                {{ booking.total_price_eur }}€
+                {{ booking.total_price_eur|divide:100|floatformat:2 }}€
             </p>
+            {% if booking.toconline_sale_document_id %}
+            <a href="{% url 'hotel:booking_pdf' booking.id %}" target="_blank"
+               class="px-4 py-2 text-white rounded-sm text-sm hover:bg-primary-200 transition-colors">
+                {% include "icons/pdf.html" with class="text-[#EB5757] size-6 mr-2" %}
+            </a>
+            {% endif %}
             {% if booking.status == 'pending' and not booking.is_past %}
             <a href="{% url 'hotel:booking_retry' booking.id %}" 
                class="px-4 py-2 bg-accent-500 text-white rounded-full text-sm hover:bg-accent-600 transition-colors">

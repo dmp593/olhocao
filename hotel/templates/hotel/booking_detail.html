@@ -33,22 +33,43 @@
                 </div>
             </div>
             
-            <div class="mt-4 md:mt-0 flex space-x-3">
+            <div class="mt-4 md:mt-0 grid grid-cols-1 md:flex md:flex-row gap-2 md:gap-3 w-full md:w-auto">
+                {% if booking.toconline_sale_document_id %}
+                <a href="{% url 'hotel:booking_pdf' booking.id %}" target="_blank"
+                   class="flex items-center px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-full transition-all duration-300 hover:scale-105 w-full md:w-auto md:min-w-[170px] justify-center">
+                    {% include "icons/pdf.html" with class="size-6 mr-2" %}
+                    {% trans "Download" %}
+                </a>
+                {% endif %}
                 {% if booking.status == 'pending' %}
                 <a href="{{ payment_url }}" 
-                   class="flex items-center px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-full transition-all duration-300 hover:scale-105">
+                   class="flex items-center px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-full transition-all duration-300 hover:scale-105 w-full md:w-auto md:min-w-[170px] justify-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                     </svg>
                     {% trans "Complete Payment" %}
                 </a>
                 {% endif %}
+                <a href="{% url 'hotel:booking_modify' booking.id %}"
+                   class="flex items-center px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-full transition-all duration-300 hover:scale-105 w-full md:w-auto md:min-w-[170px] justify-center {% if not booking.can_modify %}pointer-events-none opacity-50{% endif %}">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                    </svg>
+                    {% trans "Change Dates" %}
+                </a>
+                <a href="{% url 'hotel:booking_cancel_confirm' booking.id %}"
+                   class="flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all duration-300 hover:scale-105 w-full md:w-auto md:min-w-[170px] justify-center md:ml-2 {% if not booking.can_cancel %}pointer-events-none opacity-50{% endif %}">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    {% trans "Cancel Booking" %}
+                </a>
                 <a href="{% url 'hotel:booking_list' %}" 
-                   class="flex items-center px-4 py-2 border border-primary-300 text-primary-700 hover:bg-primary-50 rounded-full transition-all duration-300 hover:scale-105">
+                   class="flex items-center px-4 py-2 border border-primary-300 text-primary-700 hover:bg-primary-50 rounded-full transition-all duration-300 hover:scale-105 w-full md:w-auto md:min-w-[170px] justify-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                    {% trans "Back to my Hotel Bookings" %}
+                    {% trans "Back to Hotel Bookings" %}
                 </a>
             </div>
         </div>
@@ -96,7 +117,7 @@
                                 <p class="font-medium text-primary-800">{{ booking.earliest_start_date|date:"M j, Y" }}</p>
                             </div>
                             <div>
-                                <p class="text-sm text-primary-600">{% trans "Check-out" %}</p>
+                                <p class="text-sm    text-primary-600">{% trans "Check-out" %}</p>
                                 <p class="font-medium text-primary-800">{{ booking.latest_end_date|date:"M j, Y" }}</p>
                             </div>
                             <div>
@@ -121,20 +142,20 @@
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span class="text-primary-600">{% trans "Base price" %}</span>
-                                <span class="font-medium text-primary-800">{{ booking.total_price_eur }}€</span>
+                                <span class="font-medium text-primary-800">{{ booking.total_price_eur|divide:100|floatformat:2 }}€</span>
                             </div>
                             {% for stay in booking.stays.all %}
                                 {% for service in stay.services.all %}
                                 <div class="flex justify-between">
                                     <span class="text-primary-600">{{ service.service_name }}</span>
-                                    <span class="font-medium text-primary-800">{{ service.total_price_eur }}€</span>
+                                    <span class="font-medium text-primary-800">{{ service.total_price_eur|divide:100|floatformat:2 }}€</span>
                                 </div>
                                 {% endfor %}
                             {% endfor %}
                             <div class="border-t border-primary-200 pt-2 mt-2">
                                 <div class="flex justify-between font-bold text-lg">
                                     <span class="text-primary-800">{% trans "Total" %}</span>
-                                    <span class="text-accent-500">{{ booking.total_price_eur }}€</span>
+                                    <span class="text-accent-500">{{ booking.total_price_eur|divide:100|floatformat:2 }}€</span>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +184,7 @@
                                 <p class="text-primary-600">{{ stay.start_date|date:"M j, Y" }} - {{ stay.end_date|date:"M j, Y" }}</p>
                             </div>
                             <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">
-                                {{ stay.unit_price_eur }}€/night
+                                {{ stay.unit_price_eur|divide:100|floatformat:2 }}€/night
                             </span>
                         </div>
                     </div>
@@ -212,7 +233,7 @@
                                             {% endif %}
                                         </p>
                                     </div>
-                                    <span class="font-medium text-primary-800">{{ service.total_price_eur }}€</span>
+                                    <span class="font-medium text-primary-800">{{ service.total_price_eur|divide:100|floatformat:2 }}€</span>
                                 </div>
                             </li>
                             {% endfor %}
@@ -242,7 +263,7 @@
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-primary-600">{% trans "Amount" %}</span>
-                                <span class="font-bold text-accent-500">{{ booking.total_price_eur }}€</span>
+                                <span class="font-bold text-accent-500">{{ booking.total_price_eur|divide:100|floatformat:2 }}€</span>
                             </div>
                         </div>
                         {% else %}
