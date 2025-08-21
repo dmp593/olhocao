@@ -815,7 +815,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             ),
             'vat_included_prices': True,
             'notes': str(
-                _("Booking cancelled and refunded (85% refund applied)")
+                _("Booking cancelled and refunded (85%% refund applied)")
             ),
         }
 
@@ -858,7 +858,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             messages.warning(request, _("Refund failed or already processed. Please contact support."))
             return redirect('hotel:booking_detail', pk=booking.id)
 
-        messages.success(request, _("Booking cancelled and 85% refunded (if paid)."))
+        messages.success(request, _("Booking cancelled and 85%% refunded (if paid)."))
         return redirect('hotel:booking_detail', pk=booking.id)
 
 

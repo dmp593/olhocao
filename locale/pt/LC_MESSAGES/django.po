@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-30 14:21+0000\n"
+"POT-Creation-Date: 2025-08-21 09:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,600 +17,600 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 #: accounts/forms.py:13 accounts/forms.py:67
 msgid "First Name"
-msgstr ""
+msgstr "Primeiro Nome"
 
 #: accounts/forms.py:14 accounts/forms.py:68
 msgid "Enter your legal first name as it appears on official documents."
-msgstr ""
+msgstr "Escreva o seu primeiro nome conforme os documentos oficiais."
 
 #: accounts/forms.py:20 accounts/forms.py:74
 msgid "Last Name"
-msgstr ""
+msgstr "Último Nome"
 
 #: accounts/forms.py:21 accounts/forms.py:75
 msgid "Enter your legal last name as it appears on official documents."
-msgstr ""
+msgstr "Escreva o seu último nome conforme os documentos oficiais."
 
 #: accounts/forms.py:27 accounts/forms.py:81
 msgid "VAT Number"
-msgstr ""
+msgstr "IVA"
 
 #: accounts/forms.py:28 accounts/forms.py:82
 msgid "Your tax identification number (required for invoicing)."
-msgstr ""
+msgstr "O seu número de identificação fiscal (obrigatório para faturação)."
 
 #: accounts/forms.py:34 accounts/forms.py:88
 msgid "Phone Number"
-msgstr ""
+msgstr "Número de Telefone"
 
 #: accounts/forms.py:35 accounts/forms.py:89
 msgid "We'll use this to contact you about your account or services."
-msgstr ""
+msgstr "Usaremos isso para entrar em contato consigo sobre a sua conta ou serviços."
 
 #: accounts/forms.py:40 accounts/forms.py:94
 msgid "Email Address"
-msgstr ""
+msgstr "Endereço de Email"
 
 #: accounts/forms.py:41 accounts/forms.py:95
 msgid "Your primary email address for billing and account notifications."
-msgstr ""
+msgstr "O seu endereço de email principal para faturação e notificações da conta."
 
 #: accounts/models.py:18
 msgid "user"
-msgstr ""
+msgstr "utilizador"
 
 #: accounts/models.py:19
 msgid "The user that this account belongs to"
-msgstr ""
+msgstr "O utilizador a quem esta conta pertence"
 
 #: accounts/models.py:28
 msgid "Customer ID (toconline)"
-msgstr ""
+msgstr "ID do Cliente (toconline)"
 
 #: accounts/models.py:29
 msgid "The ID of the customer in the toconline platform (invoice system)"
-msgstr ""
+msgstr "O ID do cliente na plataforma toconline (sistema de faturação)"
 
 #: accounts/templates/accounts/logged_out.html:16
 msgid "See You Soon!"
-msgstr ""
+msgstr "Até Breve!"
 
 #: accounts/templates/accounts/logged_out.html:19
 msgid "You've been safely logged out"
-msgstr ""
+msgstr "Foi desconectado com segurança."
 
 #: accounts/templates/accounts/logged_out.html:26
 msgid ""
 "Thanks for visiting Olhó Cão. We hope to see you and your furry friend again "
 "soon!"
-msgstr ""
+msgstr "Obrigado por visitar Olhó Cão. Esperamos vê-lo novamente em breve!"
 
 #: accounts/templates/accounts/logged_out.html:37
 msgid "Login Again"
-msgstr ""
+msgstr "Iniciar Sessão Novamente"
 
 #: accounts/templates/accounts/logged_out.html:44
 msgid "Or return to"
-msgstr ""
+msgstr "Ou voltar para"
 
 #: accounts/templates/accounts/logged_out.html:46
 msgid "home page"
-msgstr ""
+msgstr "página inicial"
 
 #: accounts/templates/accounts/login.html:15
 msgid "Welcome Back!"
-msgstr ""
+msgstr "Bem-vindo de volta!"
 
 #: accounts/templates/accounts/login.html:18
 msgid "Access your account to manage your pet's care"
-msgstr ""
+msgstr "Aceda à sua conta para gerir os cuidados do seu animal de estimação."
 
 #: accounts/templates/accounts/login.html:44
 msgid "Remember me"
-msgstr ""
+msgstr "Lembrar-me"
 
 #: accounts/templates/accounts/login.html:48
 msgid "Forgot password?"
-msgstr ""
+msgstr "Esqueceu a palavra-passe?"
 
 #: accounts/templates/accounts/login.html:54
 msgid "Sign In"
-msgstr ""
+msgstr "Iniciar Sessão"
 
 #: accounts/templates/accounts/login.html:60
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Não tem uma conta?"
 
 #: accounts/templates/accounts/login.html:62
 msgid "Sign up now"
-msgstr ""
+msgstr "Registe-se agora"
 
 #: accounts/templates/accounts/password_change_done.html:11
 msgid "Password Changed!"
-msgstr ""
+msgstr "Palavra-passe Alterada!"
 
 #: accounts/templates/accounts/password_change_done.html:12
 msgid "Your password has been successfully updated."
-msgstr ""
+msgstr "A sua palavra-passe foi atualizada com sucesso."
 
 #: accounts/templates/accounts/password_change_done.html:14
 #: accounts/templates/accounts/password_reset_done.html:17
 #: accounts/templates/accounts/user_change_done.html:47
 #: hotel/templates/hotel/booking_success.html:68
 msgid "Back to Home"
-msgstr ""
+msgstr "Voltar à Página Inicial"
 
 #: accounts/templates/accounts/password_change_form.html:15
 #: accounts/templates/accounts/password_reset_confirm.html:12
 #: accounts/templates/accounts/password_reset_form.html:15
-#: olhocao/templates/components/navbar.html:100
-#: olhocao/templates/components/navbar.html:195
+#: olhocao/templates/components/navbar.html:99
+#: olhocao/templates/components/navbar.html:193
 msgid "Change Password"
-msgstr ""
+msgstr "Alterar Palavra-passe"
 
 #: accounts/templates/accounts/password_change_form.html:18
 #: accounts/templates/accounts/password_reset_form.html:18
 msgid "Password leashed!"
-msgstr ""
+msgstr "Palavra-passe presa!"
 
 #: accounts/templates/accounts/password_change_form.html:19
 #: accounts/templates/accounts/password_reset_form.html:19
 msgid "Now it won’t run away like last time."
-msgstr ""
+msgstr "Agora não vai fugir como da última vez."
 
 #: accounts/templates/accounts/password_change_form.html:41
 #: accounts/templates/accounts/password_reset_confirm.html:31
 msgid "Update Password"
-msgstr ""
+msgstr "Atualizar Palavra-passe"
 
 #: accounts/templates/accounts/password_reset_done.html:11
 msgid "Check Your Inbox"
-msgstr ""
+msgstr "Verifique a Sua Caixa de Entrada"
 
 #: accounts/templates/accounts/password_reset_done.html:12
 msgid ""
 "We've emailed you instructions for setting your password. You should receive "
 "the email shortly!"
-msgstr ""
+msgstr "Enviámos-lhe por email instruções para definir a sua palavra-passe. Deverá receber o email em breve!"
 
 #: accounts/templates/accounts/password_reset_done.html:14
 msgid "Didn't receive an email? Check your spam folder or"
-msgstr ""
+msgstr "Não recebeu um email? Verifique a sua pasta de spam ou"
 
 #: accounts/templates/accounts/password_reset_done.html:14
 msgid "try again"
-msgstr ""
+msgstr "tente novamente"
 
 #: accounts/templates/accounts/password_reset_form.html:41
 msgid "Send Reset Link"
-msgstr ""
+msgstr "Enviar Link de Redefinição"
 
-#: accounts/templates/accounts/pasword_reset_complete.html:11
+#: accounts/templates/accounts/password_reset_complete.html:11
 msgid "Password Reset Complete"
-msgstr ""
+msgstr "Redefinição de Palavra-passe Completa"
 
-#: accounts/templates/accounts/pasword_reset_complete.html:12
+#: accounts/templates/accounts/password_reset_complete.html:12
 msgid ""
 "Your new password has been set. You can now log in with your new password."
-msgstr ""
+msgstr "A sua nova palavra-passe foi definida. Pode agora iniciar sessão com a sua nova palavra-passe."
 
-#: accounts/templates/accounts/pasword_reset_complete.html:14
+#: accounts/templates/accounts/password_reset_complete.html:14
 msgid "Log In Now"
-msgstr ""
+msgstr "Iniciar Sessão Agora"
 
 #: accounts/templates/accounts/signup.html:14
 msgid "Create an Account"
-msgstr ""
+msgstr "Criar uma Conta"
 
 #: accounts/templates/accounts/signup.html:17
 msgid "Join our pack of happy pet parents"
-msgstr ""
+msgstr "Junte-se ao nosso grupo de felizes donos de animais de estimação"
 
 #: accounts/templates/accounts/signup.html:39
 msgid "Sign Up"
-msgstr ""
+msgstr "Registar"
 
 #: accounts/templates/accounts/signup.html:45
 msgid "Already have an account?"
-msgstr ""
+msgstr "Já tem uma conta?"
 
 #: accounts/templates/accounts/signup.html:47
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar Sessão"
 
 #: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:133
 msgid "Account Updated"
-msgstr ""
+msgstr "Conta Atualizada"
 
 #: accounts/templates/accounts/user_change_done.html:19
 msgid "Your changes have been saved"
-msgstr ""
+msgstr "As suas alterações foram guardadas"
 
 #: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:135
 msgid "Your account information has been successfully updated."
-msgstr ""
+msgstr "As informações da sua conta foram atualizadas com sucesso."
 
 #: accounts/templates/accounts/user_change_done.html:43
 msgid "Edit Again"
-msgstr ""
+msgstr "Editar Novamente"
 
 #: accounts/templates/accounts/user_form.html:17
 msgid "Account Settings"
-msgstr ""
+msgstr "Configurações da Conta"
 
 #: accounts/templates/accounts/user_form.html:20
 msgid "Update your personal information"
-msgstr ""
+msgstr "Atualize as suas informações pessoais"
 
 #: accounts/templates/accounts/user_form.html:133
 msgid "Change password"
-msgstr ""
+msgstr "Alterar palavra-passe"
 
 #: accounts/templates/accounts/user_form.html:140
-#: pets/templates/pets/pet_form.html:65
+#: pets/templates/pets/pet_form.html:72
 msgid "Save Changes"
-msgstr ""
+msgstr "Guardar Alterações"
 
 #: accounts/templates/accounts/user_form.html:147
 msgid "Back to home"
-msgstr ""
+msgstr "Voltar para a página inicial"
 
 #: backoffice/models.py:9
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:19
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Termos e Condições"
 
 #: backoffice/models.py:10
 #: frontoffice/templates/frontoffice/privacy_policy.html:19
 #: hotel/templates/hotel/booking_review.html:222
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Política de Privacidade"
 
 #: backoffice/models.py:15
 #: backoffice/templates/backoffice/legaldocument_confirm_delete.html:27
 msgid "Document Type"
-msgstr ""
+msgstr "Tipo de Documento"
 
 #: backoffice/models.py:16
 msgid ""
 "Select whether this is a Terms and Conditions or Privacy Policy document."
-msgstr ""
+msgstr "Selecione se este é um documento de Termos e Condições ou Política de Privacidade."
 
 #: backoffice/models.py:23 frontoffice/models.py:8 frontoffice/models.py:34
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: backoffice/models.py:24
 msgid "Name of the legal document shown to users."
-msgstr ""
+msgstr "Nome do documento legal mostrado aos utilizadores."
 
 #: backoffice/models.py:30
 msgid "Heading"
-msgstr ""
+msgstr "Cabeçalho"
 
 #: backoffice/models.py:31
 msgid "Heading of the legal document."
-msgstr ""
+msgstr "Cabeçalho do documento legal."
 
 #: backoffice/models.py:35
 #: backoffice/templates/backoffice/legaldocument_confirm_delete.html:30
 msgid "Effective Date"
-msgstr ""
+msgstr "Data de Vigência"
 
 #: backoffice/models.py:36
 msgid "Date from which this document is considered effective."
-msgstr ""
+msgstr "Data a partir da qual este documento é considerado eficaz."
 
 #: backoffice/models.py:41
 #: backoffice/templates/backoffice/legaldocument_list.html:53
 msgid "Last Updated At"
-msgstr ""
+msgstr "Última Atualização"
 
 #: backoffice/models.py:42
 msgid "Automatically updated whenever the document is changed."
-msgstr ""
+msgstr "Atualizado automaticamente sempre que o documento é alterado."
 
 #: backoffice/models.py:49
 msgid "Deleted At"
-msgstr ""
+msgstr "Data de Eliminação"
 
 #: backoffice/models.py:50
 msgid "Marks this document as deleted/deprecated."
-msgstr ""
+msgstr "Marca este documento como eliminado/obsoleto."
 
 #: backoffice/models.py:63
 msgid "Legal Document"
-msgstr ""
+msgstr "Documento Legal"
 
 #: backoffice/models.py:64
 #: backoffice/templates/backoffice/legaldocument_list.html:7
 #: olhocao/templates/components/navbar.html:82
-#: olhocao/templates/components/navbar.html:177
+#: olhocao/templates/components/navbar.html:176
 msgid "Legal Documents"
-msgstr ""
+msgstr "Documentos Legais"
 
 #: backoffice/models.py:74
 msgid "Document"
-msgstr ""
+msgstr "Documento"
 
 #: backoffice/models.py:75
 msgid "The legal document this section belongs to."
-msgstr ""
+msgstr "O documento legal ao qual esta seção pertence."
 
 #: backoffice/models.py:80
 #: backoffice/templates/backoffice/legaldocument_form.html:415
 #: backoffice/templates/backoffice/legaldocument_form.html:423
 msgid "Section Title"
-msgstr ""
+msgstr "Título da Seção"
 
 #: backoffice/models.py:81
 msgid "Title of the section (e.g., Reservations, Data Collection, etc.)."
-msgstr ""
+msgstr "Título da seção (por exemplo, Reservas, Coleta de Dados, etc.)."
 
 #: backoffice/models.py:86 backoffice/models.py:113 frontoffice/models.py:14
 msgid "Order"
-msgstr ""
+msgstr "Ordem"
 
 #: backoffice/models.py:87
 msgid "Defines the display order of sections within the document."
-msgstr ""
+msgstr "Define a ordem de exibição das seções dentro do documento."
 
 #: backoffice/models.py:92
 msgid "Legal Section"
-msgstr ""
+msgstr "Seção Legal"
 
 #: backoffice/models.py:93
 msgid "Legal Sections"
-msgstr ""
+msgstr "Secções Legais"
 
 #: backoffice/models.py:102
 #: backoffice/templates/backoffice/legaldocument_form.html:180
 #: backoffice/templates/backoffice/legaldocument_form.html:396
 msgid "Section"
-msgstr ""
+msgstr "Secção"
 
 #: backoffice/models.py:103
 msgid "The section this line item belongs to."
-msgstr ""
+msgstr "A secção à qual este item de linha pertence."
 
 #: backoffice/models.py:107
 #: backoffice/templates/backoffice/legaldocument_form.html:489
 #: backoffice/templates/backoffice/legaldocument_form.html:497
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: backoffice/models.py:108
 msgid ""
 "The actual content of this line item (e.g., a clause, condition, or "
 "explanation)."
-msgstr ""
+msgstr "O conteúdo real deste item de linha (por exemplo, uma cláusula, condição ou "
+"explicação)."
 
 #: backoffice/models.py:114
 msgid "Defines the display order of line items within the section."
-msgstr ""
+msgstr "Define a ordem de exibição dos itens de linha dentro da secção."
 
 #: backoffice/models.py:119
 msgid "Line Item"
-msgstr ""
+msgstr "Item de Linha"
 
 #: backoffice/models.py:120
 msgid "Line Items"
-msgstr ""
+msgstr "Itens de Linha"
 
 #: backoffice/templates/backoffice/_stay_card.html:35
 msgid "Medicated"
-msgstr ""
+msgstr "Medicação"
 
 #: backoffice/templates/backoffice/_stay_card.html:40
 msgid "Allergies"
-msgstr ""
+msgstr "Alergias"
 
 #: backoffice/templates/backoffice/_stay_card.html:48
-#: hotel/templates/hotel/booking_detail.html:280
+#: hotel/templates/hotel/booking_detail.html:301
 msgid "Booking Notes"
-msgstr ""
+msgstr "Notas de Reserva"
 
 #: backoffice/templates/backoffice/_stay_card.html:54
 #: olhocao/templates/components/navbar.html:24
-#: olhocao/templates/components/navbar.html:139
+#: olhocao/templates/components/navbar.html:138
 msgid "Services"
-msgstr ""
+msgstr "Serviços"
 
 #: backoffice/templates/backoffice/dashboard.html:14
 msgid "Start Date"
-msgstr ""
+msgstr "Data de Início"
 
 #: backoffice/templates/backoffice/dashboard.html:22
 msgid "End Date"
-msgstr ""
+msgstr "Data de Fim"
 
 #: backoffice/templates/backoffice/dashboard.html:31
 msgid "Filter"
-msgstr ""
+msgstr "Filtrar"
 
 #: backoffice/templates/backoffice/dashboard.html:34
 msgid "Today"
-msgstr ""
+msgstr "Hoje"
 
 #: backoffice/templates/backoffice/dashboard.html:43
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: backoffice/templates/backoffice/dashboard.html:47
 msgid "Next"
-msgstr ""
+msgstr "Próximo"
 
 #: backoffice/templates/backoffice/dashboard.html:57
 msgid "Check-ins"
-msgstr ""
+msgstr "Check-ins"
 
 #: backoffice/templates/backoffice/dashboard.html:62
 msgid "No check-ins"
-msgstr ""
+msgstr "Sem check-ins"
 
 #: backoffice/templates/backoffice/dashboard.html:69
 msgid "Check-outs"
-msgstr ""
+msgstr "Check-outs"
 
 #: backoffice/templates/backoffice/dashboard.html:74
 msgid "No check-outs"
-msgstr ""
+msgstr "Sem check-outs"
 
 #: backoffice/templates/backoffice/dashboard.html:82
 #: hotel/templates/hotel/booking_list.html:31
 msgid "Active Stays"
-msgstr ""
+msgstr "Estadias Ativas"
 
 #: backoffice/templates/backoffice/dashboard.html:88
 msgid "No active stays"
-msgstr ""
+msgstr "Sem estadias ativas"
 
 #: backoffice/templates/backoffice/legaldocument_confirm_delete.html:13
 msgid "Delete Legal Document"
-msgstr ""
+msgstr "Eliminar Documento Legal"
 
 #: backoffice/templates/backoffice/legaldocument_confirm_delete.html:17
 msgid "Are you sure you want to permanently delete this document?"
-msgstr ""
+msgstr "Tem a certeza de que deseja eliminar este documento permanentemente?"
 
 #: backoffice/templates/backoffice/legaldocument_confirm_delete.html:58
 #: backoffice/templates/backoffice/legaldocument_form.html:311
-#: pets/templates/pets/pet_confirm_delete.html:18
-#: pets/templates/pets/pet_form.html:62
+#: pets/templates/pets/pet_confirm_delete.html:25
+#: pets/templates/pets/pet_form.html:68
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: backoffice/templates/backoffice/legaldocument_confirm_delete.html:62
 msgid "Confirm Delete"
-msgstr ""
+msgstr "Confirmar Eliminação"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:13
 msgid "Edit Legal Document"
-msgstr ""
+msgstr "Editar Documento Legal"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:13
 msgid "Create Legal Document"
-msgstr ""
+msgstr "Criar Documento Legal"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:17
 msgid "Manage your legal documents and policies"
-msgstr ""
+msgstr "Gerir os seus documentos e políticas legais"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:34
 msgid "There were errors with your submission"
-msgstr ""
+msgstr "Houve erros na sua submissão"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:48
 msgid "Document Details"
-msgstr ""
+msgstr "Detalhes do Documento"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:134
 msgid "Document Sections"
-msgstr ""
+msgstr "Secções do Documento"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:139
 msgid "Add Section"
-msgstr ""
+msgstr "Adicionar Secção"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:152
 msgid "Section errors"
-msgstr ""
+msgstr "Erros na Secção"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:185
 #: backoffice/templates/backoffice/legaldocument_form.html:401
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:220
 #: backoffice/templates/backoffice/legaldocument_form.html:435
 msgid "Clauses"
-msgstr ""
+msgstr "Cláusulas"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:224
 #: backoffice/templates/backoffice/legaldocument_form.html:439
 msgid "Add Clause"
-msgstr ""
+msgstr "Adicionar Cláusula"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:241
 msgid "Clause errors"
-msgstr ""
+msgstr "Erros na Cláusula"
 
 #: backoffice/templates/backoffice/legaldocument_form.html:316
 msgid "Save Document"
-msgstr ""
+msgstr "Guardar Documento"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:13
 msgid "Add New Document"
-msgstr ""
+msgstr "Adicionar Novo Documento"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:25
-#: pets/templates/pets/pet_detail.html:13 pets/templates/pets/pet_list.html:33
+#: pets/templates/pets/pet_detail.html:53 pets/templates/pets/pet_list.html:37
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:30
-#: pets/templates/pets/pet_confirm_delete.html:21
-#: pets/templates/pets/pet_detail.html:16 pets/templates/pets/pet_list.html:36
+#: pets/templates/pets/pet_confirm_delete.html:28
+#: pets/templates/pets/pet_detail.html:56 pets/templates/pets/pet_list.html:40
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:49
 msgid "Effective Since"
-msgstr ""
+msgstr "Eficaz Desde"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:65
 msgid "No legal documents"
-msgstr ""
+msgstr "Sem documentos legais"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:66
 msgid "Get started by adding a new legal document."
-msgstr ""
+msgstr "Comece por adicionar um novo documento legal."
 
 #: backoffice/templates/backoffice/legaldocument_list.html:73
 msgid "New Document"
-msgstr ""
+msgstr "Novo Documento"
 
-#: backoffice/views.py:117
+#: backoffice/views.py:118
 msgid "Legal document not found."
-msgstr ""
+msgstr "Documento legal não encontrado."
 
-#: backoffice/views.py:158
+#: backoffice/views.py:159
 msgid "Legal document created."
-msgstr ""
+msgstr "Documento legal criado."
 
-#: backoffice/views.py:176
+#: backoffice/views.py:177
 msgid "Legal Document deleted."
-msgstr ""
+msgstr "Documento legal eliminado."
 
 #: frontoffice/models.py:9
 msgid "Contact Subject Name"
-msgstr ""
+msgstr "Nome do Assunto de Contato"
 
 #: frontoffice/models.py:15
 msgid "Contact Subject Order"
-msgstr ""
+msgstr "Ordem do Assunto de Contato"
 
 #: frontoffice/models.py:28
 #: frontoffice/templates/frontoffice/contact_us.html:61
 msgid "Subject"
-msgstr ""
+msgstr "Assunto"
 
 #: frontoffice/models.py:29
 msgid "Contact Subject"
-msgstr ""
+msgstr "Assunto de Contato"
 
 #: frontoffice/models.py:35
 #: frontoffice/templates/frontoffice/contact_us.html:77
 msgid "Your Name"
-msgstr ""
+msgstr "O Seu Nome"
 
 #: frontoffice/models.py:40
 #: frontoffice/templates/frontoffice/contact_us.html:95
 msgid "Phone"
-msgstr ""
+msgstr "Telefone"
 
 #: frontoffice/models.py:41
 msgid "Your Phone"
@@ -619,32 +619,32 @@ msgstr ""
 #: frontoffice/models.py:45
 #: frontoffice/templates/frontoffice/contact_us.html:111
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: frontoffice/models.py:46
 msgid "Your Email Account"
-msgstr ""
+msgstr "A Sua Conta de Email"
 
 #: frontoffice/models.py:50
 msgid "Message"
-msgstr ""
+msgstr "Mensagem"
 
 #: frontoffice/models.py:51
 #: frontoffice/templates/frontoffice/contact_us.html:128
 msgid "Your Message"
-msgstr ""
+msgstr "A Sua Mensagem"
 
 #: frontoffice/templates/frontoffice/about_us.html:19
 msgid "Our Story"
-msgstr ""
+msgstr "A Nossa História"
 
 #: frontoffice/templates/frontoffice/about_us.html:24
 msgid "Passion for dogs since 2022"
-msgstr ""
+msgstr "Paixão por cães desde 2022"
 
 #: frontoffice/templates/frontoffice/about_us.html:35
 msgid "Olhó Cão History"
-msgstr ""
+msgstr "História do Olhó Cão"
 
 #: frontoffice/templates/frontoffice/about_us.html:38
 msgid ""
@@ -652,6 +652,9 @@ msgid ""
 "basic and advanced obedience, socialization, sports training, search and "
 "rescue, behavioral problem solving, and preparation for dog shows."
 msgstr ""
+"O Olhó Cão é uma escola de treino de cães focada em obediência básica "
+"e avançada, socialização, treino desportivo, busca e resgate, resolução de problemas "
+"comportamentais e preparação para exposições de cães."
 
 #: frontoffice/templates/frontoffice/about_us.html:39
 msgid ""
@@ -664,6 +667,8 @@ msgid ""
 "Located in Azoia, the center offers excellent services primarily serving "
 "Leiria and Marinha Grande areas."
 msgstr ""
+"Localizado na Azoia, o centro oferece excelentes serviços, principalmente "
+"para as áreas de Leiria e Marinha Grande."
 
 #: frontoffice/templates/frontoffice/about_us.html:41
 msgid ""
@@ -671,47 +676,54 @@ msgid ""
 "as the veterinary doctor responsible for the dogs' medical care and "
 "treatments."
 msgstr ""
+"Suse Paixão e Luís Costa são os CEOs da empresa, com Renato Vieira "
+"como o médico veterinário responsável pelos cuidados e "
+"tratamentos médicos dos cães."
 
 #: frontoffice/templates/frontoffice/about_us.html:56
 msgid "Our Facility"
-msgstr ""
+msgstr "As nossas instalações"
 
 #: frontoffice/templates/frontoffice/about_us.html:57
 msgid "A safe and stimulating environment for your dogs"
-msgstr ""
+msgstr "Um ambiente seguro e estimulante para os seus cães"
 
 #: frontoffice/templates/frontoffice/about_us.html:68
 msgid "Meet Our Trainers"
-msgstr ""
+msgstr "Conheça os Nossos Treinadores"
 
 #: frontoffice/templates/frontoffice/about_us.html:71
 msgid "Passionate professionals dedicated to your dog's wellbeing"
-msgstr ""
+msgstr "Profissionais apaixonados dedicados ao bem-estar do seu cão"
 
 #: frontoffice/templates/frontoffice/about_us.html:86
 #: frontoffice/templates/frontoffice/about_us.html:105
 msgid "Founder & CEO"
-msgstr ""
+msgstr "Fundador & CEO"
 
 #: frontoffice/templates/frontoffice/about_us.html:87
 msgid ""
 "I'm passionate about working with dogs and nothing makes me happier than "
 "seeing owners and their dogs happy with achieved training goals."
 msgstr ""
+"Eu sou apaixonada por trabalhar com cães e nada me deixa mais feliz do que "
+"ver os donos e os seus cães felizes com os objetivos de treino alcançados."
 
 #: frontoffice/templates/frontoffice/about_us.html:90
 msgid "Specializes in obedience training"
-msgstr ""
+msgstr "Especializa-se em treino de obediência"
 
 #: frontoffice/templates/frontoffice/about_us.html:106
 msgid ""
 "It's a privilege to be part of this project, seeing dogs and their owners "
 "overcome difficulties and enjoy a better relationship."
 msgstr ""
+"É um privilégio fazer parte deste projeto, ver cães e os seus donos "
+"superar dificuldades e desfrutar de uma melhor relação."
 
 #: frontoffice/templates/frontoffice/about_us.html:109
 msgid "Specializes in behavioral training"
-msgstr ""
+msgstr "Especializa-se em treino comportamental"
 
 #: frontoffice/templates/frontoffice/about_us.html:124
 msgid "Trainer"
@@ -722,303 +734,309 @@ msgid ""
 "With a degree in sports, I love combining nature and physical activity with "
 "dogs. Helping families live in harmony is my goal."
 msgstr ""
+"Com um diploma em desporto, adoro combinar a natureza e a atividade física com "
+"cães. Ajudar as famílias a viver em harmonia é o meu objetivo."
 
 #: frontoffice/templates/frontoffice/about_us.html:128
 msgid "Specializes in sports training"
-msgstr ""
+msgstr "Especializa-se em treino desportivo"
 
 #: frontoffice/templates/frontoffice/about_us.html:140
 msgid "Meet Our Team"
-msgstr ""
+msgstr "Conheça a Nossa Equipa"
 
 #: frontoffice/templates/frontoffice/contact_us.html:25
 msgid "Come visit us"
-msgstr ""
+msgstr "Venha-nos visitar"
 
 #: frontoffice/templates/frontoffice/contact_us.html:31
 msgid "Your pup's home away from home"
-msgstr ""
+msgstr "A casa do seu cão longe de casa"
 
 #: frontoffice/templates/frontoffice/contact_us.html:42
 msgid "Send us a message"
-msgstr ""
+msgstr "Envie-nos uma mensagem"
 
 #: frontoffice/templates/frontoffice/contact_us.html:143
 msgid "Send Message"
-msgstr ""
+msgstr "Enviar Mensagem"
 
 #: frontoffice/templates/frontoffice/contact_us.html:178
 msgid "Opening Hours"
-msgstr ""
+msgstr "Horário de Funcionamento"
 
 #: frontoffice/templates/frontoffice/contact_us.html:182
 msgid "Mon-Fri: 8AM - 8PM"
-msgstr ""
+msgstr "Seg-Sex: 8h - 20h"
 
 #: frontoffice/templates/frontoffice/contact_us.html:186
 msgid "Sat: 9AM - 1PM"
-msgstr ""
+msgstr "Sáb: 9h - 13h"
 
 #: frontoffice/templates/frontoffice/contact_us.html:189
 msgid "Except Holidays"
-msgstr ""
+msgstr "Exceto Feriados"
 
 #: frontoffice/templates/frontoffice/contact_us.html:201
 msgid "Contact Us"
-msgstr ""
+msgstr "Contacte-nos"
 
 #: frontoffice/templates/frontoffice/contact_us.html:226
 msgid "Amenities"
-msgstr ""
+msgstr "Comodidades"
 
 #: frontoffice/templates/frontoffice/contact_us.html:230
 msgid "Pet friendly"
-msgstr ""
+msgstr "Amigável para animais de estimação"
 
 #: frontoffice/templates/frontoffice/contact_us.html:234
 msgid "Free treats"
-msgstr ""
+msgstr "Biscoitos gratuitos"
 
 #: frontoffice/templates/frontoffice/contact_us.html:238
 msgid "Play area"
-msgstr ""
+msgstr "Área de brincadeiras"
 
 #: frontoffice/templates/frontoffice/contact_us.html:242
 msgid "Water bowls"
-msgstr ""
+msgstr "Tigelas de água"
 
 #: frontoffice/templates/frontoffice/contact_us.html:246
 msgid "Pawdicures available"
-msgstr ""
+msgstr "Serviço de manicure para patas disponível"
 
 #: frontoffice/templates/frontoffice/contact_us.html:250
 msgid "Squirrel surveillance team"
-msgstr ""
+msgstr "Equipa de vigilância de esquilos"
 
 #: frontoffice/templates/frontoffice/contact_us.html:254
 msgid "Complimentary belly rubs"
-msgstr ""
+msgstr "Carícias de barriga gratuitas"
 
 #: frontoffice/templates/frontoffice/contact_us.html:258
 msgid "Howl-friendly karaoke nights"
-msgstr ""
+msgstr "Noites de karaoke amigáveis para uivos"
 
 #: frontoffice/templates/frontoffice/contact_us.html:270
 msgid "Get Directions"
-msgstr ""
+msgstr "Obter Direções"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:19
 msgid "Trusted Since 2023"
-msgstr ""
+msgstr "Confiável Desde 2023"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:19
 msgid "500+ Happy Pups"
-msgstr ""
+msgstr "500+ Cães Felizes"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:26
 msgid "Dog Daycare & Training Premium Experience"
-msgstr ""
+msgstr "Experiência Premium de Creche e Treino para Cães"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:33
 msgid "Our refined training methodology delivers"
-msgstr ""
+msgstr "A nossa metodologia de treino refinada proporciona"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:35
 msgid "exceptional results"
-msgstr ""
+msgstr "resultados excecionais"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:38
 msgid "for dogs at every life stage"
-msgstr ""
+msgstr "para cães em todas as fases da vida"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:48
 msgid "Tailored Programs"
-msgstr ""
+msgstr "Programas Personalizados"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:49
 msgid "Customized training plans for your dog's unique personality"
-msgstr ""
+msgstr "Planos de treino personalizados para a personalidade única do seu cão"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:56
 msgid "Expert Guidance"
-msgstr ""
+msgstr "Orientação Especializada"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:57
 msgid "Certified trainers with 10+ years combined experience"
-msgstr ""
+msgstr "Treinadores certificados com mais de 10 anos de experiência combinada"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:64
 msgid "Proven Results"
-msgstr ""
+msgstr "Resultados Comprovados"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:65
 #, python-format
 msgid "94%% of clients achieve their training goals"
-msgstr ""
+msgstr "94%% dos clientes alcançam os seus objetivos de treino"
 
 #: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:75
 msgid "Explore Our Methods"
-msgstr ""
+msgstr "Explore os Nossos Métodos"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:20
 msgid "Premium Care for Your Pets"
-msgstr ""
+msgstr "Cuidados Premium para os Seus Animais de Estimação"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:26
 msgid "Tailored services for every need"
-msgstr ""
+msgstr "Serviços personalizados para todas as necessidades"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:37
 msgid "Pet Hotel"
-msgstr ""
+msgstr "Hotel para Animais de Estimação"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:39
 msgid ""
 "Luxury accommodations for dogs and cats with 24/7 supervision, play areas, "
 "and personalized care."
 msgstr ""
+"Acomodações de luxo para cães e gatos com supervisão 24/7, áreas de lazer "
+"e cuidados personalizados."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:44
 msgid "Climate-controlled suites"
-msgstr ""
+msgstr "Suítes com controle de clima"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:48
 msgid "Daily exercise sessions"
-msgstr ""
+msgstr "Sessões diárias de exercício"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:52
 msgid "Check your pet via WhatsApp"
-msgstr ""
+msgstr "Verifique o seu animal de estimação via WhatsApp"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:62
 msgid "Dog Daycare"
-msgstr ""
+msgstr "Creche para Cães"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:64
 msgid "Certified training programs for pet professionals and enthusiasts."
-msgstr ""
+msgstr "Programas de treinamento certificado para profissionais e entusiastas de animais de estimação."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:69
 msgid "Behavioral certification"
-msgstr ""
+msgstr "Certificação Comportamental"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:73
 msgid "Safety protocols"
-msgstr ""
+msgstr "Protocolos de segurança"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:77
 msgid "Professional development"
-msgstr ""
+msgstr "Desenvolvimento profissional"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:87
 msgid "Home Training"
-msgstr ""
+msgstr "Treinamento em Casa"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:89
 msgid "Personalized training sessions in the comfort of your home."
-msgstr ""
+msgstr "Sessões de treinamento personalizadas no conforto da sua casa."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:94
 msgid "Basic obedience training"
-msgstr ""
+msgstr "Treinamento básico de obediência"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:98
 msgid "Behavioral modification"
-msgstr ""
+msgstr "Modificação Comportamental"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:102
 msgid "Puppy socialization"
-msgstr ""
+msgstr "Socialização de Filhotes"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:112
 msgid "Baths & Grooming"
-msgstr ""
+msgstr "Banhos e Tosquia"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:114
 msgid "Spa treatments to keep your pet looking and feeling their best."
-msgstr ""
+msgstr "Tratamentos de spa para manter o seu animal de estimação com a melhor aparência e sensação."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:119
 msgid "Breed-specific haircuts"
-msgstr ""
+msgstr "Cortes de cabelo específicos para raças"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:123
 msgid "Medicated baths"
-msgstr ""
+msgstr "Banhos medicinais"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:127
 msgid "Nail trimming & ear cleaning"
-msgstr ""
+msgstr "Corte de unhas e limpeza de orelhas"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:137
 msgid "Training Programs"
-msgstr ""
+msgstr "Programas de Treinamento"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:139
 msgid "Comprehensive training for all ages and skill levels."
-msgstr ""
+msgstr "Treinamento abrangente para todas as idades e níveis de habilidade."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:144
 msgid "Group obedience classes"
-msgstr ""
+msgstr "Aulas de obediência em grupo"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:148
 msgid "Agility training"
-msgstr ""
+msgstr "Treinamento de Agilidade"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:152
 msgid "Therapy dog preparation"
-msgstr ""
+msgstr "Preparação para cães de terapia"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:162
 msgid "Special Packages"
-msgstr ""
+msgstr "Pacotes Especiais"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:164
 msgid "Bundle multiple services for discounted rates!"
-msgstr ""
+msgstr "Agrupe vários serviços para tarifas com desconto!"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:169
 msgid "Hotel + Training combo"
-msgstr ""
+msgstr "Combo de Hotel + Treinamento"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:173
 msgid "Monthly grooming memberships"
-msgstr ""
+msgstr "Assinaturas mensais de tosquia"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:177
 msgid "Multi-pet discounts"
-msgstr ""
+msgstr "Descontos para múltiplos animais de estimação"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:189
 msgid "Book an Hotel Stay!"
-msgstr ""
+msgstr "Reserve uma estadia no hotel!"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:14
 msgid "Happy Tails"
-msgstr ""
+msgstr "Caudas Felizes"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:19
 msgid "What pet parents say about our services"
-msgstr ""
+msgstr "O que os pais de pets dizem sobre nossos serviços"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:34
 #: frontoffice/templates/frontoffice/partials/testimonials.html:58
 #: frontoffice/templates/frontoffice/partials/testimonials.html:82
 msgid "Dog Owner"
-msgstr ""
+msgstr "Dono de Cão"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:38
 msgid ""
 "I always receive excellent service and Shelby loves coming to the center. "
 "She is always learning new things. Whenever I can, we go to group classes."
 msgstr ""
+"Eu sempre recebo um serviço excelente e a Shelby adora vir ao centro. "
+"Ela está sempre aprendendo coisas novas. Sempre que posso, vamos a aulas em grupo."
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:44
 #: frontoffice/templates/frontoffice/partials/testimonials.html:68
 #: frontoffice/templates/frontoffice/partials/testimonials.html:92
 msgid "Verified"
-msgstr ""
+msgstr "Verificado"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:62
 #, python-format
@@ -1026,6 +1044,8 @@ msgid ""
 "I trust Olhó Cão because they've always been the best with Ghost; I trust "
 "them 100%%. They offer daycare, classes, everything with the trainers."
 msgstr ""
+"Eu confio no Olhó Cão porque eles sempre foram os melhores com o Ghost; eu confio "
+"neles 100%%. Eles oferecem creche, aulas, tudo com os treinadores."
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:86
 msgid ""
@@ -1034,1058 +1054,1242 @@ msgid ""
 "professionals and achieve excellent results. It's worth trying because "
 "you'll love it for sure."
 msgstr ""
+"As sessões de treino são muito abrangentes para pessoas que não estão "
+"acostumadas a lidar com outros cães. Eu confio no Olhó Cão porque eles têm "
+"grandes profissionais e alcançam excelentes resultados. Vale a pena tentar "
+"porque você vai adorar com certeza."
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:111
 msgid "Dogs Cared"
-msgstr ""
+msgstr "Cães Cuidadores"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:118
 msgid "Group Classes"
-msgstr ""
+msgstr "Aulas em Grupo"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:125
 msgid "Certified Trainers"
-msgstr ""
+msgstr "Treinadores Certificados"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:132
 msgid "Years of Experience"
-msgstr ""
+msgstr "Anos de Experiência"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:143
 msgid "Join Our Happy Pack"
-msgstr ""
+msgstr "Junte-se à Nossa Matilha Feliz"
 
 #: frontoffice/templates/frontoffice/pricing.html:13
 #: olhocao/templates/components/navbar.html:36
-#: olhocao/templates/components/navbar.html:151
+#: olhocao/templates/components/navbar.html:150
 msgid "Pricing"
-msgstr ""
+msgstr "Preços"
 
 #: frontoffice/templates/frontoffice/pricing.html:18
 msgid "Our exciting services you can trust"
-msgstr ""
+msgstr "Nossos serviços empolgantes em quem você pode confiar"
 
 #: frontoffice/templates/frontoffice/pricing.html:53
 msgid "Book Now"
-msgstr ""
+msgstr "Reserve agora"
 
 #: frontoffice/templates/frontoffice/privacy_policy.html:25
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:25
 msgid "Effective Date: "
-msgstr ""
+msgstr "Data de Vigência: "
 
 #: frontoffice/templates/frontoffice/privacy_policy.html:65
 msgid "No Privacy Policy Available"
-msgstr ""
+msgstr "Nenhuma Política de Privacidade Disponível"
 
 #: frontoffice/templates/frontoffice/privacy_policy.html:66
 msgid "We're currently updating our privacy policy. Please check back later."
-msgstr ""
+msgstr "Estamos a atualizar nossa política de privacidade. Por favor, volte mais tarde."
 
 #: frontoffice/templates/frontoffice/privacy_policy.html:76
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:77
 msgid "Have Questions?"
-msgstr ""
+msgstr "Tem questões?"
 
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:66
 msgid "No Terms Available"
-msgstr ""
+msgstr "Nenhum Termo Disponível"
 
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:67
 msgid ""
 "We're currently updating our terms and conditions. Please check back later."
-msgstr ""
+msgstr "Estamos a atualizar nossos termos e condições. Por favor, volte mais tarde."
 
 #: frontoffice/views.py:23 frontoffice/views.py:24
 msgid "OlhóCão having fun!"
-msgstr ""
+msgstr "OlhóCão a divertir-se!"
 
 #: frontoffice/views.py:25
 msgid ""
 "OlhóCão is a wild park where your dog goes full zoomies, makes furry "
 "friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."
 msgstr ""
+"OlhóCão é um parque selvagem onde o seu cão corre à solta, faz amigos peludos "
+"e esquece que os impostos existem. É um país das maravilhas caninas para diversão e liberdade."
 
 #: frontoffice/views.py:27 frontoffice/views.py:35 frontoffice/views.py:43
 #: frontoffice/views.py:51
 msgid "Discover Our Services"
-msgstr ""
+msgstr "Descubra os Nossos Serviços"
 
 #: frontoffice/views.py:31 frontoffice/views.py:32
 msgid "LavóCão so he smells nice!"
-msgstr ""
+msgstr "LavóCão para ele cheirar bem!"
 
 #: frontoffice/views.py:33
 msgid ""
 "We wash, fluff, and de-funk your furry beast. LavóCão turns your stink "
 "monster into a soft, snuggly cloud that’s finally welcome on the couch again."
 msgstr ""
+"Nós lavamos, alisamos e removemos o mau cheiro da sua fera peluda. "
+"O LavóCão transforma o seu monstro fedorento numa nuvem macia e "
+"aconchegante que finalmente pode voltar ao sofá."
 
 #: frontoffice/views.py:39 frontoffice/views.py:40
 msgid "TreinóCão to be a good boy!"
-msgstr ""
+msgstr "TreinóCão para ser um bom menino!"
 
 #: frontoffice/views.py:41
 msgid ""
 "From couch destroyer to polite pupper—TreinóCão teaches obedience, social "
 "skills, and how *not* to embarrass you at the park."
 msgstr ""
+"De destruidor de sofás a cão educado - TreinóCão ensina obediência, habilidades sociais "
+"e como *não* te envergonhar no parque."
 
 #: frontoffice/views.py:47 frontoffice/views.py:48
 msgid "DeixóCão: we take care while you take off!"
-msgstr ""
+msgstr "DeixóCão: nós cuidamos enquanto se diverte!"
 
 #: frontoffice/views.py:49
 msgid ""
 "Vacation time? DeixóCão is your dog's home away from home—with playtime, "
 "cuddles, and way too many treats. You relax, we handle the tail-wagging."
 msgstr ""
+"Precisa de férias? O DeixóCão é a casa do seu cão longe de casa - com "
+"tempo de brincadeira, carinhos e muitos petiscos. Você relaxa, nós cuidamos do abanar de cauda."
 
 #: frontoffice/views.py:57 frontoffice/views.py:58
 msgid "Trust in the best training"
-msgstr ""
+msgstr "Confiança no melhor treinamento"
 
 #: frontoffice/views.py:59
 msgid ""
 "Our pros have years of experience and Jedi-level dog-whispering skills. Your "
 "furry tornado is in safe hands."
 msgstr ""
+"Os nossos profissionais têm anos de experiência e habilidades de sussurro canino em nível Jedi. Seu "
+"tornado peludo está em boas mãos."
 
 #: frontoffice/views.py:63 frontoffice/views.py:64
 msgid "Fun for everyone!"
-msgstr ""
+msgstr "Diversão para todos!"
 
 #: frontoffice/views.py:65
 msgid ""
 "It’s basically a theme park for dogs. Walks, jumps, races, tail chases, "
 "group zoomies—we've got it all. Humans might get jealous."
 msgstr ""
+"É basicamente um parque temático para cães. Caminhadas, saltos, corridas, "
+"perseguições de cauda, corridas em grupo - temos tudo. Os humanos podem ficar com inveja."
 
 #: frontoffice/views.py:69 frontoffice/views.py:70
 msgid "Socialization and cognitive development"
-msgstr ""
+msgstr "Socialização e desenvolvimento cognitivo"
 
 #: frontoffice/views.py:71
 msgid ""
 "Shy pups? Overly excited bark machines? We help them mingle, grow brains, "
 "and maybe even learn not to eat your socks."
 msgstr ""
+"Filhotes tímidos? Máquinas de latido excessivamente animadas? Nós ajudamos "
+"a socializar, a desenvolver as suas habilidades cognitivas e talvez até "
+"aprender a não comer as suas meias."
 
 #: frontoffice/views.py:75 frontoffice/views.py:76
 msgid "More comfort for the whole family"
-msgstr ""
+msgstr "Mais conforto para toda a família"
 
 #: frontoffice/views.py:77
 msgid ""
 "No time? No car? No problem. We pick up and drop off your pup, all clean and "
 "happy. It’s like Uber, but fluffier."
 msgstr ""
+"Sem tempo? Sem carro? Sem problemas. Nós vamos buscar e deixar o seu cão, todo limpo e "
+"feliz. É como um Uber, mas mais fofinho."
 
 #: frontoffice/views.py:81 frontoffice/views.py:82
 msgid "Tailored for your dog’s needs"
-msgstr ""
+msgstr "Personalizado para as necessidades do seu cão"
 
 #: frontoffice/views.py:83
 msgid ""
 "Big or small, shy or hyper—we customize the fun. Your dog’s happiness "
 "program is designed like a 5-star dogcation."
 msgstr ""
+"Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. "
+"O programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
 
-#: frontoffice/views.py:137
+#: frontoffice/views.py:138
 msgid "Thank you! Your message has been sent."
-msgstr ""
+msgstr "Obrigado! Sua mensagem foi enviada."
 
-#: hotel/forms.py:55
+#: hotel/forms.py:56
 msgid "I agree to the terms and conditions"
-msgstr ""
+msgstr "Eu concordo com os termos e condições"
 
-#: hotel/forms.py:57
+#: hotel/forms.py:58
 msgid "You must accept the terms and conditions"
-msgstr ""
+msgstr "Deve aceitar os termos e condições"
 
-#: hotel/forms.py:64
+#: hotel/forms.py:65
 msgid "Special requests or instructions"
+msgstr "Pedidos ou instruções especiais"
+
+#: hotel/forms.py:78
+msgid "Start date"
+msgstr "Data de início"
+
+#: hotel/forms.py:100
+msgid ""
+"Changes or cancellations must be made at least 7 days before the start date."
 msgstr ""
+"Alterações ou cancelamentos devem ser feitos com pelo menos 7 dias de antecedência em relação à data de início."
+
+#: hotel/forms.py:103
+msgid ""
+"You can only modify or cancel your booking within 6 months of the original "
+"booking date."
+msgstr ""
+"Só pode modificar ou cancelar a sua reserva dentro de 6 meses a partir da data original da reserva."
+
+#: hotel/forms.py:108
+msgid "Start date cannot be in the past."
+msgstr "A data de início não pode estar no passado."
 
 #: hotel/models.py:16
 msgid "Pending"
-msgstr ""
+msgstr "Pendente"
 
 #: hotel/models.py:17
 msgid "Cancelled"
-msgstr ""
+msgstr "Cancelado"
 
 #: hotel/models.py:18
 msgid "Paid"
-msgstr ""
+msgstr "Pago"
 
-#: hotel/models.py:83
+#: hotel/models.py:98
 msgid "Booking"
+msgstr "Reserva"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:13
+msgid "Confirm Booking Cancellation"
+msgstr "Confirmar Cancelamento da Reserva"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:18
+msgid ""
+"Are you sure you want to cancel this booking? This action cannot be undone."
 msgstr ""
+"Tem a certeza que deseja cancelar esta reserva? Esta ação não pode ser desfeita."
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:26
+msgid "Booking Summary"
+msgstr "Resumo da Reserva"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:30
+#: hotel/templates/hotel/booking_detail.html:87
+#: hotel/templates/hotel/booking_modify.html:31
+msgid "Pets"
+msgstr "Animais de Estimação"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:47
+#: hotel/templates/hotel/booking_detail.html:112
+#: hotel/templates/hotel/booking_modify.html:48
+#: hotel/templates/hotel/booking_review.html:63
+msgid "Dates"
+msgstr "Datas"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:50
+#: hotel/templates/hotel/booking_detail.html:116
+#: hotel/templates/hotel/booking_modify.html:51
+#: hotel/templates/hotel/booking_review.html:66
+#: hotel/templates/hotel/booking_stay_service_list.html:73
+msgid "Check-in"
+msgstr "Check-in"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:54
+#: hotel/templates/hotel/booking_detail.html:120
+#: hotel/templates/hotel/booking_modify.html:55
+#: hotel/templates/hotel/booking_review.html:70
+#: hotel/templates/hotel/booking_stay_service_list.html:77
+msgid "Check-out"
+msgstr "Check-out"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:58
+#: hotel/templates/hotel/booking_modify.html:59
+#: hotel/templates/hotel/booking_review.html:74
+#: hotel/templates/hotel/booking_stay_service_list.html:81
+msgid "Duration"
+msgstr "Duração"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:59
+#: hotel/templates/hotel/booking_modify.html:60
+#: hotel/templates/hotel/booking_review.html:75
+#: hotel/templates/hotel/booking_stay_service_list.html:82
+msgid "day"
+msgstr "dia"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:70
+#: hotel/templates/hotel/booking_modify.html:71
+msgid "Back to Booking Details"
+msgstr "Voltar aos Detalhes da Reserva"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:77
+msgid "Important:"
+msgstr "Importante:"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:85
+msgid "No, Go Back"
+msgstr "Não, Voltar"
+
+#: hotel/templates/hotel/booking_cancel_confirm.html:88
+msgid "Yes, Cancel Booking"
+msgstr "Sim, Cancelar Reserva"
 
 #: hotel/templates/hotel/booking_detail.html:14
 #: hotel/templates/hotel/booking_success.html:24
 msgid "Booking Details"
-msgstr ""
+msgstr "Detalhes da Reserva"
 
 #: hotel/templates/hotel/booking_detail.html:26
 msgid "Completed stay"
-msgstr ""
+msgstr "Estadia Concluída"
 
 #: hotel/templates/hotel/booking_detail.html:28
 msgid "Currently active"
-msgstr ""
+msgstr "Atualmente ativa"
 
 #: hotel/templates/hotel/booking_detail.html:30
 msgid "Upcoming stay"
-msgstr ""
+msgstr "Estadia Futura"
 
-#: hotel/templates/hotel/booking_detail.html:43
-#: hotel/templates/hotel/booking_detail.html:257
-#: hotel/templates/hotel/partials/booking_card.html:54
+#: hotel/templates/hotel/booking_detail.html:41
+msgid "Download"
+msgstr "Descarregar"
+
+#: hotel/templates/hotel/booking_detail.html:50
+#: hotel/templates/hotel/booking_detail.html:278
+#: hotel/templates/hotel/partials/booking_card.html:60
 msgid "Complete Payment"
-msgstr ""
+msgstr "Completar Pagamento"
 
-#: hotel/templates/hotel/booking_detail.html:51
-msgid "Back to my Hotel Bookings"
-msgstr ""
+#: hotel/templates/hotel/booking_detail.html:58
+#: hotel/templates/hotel/booking_modify.html:81
+msgid "Change Dates"
+msgstr "Alterar Datas"
 
-#: hotel/templates/hotel/booking_detail.html:66
-msgid "Pets"
-msgstr ""
+#: hotel/templates/hotel/booking_detail.html:65
+msgid "Cancel Booking"
+msgstr "Cancelar Reserva"
 
-#: hotel/templates/hotel/booking_detail.html:91
-#: hotel/templates/hotel/booking_review.html:63
-msgid "Dates"
-msgstr ""
+#: hotel/templates/hotel/booking_detail.html:72
+msgid "Back to Hotel Bookings"
+msgstr "Voltar às Reservas do Hotel"
 
-#: hotel/templates/hotel/booking_detail.html:95
-#: hotel/templates/hotel/booking_review.html:66
-#: hotel/templates/hotel/booking_stay_service_list.html:73
-msgid "Check-in"
-msgstr ""
-
-#: hotel/templates/hotel/booking_detail.html:99
-#: hotel/templates/hotel/booking_review.html:70
-#: hotel/templates/hotel/booking_stay_service_list.html:77
-msgid "Check-out"
-msgstr ""
-
-#: hotel/templates/hotel/booking_detail.html:103
+#: hotel/templates/hotel/booking_detail.html:124
 msgid "Total days"
-msgstr ""
+msgstr "Total de dias"
 
-#: hotel/templates/hotel/booking_detail.html:119
+#: hotel/templates/hotel/booking_detail.html:140
 msgid "Price Summary"
-msgstr ""
+msgstr "Resumo de Preços"
 
-#: hotel/templates/hotel/booking_detail.html:123
+#: hotel/templates/hotel/booking_detail.html:144
 msgid "Base price"
-msgstr ""
+msgstr "Preço Base"
 
-#: hotel/templates/hotel/booking_detail.html:136
+#: hotel/templates/hotel/booking_detail.html:157
 #: hotel/templates/hotel/booking_review.html:130
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
-#: hotel/templates/hotel/booking_detail.html:154
+#: hotel/templates/hotel/booking_detail.html:175
 msgid "Stays"
-msgstr ""
+msgstr "Estadias"
 
-#: hotel/templates/hotel/booking_detail.html:197
+#: hotel/templates/hotel/booking_detail.html:218
 msgid "Additional Services"
-msgstr ""
+msgstr "Serviços Adicionais"
 
-#: hotel/templates/hotel/booking_detail.html:207
+#: hotel/templates/hotel/booking_detail.html:228
 msgid "Daily service"
-msgstr ""
+msgstr "Serviço Diário"
 
-#: hotel/templates/hotel/booking_detail.html:211
+#: hotel/templates/hotel/booking_detail.html:232
 #: hotel/templates/hotel/booking_stay_service_list.html:125
 msgid "One-time service"
-msgstr ""
+msgstr "Serviço Único"
 
-#: hotel/templates/hotel/booking_detail.html:235
+#: hotel/templates/hotel/booking_detail.html:256
 msgid "Payment Status"
-msgstr ""
+msgstr "Status do Pagamento"
 
-#: hotel/templates/hotel/booking_detail.html:240
+#: hotel/templates/hotel/booking_detail.html:261
 msgid "Paid on"
-msgstr ""
+msgstr "Pago em"
 
-#: hotel/templates/hotel/booking_detail.html:244
+#: hotel/templates/hotel/booking_detail.html:265
 msgid "Amount"
-msgstr ""
+msgstr "Valor"
 
-#: hotel/templates/hotel/booking_detail.html:251
+#: hotel/templates/hotel/booking_detail.html:272
 msgid "This booking requires payment confirmation"
-msgstr ""
+msgstr "Esta reserva requer confirmação de pagamento"
 
-#: hotel/templates/hotel/booking_detail.html:264
+#: hotel/templates/hotel/booking_detail.html:285
 msgid "Payment Unavailable"
-msgstr ""
+msgstr "Pagamento Indisponível"
 
 #: hotel/templates/hotel/booking_list.html:10
+#: olhocao/templates/components/navbar.html:91
 msgid "My Hotel Bookings"
-msgstr ""
+msgstr "As Minhas Reservas de Hotel"
 
 #: hotel/templates/hotel/booking_list.html:17
 msgid "Filter by status"
-msgstr ""
+msgstr "Filtrar por estado"
 
 #: hotel/templates/hotel/booking_list.html:25
 msgid "All Bookings"
-msgstr ""
+msgstr "Todas as Reservas"
 
 #: hotel/templates/hotel/booking_list.html:28
 msgid "Needs Payment"
-msgstr ""
+msgstr "Aguarda Pagamento"
 
 #: hotel/templates/hotel/booking_list.html:34
 msgid "Upcoming Stays"
-msgstr ""
+msgstr "Estadias Futuras"
 
 #: hotel/templates/hotel/booking_list.html:37
 msgid "Past Stays"
-msgstr ""
+msgstr "Estadias Passadas"
 
 #: hotel/templates/hotel/booking_list.html:87
 msgid "No bookings found"
-msgstr ""
+msgstr "Nenhuma reserva encontrada"
 
 #: hotel/templates/hotel/booking_list.html:91
 msgid "You don't have any bookings with this status"
-msgstr ""
+msgstr "Sem reservas com este estado"
 
 #: hotel/templates/hotel/booking_list.html:93
 msgid "You haven't made any bookings yet"
-msgstr ""
+msgstr "Ainda não fez nenhuma reserva"
 
 #: hotel/templates/hotel/booking_list.html:98
 msgid "View all bookings"
+msgstr "Ver todas as reservas"
+
+#: hotel/templates/hotel/booking_modify.html:14
+msgid "Modify Booking Dates"
+msgstr "Modificar Datas da Reserva"
+
+#: hotel/templates/hotel/booking_modify.html:19
+msgid ""
+"You can only change the check-in and check-out dates. The length of stay "
+"must remain the same."
 msgstr ""
+"Só pode alterar as datas de check-in e check-out. A duração da estadia "
+"deve permanecer a mesma."
+
+#: hotel/templates/hotel/booking_modify.html:27
+msgid "Current Booking"
+msgstr "Reserva Atual"
+
+#: hotel/templates/hotel/booking_modify.html:85
+msgid "New Check-in Date"
+msgstr "Nova Data de Check-in"
+
+#: hotel/templates/hotel/booking_modify.html:93
+msgid "New Check-out Date (calculated)"
+msgstr "Nova Data de Check-out (calculada)"
+
+#: hotel/templates/hotel/booking_modify.html:100
+msgid "Update Dates"
+msgstr "Atualizar Datas"
+
+#: hotel/templates/hotel/booking_modify.html:104
+msgid ""
+"You can only modify booking dates up to 7 days before the original check-in "
+"date."
+msgstr ""
+"Você só pode modificar as datas da reserva até 7 dias antes da data original de check-in."
 
 #: hotel/templates/hotel/booking_retry.html:14
 msgid "Payment Needed"
-msgstr ""
+msgstr "Pagamento Necessário"
 
 #: hotel/templates/hotel/booking_retry.html:19
 msgid "We couldn't confirm your payment yet"
-msgstr ""
+msgstr "Ainda não conseguimos confirmar o seu pagamento"
 
 #: hotel/templates/hotel/booking_retry.html:28
 msgid "Booking #"
-msgstr ""
+msgstr "Reserva #"
 
 #: hotel/templates/hotel/booking_retry.html:32
 msgid "Possible Reasons"
-msgstr ""
+msgstr "Possíveis Motivos"
 
 #: hotel/templates/hotel/booking_retry.html:36
 msgid "Payment is still processing (may take a few minutes)"
-msgstr ""
+msgstr "O pagamento ainda está a ser processado (pode levar alguns minutos)"
 
 #: hotel/templates/hotel/booking_retry.html:40
 msgid "Payment authorization failed"
-msgstr ""
+msgstr "Autorização de pagamento falhada"
 
 #: hotel/templates/hotel/booking_retry.html:44
 msgid "Network issue during verification"
-msgstr ""
+msgstr "Problema de rede durante a verificação"
 
 #: hotel/templates/hotel/booking_retry.html:51
 msgid "Total Amount"
-msgstr ""
+msgstr "Valor Total"
 
 #: hotel/templates/hotel/booking_retry.html:57
 #: hotel/templates/hotel/booking_success.html:35
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: hotel/templates/hotel/booking_retry.html:59
 msgid "Pending Payment"
-msgstr ""
+msgstr "Pagamento Pendente"
 
 #: hotel/templates/hotel/booking_retry.html:67
 msgid "Important"
-msgstr ""
+msgstr "Importante"
 
 #: hotel/templates/hotel/booking_retry.html:70
 msgid ""
 "Your booking is reserved for 30 minutes. Complete payment to confirm your "
 "spot."
 msgstr ""
+"A Sua reserva está reservada por 30 minutos. Complete o pagamento para "
+"confirmar o seu lugar."
 
-#: hotel/templates/hotel/booking_retry.html:79
+#: hotel/templates/hotel/booking_retry.html:80
 msgid "Retry Payment Now"
-msgstr ""
+msgstr "Voltar a tentar pagar agora"
 
-#: hotel/templates/hotel/booking_retry.html:83
-msgid "View in my Bookings"
-msgstr ""
+#: hotel/templates/hotel/booking_retry.html:84
+msgid "Payment is not possible at this time."
+msgstr "O pagamento não é possível neste momento."
 
 #: hotel/templates/hotel/booking_retry.html:89
-msgid "Need help with your payment?"
-msgstr ""
+msgid "View in my Bookings"
+msgstr "Ver na minha lista de reservas"
 
-#: hotel/templates/hotel/booking_retry.html:92
+#: hotel/templates/hotel/booking_retry.html:95
+msgid "Need help with your payment?"
+msgstr "Precisa de ajuda com o seu pagamento?"
+
+#: hotel/templates/hotel/booking_retry.html:98
 msgid "Contact Support"
-msgstr ""
+msgstr "Contactar Suporte"
 
 #: hotel/templates/hotel/booking_review.html:15
 msgid "Review Your Booking"
-msgstr ""
+msgstr "Rever a Sua Reserva"
 
 #: hotel/templates/hotel/booking_review.html:20
 msgid "Please verify all details before confirmation"
-msgstr ""
+msgstr "Por favor, verifique todos os detalhes antes da confirmação."
 
 #: hotel/templates/hotel/booking_review.html:29
 #: hotel/templates/hotel/booking_stay_list.html:31
 #: hotel/templates/hotel/booking_stay_service_list.html:31
 msgid "Select Stay"
-msgstr ""
+msgstr "Selecionar Estadia"
 
 #: hotel/templates/hotel/booking_review.html:33
 #: hotel/templates/hotel/booking_stay_list.html:35
 #: hotel/templates/hotel/booking_stay_service_list.html:15
 #: hotel/templates/hotel/booking_stay_service_list.html:35
 msgid "Add Services"
-msgstr ""
+msgstr "Adicionar Serviços"
 
 #: hotel/templates/hotel/booking_review.html:37
 #: hotel/templates/hotel/booking_stay_list.html:39
 #: hotel/templates/hotel/booking_stay_service_list.html:39
 msgid "Review & Pay"
-msgstr ""
+msgstr "Rever & Pagar"
 
 #: hotel/templates/hotel/booking_review.html:45
 #: hotel/templates/hotel/booking_stay_service_list.html:70
 msgid "Stay Details"
-msgstr ""
+msgstr "Detalhes da Estadia"
 
 #: hotel/templates/hotel/booking_review.html:50
 #: hotel/templates/hotel/booking_review.html:171
 msgid "Accommodation"
-msgstr ""
+msgstr "Alojamento"
 
 #: hotel/templates/hotel/booking_review.html:57
 msgid "per day"
-msgstr ""
-
-#: hotel/templates/hotel/booking_review.html:74
-#: hotel/templates/hotel/booking_stay_service_list.html:81
-msgid "Duration"
-msgstr ""
-
-#: hotel/templates/hotel/booking_review.html:75
-#: hotel/templates/hotel/booking_stay_service_list.html:82
-msgid "day"
-msgstr ""
+msgstr "por dia"
 
 #: hotel/templates/hotel/booking_review.html:81
 msgid "Pets Staying"
-msgstr ""
+msgstr "Animais de Estimação na Estadia"
 
 #: hotel/templates/hotel/booking_review.html:105
 msgid "Selected Services"
-msgstr ""
+msgstr "Serviços Selecionados"
 
 #: hotel/templates/hotel/booking_review.html:127
 #: hotel/templates/hotel/booking_stay_service_list.html:101
 msgid "Service"
-msgstr ""
+msgstr "Serviço"
 
 #: hotel/templates/hotel/booking_review.html:128
 #: hotel/templates/hotel/booking_stay_service_list.html:102
 msgid "Price"
-msgstr ""
+msgstr "Preço"
 
 #: hotel/templates/hotel/booking_review.html:129
 msgid "Qty"
-msgstr ""
+msgstr "Qtd"
 
 #: hotel/templates/hotel/booking_review.html:147
 #: hotel/templates/hotel/booking_review.html:154
 msgid "No additional services selected"
-msgstr ""
+msgstr "Nenhum serviço adicional selecionado"
 
 #: hotel/templates/hotel/booking_review.html:163
 msgid "Pricing Summary"
-msgstr ""
+msgstr "Resumo de Preços"
 
 #: hotel/templates/hotel/booking_review.html:173
 #: hotel/templates/hotel/partials/booking_card.html:42
 msgid "days"
-msgstr ""
+msgstr "dias"
 
 #: hotel/templates/hotel/booking_review.html:173
 msgid "pets"
-msgstr ""
+msgstr "animais de estimação"
 
 #: hotel/templates/hotel/booking_review.html:191
 msgid "Grand Total"
-msgstr ""
+msgstr "Total Geral"
 
 #: hotel/templates/hotel/booking_review.html:206
 msgid "Payment & Confirmation"
-msgstr ""
+msgstr "Pagamento & Confirmação"
 
 #: hotel/templates/hotel/booking_review.html:210
 msgid "Special Requests"
-msgstr ""
+msgstr "Pedidos Especiais"
 
 #: hotel/templates/hotel/booking_review.html:211
 msgid "Any special instructions for our team?"
-msgstr ""
+msgstr "Algumas instruções especiais para a nossa equipe?"
 
 #: hotel/templates/hotel/booking_review.html:219
 msgid "I agree to the"
-msgstr ""
+msgstr "Eu concordo com os"
 
 #: hotel/templates/hotel/booking_review.html:219
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Termos & Condições"
 
 #: hotel/templates/hotel/booking_review.html:222
 msgid "and"
-msgstr ""
+msgstr "e"
 
 #: hotel/templates/hotel/booking_review.html:230
 msgid "Back to Services"
-msgstr ""
+msgstr "Voltar aos Serviços"
 
 #: hotel/templates/hotel/booking_review.html:233
 msgid "Confirm & Pay Now"
-msgstr ""
+msgstr "Confirmar & Pagar Agora"
 
 #: hotel/templates/hotel/booking_stay_list.html:15
 msgid "Book a Stay"
-msgstr ""
+msgstr "Reservar uma Estadia"
 
 #: hotel/templates/hotel/booking_stay_list.html:20
 msgid "Choose accommodation for your pet"
-msgstr ""
+msgstr "Escolha o alojamento para o seu animal de estimação"
 
 #: hotel/templates/hotel/booking_stay_list.html:47
 msgid "Select Accommodation"
-msgstr ""
+msgstr "Selecionar Alojamento"
 
 #: hotel/templates/hotel/booking_stay_list.html:65
 msgid "Per day"
-msgstr ""
+msgstr "Por dia"
 
 #: hotel/templates/hotel/booking_stay_list.html:76
 msgid "Select Your Pet"
-msgstr ""
+msgstr "Selecionar o seu Animal de Estimação"
 
 #: hotel/templates/hotel/booking_stay_list.html:83
 msgid "Select all pets"
-msgstr ""
+msgstr "Selecionar todos os animais de estimação"
 
 #: hotel/templates/hotel/booking_stay_list.html:112
 msgid "You don't have any pets registered yet."
-msgstr ""
+msgstr "Você ainda não tem nenhum animal de estimação registrado."
 
 #: hotel/templates/hotel/booking_stay_list.html:114
 msgid "Add a pet"
-msgstr ""
+msgstr "Adicionar um animal de estimação"
 
 #: hotel/templates/hotel/booking_stay_list.html:125
 msgid "Select Dates"
-msgstr ""
+msgstr "Selecionar Datas"
 
 #: hotel/templates/hotel/booking_stay_list.html:131
 msgid "Check-in Date"
-msgstr ""
+msgstr "Data de Check-in"
 
 #: hotel/templates/hotel/booking_stay_list.html:139
 msgid "Check-out Date"
-msgstr ""
+msgstr "Data de Check-out"
 
 #: hotel/templates/hotel/booking_stay_list.html:152
 msgid "Continue to Services"
-msgstr ""
+msgstr "Continuar para os Serviços"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:20
 msgid "Customize services for each pet"
-msgstr ""
+msgstr "Personalizar serviços para cada animal de estimação"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:47
 msgid "Your Booking Summary"
-msgstr ""
+msgstr "Seu Resumo de Reserva"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:52
 msgid "Selected Pets"
-msgstr ""
+msgstr "Animais de Estimação Selecionados"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:93
 msgid "Available Services"
-msgstr ""
+msgstr "Serviços Disponíveis"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:157
 msgid "Each service can be booked up to the max days of stay."
-msgstr ""
+msgstr "Cada serviço pode ser reservado por até o máximo de dias de estadia."
 
 #: hotel/templates/hotel/booking_stay_service_list.html:163
 msgid "No additional services available at this time."
-msgstr ""
+msgstr "Nenhum serviço adicional disponível no momento."
 
 #: hotel/templates/hotel/booking_stay_service_list.html:172
 msgid "Back to Stay Selection"
-msgstr ""
+msgstr "Voltar à Seleção de Estadia"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:175
 msgid "Review Booking"
-msgstr ""
+msgstr "Revisar Reserva"
 
 #: hotel/templates/hotel/booking_success.html:14
 msgid "Booking Confirmed!"
-msgstr ""
+msgstr "Reserva Confirmada!"
 
 #: hotel/templates/hotel/booking_success.html:18
 msgid "Thank you for your reservation. We're excited to care for your pets!"
-msgstr ""
+msgstr "Obrigado pela sua reserva. Estamos ansiosos para cuidar dos seus animais de estimação."
 
 #: hotel/templates/hotel/booking_success.html:29
 msgid "Booking Reference"
-msgstr ""
+msgstr "Referência da Reserva"
 
 #: hotel/templates/hotel/booking_success.html:37
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmado"
 
 #: hotel/templates/hotel/booking_success.html:43
 msgid "What's Next?"
-msgstr ""
+msgstr "Qual é o Próximo Passo?"
 
 #: hotel/templates/hotel/booking_success.html:47
 msgid "You'll receive a confirmation email shortly"
-msgstr ""
+msgstr "Receberá um e-mail de confirmação em breve."
 
 #: hotel/templates/hotel/booking_success.html:51
 msgid "Our team will contact you if we need additional information"
-msgstr ""
+msgstr "A nossa equipa entrará em contato se precisarmos de informações adicionais."
 
 #: hotel/templates/hotel/booking_success.html:55
 msgid "See you on"
-msgstr ""
+msgstr "Até breve em"
 
 #: hotel/templates/hotel/booking_success.html:61
 msgid "View in your Hotel Bookings"
-msgstr ""
+msgstr "Ver na sua Reserva de Hotel"
 
 #: hotel/templates/hotel/booking_success.html:71
 msgid "Create Another Booking"
-msgstr ""
+msgstr "Criar Outra Reserva"
 
-#: hotel/templates/hotel/partials/booking_card.html:59
+#: hotel/templates/hotel/partials/booking_card.html:65
 msgid "View Details"
-msgstr ""
+msgstr "Ver Detalhes"
 
-#: hotel/views.py:151
+#: hotel/views.py:156
 msgid "Booking Session Expired"
-msgstr ""
+msgstr "Sessão de Reserva Expirada"
 
-#: hotel/views.py:239 hotel/views.py:336
+#: hotel/views.py:244 hotel/views.py:341
 msgid "Please start your booking from the beginning"
-msgstr ""
+msgstr "Por favor, inicie a sua reserva desde o início."
 
-#: hotel/views.py:427
+#: hotel/views.py:432
 msgid "Payment processing error. Please try again."
-msgstr ""
-
-#: hotel/views.py:509
-msgid "This booking can no longer be paid as the stay dates have passed"
-msgstr ""
+msgstr "Erro ao processar o pagamento. Por favor, tente novamente."
 
 #: hotel/views.py:517
-msgid "This booking doesn't require payment"
-msgstr ""
+msgid "This booking can no longer be paid as the stay dates have passed"
+msgstr "Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
 
-#: hotel/views.py:565 hotel/views.py:696
+#: hotel/views.py:525
+msgid "This booking doesn't require payment"
+msgstr "Esta reserva não requer pagamento."
+
+#: hotel/views.py:701
 msgid "Error creating payment session. Please try again later."
+msgstr "Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
+
+#: hotel/views.py:756
+msgid "Booking dates updated successfully."
+msgstr "Datas da reserva atualizadas com sucesso."
+
+#: hotel/views.py:785
+msgid "This booking has already been cancelled."
+msgstr "Esta reserva já foi cancelada."
+
+#: hotel/views.py:792
+msgid ""
+"You can only cancel up to 7 days before check-in and within 6 months of the "
+"original booking."
 msgstr ""
+"Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
+"reserva original."
+
+#: hotel/views.py:818
+#, python-format
+msgid "Booking cancelled and refunded (85%% refund applied)"
+msgstr "Reserva cancelada e reembolsada (85%% de reembolso aplicado)"
+
+#: hotel/views.py:858
+msgid "Refund failed or already processed. Please contact support."
+msgstr "Reembolso falhou ou já foi processado. Por favor, entre em contato com o suporte."
+
+#: hotel/views.py:861
+#, python-format
+msgid "Booking cancelled and 85% refunded (if paid)."
+msgstr "Reserva cancelada e 85% reembolsada (se paga)."
+
+#: hotel/views.py:873
+msgid "No sales document available for this booking."
+msgstr "Nenhum documento de venda disponível para esta reserva."
+
+#: hotel/views.py:883
+msgid "Could not retrieve PDF document. Please try again later."
+msgstr "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais tarde."
 
 #: olhocao/settings.py:191
 msgid "English"
-msgstr ""
+msgstr "Inglês"
 
 #: olhocao/settings.py:192
 msgid "Portuguese"
-msgstr ""
+msgstr "Português"
 
 #: olhocao/templates/components/footer.html:16
 msgid "Find Us"
-msgstr ""
+msgstr "Encontre-nos"
 
 #: olhocao/templates/components/footer.html:25
 msgid "Open Monday-Friday: 9AM-6PM"
-msgstr ""
+msgstr "Aberto de segunda a sexta: 9h-18h"
 
 #: olhocao/templates/components/footer.html:35
 msgid "Our Partners"
-msgstr ""
+msgstr "Os Nossos Parceiros"
 
 #: olhocao/templates/components/footer.html:41
 msgid "Our Veterinary"
-msgstr ""
+msgstr "O Nosso Veterinário"
 
 #: olhocao/templates/components/footer.html:47
 msgid "Material and Accessories"
-msgstr ""
+msgstr "Materiais e Acessórios"
 
 #: olhocao/templates/components/footer.html:53
 msgid "Dog Breeder"
-msgstr ""
+msgstr "Criador de Cães"
 
 #: olhocao/templates/components/footer.html:66
 msgid "Connect With Us"
-msgstr ""
+msgstr "Conecte-se Conosco"
 
 #: olhocao/templates/components/footer.html:109
 msgid "All rights reserved"
-msgstr ""
+msgstr "Todos os direitos reservados"
 
 #: olhocao/templates/components/footer.html:126
 msgid "Developed with"
-msgstr ""
+msgstr "Desenvolvido com"
 
 #: olhocao/templates/components/footer.html:128
 msgid "by"
-msgstr ""
+msgstr "por"
 
 #: olhocao/templates/components/messages.html:35
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: olhocao/templates/components/navbar.html:18
-#: olhocao/templates/components/navbar.html:133
+#: olhocao/templates/components/navbar.html:132
 msgid "Book Hotel"
-msgstr ""
+msgstr "Reservar Hotel"
 
 #: olhocao/templates/components/navbar.html:30
-#: olhocao/templates/components/navbar.html:145
+#: olhocao/templates/components/navbar.html:144
 msgid "Contact"
-msgstr ""
+msgstr "Contato"
 
 #: olhocao/templates/components/navbar.html:42
-#: olhocao/templates/components/navbar.html:157
+#: olhocao/templates/components/navbar.html:156
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #: olhocao/templates/components/navbar.html:78
-#: olhocao/templates/components/navbar.html:173
+#: olhocao/templates/components/navbar.html:172
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: olhocao/templates/components/navbar.html:87
-#: olhocao/templates/components/navbar.html:182
-msgid "Manage Pets"
-msgstr ""
+#: pets/templates/pets/pet_list.html:12
+msgid "My Pets"
+msgstr "Os meus Animais de Estimação"
 
-#: olhocao/templates/components/navbar.html:91
-#: olhocao/templates/components/navbar.html:186
-msgid "View Hotel Bookings"
-msgstr ""
-
-#: olhocao/templates/components/navbar.html:96
-#: olhocao/templates/components/navbar.html:191
+#: olhocao/templates/components/navbar.html:95
+#: olhocao/templates/components/navbar.html:189
 msgid "Manage Account"
-msgstr ""
+msgstr "Gerir Conta"
 
-#: olhocao/templates/components/navbar.html:106
-#: olhocao/templates/components/navbar.html:199
+#: olhocao/templates/components/navbar.html:105
+#: olhocao/templates/components/navbar.html:197
 msgid "Logout"
-msgstr ""
+msgstr "Sair"
 
-#: olhocao/templates/components/navbar.html:166
+#: olhocao/templates/components/navbar.html:165
 msgid "My Account"
-msgstr ""
+msgstr "A Minha Conta"
 
-#: olhocao/templates/components/navbar.html:214
+#: olhocao/templates/components/navbar.html:181
+msgid "Manage Pets"
+msgstr "Gerir Animais de Estimação"
+
+#: olhocao/templates/components/navbar.html:185
+msgid "View Hotel Bookings"
+msgstr "Ver Reservas de Hotel"
+
+#: olhocao/templates/components/navbar.html:212
 msgid "Switch Language"
-msgstr ""
+msgstr "Mudar Idioma"
 
 #: pets/models.py:30 pets/models.py:77
 msgid "name"
-msgstr ""
+msgstr "nome"
 
 #: pets/models.py:31
 msgid "The species name of the pet"
-msgstr ""
+msgstr "O nome da espécie do animal de estimação"
 
 #: pets/models.py:36
 msgid "is active"
-msgstr ""
+msgstr "está ativo"
 
 #: pets/models.py:37
 msgid "Whether the pet species is active in the system or not"
-msgstr ""
+msgstr "Se a espécie do animal de estimação está ativa no sistema ou não"
 
 #: pets/models.py:44 pets/models.py:45
 msgid "Pet Species"
-msgstr ""
+msgstr "Espécie do Animal de Estimação"
 
 #: pets/models.py:54
 msgid "species"
-msgstr ""
+msgstr "espécie"
 
 #: pets/models.py:55
 msgid "The species of the pet"
-msgstr ""
+msgstr "A espécie do animal de estimação"
 
 #: pets/models.py:61
 msgid "breed"
-msgstr ""
+msgstr "raça"
 
 #: pets/models.py:62
 msgid "The breed of the pet"
-msgstr ""
+msgstr "A raça do animal de estimação"
 
 #: pets/models.py:68
 msgid "male"
-msgstr ""
+msgstr "macho"
 
 #: pets/models.py:69
 msgid "female"
-msgstr ""
+msgstr "fêmea"
 
 #: pets/models.py:71
 msgid "gender"
-msgstr ""
+msgstr "género"
 
 #: pets/models.py:72
 msgid "The gender of the pet"
-msgstr ""
+msgstr "O género do animal de estimação"
 
 #: pets/models.py:78
 msgid "The name of the pet"
-msgstr ""
+msgstr "O nome do animal de estimação"
 
 #: pets/models.py:82
 msgid "birthdate"
-msgstr ""
+msgstr "data de nascimento"
 
 #: pets/models.py:83
 msgid "The birthdate of the pet"
-msgstr ""
+msgstr "A data de nascimento do animal de estimação"
 
 #: pets/models.py:91
 msgid "weight (kg)"
-msgstr ""
+msgstr "peso (kg)"
 
 #: pets/models.py:92
 msgid "The weight of the pet in kilograms"
-msgstr ""
+msgstr "O peso do animal de estimação em quilogramas"
 
 #: pets/models.py:100
 msgid "weight (cm)"
-msgstr ""
+msgstr "peso (cm)"
 
 #: pets/models.py:101
 msgid "The weight of the pet in centimeters"
-msgstr ""
+msgstr "O peso do animal de estimação em centímetros"
 
 #: pets/models.py:107
 msgid "microchip number"
-msgstr ""
+msgstr "número do microchip"
 
 #: pets/models.py:108
 msgid "The microchip number of the pet"
-msgstr ""
+msgstr "O número do microchip do animal de estimação"
 
 #: pets/models.py:114
 msgid "photo"
-msgstr ""
+msgstr "foto"
 
 #: pets/models.py:115
 msgid "The photo of the pet"
-msgstr ""
+msgstr "A foto do animal de estimação"
 
 #: pets/models.py:120
 msgid "is sterilized"
-msgstr ""
+msgstr "está esterilizado"
 
 #: pets/models.py:121
 msgid "Whether the pet is sterilized or not"
-msgstr ""
+msgstr "Se o animal de estimação está esterilizado ou não"
 
 #: pets/models.py:126
 msgid "is vaccinated"
-msgstr ""
+msgstr "está vacinado"
 
 #: pets/models.py:127
 msgid "Whether the pet is vaccinated or not"
-msgstr ""
+msgstr "Se o animal de estimação está vacinado ou não"
 
 #: pets/models.py:132
 msgid "is allergic"
-msgstr ""
+msgstr "é alérgico"
 
 #: pets/models.py:133
 msgid "Whether the pet is allergic or not"
-msgstr ""
+msgstr "Se o animal de estimação é alérgico ou não"
 
 #: pets/models.py:138
 msgid "is medicated"
-msgstr ""
+msgstr "está medicado"
 
 #: pets/models.py:139
 msgid "Whether the pet is medicated or not"
-msgstr ""
+msgstr "Se o animal de estimação está medicado ou não"
 
 #: pets/models.py:144
 msgid "medication"
-msgstr ""
+msgstr "medicação"
 
 #: pets/models.py:145
 msgid "Medication of the pet"
-msgstr ""
+msgstr "Medicação do animal de estimação"
 
 #: pets/models.py:150
 msgid "allergies"
-msgstr ""
+msgstr "alergias"
 
 #: pets/models.py:151
 msgid "Allergies of the pet"
-msgstr ""
+msgstr "Alergias do animal de estimação"
 
 #: pets/models.py:156
 msgid "notes"
-msgstr ""
+msgstr "notas"
 
 #: pets/models.py:157
 msgid "Additional notes about the pet"
-msgstr ""
+msgstr "Notas adicionais sobre o animal de estimação"
 
 #: pets/models.py:165
 msgid "owner"
-msgstr ""
+msgstr "dono"
 
 #: pets/models.py:166
 msgid "The owner of the pet"
-msgstr ""
+msgstr "O dono do animal de estimação"
 
 #: pets/models.py:171
 msgid "created at"
-msgstr ""
+msgstr "criado em"
 
 #: pets/models.py:172
 msgid "The date and time when the pet was created"
-msgstr ""
+msgstr "A data e hora em que o animal de estimação foi criado"
 
 #: pets/models.py:177
 msgid "updated at"
-msgstr ""
+msgstr "atualizado em"
 
 #: pets/models.py:178
 msgid "The date and time when the pet was last updated"
-msgstr ""
+msgstr "A data e hora em que o animal de estimação foi atualizado"
 
 #: pets/models.py:184
 msgid "deleted at"
-msgstr ""
+msgstr "eliminado a"
 
 #: pets/models.py:185
 msgid "The date and time when the pet was deleted"
-msgstr ""
+msgstr "A data e hora em que o animal de estimação foi eliminado"
 
 #: pets/models.py:197
 #, python-format
 msgid "%d weeks old"
-msgstr ""
+msgstr "%d semanas de idade"
 
 #: pets/models.py:204
 #, python-format
 msgid "%d months old"
-msgstr ""
+msgstr "%d meses de idade"
 
 #: pets/models.py:209
 #, python-format
 msgid "%d years old"
-msgstr ""
-
-#: pets/templates/pets/pet_confirm_delete.html:6
-msgid "Delete Pet"
-msgstr ""
+msgstr "%d anos de idade"
 
 #: pets/templates/pets/pet_confirm_delete.html:12
+msgid "Delete Pet"
+msgstr "Eliminar Animal de Estimação"
+
+#: pets/templates/pets/pet_confirm_delete.html:20
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Tem certeza de que deseja eliminar"
 
-#: pets/templates/pets/pet_detail.html:29
+#: pets/templates/pets/pet_detail.html:24
 msgid "Basic Info"
-msgstr ""
+msgstr "Informações Básicas"
 
-#: pets/templates/pets/pet_detail.html:31
+#: pets/templates/pets/pet_detail.html:26
 msgid "Birthdate:"
-msgstr ""
+msgstr "Data de Nascimento:"
+
+#: pets/templates/pets/pet_detail.html:27
+msgid "Weight:"
+msgstr "Peso:"
+
+#: pets/templates/pets/pet_detail.html:28
+msgid "Microchip:"
+msgstr "Microchip:"
 
 #: pets/templates/pets/pet_detail.html:32
-msgid "Weight:"
-msgstr ""
-
-#: pets/templates/pets/pet_detail.html:33
-msgid "Microchip:"
-msgstr ""
-
-#: pets/templates/pets/pet_detail.html:38
 msgid "Health Info"
-msgstr ""
+msgstr "Informações de Saúde"
 
-#: pets/templates/pets/pet_detail.html:40
+#: pets/templates/pets/pet_detail.html:34
 msgid "Sterilized:"
-msgstr ""
+msgstr "Esterilizado:"
 
-#: pets/templates/pets/pet_detail.html:41
+#: pets/templates/pets/pet_detail.html:35
 msgid "Vaccinated:"
-msgstr ""
+msgstr "Vacinado:"
 
-#: pets/templates/pets/pet_detail.html:42
+#: pets/templates/pets/pet_detail.html:36
 msgid "Allergies:"
-msgstr ""
+msgstr "Alergias:"
+
+#: pets/templates/pets/pet_detail.html:37
+msgid "Medication:"
+msgstr "Medicação:"
 
 #: pets/templates/pets/pet_detail.html:43
-msgid "Medication:"
-msgstr ""
-
-#: pets/templates/pets/pet_detail.html:50
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
-#: pets/templates/pets/pet_detail.html:57
+#: pets/templates/pets/pet_detail.html:49
 msgid "Back to My Pets"
-msgstr ""
+msgstr "Voltar aos Meus Animais de Estimação"
 
-#: pets/templates/pets/pet_form.html:9
+#: pets/templates/pets/pet_form.html:17
 msgid "Edit Pet"
-msgstr ""
+msgstr "Editar Animal de Estimação"
 
-#: pets/templates/pets/pet_form.html:9
+#: pets/templates/pets/pet_form.html:17
 msgid "Add New Pet"
-msgstr ""
+msgstr "Adicionar Novo Animal de Estimação"
 
-#: pets/templates/pets/pet_form.html:32
+#: pets/templates/pets/pet_form.html:20
+msgid "Fill in your pet's details below"
+msgstr "Preencha os detalhes do seu animal de estimação abaixo"
+
+#: pets/templates/pets/pet_form.html:40
 msgid "Remove photo"
-msgstr ""
+msgstr "Remover foto"
 
-#: pets/templates/pets/pet_form.html:65 pets/templates/pets/pet_list.html:9
+#: pets/templates/pets/pet_form.html:72 pets/templates/pets/pet_list.html:58
 msgid "Add Pet"
-msgstr ""
+msgstr "Adicionar Animal de Estimação"
 
-#: pets/templates/pets/pet_list.html:7
-msgid "My Pets"
-msgstr ""
-
-#: pets/templates/pets/pet_list.html:30
+#: pets/templates/pets/pet_list.html:34
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
-#: pets/templates/pets/pet_list.html:43
+#: pets/templates/pets/pet_list.html:47
 msgid "You haven't added any pets yet."
-msgstr ""
+msgstr "Ainda não adicionou nenhum animal de estimação."
 
-#: pets/templates/pets/pet_list.html:45
+#: pets/templates/pets/pet_list.html:50
 msgid "Add Your First Pet"
-msgstr ""
+msgstr "Adicionar Seu Primeiro Animal de Estimação"
