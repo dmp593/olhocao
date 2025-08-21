@@ -662,7 +662,7 @@ msgid ""
 "its brand LavóCão, provides bathing and grooming services."
 msgstr ""
 "O centro também oferece serviços de hotel para cães, ATL (Atividades de Tempo Livre) e, através "
-"da sua marca LavóCão, disponibiliza serviços de banho e tosa."
+"da sua marca LavóCão, disponibiliza serviços de banho e tosquia."
 
 #: frontoffice/templates/frontoffice/about_us.html:40
 msgid ""
