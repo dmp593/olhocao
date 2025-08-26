@@ -183,26 +183,10 @@ document.addEventListener('DOMContentLoaded', function() {
     endDateInput.valueAsDate = tomorrow;
 
 
-    // Select all pets toggle
-    const selectAllCheckbox = document.getElementById('select-all-pets');
-    if (selectAllCheckbox) {
-        selectAllCheckbox.addEventListener('change', function() {
-            document.querySelectorAll('input[name="pet_ids"]').forEach(checkbox => {
-                checkbox.checked = this.checked;
-                checkbox.dispatchEvent(new Event('change'));
-            });
-        });
-    }
-    
-    // Update visual state when checkboxes change
-    document.querySelectorAll('input[name="pet_ids"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const label = this.closest('label');
-            if (this.checked) {
-                label.classList.add('border-accent-500', 'ring-2', 'ring-accent-200', 'bg-accent-50');
-            } else {
-                label.classList.remove('border-accent-500', 'ring-2', 'ring-accent-200', 'bg-accent-50');
-            }
+    // Select all pets toggler
+    document.getElementById('select-all-pets').addEventListener('change', function() {
+        document.querySelectorAll('input[name="pet_ids"]').forEach(checkbox => {
+            checkbox.checked = this.checked;
         });
     });
 });
