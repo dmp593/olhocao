@@ -1807,7 +1807,7 @@ msgstr "Personalizar serviços para cada animal de estimação"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:47
 msgid "Your Booking Summary"
-msgstr "Seu Resumo de Reserva"
+msgstr "Resumo da Reserva"
 
 #: hotel/templates/hotel/booking_stay_service_list.html:52
 msgid "Selected Pets"
@@ -2125,12 +2125,12 @@ msgid "The weight of the pet in kilograms"
 msgstr "O peso do animal de estimação em quilogramas"
 
 #: pets/models.py:100
-msgid "weight (cm)"
-msgstr "peso (cm)"
+msgid "height (cm)"
+msgstr "altura (cm)"
 
 #: pets/models.py:101
-msgid "The weight of the pet in centimeters"
-msgstr "O peso do animal de estimação em centímetros"
+msgid "The height of the pet in centimeters"
+msgstr "A altura do animal de estimação em centímetros"
 
 #: pets/models.py:107
 msgid "microchip number"

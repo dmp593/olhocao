@@ -221,7 +221,7 @@ class BookingStayServiceListView(LoginRequiredMixin, FormView):
 
                 if pet_id not in pets_services:
                     pets_services[pet_id] = {}
-                
+
                 pets_services[pet_id][service_id] = quantity
 
         # Update session

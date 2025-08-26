@@ -97,8 +97,8 @@ class Pet(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name=_('weight (cm)'),
-        help_text=_('The weight of the pet in centimeters'),
+        verbose_name=_('height (cm)'),
+        help_text=_('The height of the pet in centimeters'),
     )
 
     microship_number = models.CharField(
