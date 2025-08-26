@@ -34,10 +34,10 @@ env = environ.Env(
     EMAIL_USE_TLS=(bool, False),
     EMAIL_USE_SSL=(bool, False),
 
-    DEFAULT_FROM_EMAIL=(str, 'no-reply@olhocaocentrocanino.com'),
+    DEFAULT_FROM_EMAIL=(str, 'no-reply@olhocao.pt'),
 
     RECIPIENT_LIST_ON_CONTACT_US_REQUEST=(
-        list, ['geral@olhocaocentrocanino.com', 'luiscosta2001@gmail.com']
+        list, ['olhocao@olhocao.pt', 'luiscosta2001@gmail.com']
     ),
 
     ALLOWED_HOSTS=(list, ['*']),
