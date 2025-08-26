@@ -147,8 +147,10 @@
 
             <!-- Navigation -->
             <div class="flex justify-end">
-                <button type="submit" class="flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                        {% if not pets %}disabled{% endif %}>
+                <button
+                    type="submit"
+                    class="flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    {% if not pets %}disabled{% endif %}>
                     {% trans "Continue to Services" %}
                     <span class="ml-2">→</span>
                 </button>
