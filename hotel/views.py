@@ -267,11 +267,11 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
         # Calculate pricing
         pricing = {
             "stay": {
-                "unit_price": stay.stripe_data.default_price.unit_amount,
-                "total_price": stay.stripe_data.default_price.unit_amount * duration * nr_pets,
+                "unit_price": stay.default_price.unit_amount,
+                "total_price": stay.default_price.unit_amount * duration * nr_pets,
             },
             "services": {},
-            "grand_total": stay.stripe_data.default_price.unit_amount * duration * nr_pets,
+            "grand_total": stay.default_price.unit_amount * duration * nr_pets,
         }
 
         # Process services
@@ -289,7 +289,7 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
                 for service_id, quantity in pets_services_data[pet_id].items():
                     if quantity > 0:
                         service = services_map[service_id]
-                        unit_price = service.stripe_data.default_price.unit_amount
+                        unit_price = service.default_price.unit_amount
                         total_price = unit_price * quantity
 
                         pets_services[pet_id]["services"].append(
