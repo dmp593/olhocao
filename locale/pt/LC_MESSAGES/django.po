@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 09:33+0000\n"
+"POT-Creation-Date: 2025-08-26 14:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: accounts/forms.py:13 accounts/forms.py:67
 msgid "First Name"
 msgstr "Primeiro Nome"
@@ -47,7 +48,8 @@ msgstr "Número de Telefone"
 
 #: accounts/forms.py:35 accounts/forms.py:89
 msgid "We'll use this to contact you about your account or services."
-msgstr "Usaremos isso para entrar em contato consigo sobre a sua conta ou serviços."
+msgstr ""
+"Usaremos isso para entrar em contacto consigo sobre a sua conta ou serviços."
 
 #: accounts/forms.py:40 accounts/forms.py:94
 msgid "Email Address"
@@ -55,7 +57,8 @@ msgstr "Endereço de Email"
 
 #: accounts/forms.py:41 accounts/forms.py:95
 msgid "Your primary email address for billing and account notifications."
-msgstr "O seu endereço de email principal para faturação e notificações da conta."
+msgstr ""
+"O seu endereço de email principal para faturação e notificações da conta."
 
 #: accounts/models.py:18
 msgid "user"
@@ -165,6 +168,21 @@ msgstr "Agora não vai fugir como da última vez."
 msgid "Update Password"
 msgstr "Atualizar Palavra-passe"
 
+#: accounts/templates/accounts/password_reset_complete.html:11
+msgid "Password Reset Complete"
+msgstr "Redefinição de Palavra-passe Completa"
+
+#: accounts/templates/accounts/password_reset_complete.html:12
+msgid ""
+"Your new password has been set. You can now log in with your new password."
+msgstr ""
+"A sua nova palavra-passe foi definida. Pode agora iniciar sessão com a sua "
+"nova palavra-passe."
+
+#: accounts/templates/accounts/password_reset_complete.html:14
+msgid "Log In Now"
+msgstr "Iniciar Sessão Agora"
+
 #: accounts/templates/accounts/password_reset_done.html:11
 msgid "Check Your Inbox"
 msgstr "Verifique a Sua Caixa de Entrada"
@@ -173,7 +191,9 @@ msgstr "Verifique a Sua Caixa de Entrada"
 msgid ""
 "We've emailed you instructions for setting your password. You should receive "
 "the email shortly!"
-msgstr "Enviámos-lhe por email instruções para definir a sua palavra-passe. Deverá receber o email em breve!"
+msgstr ""
+"Enviámos-lhe por email instruções para definir a sua palavra-passe. Deverá "
+"receber o email em breve!"
 
 #: accounts/templates/accounts/password_reset_done.html:14
 msgid "Didn't receive an email? Check your spam folder or"
@@ -186,19 +206,6 @@ msgstr "tente novamente"
 #: accounts/templates/accounts/password_reset_form.html:41
 msgid "Send Reset Link"
 msgstr "Enviar Link de Redefinição"
-
-#: accounts/templates/accounts/password_reset_complete.html:11
-msgid "Password Reset Complete"
-msgstr "Redefinição de Palavra-passe Completa"
-
-#: accounts/templates/accounts/password_reset_complete.html:12
-msgid ""
-"Your new password has been set. You can now log in with your new password."
-msgstr "A sua nova palavra-passe foi definida. Pode agora iniciar sessão com a sua nova palavra-passe."
-
-#: accounts/templates/accounts/password_reset_complete.html:14
-msgid "Log In Now"
-msgstr "Iniciar Sessão Agora"
 
 #: accounts/templates/accounts/signup.html:14
 msgid "Create an Account"
@@ -276,7 +283,9 @@ msgstr "Tipo de Documento"
 #: backoffice/models.py:16
 msgid ""
 "Select whether this is a Terms and Conditions or Privacy Policy document."
-msgstr "Selecione se este é um documento de Termos e Condições ou Política de Privacidade."
+msgstr ""
+"Selecione se este é um documento de Termos e Condições ou Política de "
+"Privacidade."
 
 #: backoffice/models.py:23 frontoffice/models.py:8 frontoffice/models.py:34
 msgid "Name"
@@ -385,7 +394,8 @@ msgstr "Texto"
 msgid ""
 "The actual content of this line item (e.g., a clause, condition, or "
 "explanation)."
-msgstr "O conteúdo real deste item de linha (por exemplo, uma cláusula, condição ou "
+msgstr ""
+"O conteúdo real deste item de linha (por exemplo, uma cláusula, condição ou "
 "explicação)."
 
 #: backoffice/models.py:114
@@ -587,11 +597,11 @@ msgstr "Documento legal eliminado."
 
 #: frontoffice/models.py:9
 msgid "Contact Subject Name"
-msgstr "Nome do Assunto de Contato"
+msgstr "Nome do Assunto de Contacto"
 
 #: frontoffice/models.py:15
 msgid "Contact Subject Order"
-msgstr "Ordem do Assunto de Contato"
+msgstr "Ordem do Assunto de Contacto"
 
 #: frontoffice/models.py:28
 #: frontoffice/templates/frontoffice/contact_us.html:61
@@ -600,7 +610,7 @@ msgstr "Assunto"
 
 #: frontoffice/models.py:29
 msgid "Contact Subject"
-msgstr "Assunto de Contato"
+msgstr "Assunto de Contacto"
 
 #: frontoffice/models.py:35
 #: frontoffice/templates/frontoffice/contact_us.html:77
@@ -652,17 +662,18 @@ msgid ""
 "basic and advanced obedience, socialization, sports training, search and "
 "rescue, behavioral problem solving, and preparation for dog shows."
 msgstr ""
-"O Olhó Cão é uma escola de treino de cães focada em obediência básica "
-"e avançada, socialização, treino desportivo, busca e resgate, resolução de problemas "
-"comportamentais e preparação para exposições de cães."
+"O Olhó Cão é uma escola de treino de cães focada em obediência básica e "
+"avançada, socialização, treino desportivo, busca e resgate, resolução de "
+"problemas comportamentais e preparação para exposições de cães."
 
 #: frontoffice/templates/frontoffice/about_us.html:39
 msgid ""
 "The center also offers dog hotel services, dog daycare (ATL), and through "
 "its brand LavóCão, provides bathing and grooming services."
 msgstr ""
-"O centro também oferece serviços de hotel para cães, ATL (Atividades de Tempo Livre) e, através "
-"da sua marca LavóCão, disponibiliza serviços de banho e tosquia."
+"O centro também oferece serviços de hotel para cães, ATL (Atividades de "
+"Tempo Livre) e, através da sua marca LavóCão, disponibiliza serviços de "
+"banho e tosquia."
 
 #: frontoffice/templates/frontoffice/about_us.html:40
 msgid ""
@@ -678,9 +689,8 @@ msgid ""
 "as the veterinary doctor responsible for the dogs' medical care and "
 "treatments."
 msgstr ""
-"Suse Paixão e Luís Costa são os CEOs da empresa, com Renato Vieira "
-"como o médico veterinário responsável pelos cuidados e "
-"tratamentos médicos dos cães."
+"Suse Paixão e Luís Costa são os CEOs da empresa, com Renato Vieira como o "
+"médico veterinário responsável pelos cuidados e tratamentos médicos dos cães."
 
 #: frontoffice/templates/frontoffice/about_us.html:56
 msgid "Our Facility"
@@ -698,52 +708,56 @@ msgstr "Conheça os Nossos Treinadores"
 msgid "Passionate professionals dedicated to your dog's wellbeing"
 msgstr "Profissionais apaixonados dedicados ao bem-estar do seu cão"
 
-#: frontoffice/templates/frontoffice/about_us.html:86
-#: frontoffice/templates/frontoffice/about_us.html:105
+#: frontoffice/templates/frontoffice/about_us.html:78
+#: frontoffice/templates/frontoffice/about_us.html:84
 msgid "Founder & CEO"
 msgstr "Fundador & CEO"
 
-#: frontoffice/templates/frontoffice/about_us.html:87
+#: frontoffice/templates/frontoffice/about_us.html:79
+#, fuzzy
+#| msgid ""
+#| "I'm passionate about working with dogs, and nothing makes me happier than "
+#| "seeing owners and their dogs happy with their training goals achieved."
 msgid ""
-"I'm passionate about working with dogs and nothing makes me happier than "
-"seeing owners and their dogs happy with achieved training goals."
+"I'm passionate about working with dogs, and nothing makes me happier than "
+"seeing owners and their dogs happy with their training goals achieved"
 msgstr ""
-"Eu sou apaixonada por trabalhar com cães e nada me deixa mais feliz do que "
+"Eu sou apaixonado por trabalhar com cães e nada me deixa mais feliz do que "
 "ver os donos e os seus cães felizes com os objetivos de treino alcançados."
 
-#: frontoffice/templates/frontoffice/about_us.html:90
+#: frontoffice/templates/frontoffice/about_us.html:80
 msgid "Specializes in obedience training"
 msgstr "Especializa-se em treino de obediência"
 
-#: frontoffice/templates/frontoffice/about_us.html:106
+#: frontoffice/templates/frontoffice/about_us.html:85
 msgid ""
 "It's a privilege to be part of this project, seeing dogs and their owners "
 "overcome difficulties and enjoy a better relationship."
 msgstr ""
-"É um privilégio fazer parte deste projeto, ver cães e os seus donos "
-"superar dificuldades e desfrutar de uma melhor relação."
+"É um privilégio fazer parte deste projeto, ver cães e os seus donos superar "
+"dificuldades e desfrutar de uma melhor relação."
 
-#: frontoffice/templates/frontoffice/about_us.html:109
+#: frontoffice/templates/frontoffice/about_us.html:86
 msgid "Specializes in behavioral training"
 msgstr "Especializa-se em treino comportamental"
 
-#: frontoffice/templates/frontoffice/about_us.html:124
+#: frontoffice/templates/frontoffice/about_us.html:90
 msgid "Trainer"
-msgstr ""
+msgstr "Treinador"
 
-#: frontoffice/templates/frontoffice/about_us.html:125
+#: frontoffice/templates/frontoffice/about_us.html:91
 msgid ""
 "With a degree in sports, I love combining nature and physical activity with "
 "dogs. Helping families live in harmony is my goal."
 msgstr ""
-"Com um diploma em desporto, adoro combinar a natureza e a atividade física com "
-"cães. Ajudar as famílias a viver em harmonia é o meu objetivo."
+"Com um diploma em desporto, adoro combinar a natureza e a atividade física "
+"com cães. Ajudar as famílias a viver em harmonia é o meu objetivo."
 
-#: frontoffice/templates/frontoffice/about_us.html:128
+#: frontoffice/templates/frontoffice/about_us.html:92
 msgid "Specializes in sports training"
 msgstr "Especializa-se em treino desportivo"
 
-#: frontoffice/templates/frontoffice/about_us.html:140
+#: frontoffice/templates/frontoffice/about_us.html:97
 msgid "Meet Our Team"
 msgstr "Conheça a Nossa Equipa"
 
@@ -819,7 +833,7 @@ msgstr "Carícias de barriga gratuitas"
 msgid "Howl-friendly karaoke nights"
 msgstr "Noites de karaoke amigáveis para uivos"
 
-#: frontoffice/templates/frontoffice/contact_us.html:270
+#: frontoffice/templates/frontoffice/contact_us.html:266
 msgid "Get Directions"
 msgstr "Obter Direções"
 
@@ -872,7 +886,7 @@ msgstr "Resultados Comprovados"
 msgid "94%% of clients achieve their training goals"
 msgstr "94%% dos clientes alcançam os seus objetivos de treino"
 
-#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:75
+#: frontoffice/templates/frontoffice/partials/dog_daycare_premium.html:70
 msgid "Explore Our Methods"
 msgstr "Explore os Nossos Métodos"
 
@@ -893,8 +907,8 @@ msgid ""
 "Luxury accommodations for dogs and cats with 24/7 supervision, play areas, "
 "and personalized care."
 msgstr ""
-"Acomodações de luxo para cães e gatos com supervisão 24/7, áreas de lazer "
-"e cuidados personalizados."
+"Acomodações de luxo para cães e gatos com supervisão 24/7, áreas de lazer e "
+"cuidados personalizados."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:44
 msgid "Climate-controlled suites"
@@ -914,7 +928,9 @@ msgstr "Creche para Cães"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:64
 msgid "Certified training programs for pet professionals and enthusiasts."
-msgstr "Programas de treinamento certificado para profissionais e entusiastas de animais de estimação."
+msgstr ""
+"Programas de treinamento certificado para profissionais e entusiastas de "
+"animais de estimação."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:69
 msgid "Behavioral certification"
@@ -954,7 +970,9 @@ msgstr "Banhos e Tosquia"
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:114
 msgid "Spa treatments to keep your pet looking and feeling their best."
-msgstr "Tratamentos de spa para manter o seu animal de estimação com a melhor aparência e sensação."
+msgstr ""
+"Tratamentos de spa para manter o seu animal de estimação com a melhor "
+"aparência e sensação."
 
 #: frontoffice/templates/frontoffice/partials/our_services.html:119
 msgid "Breed-specific haircuts"
@@ -1008,8 +1026,8 @@ msgstr "Assinaturas mensais de tosquia"
 msgid "Multi-pet discounts"
 msgstr "Descontos para múltiplos animais de estimação"
 
-#: frontoffice/templates/frontoffice/partials/our_services.html:189
-msgid "Book an Hotel Stay!"
+#: frontoffice/templates/frontoffice/partials/our_services.html:184
+msgid "Book a Hotel Stay!"
 msgstr "Reserve uma estadia no hotel!"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:14
@@ -1031,8 +1049,9 @@ msgid ""
 "I always receive excellent service and Shelby loves coming to the center. "
 "She is always learning new things. Whenever I can, we go to group classes."
 msgstr ""
-"Eu sempre recebo um serviço excelente e a Shelby adora vir ao centro. "
-"Ela está sempre aprendendo coisas novas. Sempre que posso, vamos a aulas em grupo."
+"Eu sempre recebo um serviço excelente e a Shelby adora vir ao centro. Ela "
+"está sempre aprendendo coisas novas. Sempre que posso, vamos a aulas em "
+"grupo."
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:44
 #: frontoffice/templates/frontoffice/partials/testimonials.html:68
@@ -1046,8 +1065,8 @@ msgid ""
 "I trust Olhó Cão because they've always been the best with Ghost; I trust "
 "them 100%%. They offer daycare, classes, everything with the trainers."
 msgstr ""
-"Eu confio no Olhó Cão porque eles sempre foram os melhores com o Ghost; eu confio "
-"neles 100%%. Eles oferecem creche, aulas, tudo com os treinadores."
+"Eu confio no Olhó Cão porque eles sempre foram os melhores com o Ghost; eu "
+"confio neles 100%%. Eles oferecem creche, aulas, tudo com os treinadores."
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:86
 msgid ""
@@ -1063,7 +1082,7 @@ msgstr ""
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:111
 msgid "Dogs Cared"
-msgstr "Cães Cuidadores"
+msgstr "Cães Cuidados"
 
 #: frontoffice/templates/frontoffice/partials/testimonials.html:118
 msgid "Group Classes"
@@ -1077,7 +1096,7 @@ msgstr "Treinadores Certificados"
 msgid "Years of Experience"
 msgstr "Anos de Experiência"
 
-#: frontoffice/templates/frontoffice/partials/testimonials.html:143
+#: frontoffice/templates/frontoffice/partials/testimonials.html:139
 msgid "Join Our Happy Pack"
 msgstr "Junte-se à Nossa Matilha Feliz"
 
@@ -1091,7 +1110,7 @@ msgstr "Preços"
 msgid "Our exciting services you can trust"
 msgstr "Nossos serviços empolgantes em quem você pode confiar"
 
-#: frontoffice/templates/frontoffice/pricing.html:53
+#: frontoffice/templates/frontoffice/pricing.html:52
 msgid "Book Now"
 msgstr "Reserve agora"
 
@@ -1106,10 +1125,12 @@ msgstr "Nenhuma Política de Privacidade Disponível"
 
 #: frontoffice/templates/frontoffice/privacy_policy.html:66
 msgid "We're currently updating our privacy policy. Please check back later."
-msgstr "Estamos a atualizar nossa política de privacidade. Por favor, volte mais tarde."
+msgstr ""
+"Estamos a atualizar nossa política de privacidade. Por favor, volte mais "
+"tarde."
 
-#: frontoffice/templates/frontoffice/privacy_policy.html:76
-#: frontoffice/templates/frontoffice/terms_and_conditions.html:77
+#: frontoffice/templates/frontoffice/privacy_policy.html:72
+#: frontoffice/templates/frontoffice/terms_and_conditions.html:73
 msgid "Have Questions?"
 msgstr "Tem questões?"
 
@@ -1120,7 +1141,8 @@ msgstr "Nenhum Termo Disponível"
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:67
 msgid ""
 "We're currently updating our terms and conditions. Please check back later."
-msgstr "Estamos a atualizar nossos termos e condições. Por favor, volte mais tarde."
+msgstr ""
+"Estamos a atualizar nossos termos e condições. Por favor, volte mais tarde."
 
 #: frontoffice/views.py:23 frontoffice/views.py:24
 msgid "OlhóCão having fun!"
@@ -1131,8 +1153,9 @@ msgid ""
 "OlhóCão is a wild park where your dog goes full zoomies, makes furry "
 "friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."
 msgstr ""
-"OlhóCão é um parque selvagem onde o seu cão corre à solta, faz amigos peludos "
-"e esquece que os impostos existem. É um país das maravilhas caninas para diversão e liberdade."
+"OlhóCão é um parque selvagem onde o seu cão corre à solta, faz amigos "
+"peludos e esquece que os impostos existem. É um país das maravilhas caninas "
+"para diversão e liberdade."
 
 #: frontoffice/views.py:27 frontoffice/views.py:35 frontoffice/views.py:43
 #: frontoffice/views.py:51
@@ -1148,9 +1171,9 @@ msgid ""
 "We wash, fluff, and de-funk your furry beast. LavóCão turns your stink "
 "monster into a soft, snuggly cloud that’s finally welcome on the couch again."
 msgstr ""
-"Nós lavamos, alisamos e removemos o mau cheiro da sua fera peluda. "
-"O LavóCão transforma o seu monstro fedorento numa nuvem macia e "
-"aconchegante que finalmente pode voltar ao sofá."
+"Nós lavamos, alisamos e removemos o mau cheiro da sua fera peluda. O LavóCão "
+"transforma o seu monstro fedorento numa nuvem macia e aconchegante que "
+"finalmente pode voltar ao sofá."
 
 #: frontoffice/views.py:39 frontoffice/views.py:40
 msgid "TreinóCão to be a good boy!"
@@ -1161,8 +1184,8 @@ msgid ""
 "From couch destroyer to polite pupper—TreinóCão teaches obedience, social "
 "skills, and how *not* to embarrass you at the park."
 msgstr ""
-"De destruidor de sofás a cão educado - TreinóCão ensina obediência, habilidades sociais "
-"e como *não* te envergonhar no parque."
+"De destruidor de sofás a cão educado - TreinóCão ensina obediência, "
+"habilidades sociais e como *não* te envergonhar no parque."
 
 #: frontoffice/views.py:47 frontoffice/views.py:48
 msgid "DeixóCão: we take care while you take off!"
@@ -1173,8 +1196,9 @@ msgid ""
 "Vacation time? DeixóCão is your dog's home away from home—with playtime, "
 "cuddles, and way too many treats. You relax, we handle the tail-wagging."
 msgstr ""
-"Precisa de férias? O DeixóCão é a casa do seu cão longe de casa - com "
-"tempo de brincadeira, carinhos e muitos petiscos. Você relaxa, nós cuidamos do abanar de cauda."
+"Precisa de férias? O DeixóCão é a casa do seu cão longe de casa - com tempo "
+"de brincadeira, carinhos e muitos petiscos. Você relaxa, nós cuidamos do "
+"abanar de cauda."
 
 #: frontoffice/views.py:57 frontoffice/views.py:58
 msgid "Trust in the best training"
@@ -1185,8 +1209,8 @@ msgid ""
 "Our pros have years of experience and Jedi-level dog-whispering skills. Your "
 "furry tornado is in safe hands."
 msgstr ""
-"Os nossos profissionais têm anos de experiência e habilidades de sussurro canino em nível Jedi. Seu "
-"tornado peludo está em boas mãos."
+"Os nossos profissionais têm anos de experiência e habilidades de sussurro "
+"canino em nível Jedi. Seu tornado peludo está em boas mãos."
 
 #: frontoffice/views.py:63 frontoffice/views.py:64
 msgid "Fun for everyone!"
@@ -1198,7 +1222,8 @@ msgid ""
 "group zoomies—we've got it all. Humans might get jealous."
 msgstr ""
 "É basicamente um parque temático para cães. Caminhadas, saltos, corridas, "
-"perseguições de cauda, corridas em grupo - temos tudo. Os humanos podem ficar com inveja."
+"perseguições de cauda, corridas em grupo - temos tudo. Os humanos podem "
+"ficar com inveja."
 
 #: frontoffice/views.py:69 frontoffice/views.py:70
 msgid "Socialization and cognitive development"
@@ -1209,8 +1234,8 @@ msgid ""
 "Shy pups? Overly excited bark machines? We help them mingle, grow brains, "
 "and maybe even learn not to eat your socks."
 msgstr ""
-"Filhotes tímidos? Máquinas de latido excessivamente animadas? Nós ajudamos "
-"a socializar, a desenvolver as suas habilidades cognitivas e talvez até "
+"Filhotes tímidos? Máquinas de latido excessivamente animadas? Nós ajudamos a "
+"socializar, a desenvolver as suas habilidades cognitivas e talvez até "
 "aprender a não comer as suas meias."
 
 #: frontoffice/views.py:75 frontoffice/views.py:76
@@ -1222,8 +1247,8 @@ msgid ""
 "No time? No car? No problem. We pick up and drop off your pup, all clean and "
 "happy. It’s like Uber, but fluffier."
 msgstr ""
-"Sem tempo? Sem carro? Sem problemas. Nós vamos buscar e deixar o seu cão, todo limpo e "
-"feliz. É como um Uber, mas mais fofinho."
+"Sem tempo? Sem carro? Sem problemas. Nós vamos buscar e deixar o seu cão, "
+"todo limpo e feliz. É como um Uber, mas mais fofinho."
 
 #: frontoffice/views.py:81 frontoffice/views.py:82
 msgid "Tailored for your dog’s needs"
@@ -1234,8 +1259,8 @@ msgid ""
 "Big or small, shy or hyper—we customize the fun. Your dog’s happiness "
 "program is designed like a 5-star dogcation."
 msgstr ""
-"Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. "
-"O programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
+"Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. O "
+"programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
 
 #: frontoffice/views.py:138
 msgid "Thank you! Your message has been sent."
@@ -1261,14 +1286,16 @@ msgstr "Data de início"
 msgid ""
 "Changes or cancellations must be made at least 7 days before the start date."
 msgstr ""
-"Alterações ou cancelamentos devem ser feitos com pelo menos 7 dias de antecedência em relação à data de início."
+"Alterações ou cancelamentos devem ser feitos com pelo menos 7 dias de "
+"antecedência em relação à data de início."
 
 #: hotel/forms.py:103
 msgid ""
 "You can only modify or cancel your booking within 6 months of the original "
 "booking date."
 msgstr ""
-"Só pode modificar ou cancelar a sua reserva dentro de 6 meses a partir da data original da reserva."
+"Só pode modificar ou cancelar a sua reserva dentro de 6 meses a partir da "
+"data original da reserva."
 
 #: hotel/forms.py:108
 msgid "Start date cannot be in the past."
@@ -1298,7 +1325,8 @@ msgstr "Confirmar Cancelamento da Reserva"
 msgid ""
 "Are you sure you want to cancel this booking? This action cannot be undone."
 msgstr ""
-"Tem a certeza que deseja cancelar esta reserva? Esta ação não pode ser desfeita."
+"Tem a certeza que deseja cancelar esta reserva? Esta ação não pode ser "
+"desfeita."
 
 #: hotel/templates/hotel/booking_cancel_confirm.html:26
 msgid "Booking Summary"
@@ -1508,8 +1536,8 @@ msgid ""
 "You can only change the check-in and check-out dates. The length of stay "
 "must remain the same."
 msgstr ""
-"Só pode alterar as datas de check-in e check-out. A duração da estadia "
-"deve permanecer a mesma."
+"Só pode alterar as datas de check-in e check-out. A duração da estadia deve "
+"permanecer a mesma."
 
 #: hotel/templates/hotel/booking_modify.html:27
 msgid "Current Booking"
@@ -1532,7 +1560,8 @@ msgid ""
 "You can only modify booking dates up to 7 days before the original check-in "
 "date."
 msgstr ""
-"Você só pode modificar as datas da reserva até 7 dias antes da data original de check-in."
+"Você só pode modificar as datas da reserva até 7 dias antes da data original "
+"de check-in."
 
 #: hotel/templates/hotel/booking_retry.html:14
 msgid "Payment Needed"
@@ -1810,7 +1839,9 @@ msgstr "Reserva Confirmada!"
 
 #: hotel/templates/hotel/booking_success.html:18
 msgid "Thank you for your reservation. We're excited to care for your pets!"
-msgstr "Obrigado pela sua reserva. Estamos ansiosos para cuidar dos seus animais de estimação."
+msgstr ""
+"Obrigado pela sua reserva. Estamos ansiosos para cuidar dos seus animais de "
+"estimação."
 
 #: hotel/templates/hotel/booking_success.html:29
 msgid "Booking Reference"
@@ -1830,7 +1861,8 @@ msgstr "Receberá um e-mail de confirmação em breve."
 
 #: hotel/templates/hotel/booking_success.html:51
 msgid "Our team will contact you if we need additional information"
-msgstr "A nossa equipa entrará em contato se precisarmos de informações adicionais."
+msgstr ""
+"A nossa equipa entrará em contacto se precisarmos de informações adicionais."
 
 #: hotel/templates/hotel/booking_success.html:55
 msgid "See you on"
@@ -1862,7 +1894,8 @@ msgstr "Erro ao processar o pagamento. Por favor, tente novamente."
 
 #: hotel/views.py:517
 msgid "This booking can no longer be paid as the stay dates have passed"
-msgstr "Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
+msgstr ""
+"Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
 
 #: hotel/views.py:525
 msgid "This booking doesn't require payment"
@@ -1870,7 +1903,8 @@ msgstr "Esta reserva não requer pagamento."
 
 #: hotel/views.py:701
 msgid "Error creating payment session. Please try again later."
-msgstr "Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
+msgstr ""
+"Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
 
 #: hotel/views.py:756
 msgid "Booking dates updated successfully."
@@ -1895,11 +1929,14 @@ msgstr "Reserva cancelada e reembolsada (85%% de reembolso aplicado)"
 
 #: hotel/views.py:858
 msgid "Refund failed or already processed. Please contact support."
-msgstr "Reembolso falhou ou já foi processado. Por favor, entre em contato com o suporte."
+msgstr ""
+"Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
+"suporte."
 
 #: hotel/views.py:861
-#, python-format
-msgid "Booking cancelled and 85% refunded (if paid)."
+#, fuzzy, python-format
+#| msgid "Booking cancelled and 85% refunded (if paid)."
+msgid "Booking cancelled and 85%% refunded (if paid)."
 msgstr "Reserva cancelada e 85% reembolsada (se paga)."
 
 #: hotel/views.py:873
@@ -1908,13 +1945,15 @@ msgstr "Nenhum documento de venda disponível para esta reserva."
 
 #: hotel/views.py:883
 msgid "Could not retrieve PDF document. Please try again later."
-msgstr "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais tarde."
+msgstr ""
+"Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "
+"tarde."
 
-#: olhocao/settings.py:191
+#: olhocao/settings.py:190
 msgid "English"
 msgstr "Inglês"
 
-#: olhocao/settings.py:192
+#: olhocao/settings.py:191
 msgid "Portuguese"
 msgstr "Português"
 
@@ -1970,7 +2009,7 @@ msgstr "Reservar Hotel"
 #: olhocao/templates/components/navbar.html:30
 #: olhocao/templates/components/navbar.html:144
 msgid "Contact"
-msgstr "Contato"
+msgstr "Contacto"
 
 #: olhocao/templates/components/navbar.html:42
 #: olhocao/templates/components/navbar.html:156

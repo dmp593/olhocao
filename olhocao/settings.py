@@ -55,12 +55,9 @@ env = environ.Env(
     TOC_ONLINE_OAUTH_CLIENT_SECRET=(str, 'fake-client-secret'),
     TOC_ONLINE_OAUTH_REDIRECT_URI=(str, 'https://oauth.pstmn.io/v1/callback'),
 
-    DEEPL_AUTH_KEY=(str, 'fake-auth-key'),
-
     STRIPE_LIVE_SECRET_KEY=(str, 'STRIPE_LIVE_SECRET_KEY'),
     STRIPE_TEST_SECRET_KEY=(str, 'STRIPE_TEST_SECRET_KEY'),
     STRIPE_LIVE_MODE=(bool, False),
-    DJSTRIPE_WEBHOOK_SECRET=(str, 'DJSTRIPE_WEBHOOK_SECRET'),
     DJSTRIPE_FOREIGN_KEY_TO_FIELD=(str, 'id'),
 )
 
@@ -106,7 +103,6 @@ INSTALLED_APPS = [
 
     # 3rd party apps,
     'django_browser_reload',
-    'django_dump_die',
     'djstripe',
 
     # local apps
@@ -119,7 +115,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django_dump_die.middleware.DumpAndDieMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -251,11 +246,7 @@ TOC_ONLINE_OAUTH_CLIENT_SECRET = env('TOC_ONLINE_OAUTH_CLIENT_SECRET')
 TOC_ONLINE_OAUTH_REDIRECT_URI = env('TOC_ONLINE_OAUTH_REDIRECT_URI')
 
 
-DEEPL_AUTH_KEY = env('DEEPL_AUTH_KEY')
-
-
 STRIPE_LIVE_SECRET_KEY = env('STRIPE_LIVE_SECRET_KEY')
 STRIPE_TEST_SECRET_KEY = env('STRIPE_TEST_SECRET_KEY')
 STRIPE_LIVE_MODE = env('STRIPE_LIVE_MODE')
-DJSTRIPE_WEBHOOK_SECRET = env('DJSTRIPE_WEBHOOK_SECRET')
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = env('DJSTRIPE_FOREIGN_KEY_TO_FIELD')

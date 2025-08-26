@@ -59,8 +59,8 @@
                                     {{ stay.default_price.unit_amount|divide:100|floatformat:2 }} {{ stay.default_price.currency }}
                                 </span>
                             </div>
-                            {% if stay.images|length > 0 %}
-                                <img src="{{ stay.images.0 }}" alt="{{ stay.name }}" loading="lazy">
+                            {% if stay.stripe_data.images|length > 0 %}
+                                <img src="{{ stay.stripe_data.images.0 }}" alt="{{ stay.name }}" loading="lazy">
                             {% endif %}
                             <p class="text-primary-600 text-sm">{% trans "Per day" %}</p>
                         </label>

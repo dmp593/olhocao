@@ -180,17 +180,10 @@
                 </div>
             </div>
             
-            <!-- Bone-shaped CTA -->
-            <div class="mt-16 relative h-24 flex items-center justify-center animate__animated animate__fadeIn">
-                {% include "icons/bone.html" with class="w-90 text-primary-500 hover:text-primary-600" %}
-                
-                <a href="{% url 'hotel:booking_stay' %}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-white px-8 py-3 rounded-full transition-all duration-300 group">
-                    <span class="z-10 flex items-center text-nowrap text-xl">
-                        {% trans "Book an Hotel Stay!" %}
-                        <span class="ml-2 group-hover:translate-x-2 transition-transform duration-300">→</span>
-                    </span>
-                </a>
-            </div>
+            <!-- CTA -->
+            {% trans "Book a Hotel Stay!" as cta_text %}
+            {% url "hotel:booking_stay" as cta_url %}
+            {% include "components/cta.html" with cta_url=cta_url cta_text=cta_text %}
         </div>
     </div>
 </section>

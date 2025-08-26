@@ -27,7 +27,7 @@
             <div class="animate__animated animate__fadeInUp">
                 <div class="flex flex-col justify-between bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full transition-all duration-500 hover:shadow-xl hover:border-accent-300/50 hover:bg-white/15">
                     <div class="flex items-center mb-6">
-                        <img src="https://picsum.photos/200/200?random=4" alt="Miguel Filipe" 
+                        <img src="https://placedog.net/200/200?r" alt="Miguel Filipe" 
                              class="w-16 h-16 rounded-full object-cover mr-4 border-4 border-accent-500/80 shadow-lg">
                         <div>
                             <h4 class="font-bold text-white">Miguel Filipe</h4>
@@ -51,7 +51,7 @@
             <div class="animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="flex flex-col justify-between bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full transition-all duration-500 hover:shadow-xl hover:border-accent-300/50 hover:bg-white/15">
                     <div class="flex items-center mb-6">
-                        <img src="https://picsum.photos/200/200?random=5" alt="Ana Nogueira" 
+                        <img src="https://placedog.net/200/200?r" alt="Ana Nogueira" 
                              class="w-16 h-16 rounded-full object-cover mr-4 border-4 border-accent-500/80 shadow-lg">
                         <div>
                             <h4 class="font-bold text-white">Ana Nogueira</h4>
@@ -75,7 +75,7 @@
             <div class="animate__animated animate__fadeInUp animate__delay-2s">
                 <div class="flex flex-col justify-between bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 h-full transition-all duration-500 hover:shadow-xl hover:border-accent-300/50 hover:bg-white/15">
                     <div class="flex items-center mb-6">
-                        <img src="https://picsum.photos/200/200?random=6" alt="Luís Dinis" 
+                        <img src="https://placedog.net/200/200?r" alt="Luís Dinis" 
                              class="w-16 h-16 rounded-full object-cover mr-4 border-4 border-accent-500/80 shadow-lg">
                         <div>
                             <h4 class="font-bold text-white">Luís Dinis</h4>
@@ -135,16 +135,10 @@
             </div>
         </div>
 
-        <!-- CTA Bone Button -->
-        <div class="mt-16 relative h-20 flex items-center justify-center animate__animated animate__pulse animate__infinite animate__slower">
-            {% include "icons/bone.html" with class="w-83 text-accent-500/30" %}
-            <a href="{% url "accounts:signup" %}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hover:text-accent-600 font-bold text-white px-8 py-3 transition-all duration-300">
-                <span class="z-10 flex items-center text-nowrap text-xl">
-                    {% trans "Join Our Happy Pack" %}
-                    <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                </span>
-            </a>
-        </div>
+        <!-- CTA -->
+        {% trans "Join Our Happy Pack" as cta_text %}
+        {% url "accounts:signup" as cta_url %}
+        {% include "components/cta.html" with cta_url=cta_url cta_text=cta_text %}
     </div>
 </section>
 

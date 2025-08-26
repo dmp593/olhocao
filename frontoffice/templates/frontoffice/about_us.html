@@ -75,73 +75,28 @@
         <!-- Trainers Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Trainer 1 -->
-            <div class="animate__animated animate__fadeInUp">
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
-                    <div class="relative h-64">
-                        <img src="{% static 'frontoffice/about-us/trainers/luis.jpg' %}" alt="Luís Costa" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-primary-800 mb-2">Luís Costa</h3>
-                        <p class="text-accent-500 font-medium mb-4">{% trans "Founder & CEO" %}</p>
-                        <p class="text-primary-700 mb-4">{% trans "I'm passionate about working with dogs and nothing makes me happier than seeing owners and their dogs happy with achieved training goals." %}</p>
-                        <div class="flex items-center text-primary-600">
-                            {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
-                            <span class="text-sm">{% trans "Specializes in obedience training" %}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% trans "Founder & CEO" as trainer1_role %}
+            {% trans "I'm passionate about working with dogs, and nothing makes me happier than seeing owners and their dogs happy with their training goals achieved" as trainer1_description %}
+            {% trans "Specializes in obedience training" as trainer1_specialization %}
+            {% include "frontoffice/partials/trainer.html" with name="Luís Costa" image="frontoffice/about-us/trainers/luis.jpg" role=trainer1_role description=trainer1_description specialization=trainer1_specialization %}
 
             <!-- Trainer 2 -->
-            <div class="animate__animated animate__fadeInUp animate__delay-1s">
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
-                    <div class="relative h-64">
-                        <img src="{% static 'frontoffice/about-us/trainers/suse.jpg' %}" alt="Suse Paixão" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-primary-800 mb-2">Suse Paixão</h3>
-                        <p class="text-accent-500 font-medium mb-4">{% trans "Founder & CEO" %}</p>
-                        <p class="text-primary-700 mb-4">{% trans "It's a privilege to be part of this project, seeing dogs and their owners overcome difficulties and enjoy a better relationship." %}</p>
-                        <div class="flex items-center text-primary-600">
-                            {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
-                            <span class="text-sm">{% trans "Specializes in behavioral training" %}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% trans "Founder & CEO" as trainer2_role %}
+            {% trans "It's a privilege to be part of this project, seeing dogs and their owners overcome difficulties and enjoy a better relationship." as trainer2_description %}
+            {% trans "Specializes in behavioral training" as trainer2_specialization %}
+            {% include "frontoffice/partials/trainer.html" with name="Suse Paixão" image="frontoffice/about-us/trainers/suse.jpg" role=trainer2_role description=trainer2_description specialization=trainer2_specialization %}
 
             <!-- Trainer 3 -->
-            <div class="animate__animated animate__fadeInUp animate__delay-2s">
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
-                    <div class="relative h-64">
-                        <img src="{% static 'frontoffice/about-us/trainers/diogo.jpg' %}" alt="Diogo Luz" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-primary-800 mb-2">Diogo Luz</h3>
-                        <p class="text-accent-500 font-medium mb-4">{% trans "Trainer" %}</p>
-                        <p class="text-primary-700 mb-4">{% trans "With a degree in sports, I love combining nature and physical activity with dogs. Helping families live in harmony is my goal." %}</p>
-                        <div class="flex items-center text-primary-600">
-                            {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
-                            <span class="text-sm">{% trans "Specializes in sports training" %}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% trans "Trainer" as trainer3_role %}
+            {% trans "With a degree in sports, I love combining nature and physical activity with dogs. Helping families live in harmony is my goal." as trainer3_description %}
+            {% trans "Specializes in sports training" as trainer3_specialization %}
+            {% include "frontoffice/partials/trainer.html" with name="Diogo Luz" image="frontoffice/about-us/trainers/diogo.jpg" role=trainer3_role description=trainer3_description specialization=trainer3_specialization %}
         </div>
 
-        <!-- CTA Section -->
-        <div class="mt-24 text-center animate__animated animate__fadeIn">
-            <div class="relative inline-block">
-                <div class="absolute -inset-1 bg-accent-500/30 rounded-full blur-lg group-hover:bg-accent-500/50 transition-all duration-300 animate__animated animate__pulse animate__infinite animate__slower"></div>
-                <a href="{% url 'frontoffice:contact_us' %}" class="relative inline-flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold text-lg py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <span>{% trans "Meet Our Team" %}</span>
-                    <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                </a>
-            </div>
-        </div>
+        <!-- CTA -->
+        {% trans "Meet Our Team" as cta_text %}
+        {% url "frontoffice:contact_us" as cta_url %}
+        {% include "components/cta.html" with cta_url=cta_url cta_text=cta_text %}
     </div>
 </section>
 {% endblock %}

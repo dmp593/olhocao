@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
 
 from backoffice.models import LegalDocument
-from olhocao.deepl import trans
 from olhocao.toconline import toconline, TocOnlineResource
 
 
@@ -19,7 +18,7 @@ class HomeView(TemplateView):
     extra_context = {
         "home_slides": [
             {
-                "src": "https://picsum.photos/2880/1800?r=1",
+                "src": "https://placedog.net/3840/2160?r=1",
                 "alt": _("OlhóCão having fun!"),
                 "title": _("OlhóCão having fun!"),
                 "description": _("OlhóCão is a wild park where your dog goes full zoomies, makes furry friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."),
@@ -27,7 +26,7 @@ class HomeView(TemplateView):
                 "cta_text": _("Discover Our Services"),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=2",
+                "src": "https://placedog.net/3840/2160?r=2",
                 "alt": _("LavóCão so he smells nice!"),
                 "title": _("LavóCão so he smells nice!"),
                 "description": _("We wash, fluff, and de-funk your furry beast. LavóCão turns your stink monster into a soft, snuggly cloud that’s finally welcome on the couch again."),
@@ -35,7 +34,7 @@ class HomeView(TemplateView):
                 "cta_text": _("Discover Our Services"),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=3",
+                "src": "https://placedog.net/3840/2160?r=3",
                 "alt": _("TreinóCão to be a good boy!"),
                 "title": _("TreinóCão to be a good boy!"),
                 "description": _("From couch destroyer to polite pupper—TreinóCão teaches obedience, social skills, and how *not* to embarrass you at the park."),
@@ -43,7 +42,7 @@ class HomeView(TemplateView):
                 "cta_text": _("Discover Our Services"),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=4",
+                "src": "https://placedog.net/3840/2160?r=4",
                 "alt": _("DeixóCão: we take care while you take off!"),
                 "title": _("DeixóCão: we take care while you take off!"),
                 "description": _("Vacation time? DeixóCão is your dog's home away from home—with playtime, cuddles, and way too many treats. You relax, we handle the tail-wagging."),
@@ -53,31 +52,31 @@ class HomeView(TemplateView):
         ],
         "benefits_slides": [
             {
-                "src": "https://picsum.photos/2880/1800?r=4",
+                "src": "https://placedog.net/3840/2160?r=4",
                 "alt": _('Trust in the best training'),
                 "title": _('Trust in the best training'),
                 "description": _("Our pros have years of experience and Jedi-level dog-whispering skills. Your furry tornado is in safe hands."),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=5",
+                "src": "https://placedog.net/3840/2160?r=5",
                 "alt": _("Fun for everyone!"),
                 "title": _("Fun for everyone!"),
                 "description": _("It’s basically a theme park for dogs. Walks, jumps, races, tail chases, group zoomies—we've got it all. Humans might get jealous."),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=6",
+                "src": "https://placedog.net/3840/2160?r=6",
                 "alt": _("Socialization and cognitive development"),
                 "title": _("Socialization and cognitive development"),
                 "description": _("Shy pups? Overly excited bark machines? We help them mingle, grow brains, and maybe even learn not to eat your socks."),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=7",
+                "src": "https://placedog.net/3840/2160?r=7",
                 "alt": _("More comfort for the whole family"),
                 "title": _("More comfort for the whole family"),
                 "description": _("No time? No car? No problem. We pick up and drop off your pup, all clean and happy. It’s like Uber, but fluffier."),
             },
             {
-                "src": "https://picsum.photos/2880/1800?r=8",
+                "src": "https://placedog.net/3840/2160?r=8",
                 "alt": _("Tailored for your dog’s needs"),
                 "title": _("Tailored for your dog’s needs"),
                 "description": _("Big or small, shy or hyper—we customize the fun. Your dog’s happiness program is designed like a 5-star dogcation."),

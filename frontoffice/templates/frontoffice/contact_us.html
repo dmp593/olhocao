@@ -261,15 +261,9 @@
                     </div>
                 </div>
                 
-                <!-- CTA Button -->
-                <div class="text-center">
-                    <a href="https://maps.app.goo.gl/hMmN8RMx1bPk3uUj6" target="_blank" 
-                       class="inline-flex items-center px-6 py-3 bg-accent-500 text-white font-medium rounded-full hover:bg-accent-600 transition-colors duration-300 shadow-lg hover:shadow-xl group">
-                        {% include "icons/map_pin.html" with class="w-5 h-5 mr-2 text-white" %}
-                        <span>{% trans "Get Directions" %}</span>
-                        <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                    </a>
-                </div>
+                <!-- CTA -->
+                {% trans "Get Directions" as cta_text %}
+                {% include "components/cta.html" with cta_url="https://maps.app.goo.gl/hMmN8RMx1bPk3uUj6" cta_text=cta_text cta_pre_icon="icons/map_pin.html" %}
             </div>
         </div>
     </div>

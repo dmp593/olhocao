@@ -68,15 +68,10 @@
             {% endif %}
         </div>
 
-        <!-- CTA Section -->
-        <div class="mt-16 text-center animate__animated animate__fadeIn">
-            <a href="{% url 'frontoffice:contact_us' %}" 
-               class="inline-flex items-center px-6 py-3 bg-primary-500 text-white font-medium rounded-full hover:bg-primary-600 transition-colors duration-300 shadow-lg hover:shadow-xl group">
-                {% include "icons/question_mark_circle.html" with class="w-5 h-5 mr-2 text-white" %}
-                <span>{% trans "Have Questions?" %}</span>
-                <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
-            </a>
-        </div>
+        <!-- CTA -->
+        {% trans "Have Questions?" as cta_text %}
+        {% url "frontoffice:contact_us" as cta_url %}
+        {% include "components/cta.html" with cta_url=cta_url cta_text=cta_text %}
     </div>
 </section>
 {% endblock %}

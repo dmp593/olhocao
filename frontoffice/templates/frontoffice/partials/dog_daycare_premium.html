@@ -66,22 +66,10 @@
             </div>
         </div>
         
-        <!-- Animated CTA button with paw print trail -->
-        <div class="animate__animated animate__fadeIn animate__delay-2s relative">
-            <div class="absolute -left-10 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                {% include "icons/paw.html" with class="w-6 h-6 text-accent-300 animate-paw-trail" %}
-            </div>
-            <a href="{% url 'frontoffice:contact_us' %}" class="relative inline-flex items-center px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-full transition-all duration-300 group shadow-lg hover:shadow-xl hover:scale-105">
-                <span class="relative z-10">{% trans "Explore Our Methods" %}</span>
-                <span class="ml-3 transform group-hover:translate-x-2 transition-transform duration-300">
-                    {% include "icons/arrow_right.html" with class="w-5 h-5" %}
-                </span>
-                <span class="absolute inset-0 rounded-full border-2 border-white/30 group-hover:border-white/50 transition-all duration-500 animate-pulse-slow"></span>
-            </a>
-            <div class="absolute -right-10 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                {% include "icons/paw.html" with class="w-6 h-6 text-accent-300 animate-paw-trail" %}
-            </div>
-        </div>
+        <!-- CTA (pulse)-->
+        {% trans "Explore Our Methods" as cta_text %}
+        {% url "frontoffice:contact_us" as cta_url %}
+        {% include "components/cta_pulse.html" with cta_url=cta_url cta_text=cta_text cta_post_icon="icons/arrow_right.html" %}
     </div>
 </section>
 

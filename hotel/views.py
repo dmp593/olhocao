@@ -2,7 +2,7 @@ import logging
 import math
 
 from django.urls import reverse_lazy
-from django.http import HttpRequest, Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, Http404, HttpResponse
 from django.views.generic import View, TemplateView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
@@ -41,9 +41,9 @@ def get_hotel_stays():
         active=True,
         metadata__family__icontains="hotel",
         metadata__type__icontains="stay",
-        default_price__isnull=False
+        stripe_data__default_price__isnull=False
     ).prefetch_related(
-        'default_price'
+        'stripe_data__default_price'
     ).all()
 
 
@@ -52,9 +52,9 @@ def get_hotel_services():
         active=True,
         metadata__family__icontains="hotel",
         metadata__type__icontains="services",
-        default_price__isnull=False,
+        stripe_data__default_price__isnull=False,
     ).prefetch_related(
-        'default_price'
+        'stripe_data__default_price'
     ).all()
 
 
@@ -267,11 +267,11 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
         # Calculate pricing
         pricing = {
             "stay": {
-                "unit_price": stay.default_price.unit_amount,
-                "total_price": stay.default_price.unit_amount * duration * nr_pets,
+                "unit_price": stay.stripe_data.default_price.unit_amount,
+                "total_price": stay.stripe_data.default_price.unit_amount * duration * nr_pets,
             },
             "services": {},
-            "grand_total": stay.default_price.unit_amount * duration * nr_pets,
+            "grand_total": stay.stripe_data.default_price.unit_amount * duration * nr_pets,
         }
 
         # Process services
@@ -289,7 +289,7 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
                 for service_id, quantity in pets_services_data[pet_id].items():
                     if quantity > 0:
                         service = services_map[service_id]
-                        unit_price = service.default_price.unit_amount
+                        unit_price = service.stripe_data.default_price.unit_amount
                         total_price = unit_price * quantity
 
                         pets_services[pet_id]["services"].append(

@@ -1,0 +1,19 @@
+{% load static %}
+
+<div class="animate__animated animate__fadeInUp">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden h-full transition-all duration-500 hover:shadow-2xl hover:translate-y-2">
+        <div class="relative h-64">
+            <img src="{% static image %}" alt="{{ name }}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
+        </div>
+        <div class="p-6">
+            <h3 class="text-2xl font-bold text-primary-800 mb-2">{{ name }}</h3>
+            <p class="text-accent-500 font-medium mb-4">{{ role }}</p>
+            <p class="text-primary-700 mb-4">{{ description }}</p>
+            <div class="flex items-center text-primary-600">
+                {% include "icons/paw.html" with class="w-4 h-4 mr-1 text-accent-500" %}
+                <span class="text-sm">{{ specialization }}</span>
+            </div>
+        </div>
+    </div>
+</div>

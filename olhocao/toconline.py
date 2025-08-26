@@ -7,8 +7,8 @@ from cachetools import cached, TTLCache
 import requests
 
 
-cache_list = TTLCache(maxsize=1024, ttl=300)
-cache_get = TTLCache(maxsize=1024, ttl=300)
+cache_list = TTLCache(maxsize=1024, ttl=90)
+cache_get = TTLCache(maxsize=1024, ttl=90)
 
 
 class TocOnlineCredentials:
