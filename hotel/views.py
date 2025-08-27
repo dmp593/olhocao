@@ -1,6 +1,7 @@
 import logging
 import math
 
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.http import HttpRequest, Http404, HttpResponse
 from django.views.generic import View, TemplateView, DetailView, FormView
@@ -29,9 +30,6 @@ from pets.models import Pet
 from django import forms
 
 from . import models, forms
-
-
-REFUND_PERCENTAGE = 0.85  # 85% refund policy
 
 
 logger = logging.getLogger(__name__)
@@ -795,7 +793,12 @@ class HotelBookingCancelConfirmView(LoginRequiredMixin, TemplateView):
         context["booking"] = booking
 
         # Add refund percentage info for the template
-        context["refund_notice"] = _(f"Only {REFUND_PERCENTAGE * 100}% of the payment will be refunded due to processing costs.")
+        context["refund_notice"] = _(
+            "Only {refund_percentage}%% of the payment "
+            "will be refunded due to processing costs.",
+        ).format(
+            refund_percentage=settings.HOTEL_REFUND_PERCENTAGE * 100
+        )
         return context
 
 
@@ -843,7 +846,12 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             ),
             'vat_included_prices': True,
             'notes': str(
-                _("Booking cancelled and refunded (85%% refund applied)")
+                _(
+                    "Booking cancelled and refunded "
+                    "({refund_percentage}%% refund applied)"
+                ).format(
+                    refund_percentage=settings.HOTEL_REFUND_PERCENTAGE * 100
+                )
             ),
         }
 
@@ -852,7 +860,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                 'item_type': 'Service',
                 'description': f"{stay.stay_name} ({stay.pet.name})",
                 'quantity': stay.duration_days,
-                'unit_price': math.floor(stay.stripe_product.default_price.unit_amount * REFUND_PERCENTAGE) / 100
+                'unit_price': math.floor(stay.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE) / 100
             })
 
             for service in stay.services.all():
@@ -860,7 +868,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                     'item_type': 'Service',
                     'description': f"{service.service_name} ({stay.pet.name})",
                     'quantity': service.quantity,
-                    'unit_price': math.floor(service.stripe_product.default_price.unit_amount * REFUND_PERCENTAGE) / 100,
+                    'unit_price': math.floor(service.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE) / 100,
                 })
 
         toconline_amend_document = toconline.create(
@@ -873,15 +881,20 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
         booking.save()
 
         try:
-            session = StripeCheckoutSession.objects.get(id=booking.stripe_checkout_session_id)
+            session = StripeCheckoutSession.objects.get(
+                id=booking.stripe_checkout_session_id
+            )
+
             charge = session.payment_intent.charges.first()
 
             if not charge:
                 raise ValueError("No charge found for this payment.")
 
-            # Calculate 85% refund amount
-            amount_refund = math.floor(charge.amount * REFUND_PERCENTAGE)
-            
+            # Calculate refund amount
+            amount_refund = math.floor(
+                charge.amount * settings.HOTEL_REFUND_PERCENTAGE
+            )
+
             stripe_api_key = StripeAPIKey.objects.first()
 
             StripeRefund._api_create(
@@ -891,10 +904,21 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                 amount=amount_refund
             )
         except (StripeError, ValueError):
-            messages.warning(request, _("Refund failed or already processed. Please contact support."))
+            messages.warning(
+                request,
+                _("Refund failed or already processed. Please contact support.")
+            )
             return redirect('hotel:booking_detail', pk=booking.id)
 
-        messages.success(request, _("Booking cancelled and 85%% refunded (if paid)."))
+        messages.success(
+            request,
+            _(
+                "Booking cancelled and, if paid, "
+                "{refund_percentage}%% refunded."
+            ).format(
+                refund_percentage=settings.HOTEL_REFUND_PERCENTAGE * 100
+            )
+        )
         return redirect('hotel:booking_detail', pk=booking.id)
 
 

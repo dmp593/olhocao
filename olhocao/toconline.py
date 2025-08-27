@@ -351,10 +351,10 @@ class TocOnline:
 
 
 toconline = TocOnline(
-    base_url=settings.TOC_ONLINE_BASE_URL,
+    base_url=settings.TOCONLINE_BASE_URL,
     credentials=TocOnlineCredentials(
-        client_id=settings.TOC_ONLINE_OAUTH_CLIENT_ID,
-        client_secret=settings.TOC_ONLINE_OAUTH_CLIENT_SECRET,
-        redirect_uri=settings.TOC_ONLINE_OAUTH_REDIRECT_URI,
+        client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
+        client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
+        redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
     )
 )

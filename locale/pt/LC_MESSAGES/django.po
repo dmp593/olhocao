@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-26 14:26+0000\n"
+"POT-Creation-Date: 2025-08-27 08:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -714,10 +714,6 @@ msgid "Founder & CEO"
 msgstr "Fundador & CEO"
 
 #: frontoffice/templates/frontoffice/about_us.html:79
-#, fuzzy
-#| msgid ""
-#| "I'm passionate about working with dogs, and nothing makes me happier than "
-#| "seeing owners and their dogs happy with their training goals achieved."
 msgid ""
 "I'm passionate about working with dogs, and nothing makes me happier than "
 "seeing owners and their dogs happy with their training goals achieved"
@@ -1144,11 +1140,11 @@ msgid ""
 msgstr ""
 "Estamos a atualizar nossos termos e condições. Por favor, volte mais tarde."
 
-#: frontoffice/views.py:23 frontoffice/views.py:24
+#: frontoffice/views.py:22 frontoffice/views.py:23
 msgid "OlhóCão having fun!"
 msgstr "OlhóCão a divertir-se!"
 
-#: frontoffice/views.py:25
+#: frontoffice/views.py:24
 msgid ""
 "OlhóCão is a wild park where your dog goes full zoomies, makes furry "
 "friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."
@@ -1157,16 +1153,16 @@ msgstr ""
 "peludos e esquece que os impostos existem. É um país das maravilhas caninas "
 "para diversão e liberdade."
 
-#: frontoffice/views.py:27 frontoffice/views.py:35 frontoffice/views.py:43
-#: frontoffice/views.py:51
+#: frontoffice/views.py:26 frontoffice/views.py:34 frontoffice/views.py:42
+#: frontoffice/views.py:50
 msgid "Discover Our Services"
 msgstr "Descubra os Nossos Serviços"
 
-#: frontoffice/views.py:31 frontoffice/views.py:32
+#: frontoffice/views.py:30 frontoffice/views.py:31
 msgid "LavóCão so he smells nice!"
 msgstr "LavóCão para ele cheirar bem!"
 
-#: frontoffice/views.py:33
+#: frontoffice/views.py:32
 msgid ""
 "We wash, fluff, and de-funk your furry beast. LavóCão turns your stink "
 "monster into a soft, snuggly cloud that’s finally welcome on the couch again."
@@ -1175,11 +1171,11 @@ msgstr ""
 "transforma o seu monstro fedorento numa nuvem macia e aconchegante que "
 "finalmente pode voltar ao sofá."
 
-#: frontoffice/views.py:39 frontoffice/views.py:40
+#: frontoffice/views.py:38 frontoffice/views.py:39
 msgid "TreinóCão to be a good boy!"
 msgstr "TreinóCão para ser um bom menino!"
 
-#: frontoffice/views.py:41
+#: frontoffice/views.py:40
 msgid ""
 "From couch destroyer to polite pupper—TreinóCão teaches obedience, social "
 "skills, and how *not* to embarrass you at the park."
@@ -1187,11 +1183,11 @@ msgstr ""
 "De destruidor de sofás a cão educado - TreinóCão ensina obediência, "
 "habilidades sociais e como *não* te envergonhar no parque."
 
-#: frontoffice/views.py:47 frontoffice/views.py:48
+#: frontoffice/views.py:46 frontoffice/views.py:47
 msgid "DeixóCão: we take care while you take off!"
 msgstr "DeixóCão: nós cuidamos enquanto se diverte!"
 
-#: frontoffice/views.py:49
+#: frontoffice/views.py:48
 msgid ""
 "Vacation time? DeixóCão is your dog's home away from home—with playtime, "
 "cuddles, and way too many treats. You relax, we handle the tail-wagging."
@@ -1200,11 +1196,11 @@ msgstr ""
 "de brincadeira, carinhos e muitos petiscos. Você relaxa, nós cuidamos do "
 "abanar de cauda."
 
-#: frontoffice/views.py:57 frontoffice/views.py:58
+#: frontoffice/views.py:56 frontoffice/views.py:57
 msgid "Trust in the best training"
 msgstr "Confiança no melhor treinamento"
 
-#: frontoffice/views.py:59
+#: frontoffice/views.py:58
 msgid ""
 "Our pros have years of experience and Jedi-level dog-whispering skills. Your "
 "furry tornado is in safe hands."
@@ -1212,11 +1208,11 @@ msgstr ""
 "Os nossos profissionais têm anos de experiência e habilidades de sussurro "
 "canino em nível Jedi. Seu tornado peludo está em boas mãos."
 
-#: frontoffice/views.py:63 frontoffice/views.py:64
+#: frontoffice/views.py:62 frontoffice/views.py:63
 msgid "Fun for everyone!"
 msgstr "Diversão para todos!"
 
-#: frontoffice/views.py:65
+#: frontoffice/views.py:64
 msgid ""
 "It’s basically a theme park for dogs. Walks, jumps, races, tail chases, "
 "group zoomies—we've got it all. Humans might get jealous."
@@ -1225,11 +1221,11 @@ msgstr ""
 "perseguições de cauda, corridas em grupo - temos tudo. Os humanos podem "
 "ficar com inveja."
 
-#: frontoffice/views.py:69 frontoffice/views.py:70
+#: frontoffice/views.py:68 frontoffice/views.py:69
 msgid "Socialization and cognitive development"
 msgstr "Socialização e desenvolvimento cognitivo"
 
-#: frontoffice/views.py:71
+#: frontoffice/views.py:70
 msgid ""
 "Shy pups? Overly excited bark machines? We help them mingle, grow brains, "
 "and maybe even learn not to eat your socks."
@@ -1238,11 +1234,11 @@ msgstr ""
 "socializar, a desenvolver as suas habilidades cognitivas e talvez até "
 "aprender a não comer as suas meias."
 
-#: frontoffice/views.py:75 frontoffice/views.py:76
+#: frontoffice/views.py:74 frontoffice/views.py:75
 msgid "More comfort for the whole family"
 msgstr "Mais conforto para toda a família"
 
-#: frontoffice/views.py:77
+#: frontoffice/views.py:76
 msgid ""
 "No time? No car? No problem. We pick up and drop off your pup, all clean and "
 "happy. It’s like Uber, but fluffier."
@@ -1250,11 +1246,11 @@ msgstr ""
 "Sem tempo? Sem carro? Sem problemas. Nós vamos buscar e deixar o seu cão, "
 "todo limpo e feliz. É como um Uber, mas mais fofinho."
 
-#: frontoffice/views.py:81 frontoffice/views.py:82
+#: frontoffice/views.py:80 frontoffice/views.py:81
 msgid "Tailored for your dog’s needs"
 msgstr "Personalizado para as necessidades do seu cão"
 
-#: frontoffice/views.py:83
+#: frontoffice/views.py:82
 msgid ""
 "Big or small, shy or hyper—we customize the fun. Your dog’s happiness "
 "program is designed like a 5-star dogcation."
@@ -1262,7 +1258,7 @@ msgstr ""
 "Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. O "
 "programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
 
-#: frontoffice/views.py:138
+#: frontoffice/views.py:137
 msgid "Thank you! Your message has been sent."
 msgstr "Obrigado! Sua mensagem foi enviada."
 
@@ -1797,7 +1793,7 @@ msgstr "Data de Check-in"
 msgid "Check-out Date"
 msgstr "Data de Check-out"
 
-#: hotel/templates/hotel/booking_stay_list.html:152
+#: hotel/templates/hotel/booking_stay_list.html:154
 msgid "Continue to Services"
 msgstr "Continuar para os Serviços"
 
@@ -1880,41 +1876,48 @@ msgstr "Criar Outra Reserva"
 msgid "View Details"
 msgstr "Ver Detalhes"
 
-#: hotel/views.py:156
+#: hotel/views.py:159
 msgid "Booking Session Expired"
 msgstr "Sessão de Reserva Expirada"
 
-#: hotel/views.py:244 hotel/views.py:341
+#: hotel/views.py:247 hotel/views.py:344
 msgid "Please start your booking from the beginning"
 msgstr "Por favor, inicie a sua reserva desde o início."
 
-#: hotel/views.py:432
+#: hotel/views.py:435
 msgid "Payment processing error. Please try again."
 msgstr "Erro ao processar o pagamento. Por favor, tente novamente."
 
-#: hotel/views.py:517
+#: hotel/views.py:529
 msgid "This booking can no longer be paid as the stay dates have passed"
 msgstr ""
 "Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
 
-#: hotel/views.py:525
+#: hotel/views.py:537
 msgid "This booking doesn't require payment"
 msgstr "Esta reserva não requer pagamento."
 
-#: hotel/views.py:701
+#: hotel/views.py:727
 msgid "Error creating payment session. Please try again later."
 msgstr ""
 "Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
 
-#: hotel/views.py:756
+#: hotel/views.py:782
 msgid "Booking dates updated successfully."
 msgstr "Datas da reserva atualizadas com sucesso."
 
-#: hotel/views.py:785
+#: hotel/views.py:797
+#, python-format, python-brace-format
+msgid ""
+"Only {refund_percentage}%% of the payment will be refunded due to processing "
+"costs."
+msgstr ""
+
+#: hotel/views.py:816
 msgid "This booking has already been cancelled."
 msgstr "Esta reserva já foi cancelada."
 
-#: hotel/views.py:792
+#: hotel/views.py:823
 msgid ""
 "You can only cancel up to 7 days before check-in and within 6 months of the "
 "original booking."
@@ -1922,38 +1925,37 @@ msgstr ""
 "Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
 "reserva original."
 
-#: hotel/views.py:818
-#, python-format
-msgid "Booking cancelled and refunded (85%% refund applied)"
-msgstr "Reserva cancelada e reembolsada (85%% de reembolso aplicado)"
+#: hotel/views.py:850
+#, python-format, python-brace-format
+msgid "Booking cancelled and refunded ({refund_percentage}%% refund applied)"
+msgstr "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:858
+#: hotel/views.py:909
 msgid "Refund failed or already processed. Please contact support."
 msgstr ""
 "Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
 "suporte."
 
-#: hotel/views.py:861
-#, fuzzy, python-format
-#| msgid "Booking cancelled and 85% refunded (if paid)."
-msgid "Booking cancelled and 85%% refunded (if paid)."
-msgstr "Reserva cancelada e 85% reembolsada (se paga)."
+#: hotel/views.py:916
+#, python-format, python-brace-format
+msgid "Booking cancelled and, if paid, {refund_percentage}%% refunded."
+msgstr "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:873
+#: hotel/views.py:933
 msgid "No sales document available for this booking."
 msgstr "Nenhum documento de venda disponível para esta reserva."
 
-#: hotel/views.py:883
+#: hotel/views.py:943
 msgid "Could not retrieve PDF document. Please try again later."
 msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "
 "tarde."
 
-#: olhocao/settings.py:190
+#: olhocao/settings.py:185
 msgid "English"
 msgstr "Inglês"
 
-#: olhocao/settings.py:191
+#: olhocao/settings.py:186
 msgid "Portuguese"
 msgstr "Português"
 
