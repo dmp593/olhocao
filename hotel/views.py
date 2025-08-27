@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 from stripe import StripeError
 
 from djstripe.models import (
+    APIKey as StripeAPIKey,
     Product as StripeProduct,
     Refund as StripeRefund
 )
@@ -91,7 +92,11 @@ def create_checkout_session(request: HttpRequest, booking: models.Booking):
         booking_retry_url
     )
 
+    stripe_api_key = StripeAPIKey.objects.first()
+
     return StripeCheckoutSession._api_create(
+        api_key=stripe_api_key.secret,
+        livemode=stripe_api_key.livemode,
         payment_method_types=['card'],
         line_items=line_items,
         mode='payment',
@@ -443,8 +448,17 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
             account=request.user.account
         )
 
-        session_id = request.GET.get('session_id', booking.stripe_checkout_session_id)
-        session = StripeCheckoutSession(id=session_id).api_retrieve()
+        session_id = request.GET.get(
+            'session_id', booking.stripe_checkout_session_id
+        )
+
+        stripe_api_key = StripeAPIKey.objects.first()
+
+        session = StripeCheckoutSession(
+            id=session_id
+        ).api_retrieve(
+            stripe_api_key.secret
+        )
 
         if session.payment_status == 'paid' and session.metadata.get('booking_id') == str(booking.pk):
             if not booking.status or not booking.paid_at:
@@ -545,7 +559,14 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
         try:
             # Check if existing session is still valid
             if booking.stripe_checkout_session_id:
-                session = StripeCheckoutSession(id=booking.stripe_checkout_session_id).api_retrieve()
+                stripe_api_key = StripeAPIKey.objects.first()
+
+                session = StripeCheckoutSession(
+                    id=booking.stripe_checkout_session_id
+                ).api_retrieve(
+                    api_key=stripe_api_key.secret
+                )
+
                 if session.payment_status == 'paid':
                     # Payment was completed, update booking status
                     booking.status = models.BookingStatus.PAID
@@ -672,7 +693,14 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
             try:
                 # Check if existing session is still valid
                 if booking.stripe_checkout_session_id:
-                    session = StripeCheckoutSession(id=booking.stripe_checkout_session_id).api_retrieve()
+                    stripe_api_key = StripeAPIKey.objects.first()
+
+                    session = StripeCheckoutSession(
+                        id=booking.stripe_checkout_session_id
+                    ).api_retrieve(
+                        stripe_api_key.secret
+                    )
+                    
                     if session.payment_status == 'paid':
                         # Payment was completed, update booking status
                         booking.status = models.BookingStatus.PAID
@@ -853,7 +881,15 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
 
             # Calculate 85% refund amount
             amount_refund = math.floor(charge.amount * REFUND_PERCENTAGE)
-            StripeRefund._api_create(charge=charge.id, amount=amount_refund)
+            
+            stripe_api_key = StripeAPIKey.objects.first()
+
+            StripeRefund._api_create(
+                api_key=stripe_api_key.secret,
+                livemode=stripe_api_key.livemode,
+                charge=charge.id,
+                amount=amount_refund
+            )
         except (StripeError, ValueError):
             messages.warning(request, _("Refund failed or already processed. Please contact support."))
             return redirect('hotel:booking_detail', pk=booking.id)
