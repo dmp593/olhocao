@@ -8,9 +8,9 @@ class PetForm(forms.ModelForm):
         model = Pet
         fields = [
             'name', 'species', 'breed', 'gender', 'birthdate',
-            'microship_number', 'height_cm', 'weight_kg', 'photo', 
-            'is_sterilized', 'is_vaccinated', 'is_allergic', 'is_medicated',
-            'medication', 'allergies', 'notes'
+            'microship_number', 'height_cm', 'weight_kg', 'photo',
+            'is_sterilized', 'is_vaccinated', 'medication', 'allergies',
+            'notes'
         ]
         widgets = {
             'birthdate': forms.DateInput(attrs={'type': 'date'}),

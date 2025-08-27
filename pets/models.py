@@ -115,6 +115,18 @@ class Pet(models.Model):
         help_text=_('The photo of the pet'),
     )
 
+    medication = models.TextField(
+        blank=True,
+        verbose_name=_('medication'),
+        help_text=_('Medication of the pet'),
+    )
+
+    allergies = models.TextField(
+        blank=True,
+        verbose_name=_('allergies'),
+        help_text=_('Allergies of the pet'),
+    )
+
     is_sterilized = models.BooleanField(
         default=False,
         verbose_name=_('is sterilized'),
@@ -127,29 +139,13 @@ class Pet(models.Model):
         help_text=_('Whether the pet is vaccinated or not'),
     )
 
-    is_allergic = models.BooleanField(
-        default=False,
-        verbose_name=_('is allergic'),
-        help_text=_('Whether the pet is allergic or not'),
-    )
+    @property
+    def is_allergic(self):
+        return bool(self.allergies.strip())
 
-    is_medicated = models.BooleanField(
-        default=False,
-        verbose_name=_('is medicated'),
-        help_text=_('Whether the pet is medicated or not'),
-    )
-
-    medication = models.TextField(
-        blank=True,
-        verbose_name=_('medication'),
-        help_text=_('Medication of the pet'),
-    )
-
-    allergies = models.TextField(
-        blank=True,
-        verbose_name=_('allergies'),
-        help_text=_('Allergies of the pet'),
-    )
+    @property
+    def is_medicated(self):
+        return bool(self.medication.strip())
 
     notes = models.TextField(
         blank=True,
