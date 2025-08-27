@@ -350,11 +350,12 @@ class TocOnline:
         return response.content
 
 
-toconline = TocOnline(
-    base_url=settings.TOCONLINE_BASE_URL,
-    credentials=TocOnlineCredentials(
-        client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
-        client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
-        redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
+def get_toconline():
+    return TocOnline(
+        base_url=settings.TOCONLINE_BASE_URL,
+        credentials=TocOnlineCredentials(
+            client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
+            client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
+            redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
+        )
     )
-)

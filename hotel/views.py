@@ -24,7 +24,7 @@ from djstripe.models.checkout import (
     Session as StripeCheckoutSession
 )
 
-from olhocao.toconline import toconline, TocOnlineResource
+from olhocao.toconline import get_toconline, TocOnlineResource
 from pets.models import Pet
 
 from django import forms
@@ -498,7 +498,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                             'unit_price': service.stripe_product.default_price.unit_amount / 100,  # Convert cents to euros
                         })
 
-                toconline_sales_document = toconline.create(
+                toconline_sales_document = get_toconline().create(
                     TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
                     **sale_document
                 )
@@ -824,6 +824,8 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
+        toconline = get_toconline()
+
         sale_document = toconline.get(
             TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
             booking.toconline_sale_document_id
@@ -860,7 +862,9 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                 'item_type': 'Service',
                 'description': f"{stay.stay_name} ({stay.pet.name})",
                 'quantity': stay.duration_days,
-                'unit_price': math.floor(stay.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE) / 100
+                'unit_price': math.floor(
+                    stay.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE
+                ) / 100
             })
 
             for service in stay.services.all():
@@ -868,7 +872,9 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                     'item_type': 'Service',
                     'description': f"{service.service_name} ({stay.pet.name})",
                     'quantity': service.quantity,
-                    'unit_price': math.floor(service.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE) / 100,
+                    'unit_price': math.floor(
+                        service.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE
+                    ) / 100,
                 })
 
         toconline_amend_document = toconline.create(
@@ -934,6 +940,8 @@ def download_sales_document_pdf(request, booking_id):
         return redirect('hotel:booking_detail', pk=booking.id)
     
     try:
+        toconline = get_toconline()
+
         return HttpResponse(
             toconline.get_sales_document_pdf(sales_document_id),
             content_type='application/pdf'

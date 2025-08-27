@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
-from olhocao.toconline import toconline, TocOnlineResource
+from olhocao.toconline import get_toconline, TocOnlineResource
 
 
 User = get_user_model()
@@ -38,7 +38,7 @@ class Account(models.Model):
         if not self.has_toconline_customer:
             return None
 
-        return toconline.get(
+        return get_toconline().get(
             TocOnlineResource.CUSTOMERS,
             self.toconline_customer_id
         )

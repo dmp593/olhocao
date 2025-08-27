@@ -19,7 +19,7 @@ from django.contrib.auth.views import (
 )
 
 
-from olhocao.toconline import toconline, TocOnlineResource
+from olhocao.toconline import get_toconline, TocOnlineResource
 
 from accounts.forms import SignUpForm, UserChangeForm
 from accounts.models import Account
@@ -29,7 +29,7 @@ def signup_view(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            toconline.authenticate()
+            get_toconline().authenticate()
             user = form.save()
             Account(user=user).save()
             login(request, user)
@@ -63,6 +63,8 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         toconline_customer = None
+
+        toconline = get_toconline()
 
         if not self.object.account.has_toconline_customer:
             toconline_customer = toconline.first(
