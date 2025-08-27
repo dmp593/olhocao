@@ -51,7 +51,17 @@ class ContactRequest(models.Model):
         help_text=_('Your Message')
     )
 
+    created_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        auto_now_add=True,
+        verbose_name=_('Created At'),
+        help_text=_('When the contact request was created')
+    )
+
     read_at = models.DateTimeField(
         null=True,
-        blank=True
+        blank=True,
+        verbose_name=_('Read At'),
+        help_text=_('When the contact request was read')
     )

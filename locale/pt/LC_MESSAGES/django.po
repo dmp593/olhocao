@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 08:29+0000\n"
+"POT-Creation-Date: 2025-08-27 15:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,7 +227,7 @@ msgstr "Já tem uma conta?"
 msgid "Log in"
 msgstr "Iniciar Sessão"
 
-#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:133
+#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:135
 msgid "Account Updated"
 msgstr "Conta Atualizada"
 
@@ -235,7 +235,7 @@ msgstr "Conta Atualizada"
 msgid "Your changes have been saved"
 msgstr "As suas alterações foram guardadas"
 
-#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:135
+#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:137
 msgid "Your account information has been successfully updated."
 msgstr "As informações da sua conta foram atualizadas com sucesso."
 
@@ -643,6 +643,24 @@ msgstr "Mensagem"
 #: frontoffice/templates/frontoffice/contact_us.html:128
 msgid "Your Message"
 msgstr "A Sua Mensagem"
+
+#: frontoffice/models.py:58
+#, fuzzy
+#| msgid "created at"
+msgid "Created At"
+msgstr "criado em"
+
+#: frontoffice/models.py:59
+msgid "When the contact request was created"
+msgstr "A data e hora em que o pedido foi criado"
+
+#: frontoffice/models.py:65
+msgid "Read At"
+msgstr "Lido a"
+
+#: frontoffice/models.py:66
+msgid "When the contact request was read"
+msgstr "A data e hora em que o pedido foi lido"
 
 #: frontoffice/templates/frontoffice/about_us.html:19
 msgid "Our Story"
@@ -1258,7 +1276,7 @@ msgstr ""
 "Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. O "
 "programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
 
-#: frontoffice/views.py:137
+#: frontoffice/views.py:139
 msgid "Thank you! Your message has been sent."
 msgstr "Obrigado! Sua mensagem foi enviada."
 
@@ -1485,7 +1503,7 @@ msgstr "Pagamento Indisponível"
 #: hotel/templates/hotel/booking_list.html:10
 #: olhocao/templates/components/navbar.html:91
 msgid "My Hotel Bookings"
-msgstr "As Minhas Reservas de Hotel"
+msgstr "Reservas de Hotel"
 
 #: hotel/templates/hotel/booking_list.html:17
 msgid "Filter by status"
@@ -1925,27 +1943,29 @@ msgstr ""
 "Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
 "reserva original."
 
-#: hotel/views.py:850
+#: hotel/views.py:852
 #, python-format, python-brace-format
 msgid "Booking cancelled and refunded ({refund_percentage}%% refund applied)"
-msgstr "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
+msgstr ""
+"Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:909
+#: hotel/views.py:915
 msgid "Refund failed or already processed. Please contact support."
 msgstr ""
 "Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
 "suporte."
 
-#: hotel/views.py:916
+#: hotel/views.py:922
 #, python-format, python-brace-format
 msgid "Booking cancelled and, if paid, {refund_percentage}%% refunded."
-msgstr "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
+msgstr ""
+"Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:933
+#: hotel/views.py:939
 msgid "No sales document available for this booking."
 msgstr "Nenhum documento de venda disponível para esta reserva."
 
-#: hotel/views.py:943
+#: hotel/views.py:951
 msgid "Could not retrieve PDF document. Please try again later."
 msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "
@@ -2026,7 +2046,7 @@ msgstr "Dashboard"
 #: olhocao/templates/components/navbar.html:87
 #: pets/templates/pets/pet_list.html:12
 msgid "My Pets"
-msgstr "Os meus Animais de Estimação"
+msgstr "Animais de Estimação"
 
 #: olhocao/templates/components/navbar.html:95
 #: olhocao/templates/components/navbar.html:189
@@ -2151,104 +2171,88 @@ msgid "The photo of the pet"
 msgstr "A foto do animal de estimação"
 
 #: pets/models.py:120
-msgid "is sterilized"
-msgstr "está esterilizado"
-
-#: pets/models.py:121
-msgid "Whether the pet is sterilized or not"
-msgstr "Se o animal de estimação está esterilizado ou não"
-
-#: pets/models.py:126
-msgid "is vaccinated"
-msgstr "está vacinado"
-
-#: pets/models.py:127
-msgid "Whether the pet is vaccinated or not"
-msgstr "Se o animal de estimação está vacinado ou não"
-
-#: pets/models.py:132
-msgid "is allergic"
-msgstr "é alérgico"
-
-#: pets/models.py:133
-msgid "Whether the pet is allergic or not"
-msgstr "Se o animal de estimação é alérgico ou não"
-
-#: pets/models.py:138
-msgid "is medicated"
-msgstr "está medicado"
-
-#: pets/models.py:139
-msgid "Whether the pet is medicated or not"
-msgstr "Se o animal de estimação está medicado ou não"
-
-#: pets/models.py:144
 msgid "medication"
 msgstr "medicação"
 
-#: pets/models.py:145
+#: pets/models.py:121
 msgid "Medication of the pet"
 msgstr "Medicação do animal de estimação"
 
-#: pets/models.py:150
+#: pets/models.py:126
 msgid "allergies"
 msgstr "alergias"
 
-#: pets/models.py:151
+#: pets/models.py:127
 msgid "Allergies of the pet"
 msgstr "Alergias do animal de estimação"
 
-#: pets/models.py:156
+#: pets/models.py:132
+msgid "is sterilized"
+msgstr "está esterilizado"
+
+#: pets/models.py:133
+msgid "Whether the pet is sterilized or not"
+msgstr "Se o animal de estimação está esterilizado ou não"
+
+#: pets/models.py:138
+msgid "is vaccinated"
+msgstr "está vacinado"
+
+#: pets/models.py:139
+msgid "Whether the pet is vaccinated or not"
+msgstr "Se o animal de estimação está vacinado ou não"
+
+#: pets/models.py:152
 msgid "notes"
 msgstr "notas"
 
-#: pets/models.py:157
+#: pets/models.py:153
 msgid "Additional notes about the pet"
 msgstr "Notas adicionais sobre o animal de estimação"
 
-#: pets/models.py:165
+#: pets/models.py:161
 msgid "owner"
 msgstr "dono"
 
-#: pets/models.py:166
+#: pets/models.py:162
 msgid "The owner of the pet"
 msgstr "O dono do animal de estimação"
 
-#: pets/models.py:171
+#: pets/models.py:167
 msgid "created at"
 msgstr "criado em"
 
-#: pets/models.py:172
+#: pets/models.py:168
 msgid "The date and time when the pet was created"
 msgstr "A data e hora em que o animal de estimação foi criado"
 
-#: pets/models.py:177
+#: pets/models.py:173
 msgid "updated at"
 msgstr "atualizado em"
 
-#: pets/models.py:178
+#: pets/models.py:174
 msgid "The date and time when the pet was last updated"
 msgstr "A data e hora em que o animal de estimação foi atualizado"
 
-#: pets/models.py:184
+#: pets/models.py:180
 msgid "deleted at"
 msgstr "eliminado a"
 
-#: pets/models.py:185
+#: pets/models.py:181
 msgid "The date and time when the pet was deleted"
 msgstr "A data e hora em que o animal de estimação foi eliminado"
 
-#: pets/models.py:197
+#: pets/models.py:193
 #, python-format
 msgid "%d weeks old"
 msgstr "%d semanas de idade"
 
-#: pets/models.py:204
+#: pets/models.py:200
 #, python-format
 msgid "%d months old"
 msgstr "%d meses de idade"
 
-#: pets/models.py:209
+#: pets/models.py:205
 #, python-format
 msgid "%d years old"
 msgstr "%d anos de idade"
@@ -2336,3 +2340,15 @@ msgstr "Ainda não adicionou nenhum animal de estimação."
 #: pets/templates/pets/pet_list.html:50
 msgid "Add Your First Pet"
 msgstr "Adicionar Seu Primeiro Animal de Estimação"
+
+#~ msgid "is allergic"
+#~ msgstr "é alérgico"
+
+#~ msgid "Whether the pet is allergic or not"
+#~ msgstr "Se o animal de estimação é alérgico ou não"
+
+#~ msgid "is medicated"
+#~ msgstr "está medicado"
+
+#~ msgid "Whether the pet is medicated or not"
+#~ msgstr "Se o animal de estimação está medicado ou não"
