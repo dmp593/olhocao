@@ -53,7 +53,12 @@ class PetUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("pets:list")
 
     def get_queryset(self):
-        return Pet.objects.filter(owner__user=self.request.user)
+        queryset = Pet.objects.all()
+
+        if self.request.user.is_staff:
+            return queryset
+
+        return queryset.filter(owner__user=self.request.user)
 
 
 class PetDeleteView(LoginRequiredMixin, DeleteView):
@@ -61,7 +66,12 @@ class PetDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("pets:list")
 
     def get_queryset(self):
-        return Pet.objects.filter(owner__user=self.request.user)
+        queryset = Pet.objects.all()
+
+        if self.request.user.is_staff:
+            return queryset
+
+        return queryset.filter(owner__user=self.request.user)
 
     def form_valid(self, form):
         success_url = self.get_success_url()
