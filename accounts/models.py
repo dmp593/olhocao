@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -26,14 +27,17 @@ class Account(models.Model):
         unique=True,
         db_index=True,
         verbose_name=_('Customer ID (toconline)'),
-        help_text=_('The ID of the customer in the toconline platform (invoice system)'),
+        help_text=_(
+            'The ID of the customer in the toconline platform '
+            '(invoice system)'
+        ),
     )
 
     @property
     def has_toconline_customer(self):
         return bool(self.toconline_customer_id)
 
-    @property
+    @cached_property
     def toconline_customer(self):
         if not self.has_toconline_customer:
             return None
@@ -41,6 +45,24 @@ class Account(models.Model):
         return get_toconline().get(
             TocOnlineResource.CUSTOMERS,
             self.toconline_customer_id
+        )
+
+    @property
+    def phone_number(self):
+        """
+        Best-effort phone for this account pulled from the linked
+        ToCOnline customer. Falls back to None when unavailable.
+        """
+        customer = self.toconline_customer
+
+        if not customer:
+            return None
+
+        attrs = customer.get('attributes', {})
+
+        return (
+            attrs.get('mobile_number', None)
+            or attrs.get('phone_number', None)
         )
 
     def __str__(self):

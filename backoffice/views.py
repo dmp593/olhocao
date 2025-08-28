@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.dateparse import parse_date
-from django.views.generic import TemplateView, ListView, DeleteView
+from django.views.generic import TemplateView, ListView, DeleteView, DetailView
 from django.utils import timezone
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
@@ -32,8 +32,12 @@ class DashboardView(TemplateView):
         today = timezone.now().date()
 
         # Get and validate dates from request
-        start_date = parse_date(self.request.GET.get('start_date', today.isoformat()))
-        end_date = parse_date(self.request.GET.get('end_date', today.isoformat()))
+        start_date = parse_date(
+            self.request.GET.get('start_date', today.isoformat())
+        )
+        end_date = parse_date(
+            self.request.GET.get('end_date', today.isoformat())
+        )
         
         if start_date > end_date:
             start_date, end_date = end_date, start_date
@@ -52,16 +56,28 @@ class DashboardView(TemplateView):
             booking__status=BookingStatus.PAID,
         ).select_related('booking', 'pet').order_by('start_date')
 
+        # Quick stats
+        checkins = stays.filter(start_date__range=[start_date, end_date])
+        checkouts = stays.filter(end_date__range=[start_date, end_date])
+        active = stays
+        stats = {
+            'checkins_count': checkins.count(),
+            'checkouts_count': checkouts.count(),
+            'active_count': active.count(),
+            'revenue_cents': sum(s.total_price_eur for s in active),
+        }
+
         context.update({
             'start_date': start_date,
             'end_date': end_date,
-            'checkins': stays.filter(start_date__range=[start_date, end_date]),
-            'checkouts': stays.filter(end_date__range=[start_date, end_date]),
-            'stays': stays,
+            'checkins': checkins,
+            'checkouts': checkouts,
+            'stays': active,
             'previous_start': previous_start,
             'previous_end': previous_end,
             'next_start': next_start,
             'next_end': next_end,
+            'stats': stats,
         })
         return context
 
@@ -172,7 +188,7 @@ class LegalDocumentDeleteView(DeleteView):
 
     def form_valid(self, form):
         success_url = self.get_success_url()
-        
+
         self.object.deleted_at = timezone.now()
         self.object.save()
 
