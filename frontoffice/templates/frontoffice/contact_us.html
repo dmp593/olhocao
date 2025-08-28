@@ -69,6 +69,11 @@
                             {% if form.subject.errors %}
                                 <p class="mt-1 text-sm text-red-600">{{ form.subject.errors }}</p>
                             {% endif %}
+                            <!-- Visits notice -->
+                            <div class="mt-2 p-3 rounded-lg border border-primary-200 bg-primary-50 text-primary-700 text-sm">
+                                {% include "icons/information_circle.html" with class="w-4 h-4 inline mr-1 align-[-2px] text-accent-500" %}
+                                {% trans "Facility visits and classes are by appointment only. Please request here an appointment in advance so we can ensure staff availability." %}
+                            </div>
                         </div>
                         
                         <!-- Name -->
@@ -172,7 +177,7 @@
                 </div>
                 
                 <!-- Info Cards -->
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid md:grid-cols-1 gap-6">
                     <!-- Hours Card -->
                     <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
                         <div class="flex items-start">
@@ -182,14 +187,13 @@
                                 <ul class="space-y-2 text-primary-600">
                                     <li class="flex items-center">
                                         <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
-                                        {% trans "Mon-Fri: 8AM - 8PM" %}
+                                        <span class="mr-1">{% trans "Monday to Friday" %}:</span>
+                                        <span class="font-medium text-accent-500">{% trans "08:30-12:30 / 15:30-19:30" %}</span>
                                     </li>
                                     <li class="flex items-center">
                                         <span class="inline-block w-2 h-2 rounded-full bg-accent-500 mr-2"></span>
-                                        {% trans "Sat: 9AM - 1PM" %}
-                                    </li>
-                                    <li class="flex items-end pt-2 text-secondary-400 font-medium italic">
-                                        {% trans "Except Holidays" %}
+                                        <span class="mr-1">{% trans "Saturday, Sunday and Holidays" %}:</span>
+                                        <span class="font-medium text-secondary-500">{% trans "Closed" %}</span>
                                     </li>
                                 </ul>
                             </div>

@@ -222,6 +222,13 @@
                             {% trans "and" %} <a href="{% url 'frontoffice:privacy_policy' %}" target="_blank" class="text-accent-600 hover:text-accent-700 underline">{% trans "Privacy Policy" %}</a>
                         </label>
                     </div>
+                    <!-- Disclaimer: drop-off/pick-up does not include a visit -->
+                    <div class="mt-4 p-4 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 text-sm">
+                        {% include "icons/information_circle.html" with class="w-5 h-5 inline mr-2 align-[-4px] text-accent-500" %}
+                        <p>
+                            {% trans "Drop-off and pick-up at the hotel do not include a visit to the facility. If you'd like a visit, please" %} <a href="{% url 'frontoffice:contact_us' %}" target="_blank" class="text-accent-600 hover:text-accent-700 underline">{% trans "schedule" %}</a> {% trans "in advance." %}
+                        </p>
+                    </div>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4">

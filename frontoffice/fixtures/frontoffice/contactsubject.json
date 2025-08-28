@@ -19,15 +19,24 @@
         "model": "frontoffice.contactsubject",
         "pk": 3,
         "fields": {
-            "name_en": "Training",
-            "name_pt": "Treino"
+            "name_en": "Training and Classes",
+            "name_pt": "Treino e Aulas"
         }
     },
     {
         "model": "frontoffice.contactsubject",
+        "pk": 4,
         "fields": {
-            "name_en": "Hotel",
-            "name_pt": "Hotel"
+            "name_en": "Hotel Questions",
+            "name_pt": "Questões sobre o Hotel"
+        }
+    },
+    {
+        "model": "frontoffice.contactsubject",
+        "pk": 5,
+        "fields": {
+            "name_en": "Visit Scheduling",
+            "name_pt": "Agendamento de Visita"
         }
     }
 ]

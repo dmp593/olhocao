@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 15:49+0000\n"
+"POT-Creation-Date: 2025-08-28 16:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,8 +148,8 @@ msgstr "Voltar à Página Inicial"
 #: accounts/templates/accounts/password_change_form.html:15
 #: accounts/templates/accounts/password_reset_confirm.html:12
 #: accounts/templates/accounts/password_reset_form.html:15
-#: olhocao/templates/components/navbar.html:99
-#: olhocao/templates/components/navbar.html:193
+#: olhocao/templates/components/navbar.html:111
+#: olhocao/templates/components/navbar.html:217
 msgid "Change Password"
 msgstr "Alterar Palavra-passe"
 
@@ -266,12 +266,14 @@ msgstr "Voltar para a página inicial"
 
 #: backoffice/models.py:9
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:19
+#: olhocao/templates/components/footer.html:111
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
 #: backoffice/models.py:10
 #: frontoffice/templates/frontoffice/privacy_policy.html:19
 #: hotel/templates/hotel/booking_review.html:222
+#: olhocao/templates/components/footer.html:115
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
@@ -336,7 +338,7 @@ msgstr "Documento Legal"
 #: backoffice/models.py:64
 #: backoffice/templates/backoffice/legaldocument_list.html:7
 #: olhocao/templates/components/navbar.html:82
-#: olhocao/templates/components/navbar.html:176
+#: olhocao/templates/components/navbar.html:188
 msgid "Legal Documents"
 msgstr "Documentos Legais"
 
@@ -425,9 +427,37 @@ msgstr "Notas de Reserva"
 
 #: backoffice/templates/backoffice/_stay_card.html:54
 #: olhocao/templates/components/navbar.html:24
-#: olhocao/templates/components/navbar.html:138
+#: olhocao/templates/components/navbar.html:150
 msgid "Services"
 msgstr "Serviços"
+
+#: backoffice/templates/backoffice/contactrequest_list.html:7
+#: olhocao/templates/components/navbar.html:199
+msgid "Contact Requests"
+msgstr "Pedidos de Contacto"
+
+#: backoffice/templates/backoffice/contactrequest_list.html:16
+msgid "Mark as Read"
+msgstr "Marcar como Lido"
+
+#: backoffice/templates/backoffice/contactrequest_list.html:29
+msgid "Unread"
+msgstr "Não Lido"
+
+#: backoffice/templates/backoffice/contactrequest_list.html:52
+#: frontoffice/models.py:50
+msgid "Message"
+msgstr "Mensagem"
+
+#: backoffice/templates/backoffice/contactrequest_list.html:65
+#, fuzzy
+#| msgid "When the contact request was read"
+msgid "No contact requests"
+msgstr "A data e hora em que o pedido foi lido"
+
+#: backoffice/templates/backoffice/contactrequest_list.html:66
+msgid "No one has contacted you yet."
+msgstr "Ninguém o contactou ainda."
 
 #: backoffice/templates/backoffice/dashboard.html:14
 msgid "Start Date"
@@ -446,10 +476,14 @@ msgid "Today"
 msgstr "Hoje"
 
 #: backoffice/templates/backoffice/dashboard.html:43
+#: olhocao/templates/components/pagination.html:74
+#: olhocao/templates/components/pagination.html:78
 msgid "Previous"
 msgstr "Anterior"
 
 #: backoffice/templates/backoffice/dashboard.html:47
+#: olhocao/templates/components/pagination.html:121
+#: olhocao/templates/components/pagination.html:125
 msgid "Next"
 msgstr "Próximo"
 
@@ -583,17 +617,31 @@ msgstr "Comece por adicionar um novo documento legal."
 msgid "New Document"
 msgstr "Novo Documento"
 
-#: backoffice/views.py:118
+#: backoffice/views.py:122
 msgid "Legal document not found."
 msgstr "Documento legal não encontrado."
 
-#: backoffice/views.py:159
+#: backoffice/views.py:163
 msgid "Legal document created."
 msgstr "Documento legal criado."
 
-#: backoffice/views.py:177
+#: backoffice/views.py:181
 msgid "Legal Document deleted."
 msgstr "Documento legal eliminado."
+
+#: backoffice/views.py:205
+msgid "Marked as read."
+msgstr "Marcado como lido."
+
+#: backoffice/views.py:207
+#, fuzzy
+#| msgid "No additional services selected"
+msgid "No unread requests selected."
+msgstr "Nenhum serviço adicional selecionado"
+
+#: backoffice/views.py:209
+msgid "No requests selected."
+msgstr "Nenhum pedido selecionado."
 
 #: frontoffice/models.py:9
 msgid "Contact Subject Name"
@@ -613,21 +661,21 @@ msgid "Contact Subject"
 msgstr "Assunto de Contacto"
 
 #: frontoffice/models.py:35
-#: frontoffice/templates/frontoffice/contact_us.html:77
+#: frontoffice/templates/frontoffice/contact_us.html:82
 msgid "Your Name"
 msgstr "O Seu Nome"
 
 #: frontoffice/models.py:40
-#: frontoffice/templates/frontoffice/contact_us.html:95
+#: frontoffice/templates/frontoffice/contact_us.html:100
 msgid "Phone"
 msgstr "Telefone"
 
 #: frontoffice/models.py:41
 msgid "Your Phone"
-msgstr ""
+msgstr "O Seu Telefone"
 
 #: frontoffice/models.py:45
-#: frontoffice/templates/frontoffice/contact_us.html:111
+#: frontoffice/templates/frontoffice/contact_us.html:120
 msgid "Email"
 msgstr "Email"
 
@@ -635,12 +683,8 @@ msgstr "Email"
 msgid "Your Email Account"
 msgstr "A Sua Conta de Email"
 
-#: frontoffice/models.py:50
-msgid "Message"
-msgstr "Mensagem"
-
 #: frontoffice/models.py:51
-#: frontoffice/templates/frontoffice/contact_us.html:128
+#: frontoffice/templates/frontoffice/contact_us.html:137
 msgid "Your Message"
 msgstr "A Sua Mensagem"
 
@@ -787,67 +831,89 @@ msgstr "A casa do seu cão longe de casa"
 msgid "Send us a message"
 msgstr "Envie-nos uma mensagem"
 
-#: frontoffice/templates/frontoffice/contact_us.html:143
+#: frontoffice/templates/frontoffice/contact_us.html:75
+msgid ""
+"Facility visits and classes are by appointment only. Please request here an "
+"appointment in advance so we can ensure staff availability."
+msgstr ""
+"Visitas às instalações e aulas são apenas com marcação. Por favor, solicite uma "
+"marcação com antecedência para podermos garantir a disponibilidade da equipe."
+
+#: frontoffice/templates/frontoffice/contact_us.html:109
+msgid "Please include your country code"
+msgstr "Por favor, inclua o indicativo do país"
+
+#: frontoffice/templates/frontoffice/contact_us.html:110
+msgid "e.g. (+351) 912 345 678"
+msgstr "ex. (+351) 912 345 678"
+
+#: frontoffice/templates/frontoffice/contact_us.html:152
 msgid "Send Message"
 msgstr "Enviar Mensagem"
 
-#: frontoffice/templates/frontoffice/contact_us.html:178
+#: frontoffice/templates/frontoffice/contact_us.html:187
 msgid "Opening Hours"
 msgstr "Horário de Funcionamento"
 
-#: frontoffice/templates/frontoffice/contact_us.html:182
-msgid "Mon-Fri: 8AM - 8PM"
-msgstr "Seg-Sex: 8h - 20h"
+#: frontoffice/templates/frontoffice/contact_us.html:191
+msgid "Monday to Friday"
+msgstr "Segunda a Sexta-feira"
 
-#: frontoffice/templates/frontoffice/contact_us.html:186
-msgid "Sat: 9AM - 1PM"
-msgstr "Sáb: 9h - 13h"
+#: frontoffice/templates/frontoffice/contact_us.html:192
+msgid "08:30-12:30 / 15:30-19:30"
+msgstr "08:30-12:30 / 15:30-19:30"
 
-#: frontoffice/templates/frontoffice/contact_us.html:189
-msgid "Except Holidays"
-msgstr "Exceto Feriados"
+#: frontoffice/templates/frontoffice/contact_us.html:196
+msgid "Saturday, Sunday and Holidays"
+msgstr "Sábado, Domingo e Feriados"
 
-#: frontoffice/templates/frontoffice/contact_us.html:201
+#: frontoffice/templates/frontoffice/contact_us.html:197
+#, fuzzy
+#| msgid "Close"
+msgid "Closed"
+msgstr "Fechar"
+
+#: frontoffice/templates/frontoffice/contact_us.html:209
 msgid "Contact Us"
 msgstr "Contacte-nos"
 
-#: frontoffice/templates/frontoffice/contact_us.html:226
+#: frontoffice/templates/frontoffice/contact_us.html:234
 msgid "Amenities"
 msgstr "Comodidades"
 
-#: frontoffice/templates/frontoffice/contact_us.html:230
+#: frontoffice/templates/frontoffice/contact_us.html:238
 msgid "Pet friendly"
 msgstr "Amigável para animais de estimação"
 
-#: frontoffice/templates/frontoffice/contact_us.html:234
+#: frontoffice/templates/frontoffice/contact_us.html:242
 msgid "Free treats"
 msgstr "Biscoitos gratuitos"
 
-#: frontoffice/templates/frontoffice/contact_us.html:238
+#: frontoffice/templates/frontoffice/contact_us.html:246
 msgid "Play area"
 msgstr "Área de brincadeiras"
 
-#: frontoffice/templates/frontoffice/contact_us.html:242
+#: frontoffice/templates/frontoffice/contact_us.html:250
 msgid "Water bowls"
 msgstr "Tigelas de água"
 
-#: frontoffice/templates/frontoffice/contact_us.html:246
+#: frontoffice/templates/frontoffice/contact_us.html:254
 msgid "Pawdicures available"
 msgstr "Serviço de manicure para patas disponível"
 
-#: frontoffice/templates/frontoffice/contact_us.html:250
+#: frontoffice/templates/frontoffice/contact_us.html:258
 msgid "Squirrel surveillance team"
 msgstr "Equipa de vigilância de esquilos"
 
-#: frontoffice/templates/frontoffice/contact_us.html:254
+#: frontoffice/templates/frontoffice/contact_us.html:262
 msgid "Complimentary belly rubs"
 msgstr "Carícias de barriga gratuitas"
 
-#: frontoffice/templates/frontoffice/contact_us.html:258
+#: frontoffice/templates/frontoffice/contact_us.html:266
 msgid "Howl-friendly karaoke nights"
 msgstr "Noites de karaoke amigáveis para uivos"
 
-#: frontoffice/templates/frontoffice/contact_us.html:266
+#: frontoffice/templates/frontoffice/contact_us.html:274
 msgid "Get Directions"
 msgstr "Obter Direções"
 
@@ -1115,8 +1181,8 @@ msgid "Join Our Happy Pack"
 msgstr "Junte-se à Nossa Matilha Feliz"
 
 #: frontoffice/templates/frontoffice/pricing.html:13
-#: olhocao/templates/components/navbar.html:36
-#: olhocao/templates/components/navbar.html:150
+#: olhocao/templates/components/navbar.html:30
+#: olhocao/templates/components/navbar.html:156
 msgid "Pricing"
 msgstr "Preços"
 
@@ -1501,7 +1567,7 @@ msgid "Payment Unavailable"
 msgstr "Pagamento Indisponível"
 
 #: hotel/templates/hotel/booking_list.html:10
-#: olhocao/templates/components/navbar.html:91
+#: olhocao/templates/components/navbar.html:102
 msgid "My Hotel Bookings"
 msgstr "Reservas de Hotel"
 
@@ -1759,11 +1825,27 @@ msgstr "Termos & Condições"
 msgid "and"
 msgstr "e"
 
-#: hotel/templates/hotel/booking_review.html:230
+#: hotel/templates/hotel/booking_review.html:229
+msgid ""
+"Drop-off and pick-up at the hotel do not include a visit to the facility. If "
+"you'd like a visit, please"
+msgstr ""
+"A entrega e a recolha no hotel não incluem uma visita às instalações. Se "
+"gostaria de uma visita, por favor"
+
+#: hotel/templates/hotel/booking_review.html:229
+msgid "schedule"
+msgstr "agende"
+
+#: hotel/templates/hotel/booking_review.html:229
+msgid "in advance."
+msgstr "com antecedência."
+
+#: hotel/templates/hotel/booking_review.html:237
 msgid "Back to Services"
 msgstr "Voltar aos Serviços"
 
-#: hotel/templates/hotel/booking_review.html:233
+#: hotel/templates/hotel/booking_review.html:240
 msgid "Confirm & Pay Now"
 msgstr "Confirmar & Pagar Agora"
 
@@ -1930,6 +2012,8 @@ msgid ""
 "Only {refund_percentage}%% of the payment will be refunded due to processing "
 "costs."
 msgstr ""
+"Apenas {refund_percentage}%% do pagamento será reembolsado devido a custos "
+"de processamento."
 
 #: hotel/views.py:816
 msgid "This booking has already been cancelled."
@@ -1971,11 +2055,11 @@ msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "
 "tarde."
 
-#: olhocao/settings.py:185
+#: olhocao/settings.py:186
 msgid "English"
 msgstr "Inglês"
 
-#: olhocao/settings.py:186
+#: olhocao/settings.py:187
 msgid "Portuguese"
 msgstr "Português"
 
@@ -2007,15 +2091,15 @@ msgstr "Criador de Cães"
 msgid "Connect With Us"
 msgstr "Conecte-se Conosco"
 
-#: olhocao/templates/components/footer.html:109
+#: olhocao/templates/components/footer.html:120
 msgid "All rights reserved"
 msgstr "Todos os direitos reservados"
 
-#: olhocao/templates/components/footer.html:126
+#: olhocao/templates/components/footer.html:123
 msgid "Developed with"
 msgstr "Desenvolvido com"
 
-#: olhocao/templates/components/footer.html:128
+#: olhocao/templates/components/footer.html:125
 msgid "by"
 msgstr "por"
 
@@ -2024,55 +2108,83 @@ msgid "Close"
 msgstr "Fechar"
 
 #: olhocao/templates/components/navbar.html:18
-#: olhocao/templates/components/navbar.html:132
+#: olhocao/templates/components/navbar.html:144
 msgid "Book Hotel"
 msgstr "Reservar Hotel"
 
-#: olhocao/templates/components/navbar.html:30
-#: olhocao/templates/components/navbar.html:144
+#: olhocao/templates/components/navbar.html:36
+#: olhocao/templates/components/navbar.html:162
 msgid "Contact"
 msgstr "Contacto"
 
 #: olhocao/templates/components/navbar.html:42
-#: olhocao/templates/components/navbar.html:156
+#: olhocao/templates/components/navbar.html:168
 msgid "About"
 msgstr "Sobre"
 
 #: olhocao/templates/components/navbar.html:78
-#: olhocao/templates/components/navbar.html:172
+#: olhocao/templates/components/navbar.html:184
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: olhocao/templates/components/navbar.html:87
+#: olhocao/templates/components/navbar.html:93
+msgid "Contacts Requests"
+msgstr "Pedidos de Contacto"
+
+#: olhocao/templates/components/navbar.html:98
 #: pets/templates/pets/pet_list.html:12
 msgid "My Pets"
 msgstr "Animais de Estimação"
 
-#: olhocao/templates/components/navbar.html:95
-#: olhocao/templates/components/navbar.html:189
+#: olhocao/templates/components/navbar.html:107
+#: olhocao/templates/components/navbar.html:213
 msgid "Manage Account"
 msgstr "Gerir Conta"
 
-#: olhocao/templates/components/navbar.html:105
-#: olhocao/templates/components/navbar.html:197
+#: olhocao/templates/components/navbar.html:117
+#: olhocao/templates/components/navbar.html:221
 msgid "Logout"
 msgstr "Sair"
 
-#: olhocao/templates/components/navbar.html:165
+#: olhocao/templates/components/navbar.html:177
 msgid "My Account"
 msgstr "A Minha Conta"
 
-#: olhocao/templates/components/navbar.html:181
+#: olhocao/templates/components/navbar.html:204
 msgid "Manage Pets"
 msgstr "Gerir Animais de Estimação"
 
-#: olhocao/templates/components/navbar.html:185
+#: olhocao/templates/components/navbar.html:208
 msgid "View Hotel Bookings"
 msgstr "Ver Reservas de Hotel"
 
-#: olhocao/templates/components/navbar.html:212
+#: olhocao/templates/components/navbar.html:236
 msgid "Switch Language"
 msgstr "Mudar Idioma"
+
+#: olhocao/templates/components/pagination.html:34
+msgid "Page"
+msgstr "Página"
+
+#: olhocao/templates/components/pagination.html:34
+msgid "of"
+msgstr "de"
+
+#: olhocao/templates/components/pagination.html:63
+#: olhocao/templates/components/pagination.html:67
+msgid "First"
+msgstr "primeiro"
+
+#: olhocao/templates/components/pagination.html:87
+#: olhocao/templates/components/pagination.html:109
+#, python-format
+msgid "Page %(num)s"
+msgstr "Página %(num)s"
+
+#: olhocao/templates/components/pagination.html:132
+#: olhocao/templates/components/pagination.html:136
+msgid "Last"
+msgstr "Último"
 
 #: pets/models.py:30 pets/models.py:77
 msgid "name"
@@ -2341,14 +2453,26 @@ msgstr "Ainda não adicionou nenhum animal de estimação."
 msgid "Add Your First Pet"
 msgstr "Adicionar Seu Primeiro Animal de Estimação"
 
-#~ msgid "is allergic"
-#~ msgstr "é alérgico"
+# msgid "Opening Hours"
+# msgstr "Horário de Funcionamento"
 
-#~ msgid "Whether the pet is allergic or not"
-#~ msgstr "Se o animal de estimação é alérgico ou não"
+# msgid "Mon-Fri: 8AM - 8PM"
+# msgstr "Seg-Sex: 8h - 20h"
 
-#~ msgid "is medicated"
-#~ msgstr "está medicado"
+# msgid "Sat: 9AM - 1PM"
+# msgstr "Sáb: 9h - 13h"
 
-#~ msgid "Whether the pet is medicated or not"
-#~ msgstr "Se o animal de estimação está medicado ou não"
+# msgid "Except Holidays"
+# msgstr "Exceto Feriados"
+
+# msgid "is allergic"
+# msgstr "é alérgico"
+
+# msgid "Whether the pet is allergic or not"
+# msgstr "Se o animal de estimação é alérgico ou não"
+
+# msgid "is medicated"
+# msgstr "está medicado"
+
+# msgid "Whether the pet is medicated or not"
+# msgstr "Se o animal de estimação está medicado ou não"
