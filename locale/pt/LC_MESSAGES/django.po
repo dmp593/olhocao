@@ -450,10 +450,8 @@ msgid "Message"
 msgstr "Mensagem"
 
 #: backoffice/templates/backoffice/contactrequest_list.html:65
-#, fuzzy
-#| msgid "When the contact request was read"
 msgid "No contact requests"
-msgstr "A data e hora em que o pedido foi lido"
+msgstr "Não há pedidos de contacto"
 
 #: backoffice/templates/backoffice/contactrequest_list.html:66
 msgid "No one has contacted you yet."
@@ -634,10 +632,8 @@ msgid "Marked as read."
 msgstr "Marcado como lido."
 
 #: backoffice/views.py:207
-#, fuzzy
-#| msgid "No additional services selected"
 msgid "No unread requests selected."
-msgstr "Nenhum serviço adicional selecionado"
+msgstr "Nenhum pedido não lido selecionado."
 
 #: backoffice/views.py:209
 msgid "No requests selected."
@@ -689,10 +685,8 @@ msgid "Your Message"
 msgstr "A Sua Mensagem"
 
 #: frontoffice/models.py:58
-#, fuzzy
-#| msgid "created at"
 msgid "Created At"
-msgstr "criado em"
+msgstr "Criado a"
 
 #: frontoffice/models.py:59
 msgid "When the contact request was created"
@@ -836,7 +830,7 @@ msgid ""
 "Facility visits and classes are by appointment only. Please request here an "
 "appointment in advance so we can ensure staff availability."
 msgstr ""
-"Visitas às instalações e aulas são apenas com marcação. Por favor, solicite uma "
+"Visitas às instalações e aulas são apenas por marcação. Por favor, solicite uma "
 "marcação com antecedência para podermos garantir a disponibilidade da equipa."
 
 #: frontoffice/templates/frontoffice/contact_us.html:109
@@ -868,10 +862,8 @@ msgid "Saturday, Sunday and Holidays"
 msgstr "Sábado, Domingo e Feriados"
 
 #: frontoffice/templates/frontoffice/contact_us.html:197
-#, fuzzy
-#| msgid "Close"
 msgid "Closed"
-msgstr "Fechar"
+msgstr "Fechado"
 
 #: frontoffice/templates/frontoffice/contact_us.html:209
 msgid "Contact Us"
