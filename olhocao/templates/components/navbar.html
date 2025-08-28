@@ -82,7 +82,14 @@
                             {% trans "Legal Documents" %}
                         </a>
                         <a href="{% url 'backoffice:contacts_requests' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
-                            {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4 mr-3" %}
+                            <span class="relative inline-block mr-3">
+                                {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4" %}
+                                {% if unread_contact_requests_count and unread_contact_requests_count > 0 %}
+                                    <span class="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-red-600 text-white text-xs font-semibold w-4 h-4 border-2 border-white">
+                                        {{ unread_contact_requests_count }}
+                                    </span>
+                                {% endif %}
+                            </span>
                             {% trans "Contacts Requests" %}
                         </a>
                         {% else %}
@@ -181,7 +188,14 @@
                         {% trans "Legal Documents" %}
                     </a>
                     <a href="{% url 'backoffice:contacts_requests' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
-                        {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4 mr-3" %}
+                        <span class="relative inline-block mr-3">
+                            {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4" %}
+                            {% if unread_contact_requests_count and unread_contact_requests_count > 0 %}
+                                <span class="absolute -top-2 -right-2 flex items-center justify-center rounded-full bg-red-600 text-white text-[10px] font-semibold w-4 h-4 border-2 border-white">
+                                    {{ unread_contact_requests_count }}
+                                </span>
+                            {% endif %}
+                        </span>
                         {% trans "Contact Requests" %}
                     </a>
                     {% else %}
