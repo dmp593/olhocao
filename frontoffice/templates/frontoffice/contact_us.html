@@ -100,6 +100,10 @@
                                         {% include "icons/phone.html" with class="w-5 h-5 text-primary-400" %}
                                     </div>
                                 </div>
+                                <div class="mt-2">
+                                    <p class="text-xs text-stone-500 dark:text-stone-400 mt-1">{% trans "Please include your country code" %}</p>
+                                    <p class="text-xs text-stone-500 dark:text-stone-400 mt-1">{% trans "e.g. (+351) 912 345 678" %}</p>
+                                </div>
                                 {% if form.phone.errors %}
                                     <p class="mt-1 text-sm text-red-600">{{ form.phone.errors }}</p>
                                 {% endif %}

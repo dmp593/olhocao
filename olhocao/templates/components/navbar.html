@@ -81,7 +81,11 @@
                             {% include "icons/license.html" with class="w-4 h-4 mr-3" %}
                             {% trans "Legal Documents" %}
                         </a>
-                        {% endif %}
+                        <a href="{% url 'backoffice:contacts_requests' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4 mr-3" %}
+                            {% trans "Contacts Requests" %}
+                        </a>
+                        {% else %}
                         <a href="{% url 'pets:list' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
                             {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
                             {% trans "My Pets" %}
@@ -90,6 +94,7 @@
                             {% include "icons/pet_hotel.html" with class="w-4 h-4 mr-3" %}
                             {% trans "My Hotel Bookings" %}
                         </a>
+                        {% endif %}
                         <a href="{% url 'accounts:user_change' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
                             {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-2" %}
                             {% trans "Manage Account" %}
@@ -175,7 +180,11 @@
                         {% include "icons/license.html" with class="w-4 h-4 mr-3" %}
                         {% trans "Legal Documents" %}
                     </a>
-                    {% endif %}
+                    <a href="{% url 'backoffice:contacts_requests' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Contact Requests" %}
+                    </a>
+                    {% else %}
                     <a href="{% url 'pets:list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
                         {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
                         {% trans "Manage Pets" %}
@@ -184,6 +193,7 @@
                         {% include "icons/pet_hotel.html" with class="w-4 h-4 mr-3" %}
                         {% trans "View Hotel Bookings" %}
                     </a>
+                    {% endif %}
                     <a href="{% url 'accounts:user_change' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
                         {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-3" %}
                         {% trans "Manage Account" %}

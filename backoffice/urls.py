@@ -35,5 +35,16 @@ urlpatterns = [
         'legal-documents/<int:pk>/delete/',
         views.LegalDocumentDeleteView.as_view(),
         name='legal_document_delete'
-    )
+    ),
+
+    path(
+        'contacts-requests/',
+        views.ContactRequestListView.as_view(),
+        name='contacts_requests'
+    ),
+    path(
+        'contacts-requests/mark-read/',
+        views.ContactRequestMarkReadView.as_view(),
+        name='contactrequest_mark_read'
+    ),
 ]

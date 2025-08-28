@@ -9,9 +9,13 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect, render
 
+from django.views import View
+
 from hotel.models import BookingStay, BookingStatus
 
 from .models import LegalDocument
+
+from frontoffice.models import ContactRequest
 
 from .forms import (
     LegalDocumentForm,
@@ -178,3 +182,29 @@ class LegalDocumentDeleteView(DeleteView):
         )
 
         return HttpResponseRedirect(success_url)
+
+
+class ContactRequestListView(ListView):
+    model = ContactRequest
+    context_object_name = 'contacts_requests'
+    template_name = 'backoffice/contactrequest_list.html'
+
+
+class ContactRequestMarkReadView(View):
+    def post(self, request):
+        ids = request.POST.getlist('selected_requests')
+
+        if ids:
+            updated = ContactRequest.objects.filter(
+                id__in=ids,
+                read_at__isnull=True
+            )
+            updated_count = updated.update(read_at=timezone.now())
+            if updated_count:
+                messages.success(request, _("Marked as read."))
+            else:
+                messages.info(request, _("No unread requests selected."))
+        else:
+            messages.warning(request, _("No requests selected."))
+
+        return redirect('backoffice:contacts_requests')

@@ -65,3 +65,8 @@ class ContactRequest(models.Model):
         verbose_name=_('Read At'),
         help_text=_('When the contact request was read')
     )
+
+    class Meta:
+        ordering = [
+            '-created_at'
+        ]
