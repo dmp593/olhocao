@@ -3,7 +3,13 @@ from datetime import timedelta
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.dateparse import parse_date
-from django.views.generic import TemplateView, ListView, DeleteView, DetailView
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    DeleteView,
+    DetailView,
+    UpdateView,
+)
 from django.utils import timezone
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +18,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 
 from hotel.models import BookingStay, BookingStatus
+from hotel import models as hotel_models
 
 from .models import LegalDocument
 
@@ -22,6 +29,8 @@ from .forms import (
     create_section_formset,
     create_lineitem_formset,
 )
+from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 
 
 class DashboardView(TemplateView):
@@ -80,6 +89,132 @@ class DashboardView(TemplateView):
             'stats': stats,
         })
         return context
+
+
+class UsersListView(ListView):
+    template_name = 'backoffice/users_list.html'
+    context_object_name = 'users'
+    paginate_by = 20
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        if not request.user.is_staff:
+            messages.error(request, _("Unauthorized"))
+            return redirect('backoffice:dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        User = get_user_model()
+        return (
+            User.objects
+            .select_related('account')
+            .order_by('first_name', 'last_name')
+        )
+
+
+class UserDetailView(DetailView):
+    template_name = 'backoffice/user_detail.html'
+    context_object_name = 'user_obj'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        if not request.user.is_staff:
+            messages.error(request, _("Unauthorized"))
+            return redirect('backoffice:dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        User = get_user_model()
+        return User.objects.select_related('account')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.object
+        toconline = getattr(
+            getattr(user, 'account', None),
+            'toconline_customer',
+            None,
+        )
+
+        bookings_qs = (
+            hotel_models.Booking.objects
+            .filter(account__user=user)
+            .prefetch_related('stays')
+            .order_by('-created_at')
+        )
+        paginator = Paginator(bookings_qs, 10)
+        page_number = self.request.GET.get('page')
+        bookings_page = paginator.get_page(page_number)
+
+        context.update({
+            'account': getattr(user, 'account', None),
+            'toconline_customer': toconline,
+            'bookings': bookings_page.object_list,
+            'page_obj': bookings_page,
+            'paginator': paginator,
+            'is_paginated': bookings_page.has_other_pages(),
+        })
+        return context
+
+
+class UserAdminUpdateView(UpdateView):
+    template_name = 'backoffice/user_form.html'
+    form_class = None  # set in get_form_class
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        if not request.user.is_staff:
+            messages.error(request, _("Unauthorized"))
+            return redirect('backoffice:dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        User = get_user_model()
+        return User.objects.select_related('account')
+
+    def get_form_class(self):
+        # Reuse the existing user change form
+        from accounts.forms import UserChangeForm
+        self.form_class = UserChangeForm
+        return self.form_class
+
+    def get_object(self, queryset=None):
+        User = get_user_model()
+        return User.objects.select_related('account').get(pk=self.kwargs['pk'])
+
+    def get_initial(self):
+        data = super().get_initial()
+        user = self.get_object()
+        account = getattr(user, 'account', None)
+
+        if account and account.has_toconline_customer:
+            customer = account.toconline_customer or {}
+            attrs = customer.get('attributes', {})
+            vat = attrs.get('tax_registration_number')
+            phone = attrs.get('mobile_number') or attrs.get('phone_number')
+            if vat:
+                data['vat'] = vat
+            if phone:
+                data['phone'] = phone
+        else:
+            # Best-effort fallback for phone via property if available
+            if account and account.phone_number:
+                data['phone'] = account.phone_number
+
+        return data
+
+    def get_success_url(self):
+        return (
+            self.request.GET.get('next')
+            or self.request.POST.get('next')
+            or reverse_lazy(
+                'backoffice:user_detail',
+                kwargs={'pk': self.object.pk}
+            )
+        )
 
 
 class LegalDocumentListView(ListView):
@@ -160,13 +295,23 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
             for i, section_form in enumerate(section_formset)
         ]
 
-        if not doc_form.is_valid() or not section_formset.is_valid() or any([not f.is_valid() for f in lineitem_formsets]):
-            return render(request, self.template_name, {
-                'object': doc_form.instance,
-                'doc_form': doc_form,
-                'section_formset': section_formset,
-                'lineitem_formsets': lineitem_formsets,
-            })
+        forms_valid = (
+            doc_form.is_valid()
+            and section_formset.is_valid()
+            and all(f.is_valid() for f in lineitem_formsets)
+        )
+
+        if not forms_valid:
+            return render(
+                request,
+                self.template_name,
+                {
+                    'object': doc_form.instance,
+                    'doc_form': doc_form,
+                    'section_formset': section_formset,
+                    'lineitem_formsets': lineitem_formsets,
+                },
+            )
 
         doc_form.save()
         section_formset.save()
@@ -174,10 +319,12 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
         for lineitem_formset in lineitem_formsets:
             lineitem_formset.save()
 
-        messages.success(
-            self.request,
-            _("Legal document created." if pk is None else "Legal document updated.")
+        success_msg = (
+            _("Legal document created.")
+            if pk is None
+            else _("Legal document updated.")
         )
+        messages.success(self.request, success_msg)
 
         return redirect(self.success_url)
 

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block content %}
+<section class="py-6 bg-primary-50 min-h-screen-minus-navbar">
+  <div class="container mx-auto px-4">
+    <a href="{% url 'backoffice:users_list' %}" class="inline-flex items-center text-primary-700 hover:text-primary-900 mb-4">← {% trans "Back to users" %}</a>
+
+    <div class="bg-white rounded-xl shadow p-6 ring-1 ring-primary-100/60">
+      <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+        <div class="flex-1">
+          <h1 class="text-2xl sm:text-3xl font-serif font-bold text-primary-900">{{ user_obj.get_full_name|default:user_obj.username }}</h1>
+          <p class="text-primary-600">
+            <a href="mailto:{{ user_obj.email }}" class="text-primary-700 hover:underline">✉️ {{ user_obj.email }}</a>
+          </p>
+          {% if account and account.phone_number %}
+          <p class="mt-1">
+            <a href="tel:{{ account.phone_number }}" class="text-emerald-700 hover:underline">📞 {{ account.phone_number }}</a>
+          </p>
+          {% endif %}
+          {% if toconline_customer %}
+          <p class="mt-1 text-primary-700">VAT: {{ toconline_customer.attributes.tax_registration_number }}</p>
+          {% endif %}
+        </div>
+        <div>
+          <a href="{% url 'backoffice:user_edit' user_obj.pk %}" class="inline-flex items-center px-3 py-2 rounded bg-accent-600 text-white hover:bg-accent-700">{% trans "Edit" %}</a>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-xl font-semibold mb-2">{% trans "Recent Bookings" %}</h2>
+        {% if bookings %}
+          <ul class="divide-y divide-primary-100">
+            {% for b in bookings %}
+            <li class="py-2 flex justify-between">
+              <a href="{% url 'hotel:booking_detail' b.pk %}" class="hover:underline">#{{ b.pk }} — {{ b.earliest_start_date }} → {{ b.latest_end_date }}</a>
+              <span class="text-primary-700">{{ b.total_price_eur|divide:100|floatformat:2 }} €</span>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="mt-6">
+            {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
+          </div>
+        {% else %}
+          <p class="text-primary-600">{% trans "No recent bookings." %}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

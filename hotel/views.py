@@ -440,10 +440,16 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
 
 class BookingPaymentVerifyView(LoginRequiredMixin, View):
     def get(self, request, booking_id):
+        where = {
+            'id': booking_id,
+        }
+
+        if not request.user.is_staff:
+            where['account'] = request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=booking_id,
-            account=request.user.account
+            **where
         )
 
         session_id = request.GET.get(

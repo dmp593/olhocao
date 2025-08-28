@@ -14,6 +14,22 @@ urlpatterns = [
     ),
 
     path(
+        'users/',
+        views.UsersListView.as_view(),
+        name='users_list'
+    ),
+    path(
+        'users/<int:pk>/',
+        views.UserDetailView.as_view(),
+        name='user_detail'
+    ),
+    path(
+        'users/<int:pk>/edit/',
+        views.UserAdminUpdateView.as_view(),
+        name='user_edit'
+    ),
+
+    path(
         'legal-documents/',
         views.LegalDocumentListView.as_view(),
         name='legal_documents'
