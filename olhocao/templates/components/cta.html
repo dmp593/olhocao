@@ -1,7 +1,7 @@
 <div class="mt-16 text-center animate__animated animate__fadeIn">
     <div class="relative inline-block">
         <div class="absolute -inset-1 bg-accent-500/30 rounded-full blur-lg group-hover:bg-accent-500/50 transition-all duration-300 animate__animated animate__pulse animate__infinite animate__slower"></div>
-        <a href="{{ cta_url }}" class="relative inline-flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold text-lg py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
+        <a href="{{ cta_url }}" target="{{ cta_target|default_if_none:"_self" }}" class="relative inline-flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold text-lg py-4 px-10 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
             {% if cta_pre_icon %} {% include cta_pre_icon with class="w-5 h-5 mr-2 text-white" %} {% endif %}
             {{ cta_text }}
             <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
