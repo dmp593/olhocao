@@ -1,0 +1,59 @@
+{% load i18n %}
+
+{% comment %}
+Reusable pagination component for Django ListView pagination.
+Usage:
+  {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
+{% endcomment %}
+
+{% if is_paginated %}
+<nav class="flex justify-center mt-8" aria-label="Pagination">
+    <ul class="inline-flex whitespace-nowrap rounded-md">
+        {% if page_obj.number != 1 %}
+            <li>
+                <a href="?page=1" class="px-3 py-2 rounded-l-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">&laquo; {% trans "First" %}</a>
+            </li>
+        {% else %}
+            <li>
+                <span class="px-3 py-2 rounded-l-md border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">&laquo; {% trans "First" %}</span>
+            </li>
+        {% endif %}
+
+        {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">&lsaquo; {% trans "Previous" %}</a>
+            </li>
+        {% else %}
+            <li>
+                <span class="px-3 py-2 border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">&lsaquo; {% trans "Previous" %}</span>
+            </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            <li>
+                <a href="?page={{ num }}" class="px-3 py-2 border border-primary-200 text-primary-600 hover:bg-primary-50{% if page_obj.number == num %} bg-primary-100 font-extrabold{% else %} bg-white{% endif %}">{{ num }}</a>
+            </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">{% trans "Next" %} &rsaquo;</a>
+            </li>
+        {% else %}
+            <li>
+                <span class="px-3 py-2 border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">{% trans "Next" %} &rsaquo;</span>
+            </li>
+        {% endif %}
+
+        {% if page_obj.number != page_obj.paginator.num_pages %}
+            <li>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 rounded-r-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">{% trans "Last" %} &raquo;</a>
+            </li>
+        {% else %}
+            <li>
+                <span class="px-3 py-2 rounded-r-md border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">{% trans "Last" %} &raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
