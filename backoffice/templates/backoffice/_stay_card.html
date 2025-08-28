@@ -29,7 +29,7 @@
                    class="text-accent-600 hover:text-accent-700 font-medium">
                     {{ stay.pet.name }}
                 </a>
-                <div class="flex gap-1">
+                <div class="flex flex-col md:flex-row gap-1">
                     {% if stay.pet.is_medicated %}
                     <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">
                         💊 {% trans "Medicated" %}
@@ -38,6 +38,11 @@
                     {% if stay.pet.is_allergic %}
                     <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
                         ⚠️ {% trans "Allergies" %}
+                    </span>
+                    {% endif %}
+                    {% if stay.pet.has_notes %}
+                    <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">
+                        📝 {% trans "Notes" %}
                     </span>
                     {% endif %}
                 </div>

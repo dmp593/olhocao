@@ -153,6 +153,10 @@ class Pet(models.Model):
         help_text=_('Additional notes about the pet'),
     )
 
+    @property
+    def has_notes(self):
+        return bool(self.notes.strip())
+
     owner = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
