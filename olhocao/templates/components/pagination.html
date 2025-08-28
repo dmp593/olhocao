@@ -7,8 +7,57 @@ Usage:
 {% endcomment %}
 
 {% if is_paginated %}
-<nav class="flex justify-center mt-8" aria-label="Pagination">
-    <ul class="inline-flex whitespace-nowrap rounded-md">
+<nav class="mt-8" aria-label="Pagination">
+    {# Mobile: compact controls with page x of y #}
+    <div class="flex items-center justify-between md:hidden">
+        <div>
+            {% if page_obj.number != 1 %}
+                <a href="?page=1" class="px-3 py-2 rounded-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">
+                    &laquo; {# {% trans "First" %} #}
+                </a>
+            {% else %}
+                <span class="px-3 py-2 rounded-md border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">
+                    &laquo; {# {% trans "First" %} #}
+                </span>
+            {% endif %}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 rounded-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">
+                    &lsaquo; {# {% trans "Previous" %} #}
+                </a>
+            {% else %}
+                <span class="px-3 py-2 rounded-md border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">
+                    &lsaquo; {# {% trans "Previous" %} #}
+                </span>
+            {% endif %}
+        </div>
+        <div class="mx-3 text-sm text-primary-600">
+            {% trans "Page" %} <span class="font-semibold">{{ page_obj.number }}</span> {% trans "of" %} {{ page_obj.paginator.num_pages }}
+        </div>
+        <div>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 rounded-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">
+                    {# {% trans "Next" %} #} &rsaquo;
+                </a>
+            {% else %}
+                <span class="px-3 py-2 rounded-md border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">
+                    {# {% trans "Next" %} #} &rsaquo;
+                </span>
+            {% endif %}
+            {% if page_obj.number != page_obj.paginator.num_pages %}
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 rounded-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">
+                    {# {% trans "Last" %} #} &raquo;
+                </a>
+            {% else %}
+                <span class="px-3 py-2 rounded-md border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed">
+                    {# {% trans "Last" %} #} &raquo;
+                </span>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Desktop/Tablet: full controls with ellipsis #}
+    <ul class="hidden md:inline-flex whitespace-nowrap rounded-md items-center justify-center w-full mt-3 md:mt-0">
+        {# First #}
         {% if page_obj.number != 1 %}
             <li>
                 <a href="?page=1" class="px-3 py-2 rounded-l-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">&laquo; {% trans "First" %}</a>
@@ -19,6 +68,7 @@ Usage:
             </li>
         {% endif %}
 
+        {# Prev #}
         {% if page_obj.has_previous %}
             <li>
                 <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">&lsaquo; {% trans "Previous" %}</a>
@@ -29,12 +79,43 @@ Usage:
             </li>
         {% endif %}
 
+        {# Page numbers with window and ellipses #}
         {% for num in page_obj.paginator.page_range %}
-            <li>
-                <a href="?page={{ num }}" class="px-3 py-2 border border-primary-200 text-primary-600 hover:bg-primary-50{% if page_obj.number == num %} bg-primary-100 font-extrabold{% else %} bg-white{% endif %}">{{ num }}</a>
-            </li>
+            {# Always show first and last #}
+            {% if num == 1 or num == page_obj.paginator.num_pages %}
+                <li>
+                    <a href="?page={{ num }}" aria-label="{% blocktrans %}Page {{ num }}{% endblocktrans %}"
+                       class="px-3 py-2 border border-primary-200 text-primary-600 hover:bg-primary-50{% if page_obj.number == num %} bg-primary-100 font-extrabold{% else %} bg-white{% endif %}"
+                       {% if page_obj.number == num %}aria-current="page"{% endif %}>
+                        {{ num }}
+                    </a>
+                </li>
+
+            {# Left ellipsis: between page 1 and current-2 #}
+            {% elif num == 2 and page_obj.number > 4 %}
+                <li>
+                    <span class="px-3 py-2 border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed select-none" aria-hidden="true">&hellip;</span>
+                </li>
+
+            {# Right ellipsis: between current+2 and last page #}
+            {% elif num == page_obj.paginator.num_pages|add:'-1' and page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                <li>
+                    <span class="px-3 py-2 border border-primary-200 bg-primary-50 text-primary-400 cursor-not-allowed select-none" aria-hidden="true">&hellip;</span>
+                </li>
+
+            {# Window around current page: show current-2 .. current+2 #}
+            {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                <li>
+                    <a href="?page={{ num }}" aria-label="{% blocktrans %}Page {{ num }}{% endblocktrans %}"
+                       class="px-3 py-2 border border-primary-200 text-primary-600 hover:bg-primary-50{% if page_obj.number == num %} bg-primary-100 font-extrabold{% else %} bg-white{% endif %}"
+                       {% if page_obj.number == num %}aria-current="page"{% endif %}>
+                        {{ num }}
+                    </a>
+                </li>
+            {% endif %}
         {% endfor %}
 
+        {# Next #}
         {% if page_obj.has_next %}
             <li>
                 <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">{% trans "Next" %} &rsaquo;</a>
@@ -45,6 +126,7 @@ Usage:
             </li>
         {% endif %}
 
+        {# Last #}
         {% if page_obj.number != page_obj.paginator.num_pages %}
             <li>
                 <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 rounded-r-md border border-primary-200 bg-white text-primary-600 hover:bg-primary-50">{% trans "Last" %} &raquo;</a>

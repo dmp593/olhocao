@@ -188,7 +188,7 @@ class ContactRequestListView(ListView):
     model = ContactRequest
     context_object_name = 'contacts_requests'
     template_name = 'backoffice/contactrequest_list.html'
-    paginate_by = 1
+    paginate_by = 10
 
 
 class ContactRequestMarkReadView(View):
