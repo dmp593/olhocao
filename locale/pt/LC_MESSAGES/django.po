@@ -837,7 +837,7 @@ msgid ""
 "appointment in advance so we can ensure staff availability."
 msgstr ""
 "Visitas às instalações e aulas são apenas com marcação. Por favor, solicite uma "
-"marcação com antecedência para podermos garantir a disponibilidade da equipe."
+"marcação com antecedência para podermos garantir a disponibilidade da equipa."
 
 #: frontoffice/templates/frontoffice/contact_us.html:109
 msgid "Please include your country code"
@@ -1811,7 +1811,7 @@ msgstr "Pedidos Especiais"
 
 #: hotel/templates/hotel/booking_review.html:211
 msgid "Any special instructions for our team?"
-msgstr "Algumas instruções especiais para a nossa equipe?"
+msgstr "Algumas instruções especiais para a nossa equipa?"
 
 #: hotel/templates/hotel/booking_review.html:219
 msgid "I agree to the"
