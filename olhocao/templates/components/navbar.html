@@ -25,15 +25,15 @@
                         <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
                     </span>
                 </a>
-                <a href="{% url 'frontoffice:contact_us' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
-                    <span class="relative">
-                        {% trans "Contact" %}
-                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
-                    </span>
-                </a>
                 <a href="{% url 'frontoffice:pricing' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
                     <span class="relative">
                         {% trans "Pricing" %}
+                        <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
+                    </span>
+                </a>
+                <a href="{% url 'frontoffice:contact_us' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
+                    <span class="relative">
+                        {% trans "Contact" %}
                         <span class="absolute bottom-0 left-0 w-0 h-1 bg-accent-500 group-hover:w-full transition-all duration-300"></span>
                     </span>
                 </a>
@@ -150,16 +150,16 @@
                     {% trans "Services" %}
                 </span>
             </a>
-            <a href="{% url 'frontoffice:contact_us' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
-                <span class="flex items-center">
-                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
-                    {% trans "Contact" %}
-                </span>
-            </a>
             <a href="{% url 'frontoffice:pricing' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
                 <span class="flex items-center">
                     {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
                     {% trans "Pricing" %}
+                </span>
+            </a>
+            <a href="{% url 'frontoffice:contact_us' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
+                <span class="flex items-center">
+                    {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
+                    {% trans "Contact" %}
                 </span>
             </a>
             <a href="{% url 'frontoffice:about_us' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
