@@ -9,11 +9,12 @@
         {% elif booking.is_upcoming %}border-primary-500
         {% else %}border-primary-300{% endif %}">
     <div class="p-6">
-        
         <div class="flex justify-between items-start mb-4">
             <div>
                 <h3 class="text-xl font-bold text-primary-800">
-                    {{ booking.all_pets }}
+                    <a href="{% url 'hotel:booking_detail' booking.id %}" class="text-primary-600 hover:text-accent-500 transition-colors">
+                        #{{ booking.pk }} · {{ booking.all_pets }}
+                    </a>
                 </h3>
                 <p class="text-sm text-primary-600">
                     {{ booking.earliest_start_date|date:"M j" }} - {{ booking.latest_end_date|date:"M j, Y" }}
@@ -33,10 +34,25 @@
         </div>
 
         <div class="space-y-2 text-primary-700">
+            <div class="flex justify-between py-2">
+                <p class="font-medium">
+                    <a href="{% url 'backoffice:user_detail' booking.account.user.pk %}">{{ booking.account.user.get_full_name }}</a>
+                </p>
+                <div class="flex flex-col items-end">
+                    {% if booking.account.user.email %}
+                    <a href="mailto:{{ booking.account.user.email }}" class="text-sm">✉️ {{ booking.account.user.email }}</a>
+                    {% endif %}
+                    {% if booking.account.phone_number %}
+                    <a href="tel:{{ booking.account.phone_number }}" class="text-sm">📞 {{ booking.account.phone_number }}</a>
+                    {% endif %}
+                </div>
+            </div>
             {% for stay in booking.stays.all %}
             <div class="flex items-center justify-between py-2 border-b border-primary-100">
                 <div>
-                    <p class="font-medium">{{ stay.pet.name }}</p>
+                    <p class="font-medium">
+                        <a href="{% url 'pets:detail' stay.pet.pk %}">{{ stay.pet.name }}</a>
+                    </p>
                     <p class="text-sm">{{ stay.stay_name }}</p>
                 </div>
                 <p class="text-sm">{{ stay.duration_days }} {% trans "days" %}</p>

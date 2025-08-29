@@ -7,7 +7,7 @@
     <div class="container mx-auto px-4 relative z-10">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <h1 class="text-4xl font-bold text-primary-800 mb-4 md:mb-0">
-                {% trans "My Hotel Bookings" %}
+                {% if user.is_staff %}{% trans "All Hotel Bookings" %}{% else %}{% trans "My Hotel Bookings" %}{% endif %}
                 <span class="text-accent-500">🐾</span>
             </h1>
             
@@ -54,29 +54,7 @@
 
         <!-- Pagination -->
         <div class="flex justify-center items-center mt-8">
-            <nav class="flex items-center space-x-2">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
-                        {% include "icons/chevron_double_left.html" with class="w-4 h-4" %}
-                    </a>
-                    <a href="?page={{ page_obj.previous_page_number }}&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
-                        {% include "icons/chevron_left.html" with class="w-4 h-4" %}
-                    </a>
-                {% endif %}
-
-                <span class="px-3 py-1 text-primary-700">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
-                        {% include "icons/chevron_right.html" with class="w-4 h-4" %}
-                    </a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}&status={{ status_filter }}" class="px-3 py-1 rounded-full text-primary-600 hover:bg-primary-100">
-                        {% include "icons/chevron_double_right.html" with class="w-4 h-4" %}
-                    </a>
-                {% endif %}
-            </nav>
+            {% include "components/pagination.html" with page_obj=page_obj %}
         </div>
         {% else %}
         <div class="bg-white rounded-xl shadow-md p-8 text-center">

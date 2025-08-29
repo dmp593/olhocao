@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 00:09+0000\n"
+"POT-Creation-Date: 2025-08-29 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,8 +148,8 @@ msgstr "Voltar à Página Inicial"
 #: accounts/templates/accounts/password_change_form.html:15
 #: accounts/templates/accounts/password_reset_confirm.html:12
 #: accounts/templates/accounts/password_reset_form.html:15
-#: olhocao/templates/components/navbar.html:121
-#: olhocao/templates/components/navbar.html:237
+#: olhocao/templates/components/navbar.html:125
+#: olhocao/templates/components/navbar.html:245
 msgid "Change Password"
 msgstr "Alterar Palavra-passe"
 
@@ -337,8 +337,8 @@ msgstr "Documento Legal"
 
 #: backoffice/models.py:64
 #: backoffice/templates/backoffice/legaldocument_list.html:7
-#: olhocao/templates/components/navbar.html:103
-#: olhocao/templates/components/navbar.html:219
+#: olhocao/templates/components/navbar.html:107
+#: olhocao/templates/components/navbar.html:227
 msgid "Legal Documents"
 msgstr "Documentos Legais"
 
@@ -442,12 +442,12 @@ msgstr "Notas de Reserva"
 
 #: backoffice/templates/backoffice/_stay_card.html:81
 #: olhocao/templates/components/navbar.html:26
-#: olhocao/templates/components/navbar.html:162
+#: olhocao/templates/components/navbar.html:166
 msgid "Services"
 msgstr "Serviços"
 
 #: backoffice/templates/backoffice/contactrequest_list.html:7
-#: olhocao/templates/components/navbar.html:215
+#: olhocao/templates/components/navbar.html:223
 msgid "Contact Requests"
 msgstr "Pedidos de Contacto"
 
@@ -616,7 +616,8 @@ msgid "Add New Document"
 msgstr "Adicionar Novo Documento"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:25
-#: backoffice/templates/backoffice/user_detail.html:56
+#: backoffice/templates/backoffice/user_detail.html:69
+#: backoffice/templates/backoffice/user_detail.html:90
 #: backoffice/templates/backoffice/users_list.html:48
 #: pets/templates/pets/pet_detail.html:53 pets/templates/pets/pet_list.html:35
 msgid "Edit"
@@ -660,29 +661,55 @@ msgstr "Criar"
 
 #: backoffice/templates/backoffice/user_detail.html:28
 msgid "Recent Bookings"
-msgstr "Rever Reserva"
+msgstr "Reservas Recentes"
 
-#: backoffice/templates/backoffice/user_detail.html:42
+#: backoffice/templates/backoffice/user_detail.html:39
 msgid "No recent bookings."
 msgstr "Sem reservas recentes."
 
-#: backoffice/templates/backoffice/user_detail.html:51
+#: backoffice/templates/backoffice/user_detail.html:45
+#: hotel/templates/hotel/booking_cancel_confirm.html:30
+#: hotel/templates/hotel/booking_detail.html:87
+#: hotel/templates/hotel/booking_modify.html:31
+#: olhocao/templates/components/navbar.html:92
+#: olhocao/templates/components/navbar.html:212
+msgid "Pets"
+msgstr "Animais de Estimação"
+
+#: backoffice/templates/backoffice/user_detail.html:63
+#: pets/templates/pets/pet_list.html:29
+msgid "Deleted"
+msgstr "Eliminado"
+
+#: backoffice/templates/backoffice/user_detail.html:68
+#: backoffice/templates/backoffice/users_list.html:47
+#: pets/templates/pets/pet_list.html:34
+msgid "View"
+msgstr "Ver"
+
+#: backoffice/templates/backoffice/user_detail.html:76
+#, fuzzy
+#| msgid "No users found."
+msgid "No pets found."
+msgstr "Nenhum utilizador encontrado."
+
+#: backoffice/templates/backoffice/user_detail.html:85
 msgid "Back to Users"
 msgstr "Voltar aos Utilizadores"
 
-#: backoffice/templates/backoffice/user_detail.html:63
+#: backoffice/templates/backoffice/user_detail.html:97
 #: backoffice/templates/backoffice/users_list.html:52
 #: olhocao/templates/components/navbar.html:19
-#: olhocao/templates/components/navbar.html:155
+#: olhocao/templates/components/navbar.html:159
 msgid "Book Hotel"
 msgstr "Reservar Hotel"
 
-#: backoffice/templates/backoffice/user_detail.html:73
+#: backoffice/templates/backoffice/user_detail.html:107
 #: backoffice/templates/backoffice/users_list.html:59
 msgid "Deactivate"
 msgstr "Desativar"
 
-#: backoffice/templates/backoffice/user_detail.html:78
+#: backoffice/templates/backoffice/user_detail.html:112
 #: backoffice/templates/backoffice/users_list.html:61
 msgid "Activate"
 msgstr "Ativar"
@@ -701,7 +728,7 @@ msgstr "Guardar"
 
 #: backoffice/templates/backoffice/users_list.html:14
 #: olhocao/templates/components/navbar.html:84
-#: olhocao/templates/components/navbar.html:200
+#: olhocao/templates/components/navbar.html:204
 msgid "Users"
 msgstr "Utilizadores"
 
@@ -726,65 +753,60 @@ msgstr "Telefone"
 msgid "VAT"
 msgstr "NIF"
 
-#: backoffice/templates/backoffice/users_list.html:47
-#: pets/templates/pets/pet_list.html:34
-msgid "View"
-msgstr "Ver"
-
 #: backoffice/templates/backoffice/users_list.html:70
 msgid "No users found."
 msgstr "Nenhum utilizador encontrado."
 
-#: backoffice/views.py:104 backoffice/views.py:125 backoffice/views.py:171
-#: backoffice/views.py:196 backoffice/views.py:406 backoffice/views.py:437
+#: backoffice/views.py:104 backoffice/views.py:125 backoffice/views.py:180
+#: backoffice/views.py:205 backoffice/views.py:415 backoffice/views.py:446
 msgid "Unauthorized"
 msgstr "Não autorizado"
 
-#: backoffice/views.py:183
+#: backoffice/views.py:192
 msgid "User created."
 msgstr "Utilizador criado."
 
-#: backoffice/views.py:299
+#: backoffice/views.py:308
 msgid "Legal document not found."
 msgstr "Documento legal não encontrado."
 
-#: backoffice/views.py:349
+#: backoffice/views.py:358
 msgid "Legal document created."
 msgstr "Documento legal criado."
 
-#: backoffice/views.py:351
+#: backoffice/views.py:360
 msgid "Legal document updated."
 msgstr "Documento legal atualizado."
 
-#: backoffice/views.py:370
+#: backoffice/views.py:379
 msgid "Legal Document deleted."
 msgstr "Documento legal eliminado."
 
-#: backoffice/views.py:394
+#: backoffice/views.py:403
 msgid "Marked as read."
 msgstr "Marcado como lido."
 
-#: backoffice/views.py:396
+#: backoffice/views.py:405
 msgid "No unread requests selected."
 msgstr "Nenhum pedido não lido selecionado."
 
-#: backoffice/views.py:398
+#: backoffice/views.py:407
 msgid "No requests selected."
 msgstr "Nenhum pedido selecionado."
 
-#: backoffice/views.py:412
+#: backoffice/views.py:421
 msgid "User not found"
 msgstr "Utilizador não encontrado"
 
-#: backoffice/views.py:419
+#: backoffice/views.py:428
 msgid "User deactivated"
 msgstr "Utilizador desativado"
 
-#: backoffice/views.py:421
+#: backoffice/views.py:430
 msgid "User activated"
 msgstr "Utilizador ativado"
 
-#: backoffice/views.py:445
+#: backoffice/views.py:454
 msgid "Booking will be created on behalf of selected user."
 msgstr "A reserva será criada em nome do utilizador selecionado."
 
@@ -1314,7 +1336,7 @@ msgstr "Junte-se à Nossa Matilha Feliz"
 
 #: frontoffice/templates/frontoffice/pricing.html:13
 #: olhocao/templates/components/navbar.html:32
-#: olhocao/templates/components/navbar.html:168
+#: olhocao/templates/components/navbar.html:172
 msgid "Pricing"
 msgstr "Preços"
 
@@ -1544,14 +1566,6 @@ msgstr ""
 msgid "Booking Summary"
 msgstr "Resumo da Reserva"
 
-#: hotel/templates/hotel/booking_cancel_confirm.html:30
-#: hotel/templates/hotel/booking_detail.html:87
-#: hotel/templates/hotel/booking_modify.html:31
-#: olhocao/templates/components/navbar.html:88
-#: olhocao/templates/components/navbar.html:204
-msgid "Pets"
-msgstr "Animais de Estimação"
-
 #: hotel/templates/hotel/booking_cancel_confirm.html:47
 #: hotel/templates/hotel/booking_detail.html:112
 #: hotel/templates/hotel/booking_modify.html:48
@@ -1629,9 +1643,9 @@ msgstr "Descarregar"
 
 #: hotel/templates/hotel/booking_detail.html:50
 #: hotel/templates/hotel/booking_detail.html:278
-#: hotel/templates/hotel/partials/booking_card.html:60
+#: hotel/templates/hotel/partials/booking_card.html:61
 msgid "Complete Payment"
-msgstr "Completar Pagamento"
+msgstr "Concluir Pagamento"
 
 #: hotel/templates/hotel/booking_detail.html:58
 #: hotel/templates/hotel/booking_modify.html:81
@@ -1701,7 +1715,13 @@ msgid "Payment Unavailable"
 msgstr "Pagamento Indisponível"
 
 #: hotel/templates/hotel/booking_list.html:10
-#: olhocao/templates/components/navbar.html:112
+#, fuzzy
+#| msgid "My Hotel Bookings"
+msgid "All Hotel Bookings"
+msgstr "Reservas de Hotel"
+
+#: hotel/templates/hotel/booking_list.html:10
+#: olhocao/templates/components/navbar.html:116
 msgid "My Hotel Bookings"
 msgstr "Reservas de Hotel"
 
@@ -1923,7 +1943,7 @@ msgid "Pricing Summary"
 msgstr "Resumo de Preços"
 
 #: hotel/templates/hotel/booking_review.html:173
-#: hotel/templates/hotel/partials/booking_card.html:42
+#: hotel/templates/hotel/partials/booking_card.html:43
 msgid "days"
 msgstr "dias"
 
@@ -2110,7 +2130,7 @@ msgstr "Ver na sua Reserva de Hotel"
 msgid "Create Another Booking"
 msgstr "Criar Outra Reserva"
 
-#: hotel/templates/hotel/partials/booking_card.html:65
+#: hotel/templates/hotel/partials/booking_card.html:66
 msgid "View Details"
 msgstr "Ver Detalhes"
 
@@ -2140,7 +2160,8 @@ msgid ""
 msgstr ""
 "Olá,\n"
 "\n"
-"Uma reserva foi criada para si. Por favor, complete o pagamento utilizando o link abaixo:\n"
+"Uma reserva foi criada para si. Por favor, complete o pagamento utilizando o "
+"link abaixo:\n"
 "%s\n"
 "\n"
 "Obrigado."
@@ -2153,25 +2174,25 @@ msgstr "O link de pagamento foi enviado ao cliente."
 msgid "Payment processing error. Please try again."
 msgstr "Erro ao processar o pagamento. Por favor, tente novamente."
 
-#: hotel/views.py:650
+#: hotel/views.py:656
 msgid "This booking can no longer be paid as the stay dates have passed"
 msgstr ""
 "Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
 
-#: hotel/views.py:660
+#: hotel/views.py:666
 msgid "This booking doesn't require payment"
 msgstr "Esta reserva não requer pagamento."
 
-#: hotel/views.py:857
+#: hotel/views.py:868
 msgid "Error creating payment session. Please try again later."
 msgstr ""
 "Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
 
-#: hotel/views.py:916
+#: hotel/views.py:927
 msgid "Booking dates updated successfully."
 msgstr "Datas da reserva atualizadas com sucesso."
 
-#: hotel/views.py:936
+#: hotel/views.py:947
 #, python-format, python-brace-format
 msgid ""
 "Only {refund_percentage}%% of the payment will be refunded due to processing "
@@ -2180,11 +2201,11 @@ msgstr ""
 "Apenas {refund_percentage}%% do pagamento será reembolsado devido a custos "
 "de processamento."
 
-#: hotel/views.py:955
+#: hotel/views.py:966
 msgid "This booking has already been cancelled."
 msgstr "Esta reserva já foi cancelada."
 
-#: hotel/views.py:963
+#: hotel/views.py:974
 msgid ""
 "You can only cancel up to 7 days before check-in and within 6 months of the "
 "original booking."
@@ -2192,29 +2213,29 @@ msgstr ""
 "Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
 "reserva original."
 
-#: hotel/views.py:996
+#: hotel/views.py:1007
 #, python-format, python-brace-format
 msgid "Booking cancelled and refunded ({refund_percentage}%% refund applied)"
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1064
+#: hotel/views.py:1075
 msgid "Refund failed or already processed. Please contact support."
 msgstr ""
 "Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
 "suporte."
 
-#: hotel/views.py:1073
+#: hotel/views.py:1084
 #, python-format, python-brace-format
 msgid "Booking cancelled and, if paid, {refund_percentage}%% refunded."
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1096
+#: hotel/views.py:1107
 msgid "No sales document available for this booking."
 msgstr "Nenhum documento de venda disponível para esta reserva."
 
-#: hotel/views.py:1114
+#: hotel/views.py:1125
 msgid "Could not retrieve PDF document. Please try again later."
 msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "
@@ -2273,52 +2294,59 @@ msgid "Close"
 msgstr "Fechar"
 
 #: olhocao/templates/components/navbar.html:38
-#: olhocao/templates/components/navbar.html:174
+#: olhocao/templates/components/navbar.html:178
 msgid "Contact"
 msgstr "Contacto"
 
 #: olhocao/templates/components/navbar.html:44
-#: olhocao/templates/components/navbar.html:180
+#: olhocao/templates/components/navbar.html:184
 msgid "About"
 msgstr "Sobre"
 
 #: olhocao/templates/components/navbar.html:80
-#: olhocao/templates/components/navbar.html:196
+#: olhocao/templates/components/navbar.html:200
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: olhocao/templates/components/navbar.html:99
+#: olhocao/templates/components/navbar.html:88
+#: olhocao/templates/components/navbar.html:208
+#, fuzzy
+#| msgid "Booking"
+msgid "Bookings"
+msgstr "Reserva"
+
+#: olhocao/templates/components/navbar.html:103
 msgid "Contacts Requests"
 msgstr "Pedidos de Contacto"
 
-#: olhocao/templates/components/navbar.html:108
+#: olhocao/templates/components/navbar.html:112
 #: pets/templates/pets/pet_list.html:10
 msgid "My Pets"
 msgstr "Animais de Estimação"
 
-#: olhocao/templates/components/navbar.html:117
-#: olhocao/templates/components/navbar.html:233
+#: olhocao/templates/components/navbar.html:121
+#: olhocao/templates/components/navbar.html:241
 msgid "Manage Account"
 msgstr "Gerir Conta"
 
-#: olhocao/templates/components/navbar.html:127
-#: olhocao/templates/components/navbar.html:241
+#: olhocao/templates/components/navbar.html:131
+#: olhocao/templates/components/navbar.html:249
 msgid "Logout"
 msgstr "Sair"
 
-#: olhocao/templates/components/navbar.html:189
+#: olhocao/templates/components/navbar.html:193
 msgid "My Account"
 msgstr "A Minha Conta"
 
-#: olhocao/templates/components/navbar.html:224
+#: olhocao/templates/components/navbar.html:232
 msgid "Manage Pets"
 msgstr "Gerir Animais de Estimação"
 
-#: olhocao/templates/components/navbar.html:228
+#: olhocao/templates/components/navbar.html:236
 msgid "View Hotel Bookings"
 msgstr "Ver Reservas de Hotel"
 
-#: olhocao/templates/components/navbar.html:256
+#: olhocao/templates/components/navbar.html:264
 msgid "Switch Language"
 msgstr "Mudar Idioma"
 
@@ -2596,10 +2624,6 @@ msgstr "Remover foto"
 #: pets/templates/pets/pet_form.html:74 pets/templates/pets/pet_list.html:62
 msgid "Add Pet"
 msgstr "Adicionar Animal de Estimação"
-
-#: pets/templates/pets/pet_list.html:29
-msgid "Deleted"
-msgstr "Eliminado"
 
 #: pets/templates/pets/pet_list.html:39
 msgid "Restore"

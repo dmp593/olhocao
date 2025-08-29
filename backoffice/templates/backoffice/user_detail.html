@@ -6,7 +6,7 @@
 <section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white animate__animated animate__fadeIn">
   <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
   <div class="container mx-auto px-4 relative z-10">
-    <div class="max-w-4xl mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
+    <div class="max-w-7xl mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
       <div class="bg-primary-700 px-6 py-8 text-center">
         <h1 class="text-3xl font-bold text-white mb-0">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
@@ -24,17 +24,14 @@
         </p>
       </div>
 
-      <div class="p-6">
-        <h2 class="text-xl font-semibold mb-2">{% trans "Recent Bookings" %}</h2>
+      <div class="px-6 py-8">
+        <h2 class="text-xl font-semibold mb-4">{% trans "Recent Bookings" %}</h2>
         {% if bookings %}
-          <ul class="divide-y divide-primary-100">
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {% for b in bookings %}
-            <li class="py-2 flex justify-between">
-              <a href="{% url 'hotel:booking_detail' b.pk %}" class="hover:underline">#{{ b.pk }} — {{ b.earliest_start_date }} → {{ b.latest_end_date }}</a>
-              <span class="text-primary-700">{{ b.total_price_eur|divide:100|floatformat:2 }} €</span>
-            </li>
+              {% include "hotel/partials/booking_card.html" with booking=b current_date=current_date %}
             {% endfor %}
-          </ul>
+          </div>
           <div class="mt-6">
             {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
           </div>
@@ -43,8 +40,45 @@
         {% endif %}
       </div>
 
+      <!-- User Pets -->
+      <div class="px-6 py-8">
+        <h2 class="text-xl font-semibold mb-4">{% trans "Pets" %}</h2>
+        {% if user_pets %}
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {% for pet in user_pets %}
+            <div class="bg-primary-50 border border-primary-100 rounded-2xl shadow hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+              {% if pet.photo %}
+                <div class="relative h-40 overflow-hidden">
+                  <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                </div>
+              {% else %}
+                <div class="h-40 bg-primary-100 flex items-center justify-center">
+                  <span class="text-primary-400">{% include "icons/paw.html" with class="w-12 h-12" %}</span>
+                </div>
+              {% endif %}
+              <div class="p-4">
+                <h3 class="font-bold text-lg text-primary-800 mb-1">
+                  {{ pet.name }}
+                  {% if pet.deleted_at %}
+                    <span class="ml-2 inline-block px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-700">{% trans "Deleted" %}</span>
+                  {% endif %}
+                </h3>
+                <p class="text-primary-600 mb-3">{{ pet.get_species_display }}{% if pet.breed %} • {{ pet.breed }}{% endif %}</p>
+                <div class="flex flex-wrap gap-2 justify-end">
+                  <a href="{% url 'pets:detail' pet.pk %}" class="px-3 py-2 text-xs rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200">{% trans "View" %}</a>
+                  <a href="{% url 'pets:update' pet.pk %}" class="px-3 py-2 text-xs rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200">{% trans "Edit" %}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-primary-600">{% trans "No pets found." %}</p>
+        {% endif %}
+      </div>
+
       <!-- Action bar (responsive) -->
-      <div class="px-6 pb-8">
+      <div class="px-6 py-8">
         <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <a href="{% url 'backoffice:users_list' %}"
              class="w-full md:w-auto text-center px-6 py-3 rounded-full text-base md:text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors">

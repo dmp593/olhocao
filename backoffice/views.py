@@ -14,7 +14,9 @@ from django.utils import timezone
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect, render
-
+from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
+from django.views.generic.edit import FormView
 from django.views import View
 
 from hotel.models import BookingStay, BookingStatus
@@ -22,16 +24,14 @@ from hotel import models as hotel_models
 
 from .models import LegalDocument
 
-from frontoffice.models import ContactRequest
-
 from .forms import (
     LegalDocumentForm,
     create_section_formset,
     create_lineitem_formset,
 )
-from django.contrib.auth import get_user_model
-from django.core.paginator import Paginator
-from django.views.generic.edit import FormView
+
+from pets.models import Pet
+from frontoffice.models import ContactRequest
 
 
 class DashboardView(TemplateView):
@@ -145,9 +145,16 @@ class UserDetailView(DetailView):
             .prefetch_related('stays')
             .order_by('-created_at')
         )
+
         paginator = Paginator(bookings_qs, 10)
         page_number = self.request.GET.get('page')
         bookings_page = paginator.get_page(page_number)
+
+        # Fetch user's pets (no pagination needed)
+        user_pets = (
+            Pet.objects.filter(owner__user=user)
+            .order_by('name')
+        )
 
         context.update({
             'account': getattr(user, 'account', None),
@@ -156,6 +163,8 @@ class UserDetailView(DetailView):
             'page_obj': bookings_page,
             'paginator': paginator,
             'is_paginated': bookings_page.has_other_pages(),
+            'user_pets': user_pets,
+            'current_date': timezone.now().date(),
         })
         return context
 

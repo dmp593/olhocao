@@ -42,11 +42,13 @@ def get_acting_account(request: HttpRequest) -> Account:
     includes 'acting_user_id'. Use that user's account; otherwise, use the
     current user's account.
     """
-    if getattr(request.user, "is_staff", False):
+    if not request.user.is_staff:
         acting_id = request.session.get("acting_user_id")
+
         if acting_id:
             account, _ = Account.objects.get_or_create(user_id=acting_id)
             return account
+
     return request.user.account
 
 
@@ -534,10 +536,16 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
 
 class BookingPaymentVerifyView(LoginRequiredMixin, View):
     def get(self, request, booking_id):
+        where = {
+            'id': booking_id
+        }
+
+        if not request.user.is_staff:
+            where['account'] = request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=booking_id,
-            account=request.user.account
+            **where
         )
 
         session_id = request.GET.get(
@@ -636,7 +644,7 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
         booking = get_object_or_404(
             models.Booking,
             id=kwargs['booking_id'],
-            account=request.user.account
+            account=get_acting_account(request)
         )
 
         # Check if any stay is in the past
@@ -670,7 +678,7 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
         booking = get_object_or_404(
             models.Booking,
             id=kwargs['booking_id'],
-            account=self.request.user.account,
+            account=get_acting_account(self.request),
             status=models.BookingStatus.PENDING
         )
 
@@ -728,7 +736,7 @@ class BookingSuccessView(LoginRequiredMixin, TemplateView):
         booking = get_object_or_404(
             models.Booking,
             id=kwargs.get('booking_id'),
-            account=self.request.user.account,
+            account=get_acting_account(self.request),
             status=models.BookingStatus.PAID,
             paid_at__isnull=False
         )
@@ -753,10 +761,15 @@ class HotelBookingListView(LoginRequiredMixin, TemplateView):
         # Get filter from query params
         status_filter = self.request.GET.get('status', 'all')
 
-        # Base queryset
-        bookings = models.Booking.objects.filter(
-            account=self.request.user.account
-        ).prefetch_related('stays').order_by('-created_at')
+        # Base queryset: staff sees all bookings, users see their own
+        if not self.request.user.is_staff:
+            bookings = models.Booking.objects.all()
+        else:
+            bookings = models.Booking.objects.filter(
+                account=self.request.user.account
+            )
+
+        bookings = bookings.prefetch_related('stays').order_by('-created_at')
 
         # Apply filters
         if status_filter != 'all':
@@ -788,6 +801,7 @@ class HotelBookingListView(LoginRequiredMixin, TemplateView):
 
         context.update({
             'page_obj': page_obj,
+            'is_paginated': page_obj.has_other_pages(),
             'status_filter': status_filter,
             'current_date': now,
         })
@@ -802,15 +816,15 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         qs = super().get_queryset()
 
-        if not self.request.user or not self.request.user.is_staff:
+        if not self.request.user.is_staff:
             return qs.filter(account__user=self.request.user)
 
         return qs
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         booking = self.object
-        
+
         # Add payment URL if booking is pending
         if booking.status == models.BookingStatus.PENDING:
             try:
@@ -871,8 +885,9 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
         booking = get_object_or_404(
             models.Booking,
             id=self.kwargs['booking_id'],
-            account=self.request.user.account
+            account=get_acting_account(self.request)
         )
+
         return {
             'start_date': booking.earliest_start_date,
         }
@@ -882,7 +897,7 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
         booking = get_object_or_404(
             models.Booking,
             id=self.kwargs['booking_id'],
-            account=self.request.user.account
+            account=get_acting_account(self.request)
         )
         context['booking'] = booking
         return context
@@ -892,7 +907,7 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
         booking = get_object_or_404(
             models.Booking,
             id=self.kwargs['booking_id'],
-            account=self.request.user.account
+            account=get_acting_account(self.request)
         )
         kwargs['original_start'] = booking.earliest_start_date
         kwargs['original_end'] = booking.latest_end_date
@@ -902,7 +917,7 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
         booking = get_object_or_404(
             models.Booking,
             id=self.kwargs['booking_id'],
-            account=self.request.user.account
+            account=get_acting_account(self.request)
         )
 
         start_date = form.cleaned_data.get('start_date')
@@ -927,7 +942,7 @@ class HotelBookingCancelConfirmView(LoginRequiredMixin, TemplateView):
         booking = get_object_or_404(
             models.Booking,
             id=booking_id,
-            account=self.request.user.account,
+            account=get_acting_account(self.request),
         )
         context["booking"] = booking
 
