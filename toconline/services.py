@@ -1,12 +1,16 @@
 from base64 import b64encode
 from datetime import datetime, timezone
 from django.conf import settings
+from django.db.models.functions import Coalesce
 
 import requests
 
 
 from .resources import TocOnlineResource
 from .models import TocOnlineToken
+
+
+toconline_token_order_by = Coalesce('refreshed_at', 'acquired_at').desc()
 
 
 class TocOnlineCredentials:
@@ -131,7 +135,9 @@ class TocOnline:
         token.save()
 
     def get_token(self):
-        token = TocOnlineToken.objects.first()
+        token = TocOnlineToken.objects.order_by(
+            toconline_token_order_by
+        ).first()
 
         if not token:
             token = TocOnlineToken(
