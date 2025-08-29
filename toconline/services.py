@@ -1,16 +1,25 @@
 from base64 import b64encode
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from django.conf import settings
-from django.db.models.functions import Coalesce
+
+from django.db.models import (
+    F,
+    Value,
+    DateTimeField,
+    DurationField,
+    ExpressionWrapper
+)
+
+from django.db.models.functions import (
+    Coalesce,
+    Now
+)
 
 import requests
 
 
 from .resources import TocOnlineResource
 from .models import TocOnlineToken
-
-
-toconline_token_order_by = Coalesce('refreshed_at', 'acquired_at').desc()
 
 
 class TocOnlineCredentials:
@@ -134,10 +143,34 @@ class TocOnline:
 
         token.save()
 
+    def get_token_queryset(self):
+        # Find the latest non-expired token (with a small safety skew)
+        skew = timedelta(seconds=30)
+
+        # Define a 1 second timedelta for use in ttl calculation
+        timedelta_1_sec = timedelta(seconds=1)
+
+        # Use Coalesce to handle null refreshed_at values
+        last_refreshed_at = Coalesce('refreshed_at', 'acquired_at')
+
+        return TocOnlineToken.objects.annotate(
+            last_refreshed_at=last_refreshed_at,
+            ttl=ExpressionWrapper(
+                Value(timedelta_1_sec) * F('expires_in'),
+                output_field=DurationField(),
+            ),
+            exp_at=ExpressionWrapper(
+                F('last_refreshed_at') + F('ttl'),
+                output_field=DateTimeField()
+            ),
+        ).filter(
+            exp_at__gt=Now() + skew
+        ).order_by(
+            last_refreshed_at.desc()
+        )
+
     def get_token(self):
-        token = TocOnlineToken.objects.order_by(
-            toconline_token_order_by
-        ).first()
+        token = self.get_token_queryset().first()
 
         if not token:
             token = TocOnlineToken(
