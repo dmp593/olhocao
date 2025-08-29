@@ -1,11 +1,12 @@
 from base64 import b64encode
-from datetime import datetime, timedelta
-from enum import StrEnum
+from datetime import datetime, timezone
 from django.conf import settings
 
 import requests
 
-from django.http.request import HttpRequest
+
+from .resources import TocOnlineResource
+from .models import TocOnlineToken
 
 
 class TocOnlineCredentials:
@@ -33,54 +34,17 @@ class TocOnlineCredentials:
         return b64encode(crendentials).decode('utf-8')
 
 
-class TocOnlineToken:
-    access_token: str
-    refresh_token: str
-
-    acquired_at: datetime
-    expires_at: datetime
-
-    token_type: str
-
-    def __init__(
-        self,
-        access_token: str,
-        refresh_token: str,
-        expires_in: int,
-        token_type: str
-    ):
-        self.access_token = access_token
-        self.refresh_token = refresh_token
-
-        self.acquired_at = datetime.now()
-        self.expires_at = self.acquired_at + timedelta(seconds=expires_in)
-
-        self.token_type = token_type
-
-
-class TocOnlineResource(StrEnum):
-    CUSTOMERS = 'customers'
-    PRODUCTS = 'products'
-    SERVICES = 'services'
-    COMERCIAL_SALES_DOCUMENTS = 'v1/commercial_sales_documents'
-    ITEM_FAMILY = 'item_families'
-    UNIT_OF_MEASURE = 'units_of_measure'
-
-
 class TocOnline:
     base_url: str
     credentials: TocOnlineCredentials
-    token: TocOnlineToken
 
     def __init__(
         self,
         base_url: str,
-        credentials: TocOnlineCredentials,
-        token: TocOnlineToken = None,
+        credentials: TocOnlineCredentials
     ):
         self.base_url = base_url
         self.credentials = credentials
-        self.token = token
 
     @property
     def default_headers(self) -> dict:
@@ -88,8 +52,10 @@ class TocOnline:
             'Accept': 'application/json',
         }
 
-        if self.token:
-            headers['Authorization'] = f"Bearer {self.token.access_token}"
+        token = self.get_token()
+
+        if token:
+            headers['Authorization'] = f"Bearer {token.access_token}"
 
         return headers
 
@@ -126,7 +92,7 @@ class TocOnline:
 
         return response.json()
 
-    def _refresh_access_token(self):
+    def _refresh_access_token(self, refresh_token: str):
         response = requests.post(
             f"{self.base_url}/oauth/token",
             headers={
@@ -135,7 +101,7 @@ class TocOnline:
                 'Authorization': f'Basic {self.credentials.b64}'
             },
             data={
-                'refresh_token': self.token.refresh_token,
+                'refresh_token': refresh_token,
                 'grant_type': 'refresh_token',
                 'scope': 'commercial',
             },
@@ -144,44 +110,52 @@ class TocOnline:
 
         return response.json()
 
-    def authenticate(self):
-        authorization_code = self._get_authorization_code()
+    def refresh_token(self, token):
+        new_token = self._refresh_access_token(token.refresh_token)
 
-        self.token = TocOnlineToken(
-           **self._get_access_token(authorization_code)
+        token.access_token = new_token.get(
+            'access_token', token.access_token
         )
 
-    def refresh(self):
-        if not self.token:
-            raise ValueError("Token is not set. Please authenticate first.")
-
-        token = self._refresh_access_token()
-
-        self.token = TocOnlineToken(
-            access_token=token['access_token'],
-            refresh_token=token.get('refresh_token', self.token.refresh_token),
-            expires_in=token['expires_in'],
-            token_type=token['token_type'],
+        token.refresh_token = new_token.get(
+            'refresh_token', token.refresh_token
         )
 
-    def ensure_authenticated(self, raise_exception: bool = True):
-        if not self.token:
-            self.authenticate()
+        token.expires_in = new_token.get(
+            'expires_in', token.expires_in
+        )
+        token.token_type = new_token.get(
+            'token_type', token.token_type
+        )
 
-        if not self.token:
-            if raise_exception:
-                raise RuntimeError("Can't authenticate.")
-            return False
+        token.save()
 
-        if self.token.expires_at <= datetime.now():
-            self.refresh()
+    def get_token(self):
+        token = TocOnlineToken.objects.order_by('-acquired_at').first()
 
-        if self.token.expires_at <= datetime.now():
-            if raise_exception:
-                raise RuntimeError("Can't re-authenticate.")
-            return False
+        if not token:
+            token = TocOnlineToken(
+                **self._get_access_token(
+                    self._get_authorization_code()
+                )
+            )
 
-        return True
+            if not token:
+                # something went wrong on TocOnline API...
+                # could not obtain a token
+                return None
+
+            token.save()
+
+        if token.is_expired:
+            self.refresh_token(token)
+
+        if token.expires_at <= datetime.now(timezone.utc):
+            # something went wrong on TocOnline API...
+            # could not refresh the token
+            return None
+
+        return token
 
     def list(
         self,
@@ -189,8 +163,6 @@ class TocOnline:
         limit: str | int | None = None,
         **kwargs
     ):
-        self.ensure_authenticated()
-
         params = {}
 
         if kwargs:
@@ -225,8 +197,6 @@ class TocOnline:
         resource: TocOnlineResource | str,
         pk: str
     ):
-        self.ensure_authenticated()
-
         response = requests.get(
             f"{self.base_url}/api/{resource}/{pk}",
             headers=self.default_headers,
@@ -243,13 +213,9 @@ class TocOnline:
         resource: TocOnlineResource | str,
         **kwargs
     ):
-        self.ensure_authenticated()
-
         response = requests.post(
             f"{self.base_url}/api/{resource}",
-            
             headers=self.default_headers,
-
             json={
                 "data": {
                     "attributes": kwargs,
@@ -273,8 +239,6 @@ class TocOnline:
         pk: str,
         **kwargs
     ):
-        self.ensure_authenticated()
-
         response = requests.patch(
             f"{self.base_url}/api/{resource}",
             headers=self.default_headers,
@@ -298,8 +262,6 @@ class TocOnline:
         resource: TocOnlineResource | str,
         pk: str
     ):
-        self.ensure_authenticated()
-
         response = requests.delete(
             f"{self.base_url}/api/{resource}/{pk}",
             headers=self.default_headers,
@@ -309,13 +271,13 @@ class TocOnline:
         response.raise_for_status()
 
     def get_sales_document_pdf(self, document_id: str):
-        self.ensure_authenticated()
+        token = self.get_token()
 
         response = requests.get(
             f"{self.base_url}/api/url_for_print/{document_id}",
             headers={
                 'Accept': '*/*',
-                'Authorization': f"Bearer {self.token.access_token}",
+                'Authorization': f"Bearer {token.access_token}",
             },
             params={
                 'filter[type]': 'Document',
@@ -336,12 +298,11 @@ class TocOnline:
         return response.content
 
 
-def get_toconline():
-    return TocOnline(
-        base_url=settings.TOCONLINE_BASE_URL,
-        credentials=TocOnlineCredentials(
-            client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
-            client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
-            redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
-        )
+toconline = TocOnline(
+    base_url=settings.TOCONLINE_BASE_URL,
+    credentials=TocOnlineCredentials(
+        client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
+        client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
+        redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
     )
+)

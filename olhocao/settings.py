@@ -105,6 +105,7 @@ INSTALLED_APPS = [
     'djstripe',
 
     # local apps
+    'toconline',
     'accounts',
     'pets',
     'hotel',

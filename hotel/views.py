@@ -36,7 +36,7 @@ from djstripe.models.checkout import (
     Session as StripeCheckoutSession
 )
 
-from olhocao.toconline import get_toconline, TocOnlineResource
+from toconline.services import toconline, TocOnlineResource
 from pets.models import Pet
 from accounts.models import Account
 
@@ -637,7 +637,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                             ),
                         })
 
-                toconline_sales_document = get_toconline().create(
+                toconline_sales_document = toconline.create(
                     TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
                     **sale_document
                 )
@@ -1052,8 +1052,6 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
-        toconline = get_toconline()
-
         sale_document = toconline.get(
             TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
             booking.toconline_sale_document_id
@@ -1192,8 +1190,6 @@ def download_sales_document_pdf(request, booking_id):
         return redirect('hotel:booking_detail', pk=booking.id)
 
     try:
-        toconline = get_toconline()
-
         return HttpResponse(
             toconline.get_sales_document_pdf(sales_document_id),
             content_type='application/pdf'

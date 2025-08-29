@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
 
 from backoffice.models import LegalDocument
-from olhocao.toconline import get_toconline, TocOnlineResource
+from toconline.services import toconline, TocOnlineResource
 
 
 from . import forms
@@ -94,8 +94,6 @@ class PricingView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        toconline = get_toconline()
 
         toc_families = toconline.list(TocOnlineResource.ITEM_FAMILY)
 
