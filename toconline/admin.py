@@ -6,4 +6,5 @@ from .models import TocOnlineToken
 
 @admin.register(TocOnlineToken)
 class TocOnlineTokenAdmin(admin.ModelAdmin):
-    list_display = ("token_type", "acquired_at", "expires_in")
+    list_display = ("token_type", "acquired_at", "refreshed_at", "expires_in")
+    readonly_fields = ("token_type", "acquired_at", "refreshed_at")
