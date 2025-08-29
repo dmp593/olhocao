@@ -3,12 +3,9 @@ from datetime import datetime, timedelta
 from enum import StrEnum
 from django.conf import settings
 
-from cachetools import cached, TTLCache
 import requests
 
-
-cache_list = TTLCache(maxsize=1024, ttl=90)
-cache_get = TTLCache(maxsize=1024, ttl=90)
+from django.http.request import HttpRequest
 
 
 class TocOnlineCredentials:
@@ -79,10 +76,11 @@ class TocOnline:
         self,
         base_url: str,
         credentials: TocOnlineCredentials,
+        token: TocOnlineToken = None
     ):
         self.base_url = base_url
         self.credentials = credentials
-        self.token = None
+        self.token = token
 
     @property
     def default_headers(self) -> dict:
@@ -185,12 +183,6 @@ class TocOnline:
 
         return True
 
-    def clear_cached(self):
-        cache_list.clear()
-        cache_get.clear()
-
-    # cache data for no longer than five minutes
-    @cached(cache=cache_list)
     def list(
         self,
         resource: TocOnlineResource | str,
@@ -228,8 +220,6 @@ class TocOnline:
 
         return data[0]
 
-    # cache data for no longer than five minutes
-    @cached(cache=cache_get)
     def get(
         self,
         resource: TocOnlineResource | str,
@@ -273,7 +263,6 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        self.clear_cached()
 
         json_response = response.json()
         return json_response['data'] if 'data' in json_response else json_response
@@ -300,7 +289,6 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        self.clear_cached()
 
         json_response = response.json()
         return json_response['data'] if 'data' in json_response else json_response
@@ -319,9 +307,7 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        self.clear_cached()
 
-    @cached(cache=cache_get)
     def get_sales_document_pdf(self, document_id: str):
         self.ensure_authenticated()
 
@@ -350,12 +336,19 @@ class TocOnline:
         return response.content
 
 
-def get_toconline():
+def get_toconline(request: HttpRequest = None):
+    toconline_token = None
+
+    if request:
+        toconline_token = request.session.get('toconline_token', None)
+        print("DEBUG: Token re-used from session")
+
     return TocOnline(
         base_url=settings.TOCONLINE_BASE_URL,
         credentials=TocOnlineCredentials(
             client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
             client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
             redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
-        )
+        ),
+        token=toconline_token
     )

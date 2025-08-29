@@ -29,7 +29,7 @@ def signup_view(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            get_toconline().authenticate()
+            get_toconline(request).authenticate()
             user = form.save()
             Account(user=user).save()
             login(request, user)
@@ -52,11 +52,13 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
         user = self.get_object()
         data = super().get_initial()
 
-        if hasattr(user, 'account') and user.account.has_toconline_customer:
-            toconline_customer = user.account.toconline_customer
+        if hasattr(user, 'account'):
+            if user.account and user.account.has_toconline_customer:
+                toconline_customer = user.account.toconline_customer
+                customer_attrs = toconline_customer.get('attributes', {})
 
-            data['vat'] = toconline_customer['attributes']['tax_registration_number']
-            data['phone'] = toconline_customer['attributes']['mobile_number']
+                data['vat'] = customer_attrs.get('tax_registration_number')
+                data['phone'] = customer_attrs.get('mobile_number')
 
         return data
 
@@ -64,7 +66,7 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
         self.object = form.save()
         toconline_customer = None
 
-        toconline = get_toconline()
+        toconline = get_toconline(self.request)
 
         if not self.object.account.has_toconline_customer:
             toconline_customer = toconline.first(

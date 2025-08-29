@@ -46,7 +46,7 @@ def get_acting_account(request: HttpRequest) -> Account:
     # only staff members can book an hotel in behalf of a customer
     if request.user.is_staff and request.session.has_key("acting_user_id"):
         acting_user_id = request.session.get("acting_user_id")
-        account, _ = Account.objects.get(user_id=acting_user_id)
+        account, _ = Account.objects.get_or_create(user_id=acting_user_id)
         return account
 
     return request.user.account
@@ -626,7 +626,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                             ),
                         })
 
-                toconline_sales_document = get_toconline().create(
+                toconline_sales_document = get_toconline(request).create(
                     TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
                     **sale_document
                 )
@@ -1043,7 +1043,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
-        toconline = get_toconline()
+        toconline = get_toconline(request)
 
         sale_document = toconline.get(
             TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
@@ -1183,7 +1183,7 @@ def download_sales_document_pdf(request, booking_id):
         return redirect('hotel:booking_detail', pk=booking.id)
 
     try:
-        toconline = get_toconline()
+        toconline = get_toconline(request)
 
         return HttpResponse(
             toconline.get_sales_document_pdf(sales_document_id),
