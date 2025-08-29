@@ -143,34 +143,36 @@ class TocOnline:
 
         token.save()
 
-    def get_token_queryset(self):
-        # Find the latest non-expired token (with a small safety skew)
-        skew = timedelta(seconds=30)
+    # def get_token_queryset(self):
+    #     # Find the latest non-expired token (with a small safety skew)
+    #     skew = timedelta(seconds=30)
 
-        # Define a 1 second timedelta for use in ttl calculation
-        timedelta_1_sec = timedelta(seconds=1)
+    #     # Define a 1 second timedelta for use in ttl calculation
+    #     timedelta_1_sec = timedelta(seconds=1)
 
-        # Use Coalesce to handle null refreshed_at values
-        last_refreshed_at = Coalesce('refreshed_at', 'acquired_at')
+    #     # Use Coalesce to handle null refreshed_at values
+    #     last_refreshed_at = Coalesce('refreshed_at', 'acquired_at')
 
-        return TocOnlineToken.objects.annotate(
-            last_refreshed_at=last_refreshed_at,
-            ttl=ExpressionWrapper(
-                Value(timedelta_1_sec) * F('expires_in'),
-                output_field=DurationField(),
-            ),
-            exp_at=ExpressionWrapper(
-                F('last_refreshed_at') + F('ttl'),
-                output_field=DateTimeField()
-            ),
-        ).filter(
-            exp_at__gt=Now() + skew
-        ).order_by(
-            last_refreshed_at.desc()
-        )
+    #     return TocOnlineToken.objects.annotate(
+    #         last_refreshed_at=last_refreshed_at,
+    #         ttl=ExpressionWrapper(
+    #             Value(timedelta_1_sec) * F('expires_in'),
+    #             output_field=DurationField(),
+    #         ),
+    #         exp_at=ExpressionWrapper(
+    #             F('last_refreshed_at') + F('ttl'),
+    #             output_field=DateTimeField()
+    #         ),
+    #     ).filter(
+    #         exp_at__gt=Now() + skew
+    #     ).order_by(
+    #         last_refreshed_at.desc()
+    #     )
 
     def get_token(self):
-        token = self.get_token_queryset().first()
+        token = TocOnlineToken.objects.order_by(
+            Coalesce('refreshed_at', 'acquired_at').desc()
+        ).first()
 
         if not token:
             token = TocOnlineToken(
@@ -180,8 +182,7 @@ class TocOnline:
             )
 
             if not token:
-                # something went wrong on TocOnline API...
-                # could not obtain a token
+                # something went wrong on TocOnline API, cant obtain a token
                 return None
 
             token.save()
@@ -189,10 +190,20 @@ class TocOnline:
         if token.is_expired:
             self.refresh_token(token)
 
-        if token.expires_at <= datetime.now(timezone.utc):
-            # something went wrong on TocOnline API...
-            # could not refresh the token
-            return None
+        if token.is_expired:
+            # something went wrong on TocOnline API, cant refresh the token
+            # or just token is too old, trying to get a new token
+            token = TocOnlineToken(
+                **self._get_access_token(
+                    self._get_authorization_code()
+                )
+            )
+
+            if not token:
+                # something went wrong on TocOnline API, cant obtain a token
+                return None
+
+            token.save()
 
         return token
 
