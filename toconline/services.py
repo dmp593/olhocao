@@ -131,7 +131,7 @@ class TocOnline:
         token.save()
 
     def get_token(self):
-        token = TocOnlineToken.objects.order_by('-acquired_at').first()
+        token = TocOnlineToken.objects.first()
 
         if not token:
             token = TocOnlineToken(

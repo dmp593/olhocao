@@ -24,3 +24,9 @@ class TocOnlineToken(models.Model):
     @property
     def is_expired(self) -> bool:
         return self.expires_at < now()
+
+    class Meta:
+        ordering = [
+            '-refreshed_at',
+            '-acquired_at'
+        ]
