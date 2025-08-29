@@ -42,12 +42,12 @@ def get_acting_account(request: HttpRequest) -> Account:
     includes 'acting_user_id'. Use that user's account; otherwise, use the
     current user's account.
     """
-    if not request.user.is_staff:
-        acting_id = request.session.get("acting_user_id")
 
-        if acting_id:
-            account, _ = Account.objects.get_or_create(user_id=acting_id)
-            return account
+    # only staff members can book an hotel in behalf of a customer
+    if request.user.is_staff and request.session.has_key("acting_user_id"):
+        acting_user_id = request.session.get("acting_user_id")
+        account, _ = Account.objects.get(user_id=acting_user_id)
+        return account
 
     return request.user.account
 
@@ -124,7 +124,10 @@ def create_checkout_session(
         allow_promotion_codes=True,  # Enable coupon codes
         success_url=success_url,
         cancel_url=cancel_url,
-        customer_email=(customer_email or request.user.email),
+        customer_email=(
+            customer_email or
+            get_acting_account(request).user.email
+        ),
         metadata={
             'booking_id': str(booking.id),
             'account_id': str(booking.account.id),
@@ -296,7 +299,9 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
         duration = (end_date - start_date).days
 
         # Get selected stay
-        stay = StripeProduct.objects.get(id=booking_data["stay_id"])
+        stay = StripeProduct.objects.get(
+            id=booking_data["stay_id"]
+        )
 
         # Get selected pets
         pets = Pet.objects.filter(
@@ -397,7 +402,7 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
         # Calculate total amount
         stay = StripeProduct.objects.get(id=booking_data["stay_id"])
         stay_price = stay.default_price.unit_amount
-        
+
         duration = (
             timezone.datetime.fromisoformat(booking_data["end_date"]).date()
             - timezone.datetime.fromisoformat(
@@ -641,10 +646,16 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
     template_name = "hotel/booking_retry.html"
 
     def dispatch(self, request, *args, **kwargs):
+        where = {
+            'id': kwargs['booking_id']
+        }
+
+        if not request.user.is_staff:
+            where['account'] = request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=kwargs['booking_id'],
-            account=get_acting_account(request)
+            **where
         )
 
         # Check if any stay is in the past
@@ -675,11 +686,17 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        where = {
+            'id': kwargs['booking_id'],
+            'status': models.BookingStatus.PENDING
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=kwargs['booking_id'],
-            account=get_acting_account(self.request),
-            status=models.BookingStatus.PENDING
+            **where
         )
 
         context['booking'] = booking
@@ -704,7 +721,7 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
                     return redirect(
                         'hotel:booking_success', booking_id=booking.id
                     )
-                
+
                 if session.status == 'open':
                     # Existing session is still valid
                     context['payment_url'] = session.url
@@ -720,7 +737,7 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
             booking.save()
 
             context['payment_url'] = checkout_session.url
-            
+
         except StripeError:
             pass
 
@@ -733,12 +750,18 @@ class BookingSuccessView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        where = {
+            'id': kwargs.get('booking_id'),
+            'status': models.BookingStatus.PAID,
+            'paid_at__isnull': False
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=kwargs.get('booking_id'),
-            account=get_acting_account(self.request),
-            status=models.BookingStatus.PAID,
-            paid_at__isnull=False
+            **where
         )
 
         context['booking'] = booking
@@ -812,7 +835,7 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
     model = models.Booking
     template_name = 'hotel/booking_detail.html'
     context_object_name = 'booking'
-    
+
     def get_queryset(self):
         qs = super().get_queryset()
 
@@ -837,7 +860,7 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
                     ).api_retrieve(
                         stripe_api_key.secret
                     )
-                    
+
                     if session.payment_status == 'paid':
                         # Payment was completed, update booking status
                         booking.status = models.BookingStatus.PAID
@@ -847,7 +870,7 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
                         return redirect(
                             'hotel:booking_success', booking_id=booking.id
                         )
-                    
+
                     if session.status == 'open':
                         # Existing session is still valid
                         context['payment_url'] = session.url
@@ -863,7 +886,7 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
                 booking.save()
 
                 context['payment_url'] = checkout_session.url
-                
+
             except StripeError:
                 messages.error(
                     self.request,
@@ -882,10 +905,16 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
     form_class = forms.BookingModifyForm
 
     def get_initial(self):
+        where = {
+            'id': self.kwargs['booking_id'],
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=self.kwargs['booking_id'],
-            account=get_acting_account(self.request)
+            **where
         )
 
         return {
@@ -894,30 +923,52 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        booking = get_object_or_404(
+
+        where = {
+            'id': self.kwargs['booking_id'],
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
+        context['booking'] = get_object_or_404(
             models.Booking,
-            id=self.kwargs['booking_id'],
-            account=get_acting_account(self.request)
+            **where
         )
-        context['booking'] = booking
+
         return context
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+
+        where = {
+            'id': self.kwargs['booking_id'],
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=self.kwargs['booking_id'],
-            account=get_acting_account(self.request)
+            **where
         )
+
         kwargs['original_start'] = booking.earliest_start_date
         kwargs['original_end'] = booking.latest_end_date
+        
         return kwargs
 
     def form_valid(self, form):
+        where = {
+            'id': self.kwargs['booking_id'],
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=self.kwargs['booking_id'],
-            account=get_acting_account(self.request)
+            **where
         )
 
         start_date = form.cleaned_data.get('start_date')
@@ -938,13 +989,18 @@ class HotelBookingCancelConfirmView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        booking_id = self.kwargs["booking_id"]
-        booking = get_object_or_404(
+
+        where = {
+            'id': self.kwargs["booking_id"],
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
+        context["booking"] = get_object_or_404(
             models.Booking,
-            id=booking_id,
-            account=get_acting_account(self.request),
+            **where
         )
-        context["booking"] = booking
 
         # Add refund percentage info for the template
         context["refund_notice"] = _(
@@ -958,10 +1014,16 @@ class HotelBookingCancelConfirmView(LoginRequiredMixin, TemplateView):
 
 class HotelBookingCancelView(LoginRequiredMixin, View):
     def post(self, request, booking_id):
+        where = {
+            'id': booking_id
+        }
+
+        if not self.request.user.is_staff:
+            where['account'] = self.request.user.account
+
         booking = get_object_or_404(
             models.Booking,
-            id=booking_id,
-            account=request.user.account
+            **where
         )
 
         if booking.status == models.BookingStatus.CANCELLED:
@@ -1098,20 +1160,28 @@ def download_sales_document_pdf(request, booking_id):
     """
     View to redirect to the PDF URL for the sales document for a booking.
     """
+
+    where = {
+        'id': booking_id,
+    }
+
+    if not request.user.is_staff:
+        where['account'] = request.user.account
+
     booking = get_object_or_404(
         models.Booking,
-        id=booking_id,
-        account=request.user.account,
+        **where
     )
+
     sales_document_id = booking.toconline_sale_document_id
-    
+
     if not sales_document_id:
         messages.error(
             request,
             _("No sales document available for this booking."),
         )
         return redirect('hotel:booking_detail', pk=booking.id)
-    
+
     try:
         toconline = get_toconline()
 
