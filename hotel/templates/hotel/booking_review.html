@@ -84,7 +84,7 @@
                     <div class="flex items-center p-3 border border-primary-200 rounded-lg">
                         <div class="w-12 h-12 rounded-full bg-primary-100 mr-3 overflow-hidden flex-shrink-0">
                             {% if pet.photo %}
-                            <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                            <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full object-cover">
                             {% else %}
                             {% include "icons/paw.html" with class="w-full h-full p-2 text-primary-400" %}
                             {% endif %}
@@ -111,7 +111,7 @@
                         <h3 class="font-medium text-primary-700 mb-3 flex items-center">
                             <span class="w-8 h-8 rounded-full bg-primary-100 mr-2 flex items-center justify-center overflow-hidden">
                                 {% if pet_data.pet.photo %}
-                                <img src="{{ pet_data.pet.photo.url }}" alt="{{ pet_data.pet.name }}" class="w-full h-full object-cover">
+                                <img src="{{ pet_data.pet.photo.url }}" alt="{{ pet_data.pet.name }}" loading="lazy" class="w-full h-full object-cover">
                                 {% else %}
                                 {% include "icons/paw.html" with class="w-4 h-4 text-primary-400" %}
                                 {% endif %}

@@ -240,6 +240,11 @@
                         </ul>
                     </div>
                     {% endif %}
+
+                    {# Stay media (photobook) #}
+                    <div class="p-6 border-t border-primary-100">
+                        {% include "hotel/partials/stay_media.html" with stay=stay can_edit=request.user.is_staff %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>

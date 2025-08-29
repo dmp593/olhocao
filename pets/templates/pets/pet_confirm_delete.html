@@ -15,7 +15,7 @@
       </div>
       <div class="p-8">
         {% if pet.photo %}
-          <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="h-32 object-cover mx-auto rounded-lg mb-4">
+          <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="h-32 object-cover mx-auto rounded-lg mb-4">
         {% endif %}
         <p class="mb-6 text-lg">{% trans "Are you sure you want to delete" %} <strong>{{ pet.name }}</strong>?</p>
         <form method="post">

@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+import os
+import uuid
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -61,11 +64,15 @@ class Booking(models.Model):
     
     @property
     def earliest_start_date(self):
-        return min(stay.start_date for stay in self.stays.all()) if self.stays.exists() else None
+        if not self.stays.exists():
+            return None
+        return min(stay.start_date for stay in self.stays.all())
     
     @property
     def latest_end_date(self):
-        return max(stay.end_date for stay in self.stays.all()) if self.stays.exists() else None
+        if not self.stays.exists():
+            return None
+        return max(stay.end_date for stay in self.stays.all())
 
     @property
     def is_past(self):
@@ -75,24 +82,37 @@ class Booking(models.Model):
     @property
     def is_active(self):
         now = timezone.now().date()
-        return (self.status == BookingStatus.PAID and 
-                any(stay.start_date <= now <= stay.end_date for stay in self.stays.all()))
+        return (
+            self.status == BookingStatus.PAID
+            and any(
+                stay.start_date <= now <= stay.end_date
+                for stay in self.stays.all()
+            )
+        )
 
     @property
     def is_upcoming(self):
         now = timezone.now().date()
-        return (self.status == BookingStatus.PAID and 
-                all(stay.start_date > now for stay in self.stays.all()))
+        return (
+            self.status == BookingStatus.PAID
+            and all(stay.start_date > now for stay in self.stays.all())
+        )
 
     @property
     def can_modify(self):
         days_until_start = self.earliest_start_date - timezone.now().date()
-        return days_until_start.days >= 7 and self.status != BookingStatus.CANCELLED
+        return (
+            days_until_start.days >= 7
+            and self.status != BookingStatus.CANCELLED
+        )
 
     @property
     def can_cancel(self):
         days_until_start = self.earliest_start_date - timezone.now().date()
-        return days_until_start.days >= 7 and self.status != BookingStatus.CANCELLED
+        return (
+            days_until_start.days >= 7
+            and self.status != BookingStatus.CANCELLED
+        )
 
     def __str__(self):
         return _("Booking") + f" #{self.pk}"
@@ -143,7 +163,10 @@ class BookingStay(models.Model):
 
     @property
     def total_price_eur(self):
-        return self.unit_price_eur * self.duration_days + sum(svc.total_price_eur for svc in self.services.all())
+        return (
+            self.unit_price_eur * self.duration_days
+            + sum(svc.total_price_eur for svc in self.services.all())
+        )
     
     @property
     def days_remaining(self):
@@ -207,7 +230,45 @@ class BookingService(models.Model):
 
         if self.scheduled_time and hasattr(self, 'stay') and self.stay:
             # Validate scheduled_time is during the stay period
-            if self.scheduled_time.date() < self.stay.start_date or self.scheduled_time.date() > self.stay.end_date:
+            if (
+                self.scheduled_time.date() < self.stay.start_date
+                or self.scheduled_time.date() > self.stay.end_date
+            ):
                 raise ValidationError(
                     "Scheduled time must be within the stay period"
                 )
+
+
+# ----------------------
+# Media attached to stays
+# ----------------------
+
+def stay_media_upload_to(instance, filename):
+    base, ext = os.path.splitext(filename)
+    return f"stay_media/{instance.stay_id}/{uuid.uuid4().hex}{ext.lower()}"
+
+
+class BookingStayMedia(models.Model):
+    stay = models.ForeignKey(
+        BookingStay,
+        on_delete=models.CASCADE,
+        related_name="media",
+        related_query_name="medium",
+    )
+    file = models.FileField(upload_to=stay_media_upload_to)
+    content_type = models.CharField(max_length=128, blank=True)
+    original_filename = models.CharField(max_length=255, blank=True)
+    size = models.BigIntegerField(default=0)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="uploaded_stay_media",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return f"{self.stay_id} · {self.original_filename or self.file.name}"

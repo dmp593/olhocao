@@ -34,7 +34,7 @@
                         <li class="flex items-center">
                             <span class="w-8 h-8 rounded-full bg-primary-100 mr-3 flex items-center justify-center">
                                 {% if stay.pet.photo %}
-                                <img src="{{ stay.pet.photo.url }}" alt="{{ stay.pet.name }}" class="w-full h-full rounded-full object-cover">
+                                <img src="{{ stay.pet.photo.url }}" alt="{{ stay.pet.name }}" loading="lazy" class="w-full h-full rounded-full object-cover">
                                 {% else %}
                                 {% include "icons/paw.html" with class="w-4 h-4 text-primary-400" %}
                                 {% endif %}

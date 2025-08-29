@@ -11,7 +11,7 @@
             data-index="{{ forloop.counter0 }}">
             <!-- Slide Image with filters -->
             <div class="absolute inset-0 overflow-hidden">
-                <img src="{{ slide.src }}" alt="{{ slide.alt }}" 
+                <img src="{{ slide.src }}" alt="{{ slide.alt }}" loading="lazy"
                     class="h-full w-full object-cover object-center transition-transform duration-1000 scale-110 group-[.active]:scale-100 brightness-75 contrast-110">
                 <!-- Overlay with multiple gradients
                 <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/40 to-transparent"></div>

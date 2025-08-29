@@ -36,7 +36,7 @@
                       <input id="id_photo-clear" type="checkbox" name="photo-clear" class="hidden">
                       <!-- Current Photo Thumbnail -->
                       <div id="id_photo-preview-group" class="mt-4 relative {% if not field.value %}hidden{% endif %}">
-                        <img id="id_photo-preview" src="{% if field.value %}{{ field.value.url }}{% endif %}" alt="Pet" class="size-full rounded-lg object-cover border-2 border-gray-200 shadow-sm">
+                        <img id="id_photo-preview" src="{% if field.value %}{{ field.value.url }}{% endif %}" alt="Pet" loading="lazy" class="size-full rounded-lg object-cover border-2 border-gray-200 shadow-sm">
                         <button id="id_photo-preview-remove" type="button" class="absolute -top-2 -right-2 text-primary bg-red-600/50 rounded-full border border-red-600/50 cursor-pointer" title="{% trans 'Remove photo' %}">
                           {% include "icons/x_mark.html" with class="size-4" %}
                         </button>

@@ -2,8 +2,14 @@ import logging
 import math
 
 from django.conf import settings
-from django.urls import reverse_lazy
-from django.http import HttpRequest, Http404, HttpResponse
+from django.urls import reverse_lazy, reverse
+from django.http import (
+    HttpRequest,
+    Http404,
+    HttpResponse,
+    JsonResponse,
+    HttpResponseForbidden,
+)
 from django.views.generic import View, TemplateView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
@@ -12,6 +18,11 @@ from django.utils import timezone
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.core.paginator import Paginator
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from pathlib import Path
+from uuid import uuid4
+import shutil
 
 from stripe import StripeError
 
@@ -785,14 +796,12 @@ class HotelBookingListView(LoginRequiredMixin, TemplateView):
         status_filter = self.request.GET.get('status', 'all')
 
         # Base queryset: staff sees all bookings, users see their own
-        if not self.request.user.is_staff:
-            bookings = models.Booking.objects.all()
-        else:
-            bookings = models.Booking.objects.filter(
-                account=self.request.user.account
-            )
+        queryset = models.Booking.objects.all()
 
-        bookings = bookings.prefetch_related('stays').order_by('-created_at')
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(account=self.request.user.account)
+
+        bookings = queryset.prefetch_related('stays').order_by('-created_at')
 
         # Apply filters
         if status_filter != 'all':
@@ -1191,12 +1200,109 @@ def download_sales_document_pdf(request, booking_id):
         )
     except Exception as e:
         logger.error(
-            f"Error fetching PDF for booking {booking_id}: {e}"
+            "Error fetching PDF for booking %d: %s",
+            booking_id, e
         )
+
         messages.error(
             request,
-            _(
-                "Could not retrieve PDF document. Please try again later."
-            ),
+            _("Could not retrieve PDF document. Please try again later."),
         )
         return redirect('hotel:booking_detail', pk=booking.id)
+
+
+@method_decorator(csrf_protect, name="dispatch")
+class StayMediaUploadChunkView(LoginRequiredMixin, View):
+    """
+    Chunked uploader for images/videos attached to a BookingStay
+    (staff only).
+    """
+
+    def post(self, request, pk):
+        if not request.user.is_staff:
+            return HttpResponseForbidden()
+
+        stay = get_object_or_404(models.BookingStay, pk=pk)
+
+        upload_id = request.POST.get("upload_id")
+
+        try:
+            idx = int(request.POST.get("chunk_index", "0"))
+            total = int(request.POST.get("total_chunks", "1"))
+            size = int(request.POST.get("size", "0"))
+        except ValueError:
+            return JsonResponse({"error": "bad params"}, status=400)
+
+        filename = request.POST.get("filename", "upload.bin")
+        content_type = request.POST.get("content_type", "")
+        chunk = request.FILES.get("chunk")
+
+        if not (upload_id and chunk):
+            return JsonResponse({"error": "invalid"}, status=400)
+
+        tmp_dir = (
+            Path(settings.MEDIA_ROOT) / "tmp" / "stay_uploads" / upload_id
+        )
+
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        part_path = tmp_dir / f"{idx:06d}.part"
+        with open(part_path, "ab") as dest:
+            for c in chunk.chunks():
+                dest.write(c)
+
+        # On last chunk, assemble file and create DB record
+        if (idx + 1) == total:
+            final_dir = Path(settings.MEDIA_ROOT) / "stay_media" / str(stay.id)
+            final_dir.mkdir(parents=True, exist_ok=True)
+            ext = Path(filename).suffix.lower()
+            final_name = f"{uuid4().hex}{ext}"
+            final_path = final_dir / final_name
+
+            with open(final_path, "ab") as out:
+                for i in range(total):
+                    p = tmp_dir / f"{i:06d}.part"
+                    with open(p, "rb") as src:
+                        shutil.copyfileobj(src, out)
+
+            shutil.rmtree(tmp_dir, ignore_errors=True)
+
+            rel_path = str(final_path.relative_to(settings.MEDIA_ROOT))
+            media = models.BookingStayMedia.objects.create(
+                stay=stay,
+                file=rel_path,
+                content_type=content_type,
+                original_filename=filename[:255],
+                size=size,
+                created_by=request.user,
+            )
+            return JsonResponse(
+                {
+                    "completed": True,
+                    "id": media.id,
+                    "url": media.file.url,
+                    "content_type": media.content_type,
+                    "filename": media.original_filename,
+                    "delete_url": reverse(
+                        "hotel:stay_media_delete", args=[stay.id, media.id]
+                    ),
+                }
+            )
+
+        return JsonResponse({"completed": False})
+
+
+@method_decorator(csrf_protect, name="dispatch")
+class StayMediaDeleteView(LoginRequiredMixin, View):
+    """Delete a media item from a stay (staff only)."""
+
+    def post(self, request, pk, media_id):
+        if not request.user.is_staff:
+            return HttpResponseForbidden()
+
+        media = get_object_or_404(
+            models.BookingStayMedia, pk=media_id, stay_id=pk
+        )
+        # Delete file and record
+        media.file.delete(save=False)
+        media.delete()
+        return JsonResponse({"ok": True})

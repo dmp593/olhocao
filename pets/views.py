@@ -57,7 +57,8 @@ class PetDetailView(LoginRequiredMixin, DetailView):
         return (
             Pet.objects
             .filter(
-                owner__user=self.request.user, deleted_at__isnull=True
+                owner__user=self.request.user,
+                deleted_at__isnull=True
             )
             .all()
         )

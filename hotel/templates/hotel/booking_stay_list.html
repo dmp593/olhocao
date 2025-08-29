@@ -93,7 +93,7 @@
                             <div class="flex items-center">
                                 <div class="size-12 rounded-full bg-primary-100 overflow-hidden mr-4">
                                     {% if pet.photo %}
-                                    <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-full object-cover">
+                                    <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full object-cover">
                                     {% else %}
                                     {% include "icons/paw.html" with class="w-full h-full p-2 text-primary-400" %}
                                     {% endif %}

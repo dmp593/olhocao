@@ -20,4 +20,15 @@ urlpatterns = [
     path('bookings/<int:booking_id>/cancel/', views.HotelBookingCancelConfirmView.as_view(), name='booking_cancel_confirm'),
     path('bookings/<int:booking_id>/cancel/confirm/', views.HotelBookingCancelView.as_view(), name='booking_cancel'),
     path('bookings/<int:booking_id>/pdf/', views.download_sales_document_pdf, name='booking_pdf'),
+    # Stay media
+    path(
+        'stays/<int:pk>/media/upload-chunk/',
+        views.StayMediaUploadChunkView.as_view(),
+        name='stay_media_upload'
+    ),
+    path(
+        'stays/<int:pk>/media/<int:media_id>/delete/',
+        views.StayMediaDeleteView.as_view(),
+        name='stay_media_delete'
+    ),
 ]

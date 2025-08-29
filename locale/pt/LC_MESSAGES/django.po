@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 10:50+0000\n"
+"POT-Creation-Date: 2025-08-29 15:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -412,37 +412,37 @@ msgstr "Item de Linha"
 msgid "Line Items"
 msgstr "Itens de Linha"
 
-#: backoffice/templates/backoffice/_stay_card.html:43
+#: backoffice/templates/backoffice/_stay_card.html:44
 msgid "Medicated"
 msgstr "Medicação"
 
-#: backoffice/templates/backoffice/_stay_card.html:48
+#: backoffice/templates/backoffice/_stay_card.html:49
 msgid "Allergies"
 msgstr "Alergias"
 
-#: backoffice/templates/backoffice/_stay_card.html:53
+#: backoffice/templates/backoffice/_stay_card.html:54
 #: pets/templates/pets/pet_detail.html:43
 msgid "Notes"
 msgstr "Notas"
 
-#: backoffice/templates/backoffice/_stay_card.html:60
-#: hotel/templates/hotel/booking_detail.html:265
+#: backoffice/templates/backoffice/_stay_card.html:61
+#: hotel/templates/hotel/booking_detail.html:270
 msgid "Call"
 msgstr "Telefonar"
 
-#: backoffice/templates/backoffice/_stay_card.html:66
+#: backoffice/templates/backoffice/_stay_card.html:67
 #: backoffice/templates/backoffice/users_list.html:42 frontoffice/models.py:45
 #: frontoffice/templates/frontoffice/contact_us.html:120
-#: hotel/templates/hotel/booking_detail.html:263
+#: hotel/templates/hotel/booking_detail.html:268
 msgid "Email"
 msgstr "Email"
 
-#: backoffice/templates/backoffice/_stay_card.html:75
-#: hotel/templates/hotel/booking_detail.html:325
+#: backoffice/templates/backoffice/_stay_card.html:76
+#: hotel/templates/hotel/booking_detail.html:330
 msgid "Booking Notes"
 msgstr "Notas de Reserva"
 
-#: backoffice/templates/backoffice/_stay_card.html:81
+#: backoffice/templates/backoffice/_stay_card.html:82
 #: olhocao/templates/components/navbar.html:26
 #: olhocao/templates/components/navbar.html:166
 msgid "Services"
@@ -1535,19 +1535,19 @@ msgstr ""
 msgid "Start date cannot be in the past."
 msgstr "A data de início não pode estar no passado."
 
-#: hotel/models.py:16
+#: hotel/models.py:19
 msgid "Pending"
 msgstr "Pendente"
 
-#: hotel/models.py:17
+#: hotel/models.py:20
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: hotel/models.py:18
+#: hotel/models.py:21
 msgid "Paid"
 msgstr "Pago"
 
-#: hotel/models.py:98
+#: hotel/models.py:118
 msgid "Booking"
 msgstr "Reserva"
 
@@ -1642,7 +1642,7 @@ msgid "Download"
 msgstr "Descarregar"
 
 #: hotel/templates/hotel/booking_detail.html:50
-#: hotel/templates/hotel/booking_detail.html:302
+#: hotel/templates/hotel/booking_detail.html:307
 #: hotel/templates/hotel/partials/booking_card.html:76
 msgid "Complete Payment"
 msgstr "Concluir Pagamento"
@@ -1694,31 +1694,31 @@ msgstr "Serviço Diário"
 msgid "One-time service"
 msgstr "Serviço Único"
 
-#: hotel/templates/hotel/booking_detail.html:257
+#: hotel/templates/hotel/booking_detail.html:262
 msgid "Customer"
 msgstr "Cliente"
 
-#: hotel/templates/hotel/booking_detail.html:267
+#: hotel/templates/hotel/booking_detail.html:272
 msgid "View User"
 msgstr "Ver Utilizador"
 
-#: hotel/templates/hotel/booking_detail.html:280
+#: hotel/templates/hotel/booking_detail.html:285
 msgid "Payment Status"
 msgstr "Status do Pagamento"
 
-#: hotel/templates/hotel/booking_detail.html:285
+#: hotel/templates/hotel/booking_detail.html:290
 msgid "Paid on"
 msgstr "Pago em"
 
-#: hotel/templates/hotel/booking_detail.html:289
+#: hotel/templates/hotel/booking_detail.html:294
 msgid "Amount"
 msgstr "Valor"
 
-#: hotel/templates/hotel/booking_detail.html:296
+#: hotel/templates/hotel/booking_detail.html:301
 msgid "This booking requires payment confirmation"
 msgstr "Esta reserva requer confirmação de pagamento"
 
-#: hotel/templates/hotel/booking_detail.html:309
+#: hotel/templates/hotel/booking_detail.html:314
 msgid "Payment Unavailable"
 msgstr "Pagamento Indisponível"
 
@@ -2140,20 +2140,48 @@ msgstr "Criar Outra Reserva"
 msgid "View Details"
 msgstr "Ver Detalhes"
 
-#: hotel/views.py:190
+#: hotel/templates/hotel/partials/stay_media.html:3
+msgid "Photo & Video Gallery"
+msgstr "Galeria de Fotos e Vídeos"
+
+#: hotel/templates/hotel/partials/stay_media.html:10
+msgid "Drop files to upload"
+msgstr "Largue os arquivos para fazer o upload"
+
+#: hotel/templates/hotel/partials/stay_media.html:12
+msgid "or"
+msgstr "ou"
+
+#: hotel/templates/hotel/partials/stay_media.html:12
+msgid "browse"
+msgstr "navegar"
+
+#: hotel/templates/hotel/partials/stay_media.html:14
+msgid "Images and videos supported. Large files upload in chunks."
+msgstr "Imagens e vídeos suportados. Arquivos grandes são enviados particionados."
+
+#: hotel/templates/hotel/partials/stay_media.html:39
+msgid "No media yet."
+msgstr "Nenhuma mídia ainda."
+
+#: hotel/templates/hotel/partials/stay_media.html:126
+msgid "Remove this item?"
+msgstr "Remover este item?"
+
+#: hotel/views.py:201
 msgid "Booking Session Expired"
 msgstr "Sessão de Reserva Expirada"
 
-#: hotel/views.py:288 hotel/views.py:398
+#: hotel/views.py:299 hotel/views.py:409
 msgid "Please start your booking from the beginning"
 msgstr "Por favor, inicie a sua reserva desde o início."
 
-#: hotel/views.py:503
+#: hotel/views.py:514
 #, python-format
 msgid "Payment link for your booking #%s"
 msgstr "Link de pagamento para a sua reserva #%s"
 
-#: hotel/views.py:505
+#: hotel/views.py:516
 #, python-format
 msgid ""
 "Hello,\n"
@@ -2172,33 +2200,33 @@ msgstr ""
 "\n"
 "Obrigado."
 
-#: hotel/views.py:525
+#: hotel/views.py:536
 msgid "Payment link emailed to the customer."
 msgstr "O link de pagamento foi enviado ao cliente."
 
-#: hotel/views.py:536
+#: hotel/views.py:547
 msgid "Payment processing error. Please try again."
 msgstr "Erro ao processar o pagamento. Por favor, tente novamente."
 
-#: hotel/views.py:669
+#: hotel/views.py:680
 msgid "This booking can no longer be paid as the stay dates have passed"
 msgstr ""
 "Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
 
-#: hotel/views.py:679
+#: hotel/views.py:690
 msgid "This booking doesn't require payment"
 msgstr "Esta reserva não requer pagamento."
 
-#: hotel/views.py:894
+#: hotel/views.py:903
 msgid "Error creating payment session. Please try again later."
 msgstr ""
 "Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
 
-#: hotel/views.py:982
+#: hotel/views.py:991
 msgid "Booking dates updated successfully."
 msgstr "Datas da reserva atualizadas com sucesso."
 
-#: hotel/views.py:1007
+#: hotel/views.py:1016
 #, python-format, python-brace-format
 msgid ""
 "Only {refund_percentage}%% of the payment will be refunded due to processing "
@@ -2207,11 +2235,11 @@ msgstr ""
 "Apenas {refund_percentage}%% do pagamento será reembolsado devido a custos "
 "de processamento."
 
-#: hotel/views.py:1032
+#: hotel/views.py:1041
 msgid "This booking has already been cancelled."
 msgstr "Esta reserva já foi cancelada."
 
-#: hotel/views.py:1040
+#: hotel/views.py:1049
 msgid ""
 "You can only cancel up to 7 days before check-in and within 6 months of the "
 "original booking."
@@ -2219,29 +2247,29 @@ msgstr ""
 "Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
 "reserva original."
 
-#: hotel/views.py:1073
+#: hotel/views.py:1082
 #, python-format, python-brace-format
 msgid "Booking cancelled and refunded ({refund_percentage}%% refund applied)"
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1141
+#: hotel/views.py:1150
 msgid "Refund failed or already processed. Please contact support."
 msgstr ""
 "Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
 "suporte."
 
-#: hotel/views.py:1150
+#: hotel/views.py:1159
 #, python-format, python-brace-format
 msgid "Booking cancelled and, if paid, {refund_percentage}%% refunded."
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1181
+#: hotel/views.py:1190
 msgid "No sales document available for this booking."
 msgstr "Nenhum documento de venda disponível para esta reserva."
 
-#: hotel/views.py:1199
+#: hotel/views.py:1209
 msgid "Could not retrieve PDF document. Please try again later."
 msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "

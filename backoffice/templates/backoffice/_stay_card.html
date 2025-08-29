@@ -6,6 +6,7 @@
     {% if stay.pet.photo %}
     <img src="{{ stay.pet.photo.url }}" 
          alt="{{ stay.pet.name }}"
+         loading="lazy"
          class="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-accent-200">
         {% else %}
         <div class="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center">🐾</div>
