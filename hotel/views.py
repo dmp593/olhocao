@@ -626,7 +626,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                             ),
                         })
 
-                toconline_sales_document = get_toconline(request).create(
+                toconline_sales_document = get_toconline().create(
                     TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
                     **sale_document
                 )
@@ -1043,7 +1043,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
-        toconline = get_toconline(request)
+        toconline = get_toconline()
 
         sale_document = toconline.get(
             TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
@@ -1183,7 +1183,7 @@ def download_sales_document_pdf(request, booking_id):
         return redirect('hotel:booking_detail', pk=booking.id)
 
     try:
-        toconline = get_toconline(request)
+        toconline = get_toconline()
 
         return HttpResponse(
             toconline.get_sales_document_pdf(sales_document_id),

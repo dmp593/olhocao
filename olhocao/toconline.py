@@ -37,7 +37,7 @@ class TocOnlineToken:
     access_token: str
     refresh_token: str
 
-    aquired_at: datetime
+    acquired_at: datetime
     expires_at: datetime
 
     token_type: str
@@ -52,8 +52,8 @@ class TocOnlineToken:
         self.access_token = access_token
         self.refresh_token = refresh_token
 
-        self.aquired_at = datetime.now()
-        self.expires_at = self.aquired_at + timedelta(seconds=expires_in)
+        self.acquired_at = datetime.now()
+        self.expires_at = self.acquired_at + timedelta(seconds=expires_in)
 
         self.token_type = token_type
 
@@ -76,7 +76,7 @@ class TocOnline:
         self,
         base_url: str,
         credentials: TocOnlineCredentials,
-        token: TocOnlineToken = None
+        token: TocOnlineToken = None,
     ):
         self.base_url = base_url
         self.credentials = credentials
@@ -336,19 +336,12 @@ class TocOnline:
         return response.content
 
 
-def get_toconline(request: HttpRequest = None):
-    toconline_token = None
-
-    if request:
-        toconline_token = request.session.get('toconline_token', None)
-        print("DEBUG: Token re-used from session")
-
+def get_toconline():
     return TocOnline(
         base_url=settings.TOCONLINE_BASE_URL,
         credentials=TocOnlineCredentials(
             client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
             client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
             redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
-        ),
-        token=toconline_token
+        )
     )

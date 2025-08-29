@@ -29,7 +29,7 @@ def signup_view(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            get_toconline(request).authenticate()
+            get_toconline().authenticate()
             user = form.save()
             Account(user=user).save()
             login(request, user)
@@ -66,7 +66,7 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
         self.object = form.save()
         toconline_customer = None
 
-        toconline = get_toconline(self.request)
+        toconline = get_toconline()
 
         if not self.object.account.has_toconline_customer:
             toconline_customer = toconline.first(

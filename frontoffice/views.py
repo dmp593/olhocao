@@ -95,7 +95,7 @@ class PricingView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        toconline = get_toconline(self.request)
+        toconline = get_toconline()
 
         toc_families = toconline.list(TocOnlineResource.ITEM_FAMILY)
 
