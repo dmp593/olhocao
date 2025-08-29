@@ -110,10 +110,17 @@
                 {% else %}
                 <div class="bg-primary-50 rounded-lg p-4 text-center">
                     <p class="text-primary-700 mb-4">{% trans "You don't have any pets registered yet." %}</p>
-                    <a href="{% url 'pets:create' %}" class="inline-flex items-center text-accent-600 font-medium">
-                        {% trans "Add a pet" %}
-                        <span class="ml-1">→</span>
-                    </a>
+                    {% if request.user.is_staff and request.session.acting_user_id %}
+                        <a href="{% url 'pets:create' %}?owner={{ request.session.acting_user_id }}" class="inline-flex items-center text-accent-600 font-medium">
+                            {% trans "Add a pet for user" %}
+                            <span class="ml-1">→</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'pets:create' %}" class="inline-flex items-center text-accent-600 font-medium">
+                            {% trans "Add a pet" %}
+                            <span class="ml-1">→</span>
+                        </a>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

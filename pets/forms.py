@@ -1,5 +1,7 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
+from accounts.models import Account
 from .models import Pet
 
 
@@ -18,3 +20,8 @@ class PetForm(forms.ModelForm):
             'medication': forms.Textarea(attrs={'rows': 3}),
             'allergies': forms.Textarea(attrs={'rows': 3}),
         }
+
+
+class PetAdminForm(PetForm):
+    class Meta(PetForm.Meta):
+        fields = ['owner'] + PetForm.Meta.fields

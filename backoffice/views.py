@@ -31,6 +31,7 @@ from .forms import (
 )
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
+from django.views.generic.edit import FormView
 
 
 class DashboardView(TemplateView):
@@ -157,6 +158,31 @@ class UserDetailView(DetailView):
             'is_paginated': bookings_page.has_other_pages(),
         })
         return context
+
+
+class UserAdminCreateView(FormView):
+    template_name = 'backoffice/user_create.html'
+    success_url = None  # computed in form_valid
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        if not request.user.is_staff:
+            messages.error(request, _("Unauthorized"))
+            return redirect('backoffice:dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_class(self):
+        from accounts.forms import SignUpForm
+        return SignUpForm
+
+    def form_valid(self, form):
+        # Do NOT log in as the created user
+        if form.is_valid():
+            user = form.save()
+            messages.success(self.request, _("User created."))
+            return redirect('backoffice:user_detail', pk=user.pk)
+        return super().form_invalid(form)
 
 
 class UserAdminUpdateView(UpdateView):
@@ -372,3 +398,51 @@ class ContactRequestMarkReadView(View):
             messages.warning(request, _("No requests selected."))
 
         return redirect('backoffice:contacts_requests')
+
+
+class UserToggleActiveView(View):
+    def post(self, request, pk):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            messages.error(request, _("Unauthorized"))
+            return redirect('backoffice:dashboard')
+
+        User = get_user_model()
+        target = User.objects.filter(pk=pk).first()
+        if not target:
+            messages.error(request, _("User not found"))
+            return redirect('backoffice:users_list')
+
+        target.is_active = not target.is_active
+        target.save(update_fields=['is_active'])
+
+        msg = (
+            _("User deactivated")
+            if not target.is_active
+            else _("User activated")
+        )
+        messages.success(request, msg)
+
+        next_url = (
+            request.POST.get('next')
+            or request.META.get('HTTP_REFERER')
+            or reverse_lazy('backoffice:user_detail', kwargs={'pk': pk})
+        )
+
+        return redirect(next_url)
+
+
+class BookHotelForUserView(View):
+    def post(self, request, pk):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            messages.error(request, _("Unauthorized"))
+            return redirect('backoffice:dashboard')
+
+        # Mark in session that admin is acting on behalf of this user
+        request.session['acting_user_id'] = pk
+
+        messages.info(
+            request,
+            _("Booking will be created on behalf of selected user."),
+        )
+
+        return redirect('hotel:booking_stay')

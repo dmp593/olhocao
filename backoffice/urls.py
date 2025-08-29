@@ -12,6 +12,11 @@ urlpatterns = [
         views.DashboardView.as_view(),
         name='dashboard'
     ),
+    path(
+        'users/create/',
+        views.UserAdminCreateView.as_view(),
+        name='user_create'
+    ),
 
     path(
         'users/',
@@ -27,6 +32,16 @@ urlpatterns = [
         'users/<int:pk>/edit/',
         views.UserAdminUpdateView.as_view(),
         name='user_edit'
+    ),
+    path(
+        'users/<int:pk>/toggle-active/',
+        views.UserToggleActiveView.as_view(),
+        name='user_toggle_active'
+    ),
+    path(
+        'users/<int:pk>/book-hotel/',
+        views.BookHotelForUserView.as_view(),
+        name='book_hotel_for_user'
     ),
 
     path(

@@ -6,7 +6,6 @@ from datetime import date
 
 from django.db import models
 
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 
@@ -46,6 +45,8 @@ class PetSpecies(models.Model):
 
 
 class Pet(models.Model):
+    # Explicit manager for type checkers
+    objects = models.Manager()
     species = models.ForeignKey(
         PetSpecies,
         on_delete=models.PROTECT,

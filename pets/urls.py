@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:pk>/', views.PetDetailView.as_view(), name='detail'),
     path('<int:pk>/edit/', views.PetUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', views.PetDeleteView.as_view(), name='delete'),
+    path('<int:pk>/restore/', views.PetRestoreView.as_view(), name='restore'),
 ]

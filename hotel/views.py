@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.http import HttpRequest, Http404, HttpResponse
 from django.views.generic import View, TemplateView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.contrib import messages
@@ -26,13 +27,27 @@ from djstripe.models.checkout import (
 
 from olhocao.toconline import get_toconline, TocOnlineResource
 from pets.models import Pet
-
-from django import forms
+from accounts.models import Account
 
 from . import models, forms
 
 
 logger = logging.getLogger(__name__)
+
+
+def get_acting_account(request: HttpRequest) -> Account:
+    """Return the account to use in booking flows.
+
+    If a staff user initiated a booking on behalf of someone, the session
+    includes 'acting_user_id'. Use that user's account; otherwise, use the
+    current user's account.
+    """
+    if getattr(request.user, "is_staff", False):
+        acting_id = request.session.get("acting_user_id")
+        if acting_id:
+            account, _ = Account.objects.get_or_create(user_id=acting_id)
+            return account
+    return request.user.account
 
 
 def get_hotel_stays():
@@ -57,7 +72,12 @@ def get_hotel_services():
     ).all()
 
 
-def create_checkout_session(request: HttpRequest, booking: models.Booking):
+def create_checkout_session(
+    request: HttpRequest,
+    booking: models.Booking,
+    *,
+    customer_email: str | None = None,
+):
     line_items = []
 
     for stay in booking.stays.all():
@@ -78,9 +98,10 @@ def create_checkout_session(request: HttpRequest, booking: models.Booking):
         kwargs={'booking_id': booking.id}
     )
 
-    success_url = request.build_absolute_uri(
-        booking_payment_verify_url
-    ) + '?session_id={CHECKOUT_SESSION_ID}'
+    success_url = (
+        request.build_absolute_uri(booking_payment_verify_url)
+        + '?session_id={CHECKOUT_SESSION_ID}'
+    )
 
     booking_retry_url = reverse_lazy(
         'hotel:booking_retry', kwargs={'booking_id': booking.id}
@@ -101,10 +122,10 @@ def create_checkout_session(request: HttpRequest, booking: models.Booking):
         allow_promotion_codes=True,  # Enable coupon codes
         success_url=success_url,
         cancel_url=cancel_url,
-        customer_email=request.user.email,
+        customer_email=(customer_email or request.user.email),
         metadata={
             'booking_id': str(booking.id),
-            'account_id': str(request.user.account.id),
+            'account_id': str(booking.account.id),
         },
     )
 
@@ -120,7 +141,10 @@ class BookingStayListView(LoginRequiredMixin, FormView):
         stays = get_hotel_stays()
 
         # Get user's pets
-        pets = Pet.objects.filter(owner=self.request.user.account).all()
+        pets = Pet.objects.filter(
+            owner=get_acting_account(self.request),
+            deleted_at__isnull=True
+        ).all()
 
         context.update(
             {
@@ -133,7 +157,9 @@ class BookingStayListView(LoginRequiredMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["pets"] = Pet.objects.filter(owner=self.request.user.account).all()
+        kwargs["pets"] = Pet.objects.filter(
+            owner=get_acting_account(self.request)
+        ).all()
         return kwargs
 
     def form_valid(self, form):
@@ -161,7 +187,7 @@ class BookingStayServiceListView(LoginRequiredMixin, FormView):
 
         return Pet.objects.filter(
             id__in=booking_data["pet_ids"],
-            owner=self.request.user.account
+            owner=get_acting_account(self.request),
         )
 
     def get_context_data(self, **kwargs):
@@ -171,8 +197,12 @@ class BookingStayServiceListView(LoginRequiredMixin, FormView):
         if not booking_data:
             raise Http404("Booking session expired")
 
-        start_date = timezone.datetime.fromisoformat(booking_data["start_date"]).date()
-        end_date = timezone.datetime.fromisoformat(booking_data["end_date"]).date()
+        start_date = timezone.datetime.fromisoformat(
+            booking_data["start_date"]
+        ).date()
+        end_date = timezone.datetime.fromisoformat(
+            booking_data["end_date"]
+        ).date()
 
         context.update(
             {
@@ -197,8 +227,12 @@ class BookingStayServiceListView(LoginRequiredMixin, FormView):
         # Get pets and duration
         pets = self.get_selected_pets()
 
-        start_date = timezone.datetime.fromisoformat(booking_data["start_date"]).date()
-        end_date = timezone.datetime.fromisoformat(booking_data["end_date"]).date()
+        start_date = timezone.datetime.fromisoformat(
+            booking_data["start_date"]
+        ).date()
+        end_date = timezone.datetime.fromisoformat(
+            booking_data["end_date"]
+        ).date()
 
         duration = (end_date - start_date).days
 
@@ -244,12 +278,19 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
         # Get booking data from session
         booking_data = self.request.session.get("booking_data", {})
         if not booking_data:
-            messages.error(self.request, _("Please start your booking from the beginning"))
+            messages.error(
+                self.request,
+                _("Please start your booking from the beginning"),
+            )
             return redirect("hotel:booking_stay")
 
         # Get stay details
-        start_date = timezone.datetime.fromisoformat(booking_data["start_date"]).date()
-        end_date = timezone.datetime.fromisoformat(booking_data["end_date"]).date()
+        start_date = timezone.datetime.fromisoformat(
+            booking_data["start_date"]
+        ).date()
+        end_date = timezone.datetime.fromisoformat(
+            booking_data["end_date"]
+        ).date()
         duration = (end_date - start_date).days
 
         # Get selected stay
@@ -258,7 +299,7 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
         # Get selected pets
         pets = Pet.objects.filter(
             id__in=booking_data["pet_ids"],
-            owner=self.request.user.account
+            owner=get_acting_account(self.request),
         )
 
         nr_pets = len(pets)
@@ -271,7 +312,9 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
         pricing = {
             "stay": {
                 "unit_price": stay.default_price.unit_amount,
-                "total_price": stay.default_price.unit_amount * duration * nr_pets,
+                "total_price": (
+                    stay.default_price.unit_amount * duration * nr_pets
+                ),
             },
             "services": {},
             "grand_total": stay.default_price.unit_amount * duration * nr_pets,
@@ -313,7 +356,9 @@ class BookingReviewView(LoginRequiredMixin, TemplateView):
                             }
 
                         pricing["services"][service_id]["quantity"] += quantity
-                        pricing["services"][service_id]["total_price"] += total_price
+                        pricing["services"][service_id][
+                            "total_price"
+                        ] += total_price
                         pricing["grand_total"] += total_price
 
         context.update(
@@ -341,7 +386,10 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
         booking_data = self.request.session.get("booking_data", {})
 
         if not booking_data:
-            messages.error(self.request, _("Please start your booking from the beginning"))
+            messages.error(
+                self.request,
+                _("Please start your booking from the beginning"),
+            )
             return redirect("hotel:booking_stay")
 
         # Calculate total amount
@@ -350,7 +398,9 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
         
         duration = (
             timezone.datetime.fromisoformat(booking_data["end_date"]).date()
-            - timezone.datetime.fromisoformat(booking_data["start_date"]).date()
+            - timezone.datetime.fromisoformat(
+                booking_data["start_date"]
+            ).date()
         ).days
 
         total = stay_price * duration * len(booking_data["pet_ids"])
@@ -371,7 +421,7 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
 
         # Create booking
         booking = models.Booking.objects.create(
-            account=self.request.user.account,
+            account=get_acting_account(self.request),
             status="pending",
             notes=form.cleaned_data.get("special_requests", ""),
         )
@@ -381,7 +431,10 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
 
         # Create stays for each pet
         for pet_id in booking_data["pet_ids"]:
-            pet = Pet.objects.get(pk=pet_id, owner=self.request.user.account)
+            pet = Pet.objects.get(
+                pk=pet_id,
+                owner=get_acting_account(self.request),
+            )
 
             # Create booking stay
             stay = models.BookingStay.objects.create(
@@ -421,15 +474,56 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
         booking = self.create_booking(form)
 
         try:
-            checkout_session = create_checkout_session(self.request, booking)
+            is_admin_on_behalf = (
+                getattr(self.request.user, 'is_staff', False)
+                and self.request.session.get('acting_user_id') is not None
+            )
+
+            checkout_session = create_checkout_session(
+                self.request,
+                booking,
+                customer_email=(
+                    booking.account.user.email if is_admin_on_behalf else None
+                ),
+            )
 
             # Save Stripe session ID to booking
             booking.stripe_checkout_session_id = checkout_session.id
             booking.save()
 
+            if is_admin_on_behalf:
+                # Email payment link to the customer and finish
+                subject = _("Payment link for your booking #%s") % booking.id
+                body = _(
+                    "Hello,\n\nA booking has been created for you. "
+                    "Please complete payment using the link below:\n%s\n\n"
+                    "Thank you."
+                ) % checkout_session.url
+
+                try:
+                    send_mail(
+                        subject,
+                        body,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [booking.account.user.email],
+                        fail_silently=True,
+                    )
+                except Exception:
+                    logger.warning("Failed to send payment link email.")
+
+                # Clear acting indicator and return to backoffice user detail
+                self.request.session.pop('acting_user_id', None)
+                messages.success(
+                    self.request,
+                    _("Payment link emailed to the customer."),
+                )
+                return redirect(
+                    'backoffice:user_detail', pk=booking.account.user.pk
+                )
+
             return redirect(checkout_session.url)
 
-        except StripeError as e:
+        except StripeError:
             messages.error(
                 self.request,
                 _("Payment processing error. Please try again.")
@@ -440,16 +534,10 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
 
 class BookingPaymentVerifyView(LoginRequiredMixin, View):
     def get(self, request, booking_id):
-        where = {
-            'id': booking_id,
-        }
-
-        if not request.user.is_staff:
-            where['account'] = request.user.account
-
         booking = get_object_or_404(
             models.Booking,
-            **where
+            id=booking_id,
+            account=request.user.account
         )
 
         session_id = request.GET.get(
@@ -464,7 +552,10 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
             stripe_api_key.secret
         )
 
-        if session.payment_status == 'paid' and session.metadata.get('booking_id') == str(booking.pk):
+        if (
+            session.payment_status == 'paid'
+            and session.metadata.get('booking_id') == str(booking.pk)
+        ):
             if not booking.status or not booking.paid_at:
                 booking.status = models.BookingStatus.PAID
                 booking.paid_at = timezone.now()
@@ -473,19 +564,27 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                 sale_document = {
                     'document_type': 'FR',
                     'vat_included_prices': True,
-                    'customer_business_name': booking.account.user.get_full_name(),
+                    'customer_business_name': (
+                        booking.account.user.get_full_name()
+                    ),
                     'lines': [],
                 }
 
                 toconline_customer = booking.account.toconline_customer
 
                 if toconline_customer:
-                    tax_registration_number = toconline_customer['attributes'].get('tax_registration_number')
+                    tax_registration_number = toconline_customer[
+                        'attributes'
+                    ].get('tax_registration_number')
 
                     if tax_registration_number:
                         sale_document['customer_id'] = toconline_customer['id']
-                        sale_document['customer_business_name'] = toconline_customer['attributes']['business_name']
-                        sale_document['customer_tax_registration_number'] = tax_registration_number
+                        sale_document['customer_business_name'] = (
+                            toconline_customer['attributes']['business_name']
+                        )
+                        sale_document['customer_tax_registration_number'] = (
+                            tax_registration_number
+                        )
                         sale_document['external_reference'] = booking.id,
 
                 for stay in booking.stays.all():
@@ -493,15 +592,25 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                         'item_type': 'Service',
                         'description': f"{stay.stay_name} ({stay.pet.name})",
                         'quantity': stay.duration_days,
-                        'unit_price': stay.stripe_product.default_price.unit_amount / 100,  # Convert cents to euros
+                        # Convert cents to euros
+                        'unit_price': (
+                            stay.stripe_product.default_price.unit_amount / 100
+                        ),
                     })
                     
                     for service in stay.services.all():
                         sale_document['lines'].append({
                             'item_type': 'Service',
-                            'description': f"{service.service_name} ({stay.pet.name})",
+                            'description': (
+                                f"{service.service_name} ({stay.pet.name})"
+                            ),
                             'quantity': service.quantity,
-                            'unit_price': service.stripe_product.default_price.unit_amount / 100,  # Convert cents to euros
+                            # Convert cents to euros
+                            'unit_price': (
+                                service.stripe_product.default_price.
+                                unit_amount
+                                / 100
+                            ),
                         })
 
                 toconline_sales_document = get_toconline().create(
@@ -509,7 +618,9 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                     **sale_document
                 )
 
-                booking.toconline_sale_document_id = toconline_sales_document.get('id')
+                booking.toconline_sale_document_id = (
+                    toconline_sales_document.get('id')
+                )
                 booking.save()
 
             return redirect('hotel:booking_success', booking_id=booking.id)
@@ -529,10 +640,16 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
         )
 
         # Check if any stay is in the past
-        if any(stay.end_date < timezone.now().date() for stay in booking.stays.all()):
+        if any(
+            stay.end_date < timezone.now().date()
+            for stay in booking.stays.all()
+        ):
             messages.error(
                 request,
-                _("This booking can no longer be paid as the stay dates have passed")
+                _(
+                    "This booking can no longer be paid as the stay dates "
+                    "have passed"
+                )
             )
 
             return redirect('hotel:booking_list')
@@ -576,7 +693,9 @@ class BookingRetryView(LoginRequiredMixin, TemplateView):
                     booking.status = models.BookingStatus.PAID
                     booking.paid_at = timezone.now()
                     booking.save()
-                    return redirect('hotel:booking_success', booking_id=booking.id)
+                    return redirect(
+                        'hotel:booking_success', booking_id=booking.id
+                    )
                 
                 if session.status == 'open':
                     # Existing session is still valid
@@ -711,7 +830,9 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
                         booking.paid_at = timezone.now()
                         booking.save()
 
-                        return redirect('hotel:booking_success', booking_id=booking.id)
+                        return redirect(
+                            'hotel:booking_success', booking_id=booking.id
+                        )
                     
                     if session.status == 'open':
                         # Existing session is still valid
@@ -719,7 +840,9 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
                         return context
 
                 # Create a new Stripe session if needed
-                checkout_session = create_checkout_session(self.request, booking)
+                checkout_session = create_checkout_session(
+                    self.request, booking
+                )
 
                 # Update booking with new session ID
                 booking.stripe_checkout_session_id = checkout_session.id
@@ -730,7 +853,10 @@ class HotelBookingDetailView(LoginRequiredMixin, DetailView):
             except StripeError:
                 messages.error(
                     self.request,
-                    _("Error creating payment session. Please try again later.")
+                    _(
+                        "Error creating payment session. Please try again "
+                        "later."
+                    )
                 )
 
         return context
@@ -785,7 +911,10 @@ class HotelBookingModifyView(LoginRequiredMixin, FormView):
         if start_date and end_date:
             booking.stays.update(start_date=start_date, end_date=end_date)
 
-        messages.success(self.request, _("Booking dates updated successfully."))
+        messages.success(
+            self.request,
+            _("Booking dates updated successfully."),
+        )
         return redirect('hotel:booking_detail', pk=booking.id)
 
 
@@ -795,7 +924,11 @@ class HotelBookingCancelConfirmView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         booking_id = self.kwargs["booking_id"]
-        booking = get_object_or_404(models.Booking, id=booking_id, account=self.request.user.account)
+        booking = get_object_or_404(
+            models.Booking,
+            id=booking_id,
+            account=self.request.user.account,
+        )
         context["booking"] = booking
 
         # Add refund percentage info for the template
@@ -826,7 +959,10 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
         if not booking.can_cancel:
             messages.error(
                 request,
-                _("You can only cancel up to 7 days before check-in and within 6 months of the original booking.")
+                _(
+                    "You can only cancel up to 7 days before check-in and "
+                    "within 6 months of the original booking."
+                )
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
@@ -848,7 +984,9 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                 else None
             ),
             'customer_tax_registration_number': (
-                booking.account.toconline_customer.get('tax_registration_number', None)
+                booking.account.toconline_customer.get(
+                    'tax_registration_number', None
+                )
                 if booking.account.toconline_customer
                 else None
             ),
@@ -869,7 +1007,8 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                 'description': f"{stay.stay_name} ({stay.pet.name})",
                 'quantity': stay.duration_days,
                 'unit_price': math.floor(
-                    stay.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE
+                    stay.stripe_product.default_price.unit_amount
+                    * settings.HOTEL_REFUND_PERCENTAGE
                 ) / 100
             })
 
@@ -879,7 +1018,8 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                     'description': f"{service.service_name} ({stay.pet.name})",
                     'quantity': service.quantity,
                     'unit_price': math.floor(
-                        service.stripe_product.default_price.unit_amount * settings.HOTEL_REFUND_PERCENTAGE
+                        service.stripe_product.default_price.unit_amount
+                        * settings.HOTEL_REFUND_PERCENTAGE
                     ) / 100,
                 })
 
@@ -888,7 +1028,9 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             **amending_document
         )
 
-        booking.toconline_amend_document_id = toconline_amend_document.get('id')
+        booking.toconline_amend_document_id = toconline_amend_document.get(
+            'id'
+        )
         booking.status = models.BookingStatus.CANCELLED
         booking.save()
 
@@ -918,7 +1060,10 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
         except (StripeError, ValueError):
             messages.warning(
                 request,
-                _("Refund failed or already processed. Please contact support.")
+                _(
+                    "Refund failed or already processed. Please contact "
+                    "support."
+                ),
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
@@ -938,11 +1083,18 @@ def download_sales_document_pdf(request, booking_id):
     """
     View to redirect to the PDF URL for the sales document for a booking.
     """
-    booking = get_object_or_404(models.Booking, id=booking_id, account=request.user.account)
+    booking = get_object_or_404(
+        models.Booking,
+        id=booking_id,
+        account=request.user.account,
+    )
     sales_document_id = booking.toconline_sale_document_id
     
     if not sales_document_id:
-        messages.error(request, _("No sales document available for this booking."))
+        messages.error(
+            request,
+            _("No sales document available for this booking."),
+        )
         return redirect('hotel:booking_detail', pk=booking.id)
     
     try:
@@ -953,6 +1105,13 @@ def download_sales_document_pdf(request, booking_id):
             content_type='application/pdf'
         )
     except Exception as e:
-        logger.error(f"Error fetching PDF for booking {booking_id}: {e}")
-        messages.error(request, _("Could not retrieve PDF document. Please try again later."))
+        logger.error(
+            f"Error fetching PDF for booking {booking_id}: {e}"
+        )
+        messages.error(
+            request,
+            _(
+                "Could not retrieve PDF document. Please try again later."
+            ),
+        )
         return redirect('hotel:booking_detail', pk=booking.id)

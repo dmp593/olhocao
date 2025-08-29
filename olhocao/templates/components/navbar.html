@@ -13,12 +13,14 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center">
+                {% if not user.is_staff %}
                 <a href="{% url 'hotel:booking_stay' %}" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
                     <span class="relative text-secondary">
                         {% trans "Book Hotel" %}
                         <span class="absolute bottom-0 left-0 w-0 h-1 bg-secondary group-hover:w-full transition-all duration-300"></span>
                     </span>
                 </a>
+                {% endif %}
                 <a href="{% url 'frontoffice:home' %}#our-services" class="font-semibold text-lg uppercase px-3 rounded-lg transition-all duration-300 group">
                     <span class="relative">
                         {% trans "Services" %}
@@ -81,6 +83,10 @@
                             {% include "icons/users.html" with class="w-4 h-4 mr-3" %}
                             {% trans "Users" %}
                         </a>
+                        <a href="{% url 'pets:list' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
+                            {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
+                            {% trans "Pets" %}
+                        </a>
                         <a href="{% url 'backoffice:contacts_requests' %}" class="block px-4 py-2 text-lg text-primary-700 hover:bg-primary-100 hover:text-primary-800 flex items-center">
                             <span class="relative inline-block mr-3">
                                 {% include "icons/chat_bubble_bottom_center_text.html" with class="w-4 h-4" %}
@@ -142,12 +148,14 @@
     <!-- Mobile Menu with gradient background -->
     <div id="mobile-menu" class="md:hidden hidden fixed inset-x-0 top-20 bottom-0 bg-gradient-to-b from-white to-primary-200 shadow-xl overflow-y-auto overscroll-contain">
         <div class="px-4 pt-2 pb-6">
+            {% if not user.is_staff %}
             <a href="{% url 'hotel:booking_stay' %}" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
                 <span class="flex items-center text-secondary">
                     {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
                     {% trans "Book Hotel" %}
                 </span>
             </a>
+            {% endif %}
             <a href="{% url 'frontoffice:home' %}#our-services" class="block font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300 group">
                 <span class="flex items-center">
                     {% include "icons/paw.html" with class="w-4 h-4 mr-3 text-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" %}
@@ -190,6 +198,10 @@
                     <a href="{% url 'backoffice:users_list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
                         {% include "icons/users.html" with class="w-4 h-4 mr-3" %}
                         {% trans "Users" %}
+                    </a>
+                    <a href="{% url 'pets:list' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/pets.html" with class="w-4 h-4 mr-2" %}
+                        {% trans "Pets" %}
                     </a>
                     <a href="{% url 'backoffice:contacts_requests' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
                         <span class="relative inline-block mr-3">
