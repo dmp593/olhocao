@@ -1,19 +1,19 @@
 from base64 import b64encode
-from datetime import datetime, timedelta, timezone
+# from datetime import datetime, timedelta, timezone
 from django.conf import settings
 
-from django.db.models import (
-    F,
-    Value,
-    DateTimeField,
-    DurationField,
-    ExpressionWrapper
-)
+# from django.db.models import (
+#     F,
+#     Value,
+#     DateTimeField,
+#     DurationField,
+#     ExpressionWrapper
+# )
 
-from django.db.models.functions import (
-    Coalesce,
-    Now
-)
+# from django.db.models.functions import (
+#     Coalesce,
+#     Now
+# )
 
 import requests
 
@@ -31,7 +31,7 @@ class TocOnlineCredentials:
         self,
         client_id: str,
         client_secret: str,
-        redirect_uri: str,
+        redirect_uri: str
     ):
         self.client_id = client_id
         self.client_secret = client_secret
@@ -50,14 +50,17 @@ class TocOnlineCredentials:
 class TocOnline:
     base_url: str
     credentials: TocOnlineCredentials
+    timeout: int
 
     def __init__(
         self,
         base_url: str,
-        credentials: TocOnlineCredentials
+        credentials: TocOnlineCredentials,
+        timeout: int
     ):
         self.base_url = base_url
         self.credentials = credentials
+        self.timeout = timeout
 
     @property
     def default_headers(self) -> dict:
@@ -82,7 +85,7 @@ class TocOnline:
                 'scope': 'commercial',
             },
             allow_redirects=False,
-            timeout=7,
+            timeout=self.timeout,
         )
 
         return response.headers['Location'].split('code=')[1]
@@ -100,7 +103,7 @@ class TocOnline:
                 'grant_type': 'authorization_code',
                 'scope': 'commercial',
             },
-            timeout=7,
+            timeout=self.timeout,
         )
 
         return response.json()
@@ -118,7 +121,7 @@ class TocOnline:
                 'grant_type': 'refresh_token',
                 'scope': 'commercial',
             },
-            timeout=7,
+            timeout=self.timeout,
         )
 
         return response.json()
@@ -170,40 +173,16 @@ class TocOnline:
     #     )
 
     def get_token(self):
-        token = TocOnlineToken.objects.order_by(
-            Coalesce('refreshed_at', 'acquired_at').desc()
-        ).first()
+        token = TocOnlineToken.objects.order_by('-refreshed_at').first()
 
-        if not token:
-            token = TocOnlineToken(
-                **self._get_access_token(
-                    self._get_authorization_code()
-                )
+        if not token or token.is_expired:
+            access_token = self._get_access_token(
+                self._get_authorization_code()
             )
 
-            if not token:
-                # something went wrong on TocOnline API, cant obtain a token
-                return None
-
-            token.save()
-
-        if token.is_expired:
-            self.refresh_token(token)
-
-        if token.is_expired:
-            # something went wrong on TocOnline API, cant refresh the token
-            # or just token is too old, trying to get a new token
-            token = TocOnlineToken(
-                **self._get_access_token(
-                    self._get_authorization_code()
-                )
+            token = TocOnlineToken.objects.create(
+                **access_token
             )
-
-            if not token:
-                # something went wrong on TocOnline API, cant obtain a token
-                return None
-
-            token.save()
 
         return token
 
@@ -226,7 +205,7 @@ class TocOnline:
             f"{self.base_url}/api/{resource}",
             params=params,
             headers=self.default_headers,
-            timeout=7,
+            timeout=self.timeout,
         )
 
         response.raise_for_status()
@@ -250,7 +229,7 @@ class TocOnline:
         response = requests.get(
             f"{self.base_url}/api/{resource}/{pk}",
             headers=self.default_headers,
-            timeout=7,
+            timeout=self.timeout,
         )
 
         response.raise_for_status()
@@ -275,7 +254,7 @@ class TocOnline:
             if resource != TocOnlineResource.COMERCIAL_SALES_DOCUMENTS
             else kwargs,
 
-            timeout=7
+            timeout=self.timeout
         )
 
         response.raise_for_status()
@@ -299,7 +278,7 @@ class TocOnline:
                     "type": resource
                 }
             },
-            timeout=7
+            timeout=self.timeout
         )
 
         response.raise_for_status()
@@ -315,7 +294,7 @@ class TocOnline:
         response = requests.delete(
             f"{self.base_url}/api/{resource}/{pk}",
             headers=self.default_headers,
-            timeout=7
+            timeout=self.timeout
         )
 
         response.raise_for_status()
@@ -354,5 +333,6 @@ toconline = TocOnline(
         client_id=settings.TOCONLINE_OAUTH_CLIENT_ID,
         client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
         redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
-    )
+    ),
+    timeout=settings.TOCONLINE_TIMEOUT
 )
