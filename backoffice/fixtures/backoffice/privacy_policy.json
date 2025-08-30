@@ -168,7 +168,7 @@
       "pk": 29,
       "fields": {
         "section": 12,
-        "text_en": "",
+        "text_en": "The online bookings and payments are made through secure, encrypted platforms.",
         "text_pt": "As reservas e pagamentos online são realizados através de plataformas seguras e encriptadas.",
         "order": 2
       }
@@ -178,7 +178,7 @@
         "pk": 13,
         "fields": {
           "document": 2,
-          "title_en": "",
+          "title_en": "Your Rights",
           "title_pt": "Os Seus Direitos",
           "order": 5
         }
@@ -188,7 +188,7 @@
         "pk": 30,
         "fields": {
           "section": 13,
-          "text_en": "",
+          "text_en": "You can request access, correction, or deletion of your data at any time.",
           "text_pt": "Pode solicitar acesso, alteração ou eliminação dos seus dados a qualquer momento.",
           "order": 1
         }
@@ -198,7 +198,7 @@
         "pk": 31,
         "fields": {
           "section": 13,
-          "text_en": "",
+          "text_en": "You can opt-out of promotional communications by clicking \"unsubscribe\" in the emails or contacting us directly.",
           "text_pt": "Pode cancelar comunicações promocionais clicando em \"cancelar subscrição\" nos emails ou contactando-nos diretamente.",
           "order": 2
         }
@@ -208,7 +208,7 @@
         "pk": 14,
         "fields": {
             "document": 2,
-            "title_en": "",
+            "title_en": "Changes to This Policy",
             "title_pt": "Alterações a Esta Política",
             "order": 6
         }
@@ -218,7 +218,7 @@
         "pk": 32,
         "fields": {
           "section": 14,
-          "text_en": "",
+          "text_en": "We may update this Privacy Policy from time to time. We encourage you to review it regularly.",
           "text_pt": "Podemos atualizar esta Política de Privacidade periodicamente. Recomendamos a sua consulta regular.",
           "order": 1
         }
@@ -228,7 +228,7 @@
         "pk": 15,
         "fields": {
             "document": 2,
-            "title_en": "",
+            "title_en": "Contacts",
             "title_pt": "Contactos",
             "order": 7
         }
@@ -238,7 +238,7 @@
         "pk": 33,
         "fields": {
           "section": 15,
-          "text_en": "",
+          "text_en": "For any questions related to our Terms or Privacy Policy, please contact us at:\n\nPhone: 916749407\nAddress: Rua Quinta dos Frades, 904, 2400-821 Leiria, Portugal",
           "text_pt": "Para qualquer questão relacionada com os nossos Termos ou Política de Privacidade, contacte-nos através de:\n\nTelefone: 916749407\nMorada: Rua Quinta dos Frades, 904, 2400-821 Leiria, Portugal",
           "order": 1
         }
