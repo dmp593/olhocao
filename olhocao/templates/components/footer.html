@@ -21,8 +21,10 @@
                         <span class="mr-2">📍</span> Rua Quinta dos Frades, 904
                     </p>
                     <p>2400-821 Leiria, Portugal</p>
-                    <p class="pt-4 text-primary-200">
-                        {% trans "Open Monday-Friday: 9AM-6PM" %}
+                    <p class="pt-1 text-primary-200">
+                        <a href="{% url "frontoffice:contact_us" %}" class="flex items-center justify-center md:justify-start hover:text-accent-300 transition-colors duration-300">
+                            <span class="mr-2">🛣️</span><span class="ml-1 underline underline-offset-4 decoration-accent-500">{% trans "Schedule a visit" %}</span>
+                        </a>
                     </p>
                 </div>
             </div>

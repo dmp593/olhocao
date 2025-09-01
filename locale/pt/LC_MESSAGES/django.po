@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 15:17+0000\n"
+"POT-Creation-Date: 2025-09-01 09:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,7 +227,7 @@ msgstr "Já tem uma conta?"
 msgid "Log in"
 msgstr "Iniciar Sessão"
 
-#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:137
+#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:134
 msgid "Account Updated"
 msgstr "Conta Atualizada"
 
@@ -235,7 +235,7 @@ msgstr "Conta Atualizada"
 msgid "Your changes have been saved"
 msgstr "As suas alterações foram guardadas"
 
-#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:139
+#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:136
 msgid "Your account information has been successfully updated."
 msgstr "As informações da sua conta foram atualizadas com sucesso."
 
@@ -266,14 +266,14 @@ msgstr "Voltar para a página inicial"
 
 #: backoffice/models.py:9
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:19
-#: olhocao/templates/components/footer.html:111
+#: olhocao/templates/components/footer.html:113
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
 #: backoffice/models.py:10
 #: frontoffice/templates/frontoffice/privacy_policy.html:19
 #: hotel/templates/hotel/booking_review.html:222
-#: olhocao/templates/components/footer.html:115
+#: olhocao/templates/components/footer.html:117
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
@@ -1496,7 +1496,7 @@ msgstr ""
 "Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. O "
 "programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
 
-#: frontoffice/views.py:139
+#: frontoffice/views.py:137
 msgid "Thank you! Your message has been sent."
 msgstr "Obrigado! Sua mensagem foi enviada."
 
@@ -2158,7 +2158,8 @@ msgstr "navegar"
 
 #: hotel/templates/hotel/partials/stay_media.html:14
 msgid "Images and videos supported. Large files upload in chunks."
-msgstr "Imagens e vídeos suportados. Arquivos grandes são enviados particionados."
+msgstr ""
+"Imagens e vídeos suportados. Arquivos grandes são enviados particionados."
 
 #: hotel/templates/hotel/partials/stay_media.html:39
 msgid "No media yet."
@@ -2247,39 +2248,39 @@ msgstr ""
 "Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
 "reserva original."
 
-#: hotel/views.py:1082
+#: hotel/views.py:1080
 #, python-format, python-brace-format
 msgid "Booking cancelled and refunded ({refund_percentage}%% refund applied)"
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1150
+#: hotel/views.py:1148
 msgid "Refund failed or already processed. Please contact support."
 msgstr ""
 "Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
 "suporte."
 
-#: hotel/views.py:1159
+#: hotel/views.py:1157
 #, python-format, python-brace-format
 msgid "Booking cancelled and, if paid, {refund_percentage}%% refunded."
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1190
+#: hotel/views.py:1188
 msgid "No sales document available for this booking."
 msgstr "Nenhum documento de venda disponível para esta reserva."
 
-#: hotel/views.py:1209
+#: hotel/views.py:1205
 msgid "Could not retrieve PDF document. Please try again later."
 msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "
 "tarde."
 
-#: olhocao/settings.py:186
+#: olhocao/settings.py:188
 msgid "English"
 msgstr "Inglês"
 
-#: olhocao/settings.py:187
+#: olhocao/settings.py:189
 msgid "Portuguese"
 msgstr "Português"
 
@@ -2287,39 +2288,39 @@ msgstr "Português"
 msgid "Find Us"
 msgstr "Encontre-nos"
 
-#: olhocao/templates/components/footer.html:25
-msgid "Open Monday-Friday: 9AM-6PM"
-msgstr "Aberto de segunda a sexta: 9h-18h"
+#: olhocao/templates/components/footer.html:26
+msgid "Schedule a visit"
+msgstr "Agendar uma visita"
 
-#: olhocao/templates/components/footer.html:35
+#: olhocao/templates/components/footer.html:37
 msgid "Our Partners"
 msgstr "Os Nossos Parceiros"
 
-#: olhocao/templates/components/footer.html:41
+#: olhocao/templates/components/footer.html:43
 msgid "Our Veterinary"
 msgstr "O Nosso Veterinário"
 
-#: olhocao/templates/components/footer.html:47
+#: olhocao/templates/components/footer.html:49
 msgid "Material and Accessories"
 msgstr "Materiais e Acessórios"
 
-#: olhocao/templates/components/footer.html:53
+#: olhocao/templates/components/footer.html:55
 msgid "Dog Breeder"
 msgstr "Criador de Cães"
 
-#: olhocao/templates/components/footer.html:66
+#: olhocao/templates/components/footer.html:68
 msgid "Connect With Us"
 msgstr "Conecte-se Conosco"
 
-#: olhocao/templates/components/footer.html:120
+#: olhocao/templates/components/footer.html:122
 msgid "All rights reserved"
 msgstr "Todos os direitos reservados"
 
-#: olhocao/templates/components/footer.html:123
+#: olhocao/templates/components/footer.html:125
 msgid "Developed with"
 msgstr "Desenvolvido com"
 
-#: olhocao/templates/components/footer.html:125
+#: olhocao/templates/components/footer.html:127
 msgid "by"
 msgstr "por"
 
@@ -2668,3 +2669,6 @@ msgstr "Ainda não adicionou nenhum animal de estimação."
 #: pets/templates/pets/pet_list.html:54
 msgid "Add Your First Pet"
 msgstr "Adicionar Seu Primeiro Animal de Estimação"
+
+#~ msgid "Open Monday-Friday: 9AM-6PM"
+#~ msgstr "Aberto de segunda a sexta: 9h-18h"
