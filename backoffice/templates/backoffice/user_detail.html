@@ -63,7 +63,7 @@
                     <span class="ml-2 inline-block px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-700">{% trans "Deleted" %}</span>
                   {% endif %}
                 </h3>
-                <p class="text-primary-600 mb-3">{{ pet.get_species_display }}{% if pet.breed %} • {{ pet.breed }}{% endif %}</p>
+                <p class="text-primary-600 mb-3">{{ pet.species.name }}{% if pet.breed %} • {{ pet.breed }}{% endif %}</p>
                 <div class="flex flex-wrap gap-2 justify-end">
                   <a href="{% url 'pets:detail' pet.pk %}" class="px-3 py-2 text-xs rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200">{% trans "View" %}</a>
                   <a href="{% url 'pets:update' pet.pk %}" class="px-3 py-2 text-xs rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200">{% trans "Edit" %}</a>

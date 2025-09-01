@@ -66,4 +66,4 @@ class Account(models.Model):
         )
 
     def __str__(self):
-        return f'{self.user.username} | {self.user.email}'
+        return self.user.get_full_name() or f'{self.user.username} · {self.user.email}'

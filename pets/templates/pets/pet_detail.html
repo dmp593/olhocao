@@ -23,6 +23,12 @@
         <div>
           <h2 class="font-bold text-lg mb-3 text-primary-800">{% trans "Basic Info" %}</h2>
           <div class="space-y-2">
+            {% if request.user.is_staff %}
+              <p>
+                <span class="font-medium">{% trans "Owner:" %}</span>
+                <a href="{% url 'backoffice:user_detail' pet.owner.pk %}">{{ pet.owner }}</a>
+              </p>
+            {% endif %}
             <p><span class="font-medium">{% trans "Birthdate:" %}</span> {{ pet.birthdate|date:"Y-m-d" }}</p>
             <p><span class="font-medium">{% trans "Weight:" %}</span> {{ pet.weight }} kg</p>
             <p><span class="font-medium">{% trans "Microchip:" %}</span> {{ pet.microship_number|default:"-" }}</p>

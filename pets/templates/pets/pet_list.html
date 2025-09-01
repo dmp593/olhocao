@@ -29,7 +29,10 @@
                       <span class="ml-2 inline-block px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-700 self-center justify-self-end">{% trans "Deleted" %}</span>
                     {% endif %}
                   </h3>
-                  <p class="text-primary-600 mb-4">{{ pet.get_species_display }} • {{ pet.breed }}</p>
+                  {% if request.user.is_staff %}
+                  <a href="{% url 'backoffice:user_detail' pet.owner.pk %}" class="text-accent-600 mb-2">{{ pet.owner }}</a>
+                  {% endif %}
+                  <p class="text-primary-600 mb-4">{{ pet.species.name }} • {{ pet.breed }}</p>
                   <div class="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end sm:space-x-2">
                       <a href="{% url 'pets:detail' pet.pk %}" class="w-full sm:w-auto text-center text-xs md:text-sm px-3 py-2 rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200 transition-colors">{% trans 'View' %}</a>
                       <a href="{% url 'pets:update' pet.pk %}" class="w-full sm:w-auto text-center text-xs md:text-sm px-3 py-2 rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition-colors">{% trans 'Edit' %}</a>
