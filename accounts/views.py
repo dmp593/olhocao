@@ -47,7 +47,7 @@ def signup_view(request):
             # customer is synced but don't block signup on TocOnline failures.
             login(request, user)
 
-            success_msg = _("Welcome, %s", user.get_full_name())
+            success_msg = _("Welcome") + f", {user.get_full_name()}"
             messages.success(request, success_msg)
 
             return redirect("frontoffice:home")
