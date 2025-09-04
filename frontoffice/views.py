@@ -116,6 +116,7 @@ class PricingView(TemplateView):
                     toc_family_services,
                 )
             )
+
             family = {
                 "id": toc_family["id"],
                 "name": toc_family["attributes"]["name"],

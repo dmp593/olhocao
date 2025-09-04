@@ -36,7 +36,7 @@ msgstr "Escreva o seu último nome conforme os documentos oficiais."
 
 #: accounts/forms.py:27 accounts/forms.py:81
 msgid "VAT Number"
-msgstr "IVA"
+msgstr "NIF"
 
 #: accounts/forms.py:28 accounts/forms.py:82
 msgid "Your tax identification number (required for invoicing)."

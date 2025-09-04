@@ -187,6 +187,7 @@
             
             <!-- Mobile User Menu -->
             <div class="pt-2">
+                {% if user.is_authenticated %}
                 <div class="font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300">
                     <span class="flex items-center">
                         {% include "icons/user.html" with class="w-6 h-6 mr-3 text-accent-500" %}
@@ -244,11 +245,32 @@
                         {% include "icons/adjustments_horizontal.html" with class="w-4 h-4 mr-3" %}
                         {% trans "Change Password" %}
                     </a>
-                    <a href="{% url 'accounts:logout' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
-                        {% include "icons/logout.html" with class="w-4 h-4 mr-3" %}
-                        {% trans "Logout" %}
+                    <form action="{% url 'accounts:logout' %}" method="post" class="block">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full text-left font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                            {% include "icons/logout.html" with class="w-4 h-4 mr-3" %}
+                            {% trans "Logout" %}
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="font-semibold text-xl uppercase py-2 px-6 rounded-lg transition-all duration-300">
+                    <span class="flex items-center">
+                        {% include "icons/user.html" with class="w-6 h-6 mr-3 text-accent-500" %}
+                        {% trans "Account" %}
+                    </span>
+                </div>
+                <div class="pl-12">
+                    <a href="{% url 'accounts:login' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/login.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Login" %}
+                    </a>
+                    <a href="{% url 'accounts:signup' %}" class="block font-medium text-lg py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
+                        {% include "icons/users.html" with class="w-4 h-4 mr-3" %}
+                        {% trans "Sign Up" %}
                     </a>
                 </div>
+                {% endif %}
             </div>
             
             <!-- Mobile Language Toggle -->
