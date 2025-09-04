@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 09:36+0000\n"
+"POT-Creation-Date: 2025-09-04 23:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,7 +139,7 @@ msgid "Your password has been successfully updated."
 msgstr "A sua palavra-passe foi atualizada com sucesso."
 
 #: accounts/templates/accounts/password_change_done.html:14
-#: accounts/templates/accounts/password_reset_done.html:17
+#: accounts/templates/accounts/password_reset_done.html:18
 #: accounts/templates/accounts/user_change_done.html:47
 #: hotel/templates/hotel/booking_success.html:68
 msgid "Back to Home"
@@ -149,7 +149,7 @@ msgstr "Voltar à Página Inicial"
 #: accounts/templates/accounts/password_reset_confirm.html:12
 #: accounts/templates/accounts/password_reset_form.html:15
 #: olhocao/templates/components/navbar.html:125
-#: olhocao/templates/components/navbar.html:245
+#: olhocao/templates/components/navbar.html:246
 msgid "Change Password"
 msgstr "Alterar Palavra-passe"
 
@@ -183,11 +183,11 @@ msgstr ""
 msgid "Log In Now"
 msgstr "Iniciar Sessão Agora"
 
-#: accounts/templates/accounts/password_reset_done.html:11
+#: accounts/templates/accounts/password_reset_done.html:12
 msgid "Check Your Inbox"
 msgstr "Verifique a Sua Caixa de Entrada"
 
-#: accounts/templates/accounts/password_reset_done.html:12
+#: accounts/templates/accounts/password_reset_done.html:13
 msgid ""
 "We've emailed you instructions for setting your password. You should receive "
 "the email shortly!"
@@ -195,11 +195,11 @@ msgstr ""
 "Enviámos-lhe por email instruções para definir a sua palavra-passe. Deverá "
 "receber o email em breve!"
 
-#: accounts/templates/accounts/password_reset_done.html:14
+#: accounts/templates/accounts/password_reset_done.html:15
 msgid "Didn't receive an email? Check your spam folder or"
 msgstr "Não recebeu um email? Verifique a sua pasta de spam ou"
 
-#: accounts/templates/accounts/password_reset_done.html:14
+#: accounts/templates/accounts/password_reset_done.html:15
 msgid "try again"
 msgstr "tente novamente"
 
@@ -216,6 +216,7 @@ msgid "Join our pack of happy pet parents"
 msgstr "Junte-se ao nosso grupo de felizes donos de animais de estimação"
 
 #: accounts/templates/accounts/signup.html:39
+#: olhocao/templates/components/navbar.html:270
 msgid "Sign Up"
 msgstr "Registar"
 
@@ -227,7 +228,7 @@ msgstr "Já tem uma conta?"
 msgid "Log in"
 msgstr "Iniciar Sessão"
 
-#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:134
+#: accounts/templates/accounts/user_change_done.html:16 accounts/views.py:177
 msgid "Account Updated"
 msgstr "Conta Atualizada"
 
@@ -235,7 +236,7 @@ msgstr "Conta Atualizada"
 msgid "Your changes have been saved"
 msgstr "As suas alterações foram guardadas"
 
-#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:136
+#: accounts/templates/accounts/user_change_done.html:31 accounts/views.py:179
 msgid "Your account information has been successfully updated."
 msgstr "As informações da sua conta foram atualizadas com sucesso."
 
@@ -263,6 +264,11 @@ msgstr "Guardar Alterações"
 #: accounts/templates/accounts/user_form.html:147
 msgid "Back to home"
 msgstr "Voltar para a página inicial"
+
+#: accounts/views.py:50
+#, python-format
+msgid "Welcome, %s"
+msgstr "Bem-vindo(a), %s"
 
 #: backoffice/models.py:9
 #: frontoffice/templates/frontoffice/terms_and_conditions.html:19
@@ -338,7 +344,7 @@ msgstr "Documento Legal"
 #: backoffice/models.py:64
 #: backoffice/templates/backoffice/legaldocument_list.html:7
 #: olhocao/templates/components/navbar.html:107
-#: olhocao/templates/components/navbar.html:227
+#: olhocao/templates/components/navbar.html:228
 msgid "Legal Documents"
 msgstr "Documentos Legais"
 
@@ -421,7 +427,7 @@ msgid "Allergies"
 msgstr "Alergias"
 
 #: backoffice/templates/backoffice/_stay_card.html:54
-#: pets/templates/pets/pet_detail.html:43
+#: pets/templates/pets/pet_detail.html:49
 msgid "Notes"
 msgstr "Notas"
 
@@ -449,7 +455,7 @@ msgid "Services"
 msgstr "Serviços"
 
 #: backoffice/templates/backoffice/contactrequest_list.html:7
-#: olhocao/templates/components/navbar.html:223
+#: olhocao/templates/components/navbar.html:224
 msgid "Contact Requests"
 msgstr "Pedidos de Contacto"
 
@@ -621,13 +627,13 @@ msgstr "Adicionar Novo Documento"
 #: backoffice/templates/backoffice/user_detail.html:69
 #: backoffice/templates/backoffice/user_detail.html:90
 #: backoffice/templates/backoffice/users_list.html:48
-#: pets/templates/pets/pet_detail.html:53 pets/templates/pets/pet_list.html:35
+#: pets/templates/pets/pet_detail.html:59 pets/templates/pets/pet_list.html:38
 msgid "Edit"
 msgstr "Editar"
 
 #: backoffice/templates/backoffice/legaldocument_list.html:30
 #: pets/templates/pets/pet_confirm_delete.html:28
-#: pets/templates/pets/pet_detail.html:56 pets/templates/pets/pet_list.html:42
+#: pets/templates/pets/pet_detail.html:62 pets/templates/pets/pet_list.html:45
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -674,7 +680,7 @@ msgstr "Sem reservas recentes."
 #: hotel/templates/hotel/booking_detail.html:87
 #: hotel/templates/hotel/booking_modify.html:31
 #: olhocao/templates/components/navbar.html:92
-#: olhocao/templates/components/navbar.html:212
+#: olhocao/templates/components/navbar.html:213
 msgid "Pets"
 msgstr "Animais de Estimação"
 
@@ -685,7 +691,7 @@ msgstr "Eliminado"
 
 #: backoffice/templates/backoffice/user_detail.html:68
 #: backoffice/templates/backoffice/users_list.html:47
-#: pets/templates/pets/pet_list.html:34
+#: pets/templates/pets/pet_list.html:37
 msgid "View"
 msgstr "Ver"
 
@@ -728,7 +734,7 @@ msgstr "Guardar"
 
 #: backoffice/templates/backoffice/users_list.html:14
 #: olhocao/templates/components/navbar.html:84
-#: olhocao/templates/components/navbar.html:204
+#: olhocao/templates/components/navbar.html:205
 msgid "Users"
 msgstr "Utilizadores"
 
@@ -1496,7 +1502,7 @@ msgstr ""
 "Grande ou pequeno, tímido ou hiperativo - nós personalizamos a diversão. O "
 "programa de felicidade do seu cão é projetado como uma dogcation 5 estrelas."
 
-#: frontoffice/views.py:137
+#: frontoffice/views.py:138
 msgid "Thank you! Your message has been sent."
 msgstr "Obrigado! Sua mensagem foi enviada."
 
@@ -2339,12 +2345,12 @@ msgid "About"
 msgstr "Sobre"
 
 #: olhocao/templates/components/navbar.html:80
-#: olhocao/templates/components/navbar.html:200
+#: olhocao/templates/components/navbar.html:201
 msgid "Dashboard"
 msgstr "Dashboard"
 
 #: olhocao/templates/components/navbar.html:88
-#: olhocao/templates/components/navbar.html:208
+#: olhocao/templates/components/navbar.html:209
 msgid "Bookings"
 msgstr "Reservas"
 
@@ -2358,28 +2364,36 @@ msgid "My Pets"
 msgstr "Animais de Estimação"
 
 #: olhocao/templates/components/navbar.html:121
-#: olhocao/templates/components/navbar.html:241
+#: olhocao/templates/components/navbar.html:242
 msgid "Manage Account"
 msgstr "Gerir Conta"
 
 #: olhocao/templates/components/navbar.html:131
-#: olhocao/templates/components/navbar.html:249
+#: olhocao/templates/components/navbar.html:252
 msgid "Logout"
 msgstr "Sair"
 
-#: olhocao/templates/components/navbar.html:193
+#: olhocao/templates/components/navbar.html:194
 msgid "My Account"
 msgstr "A Minha Conta"
 
-#: olhocao/templates/components/navbar.html:232
+#: olhocao/templates/components/navbar.html:233
 msgid "Manage Pets"
 msgstr "Gerir Animais de Estimação"
 
-#: olhocao/templates/components/navbar.html:236
+#: olhocao/templates/components/navbar.html:237
 msgid "View Hotel Bookings"
 msgstr "Ver Reservas de Hotel"
 
-#: olhocao/templates/components/navbar.html:264
+#: olhocao/templates/components/navbar.html:260
+msgid "Account"
+msgstr "Conta"
+
+#: olhocao/templates/components/navbar.html:266
+msgid "Login"
+msgstr "Iniciar Sessão"
+
+#: olhocao/templates/components/navbar.html:286
 msgid "Switch Language"
 msgstr "Mudar Idioma"
 
@@ -2406,6 +2420,29 @@ msgstr "Página %(num)s"
 #: olhocao/templates/components/pagination.html:136
 msgid "Last"
 msgstr "Último"
+
+#: olhocao/templates/registration/password_reset_email.html:3
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at {{ site_name }}."
+msgstr ""
+"Está a receber este e-mail porque solicitou uma redefinição de palavra-passe "
+"para a sua conta de utilizador em %(site_name)s."
+
+#: olhocao/templates/registration/password_reset_email.html:5
+#: templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Por favor, aceda à seguinte página e escolha uma nova palavra-passe:"
+
+#: olhocao/templates/registration/password_reset_email.html:7
+msgid "Your username, in case you've forgotten: {{ user.get_username }}"
+msgstr ""
+"O seu nome de utilizador, caso se tenha esquecido: %(user.get_username)s"
+
+#: olhocao/templates/registration/password_reset_email.html:9
+#: templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Obrigado por usar o nosso site!"
 
 #: pets/models.py:29 pets/models.py:78
 msgid "name"
@@ -2602,39 +2639,43 @@ msgstr "Tem certeza de que deseja eliminar"
 msgid "Basic Info"
 msgstr "Informações Básicas"
 
-#: pets/templates/pets/pet_detail.html:26
+#: pets/templates/pets/pet_detail.html:28
+msgid "Owner:"
+msgstr "Dono:"
+
+#: pets/templates/pets/pet_detail.html:32
 msgid "Birthdate:"
 msgstr "Data de Nascimento:"
 
-#: pets/templates/pets/pet_detail.html:27
+#: pets/templates/pets/pet_detail.html:33
 msgid "Weight:"
 msgstr "Peso:"
 
-#: pets/templates/pets/pet_detail.html:28
+#: pets/templates/pets/pet_detail.html:34
 msgid "Microchip:"
 msgstr "Microchip:"
 
-#: pets/templates/pets/pet_detail.html:32
+#: pets/templates/pets/pet_detail.html:38
 msgid "Health Info"
 msgstr "Informações de Saúde"
 
-#: pets/templates/pets/pet_detail.html:34
+#: pets/templates/pets/pet_detail.html:40
 msgid "Sterilized:"
 msgstr "Esterilizado:"
 
-#: pets/templates/pets/pet_detail.html:35
+#: pets/templates/pets/pet_detail.html:41
 msgid "Vaccinated:"
 msgstr "Vacinado:"
 
-#: pets/templates/pets/pet_detail.html:36
+#: pets/templates/pets/pet_detail.html:42
 msgid "Allergies:"
 msgstr "Alergias:"
 
-#: pets/templates/pets/pet_detail.html:37
+#: pets/templates/pets/pet_detail.html:43
 msgid "Medication:"
 msgstr "Medicação:"
 
-#: pets/templates/pets/pet_detail.html:49
+#: pets/templates/pets/pet_detail.html:55
 msgid "Back to My Pets"
 msgstr "Voltar aos Meus Animais de Estimação"
 
@@ -2654,21 +2695,33 @@ msgstr "Preencha os detalhes do seu animal de estimação abaixo"
 msgid "Remove photo"
 msgstr "Remover foto"
 
-#: pets/templates/pets/pet_form.html:74 pets/templates/pets/pet_list.html:62
+#: pets/templates/pets/pet_form.html:74 pets/templates/pets/pet_list.html:65
 msgid "Add Pet"
 msgstr "Adicionar Animal de Estimação"
 
-#: pets/templates/pets/pet_list.html:39
+#: pets/templates/pets/pet_list.html:42
 msgid "Restore"
 msgstr "Restaurar"
 
-#: pets/templates/pets/pet_list.html:50
+#: pets/templates/pets/pet_list.html:53
 msgid "You haven't added any pets yet."
 msgstr "Ainda não adicionou nenhum animal de estimação."
 
-#: pets/templates/pets/pet_list.html:54
+#: pets/templates/pets/pet_list.html:57
 msgid "Add Your First Pet"
 msgstr "Adicionar Seu Primeiro Animal de Estimação"
 
-#~ msgid "Open Monday-Friday: 9AM-6PM"
-#~ msgstr "Aberto de segunda a sexta: 9h-18h"
+#: templates/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password\n"
+"reset for your user account at %(site_name)s."
+msgstr ""
+"Está a receber este e-mail porque solicitou uma redefinição de palavra-passe "
+"para a sua conta de utilizador em %(site_name)s."
+
+#: templates/registration/password_reset_email.html:9
+#, python-format
+msgid "Your username, in case you've forgotten: %(user.get_username)s"
+msgstr ""
+"O seu nome de utilizador, caso se tenha esquecido: %(user.get_username)s"
