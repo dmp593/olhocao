@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-04 23:53+0000\n"
+"POT-Creation-Date: 2025-09-06 15:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,7 +146,7 @@ msgid "Back to Home"
 msgstr "Voltar à Página Inicial"
 
 #: accounts/templates/accounts/password_change_form.html:15
-#: accounts/templates/accounts/password_reset_confirm.html:12
+#: accounts/templates/accounts/password_reset_confirm.html:16
 #: accounts/templates/accounts/password_reset_form.html:15
 #: olhocao/templates/components/navbar.html:125
 #: olhocao/templates/components/navbar.html:246
@@ -164,22 +164,28 @@ msgid "Now it won’t run away like last time."
 msgstr "Agora não vai fugir como da última vez."
 
 #: accounts/templates/accounts/password_change_form.html:41
-#: accounts/templates/accounts/password_reset_confirm.html:31
+#: accounts/templates/accounts/password_reset_confirm.html:36
 msgid "Update Password"
 msgstr "Atualizar Palavra-passe"
 
-#: accounts/templates/accounts/password_reset_complete.html:11
+#: accounts/templates/accounts/password_change_form.html:46
+#: accounts/templates/accounts/password_reset_confirm.html:41
+#: accounts/templates/accounts/user_form.html:147
+msgid "Back to home"
+msgstr "Voltar para a página inicial"
+
+#: accounts/templates/accounts/password_reset_complete.html:12
 msgid "Password Reset Complete"
 msgstr "Redefinição de Palavra-passe Completa"
 
-#: accounts/templates/accounts/password_reset_complete.html:12
+#: accounts/templates/accounts/password_reset_complete.html:13
 msgid ""
 "Your new password has been set. You can now log in with your new password."
 msgstr ""
 "A sua nova palavra-passe foi definida. Pode agora iniciar sessão com a sua "
 "nova palavra-passe."
 
-#: accounts/templates/accounts/password_reset_complete.html:14
+#: accounts/templates/accounts/password_reset_complete.html:15
 msgid "Log In Now"
 msgstr "Iniciar Sessão Agora"
 
@@ -260,10 +266,6 @@ msgstr "Alterar palavra-passe"
 #: pets/templates/pets/pet_form.html:74
 msgid "Save Changes"
 msgstr "Guardar Alterações"
-
-#: accounts/templates/accounts/user_form.html:147
-msgid "Back to home"
-msgstr "Voltar para a página inicial"
 
 #: accounts/views.py:50
 msgid "Welcome"
@@ -762,56 +764,55 @@ msgstr "NIF"
 msgid "No users found."
 msgstr "Nenhum utilizador encontrado."
 
-#: backoffice/views.py:104 backoffice/views.py:125 backoffice/views.py:180
-#: backoffice/views.py:205 backoffice/views.py:415 backoffice/views.py:446
-msgid "Unauthorized"
-msgstr "Não autorizado"
-
-#: backoffice/views.py:192
+#: backoffice/views.py:129
 msgid "User created."
 msgstr "Utilizador criado."
 
-#: backoffice/views.py:308
+#: backoffice/views.py:281
 msgid "Legal document not found."
 msgstr "Documento legal não encontrado."
 
-#: backoffice/views.py:358
+#: backoffice/views.py:331
 msgid "Legal document created."
 msgstr "Documento legal criado."
 
-#: backoffice/views.py:360
+#: backoffice/views.py:333
 msgid "Legal document updated."
 msgstr "Documento legal atualizado."
 
-#: backoffice/views.py:379
+#: backoffice/views.py:352
 msgid "Legal Document deleted."
 msgstr "Documento legal eliminado."
 
-#: backoffice/views.py:403
+#: backoffice/views.py:376
 msgid "Marked as read."
 msgstr "Marcado como lido."
 
-#: backoffice/views.py:405
+#: backoffice/views.py:378
 msgid "No unread requests selected."
 msgstr "Nenhum pedido não lido selecionado."
 
-#: backoffice/views.py:407
+#: backoffice/views.py:380
 msgid "No requests selected."
 msgstr "Nenhum pedido selecionado."
 
-#: backoffice/views.py:421
+#: backoffice/views.py:388 backoffice/views.py:419
+msgid "Unauthorized"
+msgstr "Não autorizado"
+
+#: backoffice/views.py:394
 msgid "User not found"
 msgstr "Utilizador não encontrado"
 
-#: backoffice/views.py:428
+#: backoffice/views.py:401
 msgid "User deactivated"
 msgstr "Utilizador desativado"
 
-#: backoffice/views.py:430
+#: backoffice/views.py:403
 msgid "User activated"
 msgstr "Utilizador ativado"
 
-#: backoffice/views.py:454
+#: backoffice/views.py:427
 msgid "Booking will be created on behalf of selected user."
 msgstr "A reserva será criada em nome do utilizador selecionado."
 
@@ -2206,33 +2207,59 @@ msgstr ""
 "\n"
 "Obrigado."
 
-#: hotel/views.py:536
+#: hotel/views.py:533
 msgid "Payment link emailed to the customer."
 msgstr "O link de pagamento foi enviado ao cliente."
 
-#: hotel/views.py:547
+#: hotel/views.py:544
 msgid "Payment processing error. Please try again."
 msgstr "Erro ao processar o pagamento. Por favor, tente novamente."
 
-#: hotel/views.py:680
+#: hotel/views.py:656
+msgid ""
+"We couldn't generate the invoice automatically. Please contact us to get "
+"your invoice or ask for it at check-in."
+msgstr ""
+"Não conseguimos gerar a fatura-recibo automaticamente. Por favor, contacte-nos "
+"para obter a fatura-recebido, ou peça-a no check-in."
+
+#: hotel/views.py:662
+#, python-format
+msgid "Your booking #%s is confirmed!"
+msgstr "Reserva #%s confirmada!"
+
+#: hotel/views.py:669
+#, python-brace-format
+msgid ""
+"Hello {name},\n"
+"We received your payment for booking #{booking_id}.\n"
+"You can view the booking details here: {url}.\n"
+"Thank you for choosing Olhócão."
+msgstr ""
+"Olá, {name},\n"
+"Recebemos um pagamento da reserva #{booking_id}.\n"
+"Pode ver os detalhes da reserva aqui: {url}.\n"
+"Obrigado por escolher o OlhóCão."
+
+#: hotel/views.py:714
 msgid "This booking can no longer be paid as the stay dates have passed"
 msgstr ""
 "Esta reserva não pode mais ser paga, pois as datas de estadia já passaram."
 
-#: hotel/views.py:690
+#: hotel/views.py:724
 msgid "This booking doesn't require payment"
 msgstr "Esta reserva não requer pagamento."
 
-#: hotel/views.py:903
+#: hotel/views.py:937
 msgid "Error creating payment session. Please try again later."
 msgstr ""
 "Erro ao criar sessão de pagamento. Por favor, tente novamente mais tarde."
 
-#: hotel/views.py:991
+#: hotel/views.py:1025
 msgid "Booking dates updated successfully."
 msgstr "Datas da reserva atualizadas com sucesso."
 
-#: hotel/views.py:1016
+#: hotel/views.py:1050
 #, python-format, python-brace-format
 msgid ""
 "Only {refund_percentage}%% of the payment will be refunded due to processing "
@@ -2241,11 +2268,11 @@ msgstr ""
 "Apenas {refund_percentage}%% do pagamento será reembolsado devido a custos "
 "de processamento."
 
-#: hotel/views.py:1041
+#: hotel/views.py:1075
 msgid "This booking has already been cancelled."
 msgstr "Esta reserva já foi cancelada."
 
-#: hotel/views.py:1049
+#: hotel/views.py:1083
 msgid ""
 "You can only cancel up to 7 days before check-in and within 6 months of the "
 "original booking."
@@ -2253,29 +2280,29 @@ msgstr ""
 "Você só pode cancelar até 7 dias antes do check-in e dentro de 6 meses da "
 "reserva original."
 
-#: hotel/views.py:1080
+#: hotel/views.py:1114
 #, python-format, python-brace-format
 msgid "Booking cancelled and refunded ({refund_percentage}%% refund applied)"
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1148
+#: hotel/views.py:1182
 msgid "Refund failed or already processed. Please contact support."
 msgstr ""
 "Reembolso falhou ou já foi processado. Por favor, entre em contacto com o "
 "suporte."
 
-#: hotel/views.py:1157
+#: hotel/views.py:1191
 #, python-format, python-brace-format
 msgid "Booking cancelled and, if paid, {refund_percentage}%% refunded."
 msgstr ""
 "Reserva cancelada e reembolsada ({refund_percentage}%% de reembolso aplicado)"
 
-#: hotel/views.py:1188
+#: hotel/views.py:1222
 msgid "No sales document available for this booking."
 msgstr "Nenhum documento de venda disponível para esta reserva."
 
-#: hotel/views.py:1205
+#: hotel/views.py:1239
 msgid "Could not retrieve PDF document. Please try again later."
 msgstr ""
 "Não foi possível recuperar o documento PDF. Por favor, tente novamente mais "

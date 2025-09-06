@@ -13,11 +13,11 @@ from django.http import (
 from django.views.generic import View, TemplateView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
-from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
-from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from pathlib import Path
@@ -518,16 +518,13 @@ class BookingConfirmView(LoginRequiredMixin, FormView):
                     "Thank you."
                 ) % checkout_session.url
 
-                try:
-                    send_mail(
-                        subject,
-                        body,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [booking.account.user.email],
-                        fail_silently=True,
-                    )
-                except Exception:
-                    logger.warning("Failed to send payment link email.")
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [booking.account.user.email],
+                    fail_silently=True,
+                )
 
                 # Clear acting indicator and return to backoffice user detail
                 self.request.session.pop('acting_user_id', None)
@@ -577,14 +574,19 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
         )
 
         if (
-            session.payment_status == 'paid'
-            and session.metadata.get('booking_id') == str(booking.pk)
+            session.payment_status != 'paid'
+            or session.metadata.get('booking_id') != str(booking.pk)
         ):
-            if not booking.status or not booking.paid_at:
-                booking.status = models.BookingStatus.PAID
-                booking.paid_at = timezone.now()
-                booking.save()
+            # If payment not confirmed, allow retry
+            return redirect('hotel:booking_retry', booking_id=booking.id)
 
+        if not booking.status or not booking.paid_at:
+            booking.status = models.BookingStatus.PAID
+            booking.paid_at = timezone.now()
+            booking.save()
+
+        if not booking.toconline_sale_document_id:
+            try:
                 sale_document = {
                     'document_type': 'FR',
                     'vat_included_prices': True,
@@ -609,7 +611,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                         sale_document['customer_tax_registration_number'] = (
                             tax_registration_number
                         )
-                        sale_document['external_reference'] = booking.id,
+                        sale_document['external_reference'] = f"#{booking.pk}"
 
                 for stay in booking.stays.all():
                     sale_document['lines'].append({
@@ -621,7 +623,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                             stay.stripe_product.default_price.unit_amount / 100
                         ),
                     })
-                    
+
                     for service in stay.services.all():
                         sale_document['lines'].append({
                             'item_type': 'Service',
@@ -645,12 +647,44 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                 booking.toconline_sale_document_id = (
                     toconline_sales_document.get('id')
                 )
+
                 booking.save()
+            except Exception:
+                messages.error(
+                    request,
+                    _(
+                        "We couldn't generate the invoice automatically. "
+                        "Please contact us to get your invoice or ask for "
+                        "it at check-in."
+                    )
+                )
 
-            return redirect('hotel:booking_success', booking_id=booking.id)
+            subject = _("Your booking #%s is confirmed!") % booking.id
 
-        # If payment not confirmed, allow retry
-        return redirect('hotel:booking_retry', booking_id=booking.id)
+            booking_url = request.build_absolute_uri(
+                reverse('hotel:booking_detail', kwargs={'pk': booking.id})
+            )
+
+            body = _(
+                "Hello {name},\n"
+                "We received your payment for booking #{booking_id}.\n"
+                "You can view the booking details here: {url}.\n"
+                "Thank you for choosing Olhócão."
+            ).format(
+                name=booking.account.user.get_full_name(),
+                booking_id=booking.id,
+                url=booking_url,
+            )
+
+            send_mail(
+                subject,
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                [booking.account.user.email],
+                fail_silently=True,
+            )
+
+        return redirect('hotel:booking_success', booking_id=booking.id)
 
 
 class BookingRetryView(LoginRequiredMixin, TemplateView):

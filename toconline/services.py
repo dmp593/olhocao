@@ -257,6 +257,9 @@ class TocOnline:
             timeout=self.timeout
         )
 
+        print(kwargs)
+        print(response.json())
+
         response.raise_for_status()
 
         json_response = response.json()
