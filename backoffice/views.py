@@ -24,6 +24,8 @@ from olhocao.mixins import (
     StaffRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 )
 
+from accounts.forms import SignUpForm
+
 from hotel.models import (
     BookingStay, BookingStatus
 )
@@ -113,15 +115,41 @@ class UsersListView(StaffRequiredMixin, ListView):
             .select_related('account')
             .order_by('first_name', 'last_name')
         )
+    
+
+class UserCreateView(StaffRequiredMixin, FormView):
+    template_name = 'backoffice/user_create.html'
+    form_class = SignUpForm
+    success_url = None  # computed in form_valid
+
+    def form_valid(self, form):
+        # Do NOT log in as the created user
+        if form.is_valid():
+            user = form.save()
+            messages.success(self.request, _("User created."))
+            return redirect('backoffice:user_detail', pk=user.pk)
+        return super().form_invalid(form)
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    template_name = 'backoffice/user_detail.html'
-    context_object_name = 'user_obj'
+class UserDetailMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        user_pk = self.kwargs.get('pk', self.request.user.pk)
+        return self.request.user.is_staff or self.request.user.pk == user_pk
 
     def get_queryset(self):
         User = get_user_model()
         return User.objects.select_related('account')
+
+    def get_object(self, queryset=None):
+        User = get_user_model()
+        user_pk = self.kwargs.get('pk', self.request.user.pk)
+
+        return User.objects.select_related('account').get(pk=user_pk)
+
+
+class UserDetailView(UserDetailMixin, DetailView):
+    template_name = 'backoffice/user_detail.html'
+    context_object_name = 'user_obj'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -162,44 +190,9 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class UserCreateView(StaffRequiredMixin, FormView):
-    template_name = 'backoffice/user_create.html'
-    success_url = None  # computed in form_valid
-
-    def get_form_class(self):
-        from accounts.forms import SignUpForm
-        return SignUpForm
-
-    def form_valid(self, form):
-        # Do NOT log in as the created user
-        if form.is_valid():
-            user = form.save()
-            messages.success(self.request, _("User created."))
-            return redirect('backoffice:user_detail', pk=user.pk)
-        return super().form_invalid(form)
-
-
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class UserUpdateView(UserDetailMixin, UpdateView):
     template_name = 'backoffice/user_form.html'
     form_class = UserChangeForm
-
-    def test_func(self):
-        user_pk = self.kwargs.get('pk', self.request.user.pk)
-
-        if self.request.user.is_staff:
-            return True
-
-        return self.request.user.pk == user_pk
-
-    def get_queryset(self):
-        User = get_user_model()
-        return User.objects.select_related('account')
-
-    def get_object(self, queryset=None):
-        User = get_user_model()
-        user_pk = self.kwargs.get('pk', self.request.user.pk)
-
-        return User.objects.select_related('account').get(pk=user_pk)
 
     def get_initial(self):
         data = super().get_initial()
