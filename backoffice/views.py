@@ -20,9 +20,19 @@ from django.views.generic.edit import FormView
 from django.views import View
 
 
-from olhocao.mixins import StaffRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
-from hotel.models import BookingStay, BookingStatus
+from olhocao.mixins import (
+    StaffRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
+)
+
+from hotel.models import (
+    BookingStay, BookingStatus
+)
+
 from hotel import models as hotel_models
+
+from pets.models import Pet
+from accounts.forms import UserChangeForm
+from frontoffice.models import ContactRequest
 
 from .models import LegalDocument
 
@@ -31,9 +41,6 @@ from .forms import (
     create_section_formset,
     create_lineitem_formset,
 )
-
-from pets.models import Pet
-from frontoffice.models import ContactRequest
 
 
 class DashboardView(StaffRequiredMixin, TemplateView):
@@ -190,7 +197,6 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_form_class(self):
         # Reuse the existing user change form
-        from accounts.forms import UserChangeForm
         self.form_class = UserChangeForm
         return self.form_class
 
