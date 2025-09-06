@@ -20,7 +20,7 @@ from django.views.generic.edit import FormView
 from django.views import View
 
 
-from olhocao.mixins import StaffRequiredMixin
+from olhocao.mixins import StaffRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from hotel.models import BookingStay, BookingStatus
 from hotel import models as hotel_models
 
@@ -108,7 +108,7 @@ class UsersListView(StaffRequiredMixin, ListView):
         )
 
 
-class UserDetailView(StaffRequiredMixin, DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = 'backoffice/user_detail.html'
     context_object_name = 'user_obj'
 
@@ -172,9 +172,15 @@ class UserAdminCreateView(StaffRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class UserAdminUpdateView(StaffRequiredMixin, UpdateView):
+class UserAdminUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'backoffice/user_form.html'
     form_class = None  # set in get_form_class
+
+    def test_func(self):
+        user_pk = self.kwargs.get('pk', self.request.user.pk)
+
+        if not self.request.user.is_staff and self.request.user.pk != user_pk:
+            return self.handle_no_permission()
 
     def get_queryset(self):
         User = get_user_model()
@@ -188,7 +194,9 @@ class UserAdminUpdateView(StaffRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         User = get_user_model()
-        return User.objects.select_related('account').get(pk=self.kwargs['pk'])
+        user_pk = self.kwargs.get('pk', self.request.user.pk)
+
+        return User.objects.select_related('account').get(pk=user_pk)
 
     def get_initial(self):
         data = super().get_initial()
