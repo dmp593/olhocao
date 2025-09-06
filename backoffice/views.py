@@ -181,7 +181,7 @@ class UserCreateView(StaffRequiredMixin, FormView):
 
 class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'backoffice/user_form.html'
-    form_class = None  # set in get_form_class
+    form_class = UserChangeForm
 
     def test_func(self):
         user_pk = self.kwargs.get('pk', self.request.user.pk)
@@ -195,11 +195,6 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         User = get_user_model()
         return User.objects.select_related('account')
 
-    def get_form_class(self):
-        # Reuse the existing user change form
-        self.form_class = UserChangeForm
-        return self.form_class
-
     def get_object(self, queryset=None):
         User = get_user_model()
         user_pk = self.kwargs.get('pk', self.request.user.pk)
@@ -208,8 +203,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_initial(self):
         data = super().get_initial()
-        user = self.get_object()
-        account = getattr(user, 'account', None)
+        account = self.get_object().account
 
         if account and account.has_toconline_customer:
             customer = account.toconline_customer or {}
