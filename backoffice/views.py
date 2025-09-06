@@ -178,7 +178,11 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         user_pk = self.kwargs.get('pk', self.request.user.pk)
-        return self.request.user.is_staff or self.request.user.pk == user_pk
+
+        if self.request.user.is_staff:
+            return True
+
+        return self.request.user.pk == user_pk
 
     def get_queryset(self):
         User = get_user_model()
