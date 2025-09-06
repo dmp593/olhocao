@@ -251,7 +251,7 @@ class TocOnline:
                     "type": resource,
                 },
             }
-            if resource != TocOnlineResource.COMERCIAL_SALES_DOCUMENTS
+            if resource != TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS
             else kwargs,
 
             timeout=self.timeout

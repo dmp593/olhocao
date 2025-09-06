@@ -638,7 +638,7 @@ class BookingPaymentVerifyView(LoginRequiredMixin, View):
                         })
 
                 toconline_sales_document = toconline.create(
-                    TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
+                    TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS,
                     **sale_document
                 )
 
@@ -1053,7 +1053,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             return redirect('hotel:booking_detail', pk=booking.id)
 
         sale_document = toconline.get(
-            TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
+            TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS,
             booking.toconline_sale_document_id
         )
 
@@ -1108,7 +1108,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
                 })
 
         toconline_amend_document = toconline.create(
-            TocOnlineResource.COMERCIAL_SALES_DOCUMENTS,
+            TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS,
             **amending_document
         )
 

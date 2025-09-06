@@ -275,14 +275,14 @@ class LegalDocumentCreateOrUpdateView(StaffRequiredMixin, TemplateView):
             try:
                 legal_doc = LegalDocument.objects_active.get(pk=pk)
             except LegalDocument.DoesNotExist:
-                
+
                 messages.error(
                     self.request,
                     _('Legal document not found.')
                 )
 
                 return redirect('backoffice:legal_documents')
-        
+
         doc_form = LegalDocumentForm(request.POST, instance=legal_doc)
 
         SectionFormSet = create_section_formset()
