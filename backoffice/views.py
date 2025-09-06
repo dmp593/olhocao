@@ -155,7 +155,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class UserAdminCreateView(StaffRequiredMixin, FormView):
+class UserCreateView(StaffRequiredMixin, FormView):
     template_name = 'backoffice/user_create.html'
     success_url = None  # computed in form_valid
 
@@ -172,7 +172,7 @@ class UserAdminCreateView(StaffRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class UserAdminUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'backoffice/user_form.html'
     form_class = None  # set in get_form_class
 
