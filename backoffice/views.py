@@ -19,6 +19,8 @@ from django.core.paginator import Paginator
 from django.views.generic.edit import FormView
 from django.views import View
 
+
+from olhocao.mixins import StaffRequiredMixin
 from hotel.models import BookingStay, BookingStatus
 from hotel import models as hotel_models
 
@@ -34,7 +36,7 @@ from pets.models import Pet
 from frontoffice.models import ContactRequest
 
 
-class DashboardView(TemplateView):
+class DashboardView(StaffRequiredMixin, TemplateView):
     template_name = 'backoffice/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -92,18 +94,10 @@ class DashboardView(TemplateView):
         return context
 
 
-class UsersListView(ListView):
+class UsersListView(StaffRequiredMixin, ListView):
     template_name = 'backoffice/users_list.html'
     context_object_name = 'users'
     paginate_by = 20
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('accounts:login')
-        if not request.user.is_staff:
-            messages.error(request, _("Unauthorized"))
-            return redirect('backoffice:dashboard')
-        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         User = get_user_model()
@@ -114,17 +108,9 @@ class UsersListView(ListView):
         )
 
 
-class UserDetailView(DetailView):
+class UserDetailView(StaffRequiredMixin, DetailView):
     template_name = 'backoffice/user_detail.html'
     context_object_name = 'user_obj'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('accounts:login')
-        if not request.user.is_staff:
-            messages.error(request, _("Unauthorized"))
-            return redirect('backoffice:dashboard')
-        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         User = get_user_model()
@@ -169,17 +155,9 @@ class UserDetailView(DetailView):
         return context
 
 
-class UserAdminCreateView(FormView):
+class UserAdminCreateView(StaffRequiredMixin, FormView):
     template_name = 'backoffice/user_create.html'
     success_url = None  # computed in form_valid
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('accounts:login')
-        if not request.user.is_staff:
-            messages.error(request, _("Unauthorized"))
-            return redirect('backoffice:dashboard')
-        return super().dispatch(request, *args, **kwargs)
 
     def get_form_class(self):
         from accounts.forms import SignUpForm
@@ -194,17 +172,9 @@ class UserAdminCreateView(FormView):
         return super().form_invalid(form)
 
 
-class UserAdminUpdateView(UpdateView):
+class UserAdminUpdateView(StaffRequiredMixin, UpdateView):
     template_name = 'backoffice/user_form.html'
     form_class = None  # set in get_form_class
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('accounts:login')
-        if not request.user.is_staff:
-            messages.error(request, _("Unauthorized"))
-            return redirect('backoffice:dashboard')
-        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         User = get_user_model()
@@ -257,7 +227,7 @@ class LegalDocumentListView(ListView):
     context_object_name = 'legal_documents'
 
 
-class LegalDocumentCreateOrUpdateView(TemplateView):
+class LegalDocumentCreateOrUpdateView(StaffRequiredMixin, TemplateView):
     template_name = 'backoffice/legaldocument_form.html'
     success_url = reverse_lazy('backoffice:legal_documents')
 
@@ -269,9 +239,9 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
                 legal_doc = LegalDocument.objects_active.get(pk=pk)
             except LegalDocument.DoesNotExist:
                 return redirect('backoffice:legal_document_create')
-        
+
         doc_form = LegalDocumentForm(instance=legal_doc)
-        
+
         SectionFormSet = create_section_formset()
         LineItemFormSet = create_lineitem_formset()
 
@@ -364,7 +334,7 @@ class LegalDocumentCreateOrUpdateView(TemplateView):
         return redirect(self.success_url)
 
 
-class LegalDocumentDeleteView(DeleteView):
+class LegalDocumentDeleteView(StaffRequiredMixin, DeleteView):
     queryset = LegalDocument.objects.all()
     success_url = reverse_lazy('backoffice:legal_documents')
 
@@ -382,14 +352,14 @@ class LegalDocumentDeleteView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class ContactRequestListView(ListView):
+class ContactRequestListView(StaffRequiredMixin, ListView):
     model = ContactRequest
     context_object_name = 'contacts_requests'
     template_name = 'backoffice/contactrequest_list.html'
     paginate_by = 10
 
 
-class ContactRequestMarkReadView(View):
+class ContactRequestMarkReadView(StaffRequiredMixin, View):
     def post(self, request):
         ids = request.POST.getlist('selected_requests')
 
@@ -409,7 +379,7 @@ class ContactRequestMarkReadView(View):
         return redirect('backoffice:contacts_requests')
 
 
-class UserToggleActiveView(View):
+class UserToggleActiveView(StaffRequiredMixin, View):
     def post(self, request, pk):
         if not request.user.is_authenticated or not request.user.is_staff:
             messages.error(request, _("Unauthorized"))
@@ -440,7 +410,7 @@ class UserToggleActiveView(View):
         return redirect(next_url)
 
 
-class BookHotelForUserView(View):
+class BookHotelForUserView(StaffRequiredMixin, View):
     def post(self, request, pk):
         if not request.user.is_authenticated or not request.user.is_staff:
             messages.error(request, _("Unauthorized"))
