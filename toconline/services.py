@@ -17,9 +17,10 @@ from django.conf import settings
 
 import requests
 
-
 from .resources import TocOnlineResource
 from .models import TocOnlineToken
+
+from django.db import transaction
 
 
 class TocOnlineCredentials:
@@ -172,17 +173,23 @@ class TocOnline:
     #         last_refreshed_at.desc()
     #     )
 
+    @transaction.atomic
     def get_token(self):
         token = TocOnlineToken.objects.order_by('-refreshed_at').first()
 
-        if not token or token.is_expired:
-            access_token = self._get_access_token(
-                self._get_authorization_code()
-            )
+        if token:
+            if not token.is_expired:
+                return token
 
-            token = TocOnlineToken.objects.create(
-                **access_token
-            )
+            token.delete()
+
+        access_token = self._get_access_token(
+            self._get_authorization_code()
+        )
+
+        token = TocOnlineToken.objects.create(
+            **access_token
+        )
 
         return token
 
@@ -257,9 +264,6 @@ class TocOnline:
             timeout=self.timeout
         )
 
-        print(kwargs)
-        print(response.json())
-
         response.raise_for_status()
 
         json_response = response.json()
@@ -315,7 +319,7 @@ class TocOnline:
                 'filter[type]': 'Document',
                 'filter[copies]': 1
             },
-            timeout=10
+            timeout=self.timeout
         )
 
         response.raise_for_status()

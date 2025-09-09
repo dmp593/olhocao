@@ -23,7 +23,12 @@ class TocOnlineToken(models.Model):
 
     @property
     def is_expired(self) -> bool:
-        return self.expires_at < now()
+        datetime_now = now()
+        skew = timedelta(seconds=30)
+
+        # If the token expires within the next `skew` seconds, consider it
+        # expired (proactive refresh to avoid using near-expiry tokens).
+        return self.expires_at <= datetime_now + skew
 
     class Meta:
         ordering = [
