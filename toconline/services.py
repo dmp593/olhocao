@@ -130,6 +130,10 @@ class TocOnline:
 
         return response.json()
 
+    def _get_response_data(self, response: requests.Response):
+        json_response = response.json()
+        return json_response.get('data', json_response)
+
     @transaction.atomic
     def refresh_token(self, token):
         new_token = self._refresh_access_token(token.refresh_token)
@@ -197,15 +201,6 @@ class TocOnline:
 
         return token
 
-    def _get_response_data(self, response: requests.Response):
-        json_response = response.json()
-
-        return (
-            json_response['data']
-            if 'data' in json_response
-            else json_response
-        )
-
     def list(
         self,
         resource: TocOnlineResource | str,
@@ -233,11 +228,7 @@ class TocOnline:
 
     def first(self, resource: TocOnlineResource | str, **kwargs):
         data = self.list(resource, limit=1, **kwargs)
-
-        if len(data) == 0:
-            return None
-
-        return data[0]
+        return data[0] if len(data) > 0 else None
 
     def get(
         self,
@@ -403,12 +394,12 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        json_response = response.json()
+        json_response = self._get_response_data(response)
 
-        url_attrs = json_response.get('data').get('attributes', {}).get('url', {})
+        url_attrs = json_response.get('attributes', {}).get('url', {})
         url = f"{url_attrs['scheme']}://{url_attrs['host']}:{url_attrs['port']}{url_attrs['path']}"
 
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=self.timeout)
         response.raise_for_status()
 
         return response.content
@@ -421,5 +412,5 @@ toconline = TocOnline(
         client_secret=settings.TOCONLINE_OAUTH_CLIENT_SECRET,
         redirect_uri=settings.TOCONLINE_OAUTH_REDIRECT_URI,
     ),
-    timeout=settings.TOCONLINE_TIMEOUT
+    timeout=getattr(settings, 'TOCONLINE_TIMEOUT', 10)  # optional
 )
