@@ -17,7 +17,10 @@ from django.conf import settings
 
 import requests
 
-from .resources import TocOnlineResource
+from .resources import (
+    TocOnlineResource, TocOnlineDocumentType
+)
+
 from .models import TocOnlineToken
 
 from django.db import transaction
@@ -66,7 +69,7 @@ class TocOnline:
     @property
     def default_headers(self) -> dict:
         headers = {
-            'Accept': 'application/json',
+            'Accept': '*/*',  # According to the official docs.
         }
 
         token = self.get_token()
@@ -127,6 +130,7 @@ class TocOnline:
 
         return response.json()
 
+    @transaction.atomic
     def refresh_token(self, token):
         new_token = self._refresh_access_token(token.refresh_token)
 
@@ -193,6 +197,15 @@ class TocOnline:
 
         return token
 
+    def _get_response_data(self, response: requests.Response):
+        json_response = response.json()
+
+        return (
+            json_response['data']
+            if 'data' in json_response
+            else json_response
+        )
+
     def list(
         self,
         resource: TocOnlineResource | str,
@@ -216,9 +229,7 @@ class TocOnline:
         )
 
         response.raise_for_status()
-
-        json_response = response.json()
-        return json_response['data'] if 'data' in json_response else json_response
+        return self._get_response_data(response)
 
     def first(self, resource: TocOnlineResource | str, **kwargs):
         data = self.list(resource, limit=1, **kwargs)
@@ -240,9 +251,7 @@ class TocOnline:
         )
 
         response.raise_for_status()
-
-        json_response = response.json()
-        return json_response['data'] if 'data' in json_response else json_response
+        return self._get_response_data(response)
 
     def create(
         self,
@@ -258,16 +267,18 @@ class TocOnline:
                     "type": resource,
                 },
             }
-            if resource != TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS
+            if resource not in (
+                TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS,
+                TocOnlineResource.COMMERCIAL_PURCHASES_DOCUMENTS,
+                TocOnlineResource.COMMERCIAL_PURCHASES_PAYMENTS,
+            )
             else kwargs,
 
             timeout=self.timeout
         )
 
         response.raise_for_status()
-
-        json_response = response.json()
-        return json_response['data'] if 'data' in json_response else json_response
+        return self._get_response_data(response)
 
     def update(
         self,
@@ -289,9 +300,7 @@ class TocOnline:
         )
 
         response.raise_for_status()
-
-        json_response = response.json()
-        return json_response['data'] if 'data' in json_response else json_response
+        return self._get_response_data(response)
 
     def delete(
         self,
@@ -306,18 +315,89 @@ class TocOnline:
 
         response.raise_for_status()
 
-    def get_sales_document_pdf(self, document_id: str):
-        token = self.get_token()
+    # Specific methods for documents
 
+    def send_document_to_finantial_authority(
+        self,
+        document_id: str,
+        **kwargs
+    ):
+        # TocOnlineResource.SEND_TO_FINANTIAL_AUTHORITY
+        resource = 'send_document_at_webservice'
+
+        response = requests.post(
+            f"{self.base_url}/api/{resource}",
+            headers=self.default_headers,
+            json={
+                "data": {
+                    "type": resource,
+                    "id": document_id,
+                    "attributes": kwargs
+                }
+            },
+            timeout=self.timeout
+        )
+
+        response.raise_for_status()
+        return self._get_response_data(response)
+
+    def cancel_document(
+        self,
+        resource: TocOnlineResource | str,
+        document_id: str,
+    ):
+        if resource not in (
+            TocOnlineResource.COMMERCIAL_SALES_RECEIPTS,
+            TocOnlineResource.COMMERCIAL_PURCHASES_DOCUMENTS,
+        ):
+            raise ValueError(
+                f"Resource '{resource}' does not support cancelation."
+                " Only commercial sales receipts and purchases documents"
+                " can be canceled."
+            )
+
+        response = requests.patch(
+            f"{self.base_url}/api/{resource}/{document_id}/void",
+            headers=self.default_headers,
+            timeout=self.timeout
+        )
+
+        response.raise_for_status()
+        return self._get_response_data(response)
+
+    def send_document_via_email(
+        self,
+        from_email: str,
+        from_name: str,
+        subject: str,
+        to_email: str,
+        document_id: str,
+        document_type: str = TocOnlineDocumentType.DOCUMENT
+    ):
+        response = self.update(
+            'email/document',  # TocOnlineResource.SEND_MAIL
+            document_id,
+            from_email=from_email,
+            from_name=from_name,
+            subject=subject,
+            to_email=to_email,
+            type=document_type
+        )
+
+        response.raise_for_status()
+
+    def download_document(
+        self,
+        document_id: str,
+        document_type: str = TocOnlineDocumentType.DOCUMENT,
+        number_of_copies: int = 1,
+    ) -> bytes:
         response = requests.get(
             f"{self.base_url}/api/url_for_print/{document_id}",
-            headers={
-                'Accept': '*/*',
-                'Authorization': f"Bearer {token.access_token}",
-            },
+            headers=self.default_headers,
             params={
-                'filter[type]': 'Document',
-                'filter[copies]': 1
+                'filter[type]': document_type,
+                'filter[copies]': max(1, number_of_copies)
             },
             timeout=self.timeout
         )

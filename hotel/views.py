@@ -1225,7 +1225,7 @@ def download_sales_document_pdf(request, booking_id):
 
     try:
         return HttpResponse(
-            toconline.get_sales_document_pdf(sales_document_id),
+            toconline.download_document(sales_document_id),
             content_type='application/pdf'
         )
     except Exception as e:
