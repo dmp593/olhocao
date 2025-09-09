@@ -394,12 +394,23 @@ class TocOnline:
         )
 
         response.raise_for_status()
-        json_response = self._get_response_data(response)
 
-        url_attrs = json_response.get('attributes', {}).get('url', {})
-        url = f"{url_attrs['scheme']}://{url_attrs['host']}:{url_attrs['port']}{url_attrs['path']}"
+        url_attrs = (
+            self._get_response_data(response)
+                .get('attributes', {})
+                .get('url', {})
+        )
 
-        response = requests.get(url, timeout=self.timeout)
+        scheme = url_attrs.get('scheme', 'https')
+        host = url_attrs.get('host')
+        port = url_attrs.get('port')
+        path = url_attrs.get('path')
+
+        response = requests.get(
+            f"{scheme}://{host}:{port}{path}",
+            timeout=self.timeout
+        )
+
         response.raise_for_status()
 
         return response.content
