@@ -313,15 +313,14 @@ class TocOnline:
         document_id: str,
         **kwargs
     ):
-        # TocOnlineResource.SEND_TO_FINANTIAL_AUTHORITY
-        resource = 'send_document_at_webservice'
+        toconline_resource = 'send_document_at_webservice'
 
         response = requests.post(
-            f"{self.base_url}/api/{resource}",
+            f"{self.base_url}/api/{toconline_resource}",
             headers=self.default_headers,
             json={
                 "data": {
-                    "type": resource,
+                    "type": toconline_resource,
                     "id": document_id,
                     "attributes": kwargs
                 }
@@ -366,7 +365,7 @@ class TocOnline:
         document_type: str = TocOnlineDocumentType.DOCUMENT
     ):
         response = self.update(
-            'email/document',  # TocOnlineResource.SEND_MAIL
+            'email/document',
             document_id,
             from_email=from_email,
             from_name=from_name,
