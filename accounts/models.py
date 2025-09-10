@@ -42,7 +42,7 @@ class Account(models.Model):
         if not self.has_toconline_customer:
             return None
 
-        return toconline.get(
+        return toconline.retrieve(
             TocOnlineResource.CUSTOMERS,
             self.toconline_customer_id
         )

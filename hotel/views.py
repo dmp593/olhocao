@@ -1086,7 +1086,7 @@ class HotelBookingCancelView(LoginRequiredMixin, View):
             )
             return redirect('hotel:booking_detail', pk=booking.id)
 
-        sale_document = toconline.get(
+        sale_document = toconline.retrieve(
             TocOnlineResource.COMMERCIAL_SALES_DOCUMENTS,
             booking.toconline_sale_document_id
         )

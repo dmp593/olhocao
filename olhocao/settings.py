@@ -104,9 +104,9 @@ INSTALLED_APPS = [
     # 3rd party apps,
     'django_browser_reload',
     'djstripe',
+    'toconline',
 
     # local apps
-    'toconline',
     'accounts',
     'pets',
     'hotel',
