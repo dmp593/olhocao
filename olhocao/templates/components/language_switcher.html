@@ -1,16 +1,16 @@
 {% load i18n static %}
 {% get_current_language as current_language %}
-<form action="{% url 'set_language' %}" method="post" class="{{ wrapper_class|default:'' }}">
+<form action="{% url 'set_language' %}" method="post" class="shrink-0 {{ wrapper_class|default:'' }}">
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ request.get_full_path }}">
   {% if current_language|slice:':2' == 'pt' %}
     <button type="submit" name="language" value="en" class="{{ button_class|default:'ui-nav-link' }}" aria-label="{% trans 'View in English' %}">
-      <img src="{% static 'flags/uk.png' %}" alt="" class="size-6 rounded-full border border-primary-300">
+      <img src="{% static 'flags/uk.png' %}" alt="" class="size-6 shrink-0 rounded-full border border-primary-300">
       {% if not compact %}<span>{% trans "English" %}</span>{% endif %}
     </button>
   {% else %}
     <button type="submit" name="language" value="pt" class="{{ button_class|default:'ui-nav-link' }}" aria-label="{% trans 'Ver em português' %}">
-      <img src="{% static 'flags/pt.png' %}" alt="" class="size-6 rounded-full border border-primary-300">
+      <img src="{% static 'flags/pt.png' %}" alt="" class="size-6 shrink-0 rounded-full border border-primary-300">
       {% if not compact %}<span>Português</span>{% endif %}
     </button>
   {% endif %}

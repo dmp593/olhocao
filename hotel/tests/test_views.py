@@ -500,6 +500,21 @@ class HealthCheckTests(TestCase):
             "camera=(), geolocation=(), microphone=()",
         )
 
+    def test_inline_scripts_require_a_per_response_csp_nonce(self):
+        response = self.client.get(reverse("frontoffice:home"))
+        policy = response["Content-Security-Policy"]
+        nonce = policy.split("'nonce-", 1)[1].split("'", 1)[0]
+
+        second_response = self.client.get(reverse("frontoffice:home"))
+        second_policy = second_response["Content-Security-Policy"]
+        second_nonce = second_policy.split("'nonce-", 1)[1].split("'", 1)[0]
+
+        self.assertIn("script-src 'self' 'nonce-", policy)
+        self.assertNotIn("script-src 'self' 'unsafe-inline'", policy)
+        self.assertContains(response, f'nonce="{nonce}"', count=2)
+        self.assertContains(second_response, f'nonce="{second_nonce}"', count=2)
+        self.assertNotEqual(nonce, second_nonce)
+
     def test_request_id_is_preserved_only_when_safe(self):
         response = self.client.get(reverse("health_live"), headers={"X-Request-ID": "job-42"})
         unsafe = self.client.get(

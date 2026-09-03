@@ -3,8 +3,6 @@ import re
 import time
 from uuid import uuid4
 
-from django.conf import settings
-
 from olhocao.logging import request_id_context
 
 logger = logging.getLogger("olhocao.request")
@@ -41,17 +39,13 @@ class RequestContextMiddleware:
 
 
 class BrowserSecurityHeadersMiddleware:
-    """Attach the browser security policy maintained by this application."""
+    """Attach browser capability restrictions maintained by the application."""
 
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         response = self.get_response(request)
-        response.setdefault(
-            "Content-Security-Policy",
-            settings.CONTENT_SECURITY_POLICY,
-        )
         response.setdefault(
             "Permissions-Policy",
             "camera=(), geolocation=(), microphone=()",

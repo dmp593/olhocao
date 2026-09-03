@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OlhóCão 4.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 17:20+0100\n"
+"POT-Creation-Date: 2026-09-03 18:37+0100\n"
 "PO-Revision-Date: 2026-09-02 01:30+0100\n"
 "Last-Translator: OlhóCão Engineering\n"
 "Language-Team: Portuguese\n"
@@ -114,7 +114,7 @@ msgstr ""
 #: activities/templates/activities/fulfilment_request.html:7
 #: activities/templates/activities/portal.html:8
 #: olhocao/templates/components/customer_portal_nav.html:2
-#: olhocao/templates/components/navbar.html:38
+#: olhocao/templates/components/navbar.html:39
 #: pets/templates/pets/pet_list.html:8
 msgid "Customer area"
 msgstr "Área de cliente"
@@ -136,7 +136,7 @@ msgstr "Reservar hotel"
 
 #: accounts/templates/accounts/dashboard.html:15
 #: olhocao/templates/components/customer_portal_nav.html:5
-#: olhocao/templates/components/navbar.html:39
+#: olhocao/templates/components/navbar.html:40
 msgid "My dogs"
 msgstr "Os meus cães"
 
@@ -158,7 +158,7 @@ msgstr "Adicionar cão"
 #: accounts/templates/accounts/dashboard.html:33
 #: olhocao/templates/components/backoffice_nav.html:16
 #: olhocao/templates/components/customer_portal_nav.html:6
-#: olhocao/templates/components/navbar.html:40
+#: olhocao/templates/components/navbar.html:41
 msgid "Hotel bookings"
 msgstr "Reservas de hotel"
 
@@ -182,7 +182,7 @@ msgstr "Ainda não tem reservas de hotel."
 #: olhocao/templates/components/backoffice_nav.html:18
 #: olhocao/templates/components/customer_portal_nav.html:7
 #: olhocao/templates/components/navbar.html:18
-#: olhocao/templates/components/navbar.html:41
+#: olhocao/templates/components/navbar.html:42
 msgid "Daycare and training"
 msgstr "ATL e treino"
 
@@ -229,7 +229,7 @@ msgstr "Voltar ao site"
 #: accounts/templates/accounts/login.html:17
 #: accounts/templates/accounts/password_reset_complete.html:4
 #: accounts/templates/accounts/signup.html:21
-#: olhocao/templates/components/navbar.html:55
+#: olhocao/templates/components/navbar.html:56
 msgid "Sign in"
 msgstr "Iniciar sessão"
 
@@ -348,7 +348,7 @@ msgstr "Enviar Link de Redefinição"
 
 #: accounts/templates/accounts/signup.html:4
 #: accounts/templates/accounts/signup.html:17
-#: olhocao/templates/components/navbar.html:56
+#: olhocao/templates/components/navbar.html:57
 msgid "Create account"
 msgstr "Criar uma conta"
 
@@ -2675,11 +2675,11 @@ msgstr "O fim da marcação deve ser posterior ao início."
 msgid "Choose a document type"
 msgstr "Escolha um tipo de documento"
 
-#: backoffice/forms.py:779 olhocao/settings.py:244
+#: backoffice/forms.py:779 olhocao/settings.py:247
 msgid "Portuguese"
 msgstr "Português"
 
-#: backoffice/forms.py:779 olhocao/settings.py:243
+#: backoffice/forms.py:779 olhocao/settings.py:246
 #: olhocao/templates/components/language_switcher.html:9
 msgid "English"
 msgstr "Inglês"
@@ -7822,27 +7822,27 @@ msgstr "Pedidos de contacto"
 msgid "Legal documents"
 msgstr "Documentos legais"
 
-#: olhocao/templates/components/backoffice_nav.html:47
+#: olhocao/templates/components/backoffice_nav.html:48
 msgid "View public website"
 msgstr "Ver site público"
 
-#: olhocao/templates/components/backoffice_nav.html:48
-#: olhocao/templates/components/navbar.html:45
+#: olhocao/templates/components/backoffice_nav.html:49
+#: olhocao/templates/components/navbar.html:46
 msgid "Account details"
 msgstr "Dados da conta"
 
-#: olhocao/templates/components/backoffice_nav.html:49
-#: olhocao/templates/components/navbar.html:46
+#: olhocao/templates/components/backoffice_nav.html:50
+#: olhocao/templates/components/navbar.html:47
 msgid "Password and security"
 msgstr "Palavra-passe e segurança"
 
-#: olhocao/templates/components/backoffice_nav.html:50
-#: olhocao/templates/components/navbar.html:36
+#: olhocao/templates/components/backoffice_nav.html:51
+#: olhocao/templates/components/navbar.html:37
 msgid "Django administration"
 msgstr "Administração Django"
 
-#: olhocao/templates/components/backoffice_nav.html:53
-#: olhocao/templates/components/navbar.html:50
+#: olhocao/templates/components/backoffice_nav.html:54
+#: olhocao/templates/components/navbar.html:51
 msgid "Sign out"
 msgstr "Terminar sessão"
 
@@ -7851,7 +7851,7 @@ msgid "Overview"
 msgstr "Visão geral"
 
 #: olhocao/templates/components/customer_portal_nav.html:8
-#: olhocao/templates/components/navbar.html:42
+#: olhocao/templates/components/navbar.html:43
 msgid "Documents"
 msgstr "Documentos"
 
@@ -7907,7 +7907,7 @@ msgstr "Início"
 msgid "Open navigation menu"
 msgstr "Abrir menu de navegação"
 
-#: olhocao/templates/components/navbar.html:35
+#: olhocao/templates/components/navbar.html:36
 msgid "Open management"
 msgstr "Abrir gestão"
 
@@ -7961,6 +7961,40 @@ msgstr "Slide seguinte"
 #, python-format
 msgid "Go to slide %(number)s"
 msgstr "Ir para o slide %(number)s"
+
+#: olhocao/templates/components/theme_switcher.html:4
+#: olhocao/templates/components/theme_switcher.html:17
+#: olhocao/templates/components/theme_switcher.html:27
+#: olhocao/templates/components/theme_switcher.html:32
+msgid "Appearance"
+msgstr "Aspeto"
+
+#: olhocao/templates/components/theme_switcher.html:5
+#: olhocao/templates/components/theme_switcher.html:36
+msgid "Light"
+msgstr "Claro"
+
+#: olhocao/templates/components/theme_switcher.html:8
+#: olhocao/templates/components/theme_switcher.html:44
+msgid "Dark"
+msgstr "Escuro"
+
+#: olhocao/templates/components/theme_switcher.html:11
+#: olhocao/templates/components/theme_switcher.html:52
+msgid "Automatic"
+msgstr "Automático"
+
+#: olhocao/templates/components/theme_switcher.html:37
+msgid "Always use the light theme"
+msgstr "Usar sempre o tema claro"
+
+#: olhocao/templates/components/theme_switcher.html:45
+msgid "Always use the dark theme"
+msgstr "Usar sempre o tema escuro"
+
+#: olhocao/templates/components/theme_switcher.html:53
+msgid "Follow this device's appearance"
+msgstr "Seguir o aspeto deste dispositivo"
 
 #: olhocao/templates/registration/password_reset_email.html:3
 msgid "You're receiving this email because you requested a password reset for your user account at {{ site_name }}."

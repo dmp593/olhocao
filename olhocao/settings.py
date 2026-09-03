@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import environ
+from django.utils.csp import CSP
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -165,6 +166,7 @@ if DEBUG:
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.csp.ContentSecurityPolicyMiddleware",
     "olhocao.middleware.RequestContextMiddleware",
     "olhocao.middleware.BrowserSecurityHeadersMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -193,6 +195,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "django.template.context_processors.csp",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "backoffice.context_processors.unread_contact_requests_count",
@@ -342,22 +345,22 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SAMESITE = "Lax"
 
-CONTENT_SECURITY_POLICY = "; ".join(
-    (
-        "default-src 'self'",
-        "base-uri 'self'",
-        "connect-src 'self'",
-        "font-src 'self' data:",
-        ("frame-src https://www.google.com https://www.google.com/maps/"),
-        ("img-src 'self' data: blob:"),
-        "media-src 'self' blob:",
-        "object-src 'none'",
-        "script-src 'self' 'unsafe-inline'",
-        "style-src 'self' 'unsafe-inline'",
-        "form-action 'self'",
-        "frame-ancestors 'none'",
-    )
-)
+SECURE_CSP = {
+    "default-src": [CSP.SELF],
+    "base-uri": [CSP.SELF],
+    "connect-src": [CSP.SELF],
+    "font-src": [CSP.SELF, "data:"],
+    "frame-src": ["https://www.google.com", "https://www.google.com/maps/"],
+    "img-src": [CSP.SELF, "data:", "blob:"],
+    "media-src": [CSP.SELF, "blob:"],
+    "object-src": [CSP.NONE],
+    "script-src": [CSP.SELF, CSP.NONCE],
+    # A small number of templates use inline presentation values for dynamic
+    # background images. Scripts remain nonce-only.
+    "style-src": [CSP.SELF, CSP.UNSAFE_INLINE],
+    "form-action": [CSP.SELF],
+    "frame-ancestors": [CSP.NONE],
+}
 
 if env.bool("USE_X_FORWARDED_PROTO", default=False):
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

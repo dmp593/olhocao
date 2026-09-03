@@ -2,7 +2,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="{{ request.LANGUAGE_CODE }}">
+<html lang="{{ request.LANGUAGE_CODE }}" data-theme-preference="auto">
 	<head>
     <title>{% block title %}Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal{% endblock %}</title>
 		<meta charset="UTF-8">
@@ -10,6 +10,8 @@
 		<link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}"/>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="color-scheme" content="light dark">
+		<meta name="theme-color" content="#ffffff">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<meta name="description" content="{% block meta_description %}Cuidados, hotel, ATL e treino para o seu melhor amigo em Leiria.{% endblock %}"/>
 		
@@ -20,7 +22,7 @@
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content="https://www.olhocao.pt/static/images/services/park-play.webp"/>
 		
-		<script type="application/ld+json">
+		<script type="application/ld+json" {% csp_nonce_attr %}>
 			{
 				"@context": "https://schema.org/",
 				"@type": "LocalBusiness",
@@ -35,7 +37,7 @@
 				"telephone": "+351 916 749 407"
 			}
 		</script>
-		<script type="application/ld+json">
+		<script type="application/ld+json" {% csp_nonce_attr %}>
 			{
 				"@context": "https://schema.org/",
 				"@type": "WebSite",
@@ -52,6 +54,7 @@
 		<meta name="twitter:title" content="Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal"/>
 		<meta name="twitter:description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
 		<meta name="twitter:image" content="https://www.olhocao.pt/static/images/services/park-play.webp"/>
+		<script src="{% static 'js/components/theme.js' %}"></script>
 		<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	{% block styles %}{% endblock %}
 	</head>

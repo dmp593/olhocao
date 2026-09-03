@@ -2,7 +2,7 @@
 <nav class="fixed inset-x-0 top-0 z-[1001] h-20 border-b border-primary-200 bg-white/95 shadow-sm backdrop-blur" aria-label="{% trans 'Management navigation' %}">
   <div class="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="{% url 'backoffice:dashboard' %}" class="flex shrink-0 items-center gap-3 font-serif text-xl font-bold text-primary-950" aria-label="Olhó Cão — {% trans 'Management overview' %}">
-      <img src="{% static 'olhocao_transparent.webp' %}" alt="" class="h-12 w-auto sm:h-14">
+      <img src="{% static 'olhocao_transparent.webp' %}" alt="" class="h-12 w-auto sm:h-14" data-theme-logo>
       <span class="hidden lg:inline">{% trans "Management" %}</span>
     </a>
 
@@ -36,6 +36,7 @@
         </details>
 
         {% include "components/language_switcher.html" with compact=True %}
+        {% include "components/theme_switcher.html" with desktop_breakpoint="xl" %}
 
         <details class="relative" data-dropdown>
           <summary class="ui-nav-link cursor-pointer list-none gap-2 [&::-webkit-details-marker]:hidden">

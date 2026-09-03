@@ -167,7 +167,8 @@ o histórico. Consulte o [guia do catálogo](catalog-and-optional-services.md).
 - Media de reservas é descarregada por uma view autenticada. O proxy não pode
   expor `/media/stay_media/` diretamente.
 - Segredos pertencem ao ambiente, nunca à base de código.
-- Django aplica HTTPS/cookies/HSTS em produção, CSP, `Permissions-Policy`, CSRF
+- Django aplica HTTPS/cookies/HSTS em produção, CSP com nonce por resposta,
+  `Permissions-Policy`, CSRF
   e proteção de clickjacking.
 
 ## Sistema de interface

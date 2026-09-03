@@ -1,0 +1,59 @@
+{% load i18n %}
+<div class="shrink-0" data-theme-picker>
+  <fieldset class="ui-theme-segmented {% if desktop_breakpoint == 'xl' %}xl:hidden{% else %}md:hidden{% endif %}">
+    <legend class="sr-only">{% trans "Appearance" %}</legend>
+    <button type="button" class="ui-theme-segment" data-theme-option="light" aria-label="{% trans 'Light' %}" title="{% trans 'Light' %}" aria-pressed="false">
+      {% include "icons/sun.html" with class="size-5" %}
+    </button>
+    <button type="button" class="ui-theme-segment" data-theme-option="dark" aria-label="{% trans 'Dark' %}" title="{% trans 'Dark' %}" aria-pressed="false">
+      {% include "icons/moon.html" with class="size-5" %}
+    </button>
+    <button type="button" class="ui-theme-segment" data-theme-option="auto" aria-label="{% trans 'Automatic' %}" title="{% trans 'Automatic' %}" aria-pressed="false">
+      {% include "icons/sun_moon.html" with class="size-5" %}
+    </button>
+  </fieldset>
+
+  <details class="relative hidden {% if desktop_breakpoint == 'xl' %}xl:block{% else %}md:block{% endif %}" data-dropdown data-theme-desktop-picker>
+    <summary class="ui-nav-link cursor-pointer list-none gap-2 [&::-webkit-details-marker]:hidden" aria-label="{% trans 'Appearance' %}" title="{% trans 'Appearance' %}">
+      <span class="ui-theme-current-icon" data-theme-current-icon="light" aria-hidden="true">
+        {% include "icons/sun.html" with class="size-5" %}
+      </span>
+      <span class="ui-theme-current-icon" data-theme-current-icon="dark" aria-hidden="true">
+        {% include "icons/moon.html" with class="size-5" %}
+      </span>
+      <span class="ui-theme-current-icon" data-theme-current-icon="auto" aria-hidden="true">
+        {% include "icons/sun_moon.html" with class="size-5" %}
+      </span>
+      <span class="sr-only">{% trans "Appearance" %}</span>
+      {% include "icons/chevron_down.html" with class="size-4" %}
+    </summary>
+
+    <div class="ui-menu-panel mt-2 w-full md:absolute md:right-0 md:w-64">
+      <p class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Appearance" %}</p>
+      <button type="button" class="ui-theme-option" data-theme-option="light" aria-pressed="false">
+        {% include "icons/sun.html" with class="size-5" %}
+        <span class="flex-1 text-left">
+          <span class="block">{% trans "Light" %}</span>
+          <span class="block text-xs font-normal text-primary-500">{% trans "Always use the light theme" %}</span>
+        </span>
+        <span class="ui-theme-selected-indicator" aria-hidden="true">{% include "icons/check_circle.html" with class="size-5" %}</span>
+      </button>
+      <button type="button" class="ui-theme-option" data-theme-option="dark" aria-pressed="false">
+        {% include "icons/moon.html" with class="size-5" %}
+        <span class="flex-1 text-left">
+          <span class="block">{% trans "Dark" %}</span>
+          <span class="block text-xs font-normal text-primary-500">{% trans "Always use the dark theme" %}</span>
+        </span>
+        <span class="ui-theme-selected-indicator" aria-hidden="true">{% include "icons/check_circle.html" with class="size-5" %}</span>
+      </button>
+      <button type="button" class="ui-theme-option" data-theme-option="auto" aria-pressed="false">
+        {% include "icons/sun_moon.html" with class="size-5" %}
+        <span class="flex-1 text-left">
+          <span class="block">{% trans "Automatic" %}</span>
+          <span class="block text-xs font-normal text-primary-500">{% trans "Follow this device's appearance" %}</span>
+        </span>
+        <span class="ui-theme-selected-indicator" aria-hidden="true">{% include "icons/check_circle.html" with class="size-5" %}</span>
+      </button>
+    </div>
+  </details>
+</div>

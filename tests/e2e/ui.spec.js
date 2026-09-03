@@ -192,6 +192,83 @@ test("public navigation survives resize, reload, history and delayed JavaScript"
   await noJavaScriptContext.close();
 });
 
+test("appearance switcher supports light, dark and automatic themes", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/pricing/");
+  await expectConsistentPage(page, { patterned: false });
+
+  const root = page.locator("html");
+  const themePicker = page.locator("[data-theme-picker]");
+  await expect(root).toHaveAttribute("data-theme-preference", "auto");
+  await expect(root).toHaveAttribute("data-theme-resolved", "dark");
+
+  const darkPalette = await page.evaluate(() => {
+    const bodyStyle = getComputedStyle(document.body);
+    const cardStyle = getComputedStyle(document.querySelector(".ui-card"));
+    const headingStyle = getComputedStyle(document.querySelector("h1"));
+    return {
+      bodyBackground: bodyStyle.backgroundColor,
+      cardBackground: cardStyle.backgroundColor,
+      headingColor: headingStyle.color,
+      colorScheme: document.documentElement.style.colorScheme,
+    };
+  });
+  expect(darkPalette).toEqual({
+    bodyBackground: "rgb(17, 21, 29)",
+    cardBackground: "rgb(28, 34, 45)",
+    headingColor: "rgb(248, 250, 252)",
+    colorScheme: "dark",
+  });
+
+  await themePicker.locator("summary").click();
+  await themePicker.getByRole("button", { name: /Light/ }).click();
+  await expect(root).toHaveAttribute("data-theme-preference", "light");
+  await expect(root).toHaveAttribute("data-theme-resolved", "light");
+  expect(await page.evaluate(() => localStorage.getItem("olhocao-theme"))).toBe("light");
+
+  await page.reload();
+  await expect(root).toHaveAttribute("data-theme-resolved", "light");
+
+  await themePicker.locator("summary").click();
+  await themePicker.getByRole("button", { name: /Automatic/ }).click();
+  await expect(root).toHaveAttribute("data-theme-resolved", "dark");
+  await page.emulateMedia({ colorScheme: "light" });
+  await expect(root).toHaveAttribute("data-theme-resolved", "light");
+
+  await login(page, administratorCredentials);
+  await page.goto("/backoffice/dashboard/");
+  await expectConsistentPage(page);
+  await expect(page.locator("[data-theme-picker]")).toBeVisible();
+  await expect(root).toHaveAttribute("data-theme-preference", "auto");
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/pricing/");
+  await page.getByRole("button", { name: "Open navigation menu" }).click();
+
+  const mobilePicker = page.locator(".ui-theme-segmented");
+  await expect(mobilePicker).toBeVisible();
+  await expect(page.locator("[data-theme-desktop-picker]")).toBeHidden();
+  await expect(mobilePicker.getByRole("button", { name: "Automatic" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+
+  const automaticIconParts = await mobilePicker
+    .getByRole("button", { name: "Automatic" })
+    .locator("svg g")
+    .evaluateAll((parts) =>
+      parts.map((part) => {
+        const rectangle = part.getBoundingClientRect();
+        return { left: rectangle.left, right: rectangle.right };
+      }),
+    );
+  expect(automaticIconParts).toHaveLength(2);
+  expect(automaticIconParts[0].right).toBeLessThan(automaticIconParts[1].left);
+
+  await mobilePicker.getByRole("button", { name: "Dark" }).click();
+  await expect(root).toHaveAttribute("data-theme-resolved", "dark");
+});
+
 test("all public pages share the visual system and render without errors", async ({ page }) => {
   const publicPaths = [
     "/",
@@ -500,11 +577,23 @@ test("operator uses management but cannot access developer administration", asyn
 
 test("administrator can switch language without leaving management", async ({ page }) => {
   await login(page, administratorCredentials);
+  await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/backoffice/dashboard/?medical=medication");
+
+  const portugueseFlag = page.getByRole("button", { name: "Ver em português" }).locator("img");
+  await expect(portugueseFlag).toBeVisible();
+  expect(await portugueseFlag.evaluate((flag) => flag.getBoundingClientRect().width)).toBe(24);
+  expect(await portugueseFlag.evaluate((flag) => flag.getBoundingClientRect().height)).toBe(24);
+
   await page.getByRole("button", { name: "Ver em português" }).click();
   await expect(page).toHaveURL("/backoffice/dashboard/?medical=medication");
   await expect(page.getByRole("heading", { name: "Gestão do hotel" })).toBeVisible();
   await expect(page.locator('nav[aria-label="Navegação da gestão"]')).toBeVisible();
+
+  const englishFlag = page.locator('button[name="language"][value="en"] img');
+  await expect(englishFlag).toBeVisible();
+  expect(await englishFlag.evaluate((flag) => flag.getBoundingClientRect().width)).toBe(24);
+  expect(await englishFlag.evaluate((flag) => flag.getBoundingClientRect().height)).toBe(24);
 });
 
 test("operator can update translated frontoffice content without changing its layout", async ({

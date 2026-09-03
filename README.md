@@ -29,6 +29,7 @@ Mais detalhe em [Arquitetura](docs/architecture.md), no
 [guia de promoções e ajustes de preço](docs/discounts-and-price-adjustments.md), no
 [sistema de navegação e UI](docs/navigation-and-ui.md), no
 [guia de conteúdo editável do frontoffice](docs/frontoffice-content.md), no
+[roadmap de autonomia e personalização](docs/self-service-roadmap.md), no
 [ADR do catálogo autoritativo](docs/adr/0003-website-catalog-authority.md) e no
 [ADR da integração de pagamentos](docs/adr/0001-toconline-catalog-and-easypay-links.md).
 

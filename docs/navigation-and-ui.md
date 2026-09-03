@@ -41,6 +41,32 @@ Os elementos de navegação ficam em `olhocao/templates/components/`. O seletor
 de idioma é partilhado pelos três contextos e conserva o caminho e a query
 string atuais.
 
+## Aspeto claro, escuro e automático
+
+O seletor reutilizável `components/theme_switcher.html` está disponível no site
+público, área de cliente e Gestão. Existem três preferências:
+
+- `Claro` e `Escuro` mantêm explicitamente o aspeto escolhido;
+- `Automático` segue `prefers-color-scheme` do dispositivo e reage a alterações
+  do sistema sem recarregar a página.
+
+A preferência é local a cada browser, guardada em `localStorage` sob a chave
+`olhocao-theme`; não é um dado da conta e não requer consentimento de cookies.
+O script pequeno `assets/js/components/theme.js` é carregado antes do CSS para
+aplicar o tema sem um clarão inicial. Também atualiza `color-scheme`, a cor da
+barra do browser e os estados acessíveis do seletor. Uma alteração emite o
+evento `olhocao:themechange`, que futuros componentes visuais podem observar
+sem acoplamento ao seletor.
+
+Em desktop, o seletor explica as três opções num menu. No menu móvel é um
+controlo segmentado compacto com ícones de sol, lua e sol/lua. Os dois formatos
+partilham o mesmo estado e nomes acessíveis.
+
+As páginas não devem implementar variantes escuras próprias. Use os tokens e
+componentes `ui-*` definidos em `styles.css`; a camada central de tema é a única
+responsável pelas cores. O tema respeita `prefers-reduced-motion`, mantém foco
+visível e não permite ao editor alterar livremente a paleta ou o CSS da marca.
+
 ## CSS e JavaScript
 
 O ficheiro fonte é `styles.css`; `assets/css/styles.css` é o build distribuído.
@@ -90,4 +116,5 @@ emergência, reserva de uma noite, cortesia documentada, edição do frontoffice
 documentos legais, catálogo central de serviços opcionais, pesquisa paginada de
 audiências de promoções, idiomas e viewport móvel.
 Também verificam overflow horizontal, labels, checkboxes gigantes, botões
-excessivos, padding de cartões, padrão de fundo e erros de JavaScript.
+excessivos, padding de cartões, padrão de fundo, temas claro/escuro/automático,
+bandeiras de idioma sem deformação e erros de JavaScript.
