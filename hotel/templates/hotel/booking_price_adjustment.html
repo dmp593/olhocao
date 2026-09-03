@@ -1,0 +1,52 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Adjust final price" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "hotel:booking_detail" booking.pk as booking_url %}
+  {% include "ui/breadcrumb.html" with url=booking_url label=_("Back to booking") only %}
+  {% include "ui/page_header.html" with kicker=_("Hotel") title=_("Adjust final price") subtitle=_("Use a documented commercial gesture before payment. Original catalog prices remain unchanged.") only %}
+
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <form method="post" class="ui-card">
+      {% csrf_token %}
+      {% trans "The price could not be changed" as form_error_title %}
+      {% include "ui/form_errors.html" with errors=form.non_field_errors title=form_error_title only %}
+      <div class="grid gap-4 rounded-2xl bg-primary-50 p-5 sm:grid-cols-3">
+        <div><p class="text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Catalog subtotal" %}</p><p class="mt-1 text-xl font-bold text-primary-950">{{ booking.gross_total_price_eur|floatformat:2 }}€</p></div>
+        <div><p class="text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Current discount" %}</p><p class="mt-1 text-xl font-bold text-emerald-700">−{{ booking.discount_amount_eur_snapshot|floatformat:2 }}€</p></div>
+        <div><p class="text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Current final price" %}</p><p class="mt-1 text-xl font-bold text-accent-700">{{ booking.total_price_eur|floatformat:2 }}€</p></div>
+      </div>
+      <div class="mt-6 space-y-5">
+        {% include "ui/form_field.html" with field=form.final_price_eur only %}
+        {% include "ui/form_field.html" with field=form.reason only %}
+      </div>
+      <div class="ui-alert ui-alert-warning mt-6">
+        <strong>{% trans "Financial safeguard" %}</strong>
+        <p class="mt-1">{% trans "Any existing payment link is disabled first. A final price of 0.00 € confirms the booking as a complimentary stay and creates no fake payment transaction." %}</p>
+      </div>
+      {% trans "Save final price" as submit_label %}
+      {% include "ui/form_actions.html" with cancel_url=booking_url submit_label=submit_label only %}
+    </form>
+
+    <aside class="ui-card self-start">
+      <h2 class="font-serif text-xl font-bold text-primary-950">{% trans "What remains immutable" %}</h2>
+      <ul class="mt-4 space-y-3 text-sm text-primary-700">
+        <li>• {% trans "Catalog price snapshots" %}</li>
+        <li>• {% trans "Captured transactions" %}</li>
+        <li>• {% trans "Issued fiscal documents" %}</li>
+        <li>• {% trans "Every previous adjustment and its reason" %}</li>
+      </ul>
+    </aside>
+  </div>
+
+  <section class="mt-8" aria-labelledby="adjustment-history-title">
+    <h2 id="adjustment-history-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Price adjustment history" %}</h2>
+    {% if adjustments %}
+      <div class="ui-table-wrap mt-4"><table class="ui-table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Change" %}</th><th>{% trans "Reason" %}</th><th>{% trans "By" %}</th></tr></thead><tbody class="divide-y divide-primary-100">{% for adjustment in adjustments %}<tr><td>{{ adjustment.created_at|date:"SHORT_DATETIME_FORMAT" }}</td><td><span class="font-bold">{{ adjustment.previous_total_amount_eur|floatformat:2 }}€ → {{ adjustment.new_total_amount_eur|floatformat:2 }}€</span></td><td>{{ adjustment.reason }}</td><td>{{ adjustment.actor|default:"—" }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}
+      <div class="mt-4">{% include "ui/empty_state.html" with title=_("No manual changes") description=_("The current final price has not been manually adjusted.") %}</div>
+    {% endif %}
+  </section>
+{% endblock %}

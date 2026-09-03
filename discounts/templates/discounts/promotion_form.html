@@ -1,0 +1,152 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n static %}
+
+{% block title %}{% if object %}{% trans "Edit promotion" %}{% else %}{% trans "Create promotion" %}{% endif %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "discounts:promotion_list" as list_url %}
+  {% include "ui/breadcrumb.html" with url=list_url label=_("Back to promotions") only %}
+  {% if object %}
+    {% include "ui/page_header.html" with kicker=_("Discounts") title=object.code subtitle=object.name only %}
+  {% else %}
+    {% include "ui/page_header.html" with kicker=_("Discounts") title=_("Create promotion") subtitle=_("Define who can use the promotion, what it applies to and when it is valid.") only %}
+  {% endif %}
+
+  <div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(20rem,1fr)]">
+    <form method="post" class="ui-card space-y-8">
+      {% csrf_token %}
+      {% trans "The discount could not be saved" as form_error_title %}
+      {% include "ui/form_errors.html" with errors=form.non_field_errors title=form_error_title only %}
+
+      <fieldset>
+        <legend class="font-serif text-xl font-bold text-primary-950">{% trans "Discount identity" %}</legend>
+        <p class="ui-help mt-2">{% trans "The code is customer-facing; the name helps the management team understand its purpose." %}</p>
+        <div class="mt-5 grid gap-5 sm:grid-cols-2">
+          {% include "ui/form_field.html" with field=form.code only %}
+          {% include "ui/form_field.html" with field=form.name only %}
+          {% include "ui/form_field.html" with field=form.discount_type only %}
+          {% include "ui/form_field.html" with field=form.value only %}
+          {% include "ui/form_field.html" with field=form.is_active wrapper_class="sm:col-span-2" only %}
+        </div>
+      </fieldset>
+
+      <fieldset class="border-t-2 border-primary-200 pt-8">
+        <legend class="font-serif text-xl font-bold text-primary-950">{% trans "What receives the discount" %}</legend>
+        <p class="ui-help mt-2">{% trans "First choose the purchase flows. Then optionally narrow the discount to catalog types, levels, or final prices and plans. These rules remain valid if anything is renamed." %}</p>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+          {% for choice in form.eligible_sale_channels %}
+            <label class="flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2 text-sm font-bold text-primary-800">{{ choice.tag }}<span>{{ choice.choice_label }}</span></label>
+          {% endfor %}
+        </div>
+        {% if form.eligible_sale_channels.help_text %}<p class="ui-help">{{ form.eligible_sale_channels.help_text }}</p>{% endif %}
+        {% if form.eligible_sale_channels.errors %}<div class="ui-error">{{ form.eligible_sale_channels.errors }}</div>{% endif %}
+        <div class="mt-6 rounded-2xl border border-primary-200 bg-primary-50 p-5">
+          <h2 class="font-bold text-primary-950">{% trans "Eligible catalog items" %}</h2>
+          <p class="ui-help mt-1">{% trans "For a direct hotel, daycare or training discount, select those main services here. For a grooming or another optional-service discount, select the optional service's own type, level or price here and choose the optional-service purchase flow above." %}</p>
+          <div class="mt-5 grid gap-5 sm:grid-cols-2">
+            {% include "ui/form_field.html" with field=form.catalog_types only %}
+            {% include "ui/form_field.html" with field=form.catalog_levels only %}
+            {% include "ui/form_field.html" with field=form.catalog_offers wrapper_class="sm:col-span-2" only %}
+          </div>
+        </div>
+        <div class="mt-5 rounded-2xl border border-accent-200 bg-accent-50 p-5">
+          <div class="flex items-start gap-3">
+            <span class="mt-0.5 text-accent-700">{% include "icons/sparkles.html" with class="size-5" %}</span>
+            <div>
+              <h2 class="font-bold text-primary-950">{% trans "Optional-service context" %}</h2>
+              <p class="ui-help mt-1">{% trans "This does not choose the item being discounted. It restricts where an optional service was added. Example: discount grooming only when it is added to a hotel reservation." %}</p>
+            </div>
+          </div>
+          <div class="mt-4">
+            {% include "ui/form_field.html" with field=form.host_catalog_types only %}
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="border-t-2 border-primary-200 pt-8">
+        <legend class="font-serif text-xl font-bold text-primary-950">{% trans "Who can use it" %}</legend>
+        <p class="ui-help mt-2">{% trans "All restrictions are optional and combine together when more than one is selected." %}</p>
+        <div class="mt-5 grid gap-5 sm:grid-cols-2">
+          {% include "ui/form_field.html" with field=form.customers only %}
+          {% include "ui/form_field.html" with field=form.pets only %}
+          {% include "ui/form_field.html" with field=form.eligible_breeds wrapper_class="sm:col-span-2" only %}
+        </div>
+      </fieldset>
+
+      <fieldset class="border-t-2 border-primary-200 pt-8">
+        <legend class="font-serif text-xl font-bold text-primary-950">{% trans "When the code is available" %}</legend>
+        <p class="ui-help mt-2">{% trans "These dates control when a customer may enter the code at checkout. Leave both empty for no purchase-date restriction." %}</p>
+        <div class="mt-5 grid gap-5 sm:grid-cols-2">
+          {% include "ui/form_field.html" with field=form.starts_at only %}
+          {% include "ui/form_field.html" with field=form.ends_at only %}
+        </div>
+      </fieldset>
+
+      <details class="border-t-2 border-primary-200 pt-8" {% if form.service_starts_on.value or form.service_ends_on.value or form.service_starts_on.errors or form.service_ends_on.errors %}open{% endif %}>
+        <summary class="cursor-pointer font-serif text-xl font-bold text-primary-950 focus:outline-none focus:ring-2 focus:ring-accent-600 focus:ring-offset-2">{% trans "Restrict service dates" %} <span class="ml-2 text-sm font-normal text-primary-500">{% trans "Optional · advanced" %}</span></summary>
+        <div class="ui-alert ui-alert-info mt-4 text-sm">
+          {% trans "Use this only when the care itself must occur in a particular period—for example, a hotel campaign for stays fully inside October. It works for stays and optional services attached to a dated reservation; it is intentionally unavailable for packs, subscriptions and standalone purchases." %}
+        </div>
+        <div class="mt-5 grid gap-5 sm:grid-cols-2">
+          {% include "ui/form_field.html" with field=form.service_starts_on only %}
+          {% include "ui/form_field.html" with field=form.service_ends_on only %}
+        </div>
+      </details>
+
+      <fieldset class="border-t-2 border-primary-200 pt-8">
+        <legend class="font-serif text-xl font-bold text-primary-950">{% trans "Value and usage limits" %}</legend>
+        <p class="ui-help mt-2">{% trans "All limits are optional. Reserved checkouts already count toward usage limits, preventing the same limited code from being oversold." %}</p>
+        <div class="mt-5 grid gap-5 sm:grid-cols-2">
+          {% include "ui/form_field.html" with field=form.minimum_eligible_amount_eur only %}
+          <div></div>
+          {% include "ui/form_field.html" with field=form.max_redemptions only %}
+          {% include "ui/form_field.html" with field=form.max_redemptions_per_customer only %}
+        </div>
+      </fieldset>
+
+      {% trans "Save promotion" as submit_label %}
+      {% include "ui/form_actions.html" with cancel_url=list_url submit_label=submit_label only %}
+    </form>
+
+    <aside class="space-y-6">
+      <section class="ui-card">
+        <h2 class="font-serif text-xl font-bold text-primary-950">{% trans "Financial rules" %}</h2>
+        <ul class="mt-4 space-y-3 text-sm text-primary-700">
+          <li>• {% trans "The original catalog prices are always preserved." %}</li>
+          <li>• {% trans "The applied code, value and exact discount are frozen on every purchase." %}</li>
+          <li>• {% trans "Reserved uses count toward limits to prevent concurrent overuse." %}</li>
+          <li>• {% trans "Past transactions are never rewritten when this promotion changes." %}</li>
+        </ul>
+        {% if object %}
+          <form method="post" action="{% url 'discounts:promotion_toggle' object.pk %}" class="mt-5 border-t border-primary-100 pt-5">
+            {% csrf_token %}
+            <button class="ui-btn {% if object.is_active %}ui-btn-danger-outline{% else %}ui-btn-primary{% endif %} w-full" type="submit">{% if object.is_active %}{% trans "Deactivate promotion" %}{% else %}{% trans "Activate promotion" %}{% endif %}</button>
+          </form>
+        {% endif %}
+      </section>
+    </aside>
+  </div>
+
+  {% if object %}
+    <section class="mt-8" aria-labelledby="promotion-use-title">
+      <h2 id="promotion-use-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Recent uses" %}</h2>
+      <p class="ui-help">{% trans "Reservations are held while checkout is pending and consumed when payment or a complimentary booking is confirmed." %}</p>
+      {% if redemptions %}
+        <div class="ui-table-wrap mt-4"><table class="ui-table"><thead><tr><th>{% trans "Customer" %}</th><th>{% trans "Purchase" %}</th><th>{% trans "Discount" %}</th><th>{% trans "Status" %}</th><th>{% trans "Date" %}</th></tr></thead><tbody class="divide-y divide-primary-100">{% for redemption in redemptions %}<tr><td>{{ redemption.customer }}</td><td class="font-mono text-xs">{{ redemption.purchase_reference }}</td><td class="font-bold">{{ redemption.discount_amount_eur|floatformat:2 }}€</td><td><span class="ui-badge {% if redemption.status == 'consumed' %}ui-badge-success{% elif redemption.status == 'reserved' %}ui-badge-warning{% else %}ui-badge-neutral{% endif %}">{{ redemption.get_status_display }}</span></td><td>{{ redemption.reserved_at|date:"SHORT_DATETIME_FORMAT" }}</td></tr>{% endfor %}</tbody></table></div>
+      {% else %}
+        <div class="mt-4">{% include "ui/empty_state.html" with title=_("No uses yet") description=_("This promotion has not been reserved or used.") %}</div>
+      {% endif %}
+    </section>
+
+    <section class="mt-8" aria-labelledby="promotion-history-title">
+      <h2 id="promotion-history-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Change history" %}</h2>
+      {% if change_events %}
+        <div class="ui-table-wrap mt-4"><table class="ui-table"><thead><tr><th>{% trans "Change" %}</th><th>{% trans "By" %}</th><th>{% trans "Date" %}</th></tr></thead><tbody class="divide-y divide-primary-100">{% for event in change_events %}<tr><td>{{ event.get_change_type_display }}</td><td>{% firstof event.actor _("System") %}</td><td>{{ event.created_at|date:"SHORT_DATETIME_FORMAT" }}</td></tr>{% endfor %}</tbody></table></div>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/components/async_multi_select.js' %}" defer></script>
+{% endblock %}

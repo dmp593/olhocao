@@ -1,0 +1,34 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Operational closure" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "backoffice:closures" as cancel_url %}
+  {% include "ui/breadcrumb.html" with url=cancel_url label=_("Closures") only %}
+  <div class="mt-5">
+    {% if object %}
+      {% include "ui/page_header.html" with kicker=_("Operations") title=_("Edit closure") subtitle=_("Changes affect only new availability; existing reservations are preserved for manual review.") only %}
+    {% else %}
+      {% include "ui/page_header.html" with kicker=_("Operations") title=_("Add closure") subtitle=_("Choose the exact period and operational services that stop accepting new reservations.") only %}
+    {% endif %}
+  </div>
+
+  <form method="post" class="ui-card mx-auto mt-8 max-w-4xl">
+    {% csrf_token %}
+    {% include "ui/form_errors.html" with form=form only %}
+    <div class="grid gap-5 md:grid-cols-2">
+      {% include "ui/form_field.html" with field=form.name only %}
+      {% include "ui/form_field.html" with field=form.source only %}
+      {% include "ui/form_field.html" with field=form.starts_at only %}
+      {% include "ui/form_field.html" with field=form.ends_at only %}
+      {% include "ui/form_field.html" with field=form.all_operational_services only %}
+      {% include "ui/form_field.html" with field=form.is_active only %}
+      {% include "ui/form_field.html" with field=form.catalog_types wrapper_class="md:col-span-2" only %}
+      {% include "ui/form_field.html" with field=form.reason wrapper_class="md:col-span-2" only %}
+      {% include "ui/form_field.html" with field=form.customer_message wrapper_class="md:col-span-2" only %}
+    </div>
+    {% trans "Save closure" as submit_label %}
+    <div class="mt-8">{% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}</div>
+  </form>
+{% endblock %}

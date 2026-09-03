@@ -1,0 +1,26 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Request service" %} · OlhóCão{% endblock %}
+
+{% block portal_content %}
+  {% include "ui/page_header.html" with eyebrow=_('Customer area') title=_('Request service') subtitle=entitlement.item_name_snapshot only %}
+  <form class="ui-card mx-auto max-w-2xl" method="post">
+    {% csrf_token %}
+    <div class="mb-6 rounded-2xl bg-primary-50 p-5">
+      <p class="ui-kicker">{{ entitlement.pet.name }}</p>
+      <p class="mt-1 font-bold text-primary-950">{{ entitlement.item_name_snapshot }}</p>
+      <p class="mt-2 text-sm text-primary-600">{% trans "A preference is not a confirmed appointment. The team will confirm or propose another time." %}</p>
+    </div>
+    {% trans "The service could not be requested" as error_title %}
+    {% include "ui/form_errors.html" with errors=form.non_field_errors title=error_title only %}
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div class="sm:col-span-2">{% include "ui/form_field.html" with field=form.schedule_preference only %}</div>
+      {% include "ui/form_field.html" with field=form.preferred_date only %}
+      {% include "ui/form_field.html" with field=form.preferred_time only %}
+      <div class="sm:col-span-2">{% include "ui/form_field.html" with field=form.customer_notes only %}</div>
+    </div>
+    {% url 'activities:portal' as cancel_url %}
+    {% include "ui/form_actions.html" with submit_label=_('Send request') cancel_url=cancel_url cancel_label=_('Cancel') only %}
+  </form>
+{% endblock %}

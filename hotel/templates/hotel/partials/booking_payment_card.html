@@ -1,0 +1,87 @@
+{% load i18n %}
+<section class="ui-card" aria-labelledby="booking-payment-title">
+  <h2 id="booking-payment-title" class="flex items-center gap-2 font-serif text-lg font-bold text-primary-950">
+    {% include "icons/credit_card.html" with class="size-5 text-accent-600" %}{% trans "Payment" %}
+  </h2>
+
+  {% if booking.status == "paid" %}
+    <dl class="mt-4 space-y-2 text-sm">
+      <div class="flex justify-between gap-3"><dt class="text-primary-600">{% trans "Paid on" %}</dt><dd class="font-bold">{{ booking.paid_at|date:"DATE_FORMAT" }}</dd></div>
+      <div class="flex justify-between gap-3"><dt class="text-primary-600">{% trans "Amount" %}</dt><dd class="font-bold text-accent-700">{{ booking.total_price_eur|floatformat:2 }}€</dd></div>
+    </dl>
+  {% elif booking.status == "complimentary" %}
+    <div class="ui-alert ui-alert-success mt-4">
+      <strong>{% trans "Complimentary booking" %}</strong>
+      <p class="mt-1 text-sm">{% trans "This stay was confirmed at no charge. No payment transaction was created." %}</p>
+    </div>
+  {% elif booking.status == "payment_disputed" %}
+    <div class="ui-alert ui-alert-danger mt-4">
+      <strong>{% trans "Payment disputed" %}</strong>
+      <p class="mt-1 text-sm">{% trans "The booking is blocked during the bank and fiscal review. Its original transaction and receipt remain in the permanent history." %}</p>
+    </div>
+  {% elif booking.status == "cancelled" %}
+    <div class="ui-alert ui-alert-info mt-4">
+      <strong>{% trans "Booking cancelled" %}</strong>
+      {% if latest_booking_refund.status == "pending" %}<p class="mt-1 text-sm">{% trans "The refund was requested and is awaiting confirmation." %}</p>
+      {% elif latest_booking_refund.status == "refunded" %}<p class="mt-1 text-sm">{% trans "The refund was confirmed." %}</p>
+      {% elif latest_booking_refund.status == "failed" %}<p class="mt-1 text-sm">{% trans "The refund requires administrator attention." %}</p>
+      {% elif payment.status == "refund_pending" %}<p class="mt-1 text-sm">{% trans "The refund was requested and is awaiting confirmation." %}</p>
+      {% elif payment.status == "refunded" %}<p class="mt-1 text-sm">{% trans "The refund was confirmed." %}</p>
+      {% elif payment.status == "refund_failed" %}<p class="mt-1 text-sm">{% trans "The refund requires administrator attention." %}</p>
+      {% else %}<p class="mt-1 text-sm">{% trans "No further payment is required." %}</p>{% endif %}
+    </div>
+  {% else %}
+    <p class="mt-4 text-sm text-primary-600">{% trans "Payment is required to confirm this booking." %}</p>
+    {% if request.user.is_staff %}
+      <a href="{{ payment_retry_url }}" class="ui-btn ui-btn-primary mt-4 w-full">
+        {% include "icons/envelope.html" with class="size-5" %}{% trans "Send link for payment" %}
+      </a>
+    {% elif payment_url %}
+      <a href="{{ payment_url }}" class="ui-btn ui-btn-primary mt-4 w-full">
+        {% include "icons/credit_card.html" with class="size-5" %}{% trans "Complete Payment" %}
+      </a>
+    {% else %}
+      <a href="{{ payment_retry_url }}" class="ui-btn ui-btn-primary mt-4 w-full">{% trans "Try payment again" %}</a>
+    {% endif %}
+  {% endif %}
+
+  {% if staff_can_request_refund %}
+    <div class="mt-5 border-t border-primary-100 pt-5">
+      <p class="text-sm text-primary-600">
+        {% trans "Refundable balance" %}:
+        <strong class="text-primary-950">{{ refundable_amount|floatformat:2 }}€</strong>
+      </p>
+      <a href="{% url 'hotel:booking_refund' booking.id %}" class="ui-btn ui-btn-secondary mt-3 w-full">
+        {% include "icons/receipt_percent.html" with class="size-5" %}{% trans "Issue refund" %}
+      </a>
+    </div>
+  {% endif %}
+
+  {% if booking_refunds %}
+    <div class="mt-5 border-t border-primary-100 pt-5">
+      <h3 class="font-bold text-primary-950">{% trans "Refund history" %}</h3>
+      <ul class="mt-3 space-y-3">
+        {% for refund in booking_refunds %}
+          <li class="rounded-xl bg-primary-50 p-3 text-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-bold text-primary-950">{{ refund.amount_eur|floatformat:2 }}€</p>
+                <p class="mt-0.5 text-primary-600">{{ refund.requested_at|date:"SHORT_DATETIME_FORMAT" }}</p>
+              </div>
+              <span class="ui-badge {% if refund.status == 'refunded' %}ui-badge-success{% elif refund.status == 'failed' %}ui-badge-danger{% else %}ui-badge-warning{% endif %}">{{ refund.get_status_display }}</span>
+            </div>
+            <p class="mt-2 text-primary-700">{{ refund.reason }}</p>
+            {% if refund.toconline_amend_document_id %}
+              <a class="ui-link mt-2 inline-flex" href="{% url 'hotel:booking_refund_pdf' booking.id refund.id %}" target="_blank" rel="noopener noreferrer">{% trans "Download credit note" %}</a>
+            {% elif request.user.is_staff and refund.status == 'failed' %}
+              <form method="post" action="{% url 'hotel:booking_refund_retry' booking.id refund.id %}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="ui-btn ui-btn-secondary ui-btn-compact">{% trans "Retry refund" %}</button>
+              </form>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</section>

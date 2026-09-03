@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if assisted_customer %}
+<aside class="fixed inset-x-0 top-20 z-[1000] border-b border-amber-300 bg-amber-50 shadow-sm" aria-label="{% trans 'Assisted booking mode' %}">
+  <div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm font-semibold text-amber-950">
+      {% trans "Assisted booking" %}: {{ assisted_customer.user.get_full_name|default:assisted_customer.user.username }}
+      <span class="ml-1 font-normal text-amber-800">{{ assisted_customer.user.email }}</span>
+    </p>
+    <form method="post" action="{% url 'backoffice:assisted_booking_stop' %}">
+      {% csrf_token %}
+      <button type="submit" class="rounded-lg border border-amber-700 px-3 py-1.5 text-sm font-semibold text-amber-900 hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-700 focus:ring-offset-2">
+        {% trans "End assisted booking" %}
+      </button>
+    </form>
+  </div>
+</aside>
+{% endif %}

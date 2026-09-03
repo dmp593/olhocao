@@ -1,0 +1,124 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Optional services" %} | {% trans "Catalog" %}{% endblock %}
+
+{% block backoffice_content %}
+  {% include "ui/page_header.html" with kicker=_("Catalog") title=_("Optional services") subtitle=_("Choose where customers may add services such as grooming. Configure each destination without duplicating products or prices.") only %}
+  {% include "backoffice/partials/catalog_subnav.html" %}
+
+  <section class="ui-card" aria-labelledby="optional-service-destination-title">
+    <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+      <form method="get">
+        <h2 id="optional-service-destination-title" class="font-serif text-xl font-bold text-primary-950">{% trans "1. Choose the destination" %}</h2>
+        <p class="ui-help mt-2">{% trans "Select an entire service type or one specific level. Associations on the whole type are inherited by every level." %}</p>
+        <div class="mt-4 max-w-2xl">
+          {% include "ui/form_field.html" with field=form.target only %}
+        </div>
+        <button class="ui-btn ui-btn-secondary mt-4" type="submit">{% trans "Show optional services" %}</button>
+      </form>
+      {% if target_type %}
+        <div class="rounded-2xl bg-accent-50 px-5 py-4 text-sm text-primary-700">
+          <span class="block text-xs font-bold uppercase tracking-wide text-accent-800">{% trans "Editing" %}</span>
+          <strong class="mt-1 block text-base text-primary-950">{{ target_type.name }}{% if target_level %} · {{ target_level.name }}{% else %} · {% trans "Every level" %}{% endif %}</strong>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if target_type %}
+    <form
+      method="post"
+      class="mt-6"
+      data-optional-service-picker
+      data-initial-ids="{% for offer in selected_optional_services %}{{ offer.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+      data-clean-message="{% trans 'No unsaved changes.' %}"
+      data-dirty-message="{% trans 'You have unsaved changes.' %}"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="target" value="{{ form.target.value }}">
+      {% trans "Optional services could not be saved" as form_error_title %}
+      {% include "ui/form_errors.html" with errors=form.non_field_errors title=form_error_title only %}
+      {% if form.add_on_ids.errors %}<div class="ui-alert ui-alert-danger mb-5">{{ form.add_on_ids.errors }}</div>{% endif %}
+
+      <section class="ui-card" aria-labelledby="optional-service-picker-title">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 id="optional-service-picker-title" class="font-serif text-xl font-bold text-primary-950">{% trans "2. Select the optional services" %}</h2>
+            <p class="ui-help mt-2">{% trans "Tick one or more services, then move them to or from the selected list. Changes only take effect after saving." %}</p>
+          </div>
+          <div class="w-full lg:max-w-sm">
+            <label class="ui-label" for="optional-service-search">{% trans "Find a service" %}</label>
+            <div class="relative">
+              <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-primary-400">{% include "icons/magnifying_glass.html" with class="size-5" %}</span>
+              <input id="optional-service-search" class="ui-field pl-10" type="search" autocomplete="off" placeholder="{% trans 'Name, type or level' %}" data-optional-service-search>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:items-stretch">
+          <section class="flex min-h-96 flex-col rounded-2xl border border-primary-200 bg-primary-50 p-4" aria-labelledby="available-services-title">
+            <div class="flex items-center justify-between gap-3">
+              <h3 id="available-services-title" class="font-bold text-primary-950">{% trans "Available services" %}</h3>
+              <span class="ui-badge ui-badge-neutral"><span data-available-service-count>{{ available_optional_services|length }}</span></span>
+            </div>
+            <p class="mt-1 text-sm text-primary-600">{% trans "Services that customers cannot currently add to this destination." %}</p>
+            <div class="mt-4 space-y-3" data-available-service-list>
+              {% for offer in available_optional_services %}
+                {% include "backoffice/partials/optional_service_picker_item.html" with offer=offer only %}
+              {% endfor %}
+            </div>
+            <p class="mt-4 rounded-xl border border-dashed border-primary-300 p-4 text-center text-sm text-primary-600 {% if available_optional_services %}hidden{% endif %}" data-available-service-empty>{% trans "No available optional services." %}</p>
+          </section>
+
+          <div class="flex items-center justify-center gap-3 xl:flex-col" aria-label="{% trans 'Move selected services' %}">
+            <button class="ui-btn ui-btn-primary" type="button" data-add-optional-services disabled>
+              <span>{% trans "Add" %}</span>{% include "icons/arrow_right.html" with class="size-5" %}
+            </button>
+            <button class="ui-btn ui-btn-secondary" type="button" data-remove-optional-services disabled>
+              {% include "icons/arrow_left.html" with class="size-5" %}<span>{% trans "Remove" %}</span>
+            </button>
+          </div>
+
+          <section class="flex min-h-96 flex-col rounded-2xl border-2 border-accent-200 bg-accent-50/50 p-4" aria-labelledby="selected-services-title">
+            <div class="flex items-center justify-between gap-3">
+              <h3 id="selected-services-title" class="font-bold text-primary-950">{% trans "Selected services" %}</h3>
+              <span class="ui-badge ui-badge-success"><span data-selected-service-count>{{ selected_service_count }}</span></span>
+            </div>
+            <p class="mt-1 text-sm text-primary-600">{% trans "Customers may add these services when buying or managing this destination." %}</p>
+            {% if inherited_optional_services %}
+              <div class="ui-alert ui-alert-info mt-4 text-sm">{% trans "Inherited services are managed on the whole catalog type and cannot be removed from only one level." %}</div>
+            {% endif %}
+            <div class="mt-4 space-y-3" data-selected-service-list>
+              {% for offer in inherited_optional_services %}
+                {% include "backoffice/partials/optional_service_picker_item.html" with offer=offer inherited=True selected=True only %}
+              {% endfor %}
+              {% for offer in selected_optional_services %}
+                {% include "backoffice/partials/optional_service_picker_item.html" with offer=offer selected=True only %}
+              {% endfor %}
+            </div>
+            <p class="mt-4 rounded-xl border border-dashed border-primary-300 p-4 text-center text-sm text-primary-600 {% if selected_service_count %}hidden{% endif %}" data-selected-service-empty>{% trans "No optional services selected." %}</p>
+          </section>
+        </div>
+
+        <noscript>
+          <div class="mt-5">{% include "ui/form_field.html" with field=form.add_on_ids only %}</div>
+        </noscript>
+
+        <div class="mt-6 flex flex-col gap-3 border-t border-primary-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-sm font-bold text-primary-600" role="status" aria-live="polite" data-optional-service-status>{% trans "No unsaved changes." %}</p>
+          <div class="flex flex-wrap gap-3">
+            <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:catalog_optional_services' %}?target={{ form.target.value|urlencode }}">{% trans "Discard changes" %}</a>
+            <button class="ui-btn ui-btn-primary" type="submit">{% include "icons/floppy_disk.html" with class="size-5" %}<span>{% trans "Save optional services" %}</span></button>
+          </div>
+        </div>
+      </section>
+    </form>
+  {% else %}
+    <div class="mt-6">{% include "ui/empty_state.html" with title=_("Create a catalog type first") description=_("A destination is required before optional services can be associated.") only %}</div>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/backoffice/catalog_optional_services.js' %}" defer></script>
+{% endblock %}

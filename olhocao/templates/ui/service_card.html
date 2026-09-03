@@ -1,0 +1,13 @@
+<article class="ui-card ui-card-interactive flex h-full flex-col text-left focus-within:border-accent-400 focus-within:shadow-lg">
+  <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-100 p-3 text-accent-700">
+    {% include service.icon_template with class="h-10 w-10" %}
+  </div>
+  <h3 class="mt-5 font-serif text-2xl font-bold text-primary-950">{{ service.title }}</h3>
+  <p class="mt-2 leading-7 text-slate-600">{{ service.description }}</p>
+  <ul class="mt-5 flex-1 space-y-2 text-sm text-slate-700">
+    {% for feature in service.feature_list %}
+      <li class="flex gap-2"><span class="font-bold text-accent-600" aria-hidden="true">✓</span><span>{{ feature }}</span></li>
+    {% endfor %}
+  </ul>
+  {% if service.destination_url %}<a class="ui-btn ui-btn-secondary mt-6" href="{{ service.destination_url }}">{{ service.action_text }}</a>{% endif %}
+</article>

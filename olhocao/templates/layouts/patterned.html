@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="ui-patterned-page">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-paws bg-[length:128px_128px] bg-repeat opacity-[0.06]"></div>
+  <div class="ui-container relative z-10 py-8 sm:py-12">
+    {% block patterned_content %}{% endblock %}
+  </div>
+</section>
+{% endblock %}

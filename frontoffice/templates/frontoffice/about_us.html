@@ -1,30 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'layouts/public.html' %}
 
 {% load static %}
 {% load i18n %}
 
-{% block content %}
+{% block title %}{% trans "About Us" %} · OlhóCão{% endblock %}
+
+{% block public_content %}
 <section id="about-us" class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
     <!-- Background elements -->
     <div class="absolute inset-0 opacity-10 pointer-events-none bg-paws bg-repeat bg-[length:150px_150px]"></div>
-    <div class="absolute -top-20 left-1/4 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower"></div>
-    <div class="absolute -bottom-20 right-1/4 w-64 h-64 rounded-full bg-accent-500/10 animate__animated animate__pulse animate__infinite animate__slower animate__delay-2s"></div>
+    <div class="absolute -top-20 left-1/4 w-64 h-64 rounded-full bg-accent-500/10"></div>
+    <div class="absolute -bottom-20 right-1/4 w-64 h-64 rounded-full bg-accent-500/10"></div>
 
     <div class="container mx-auto px-4 relative z-10">
-        <!-- Section header with animated paws -->
-        <div class="text-center mb-16 animate__animated animate__fadeIn">
-            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
-                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
-                    {% trans "Our Story" %}
-                </span>
-                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
-            </h1>
-            <p class="text-xl text-primary-600 max-w-3xl mx-auto relative inline-block">
-                {% trans "Passion for dogs since 2022" %}
-                <span class="absolute bottom-0 left-0 w-full h-1 bg-accent-500 animate__animated animate__pulse animate__infinite animate__slower"></span>
-            </p>
-        </div>
+        {% include "ui/public_page_header.html" with eyebrow=site_settings.about_eyebrow title=site_settings.about_title subtitle=site_settings.about_subtitle icon="icons/paw.html" only %}
 
         <!-- History Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
@@ -32,14 +21,9 @@
                 <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
                     <h2 class="text-3xl font-bold text-primary-800 mb-6 flex items-center">
                         {% include "icons/clock.html" with class="w-8 h-8 mr-3 text-accent-500" %}
-                        {% trans "Olhó Cão History" %}
+                        {{ site_settings.about_history_title }}
                     </h2>
-                    <div class="prose text-primary-700 space-y-4">
-                        <p>{% trans "Founded on December 23, 2022, Olhó Cão is a dog training school focused on basic and advanced obedience, socialization, sports training, search and rescue, behavioral problem solving, and preparation for dog shows." %}</p>
-                        <p>{% trans "The center also offers dog hotel services, dog daycare (ATL), and through its brand LavóCão, provides bathing and grooming services." %}</p>
-                        <p>{% trans "Located in Azoia, the center offers excellent services primarily serving Leiria and Marinha Grande areas." %}</p>
-                        <p>{% trans "Suse Paixão and Luís Costa are the CEOs of the company, with Renato Vieira as the veterinary doctor responsible for the dogs' medical care and treatments." %}</p>
-                    </div>
+                    <div class="prose space-y-4 text-primary-700">{{ site_settings.about_history|linebreaks }}</div>
                 </div>
             </div>
             <div class="animate__animated animate__fadeInRight animate__delay-1s">
@@ -53,8 +37,8 @@
                         controls></video>
                     <div class="absolute inset-0 bg-gradient-to-t from-primary-900/50 to-transparent flex items-end p-8">
                         <div class="text-white">
-                            <h3 class="text-2xl font-bold">{% trans "Our Facility" %}</h3>
-                            <p>{% trans "A safe and stimulating environment for your dogs" %}</p>
+                            <h3 class="text-2xl font-bold">{{ site_settings.facility_title }}</h3>
+                            <p>{{ site_settings.facility_description }}</p>
                         </div>
                     </div>
                 </div>
@@ -65,32 +49,18 @@
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-primary-800 mb-4 flex items-center justify-center">
                 {% include "icons/team.html" with class="w-8 h-8 mr-3 text-accent-500" %}
-                {% trans "Meet Our Trainers" %}
+                {{ site_settings.team_title }}
             </h2>
             <p class="text-xl text-primary-600 max-w-3xl mx-auto">
-                {% trans "Passionate professionals dedicated to your dog's wellbeing" %}
+                {{ site_settings.team_subtitle }}
             </p>
         </div>
 
         <!-- Trainers Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Trainer 1 -->
-            {% trans "Founder & CEO" as trainer1_role %}
-            {% trans "I'm passionate about working with dogs, and nothing makes me happier than seeing owners and their dogs happy with their training goals achieved" as trainer1_description %}
-            {% trans "Specializes in obedience training" as trainer1_specialization %}
-            {% include "frontoffice/partials/trainer.html" with name="Luís Costa" image="frontoffice/about-us/trainers/luis.jpg" role=trainer1_role description=trainer1_description specialization=trainer1_specialization %}
-
-            <!-- Trainer 2 -->
-            {% trans "Founder & CEO" as trainer2_role %}
-            {% trans "It's a privilege to be part of this project, seeing dogs and their owners overcome difficulties and enjoy a better relationship." as trainer2_description %}
-            {% trans "Specializes in behavioral training" as trainer2_specialization %}
-            {% include "frontoffice/partials/trainer.html" with name="Suse Paixão" image="frontoffice/about-us/trainers/suse.jpg" role=trainer2_role description=trainer2_description specialization=trainer2_specialization %}
-
-            <!-- Trainer 3 -->
-            {% trans "Trainer" as trainer3_role %}
-            {% trans "With a degree in sports, I love combining nature and physical activity with dogs. Helping families live in harmony is my goal." as trainer3_description %}
-            {% trans "Specializes in sports training" as trainer3_specialization %}
-            {% include "frontoffice/partials/trainer.html" with name="Diogo Luz" image="frontoffice/about-us/trainers/diogo.jpg" role=trainer3_role description=trainer3_description specialization=trainer3_specialization %}
+            {% for member in team_members %}
+                {% include "frontoffice/partials/trainer.html" with name=member.name image_url=member.image_url image_alt=member.image_alt role=member.role description=member.description specialization=member.specialization only %}
+            {% endfor %}
         </div>
 
         <!-- CTA -->

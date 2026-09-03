@@ -1,4 +1,4 @@
-{% load static %}
+{% load i18n %}
 
 <div class="relative overflow-hidden shadow-2xl">
     <!-- Background paw pattern (subtle) -->
@@ -11,7 +11,7 @@
             data-index="{{ forloop.counter0 }}">
             <!-- Slide Image with filters -->
             <div class="absolute inset-0 overflow-hidden">
-                <img src="{{ slide.src }}" alt="{{ slide.alt }}" loading="lazy"
+                <img src="{{ slide.image_url }}" alt="{{ slide.image_alt }}" loading="lazy"
                     class="h-full w-full object-cover object-center transition-transform duration-1000 scale-110 group-[.active]:scale-100 brightness-75 contrast-110">
                 <!-- Overlay with multiple gradients
                 <div class="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/40 to-transparent"></div>
@@ -20,10 +20,10 @@
                 -->
                 
                 <!-- Animated floating bones -->
-                <div class="absolute top-1/4 left-1/4 w-16 opacity-70 animate-float-slow">
+                <div class="absolute top-1/4 left-1/4 w-16 opacity-70">
                     {% include "icons/bone.html" with class="text-primary-100/30" %}
                 </div>
-                <div class="absolute bottom-1/3 right-1/4 w-12 opacity-70 animate-float-medium">
+                <div class="absolute bottom-1/3 right-1/4 w-12 opacity-70">
                     {% include "icons/bone.html" with class="text-primary-100/30" %}
                 </div>
             </div>
@@ -33,28 +33,30 @@
                 <!-- Text container with semi-transparent backdrop -->
                 <div class="inline-block backdrop-blur-md bg-primary-900/47 rounded-2xl p-6 md:p-8 border border-primary-700/20 shadow-lg">
                     {% if slide.title %}
-                    <h1 class="text-2xl md:text-4xl font-bold text-primary-50 mb-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                        <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
-                        <span class="bg-gradient-to-r from-primary-50 to-primary-100 bg-clip-text text-transparent">
-                            {{ slide.title|safe }}
-                        </span>
-                        <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
-                    </h1>
+                        {% if primary_heading and forloop.first %}
+                            <h1 class="text-2xl md:text-4xl font-bold text-primary-50 mb-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                                {% include "components/slider_title_content.html" with title=slide.title only %}
+                            </h1>
+                        {% else %}
+                            <h2 class="text-2xl md:text-4xl font-bold text-primary-50 mb-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                                {% include "components/slider_title_content.html" with title=slide.title only %}
+                            </h2>
+                        {% endif %}
                     {% endif %}
                     
                     {% if slide.description %}
                     <p class="text-base md:text-xl text-balance text-primary-100 mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] px-4">
-                        {{ slide.description|safe }}
+                        {{ slide.description }}
                     </p>
                     {% endif %}
                 </div>
                 
                 {% if slide.cta_link %}
                 <div class="mt-8 relative inline-block group">
-                    <div class="absolute -inset-1 bg-accent-500/30 rounded-full blur-md group-hover:bg-accent-500/50 transition-all duration-300 animate__animated animate__pulse animate__infinite animate__slower"></div>
+                    <div class="absolute -inset-1 bg-accent-500/30 rounded-full blur-md group-hover:bg-accent-500/50 transition-all duration-300"></div>
                     <a href="{{ slide.cta_link }}" 
                        class="relative inline-flex items-center bg-accent-500 hover:bg-accent-600 text-primary-50 font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-lg group-hover:shadow-xl border-2 border-white/20 hover:border-white/40">
-                        <span>{{ slide.cta_text|safe }}</span>
+                        <span>{{ slide.cta_text }}</span>
                         <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
                     </a>
                 </div>
@@ -65,14 +67,14 @@
 
         <!-- Navigation Arrows -->
         <button class="slider-btn-previous absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary-900/70 p-4 text-primary-50 hover:bg-accent-500 transition-all duration-300 shadow-lg hover:shadow-xl group backdrop-blur-sm border border-white/10 hover:border-white/30"
-            aria-label="Previous slide">
+            aria-label="{% trans 'Previous slide' %}">
             <div class="relative">
                 <span class="text-xs opacity-30 group-hover:opacity-100 transition-opacity duration-300">{% include "icons/paw.html" with class="-rotate-90 size-6" %}</span>
             </div>
         </button>
 
         <button class="slider-btn-next absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary-900/70 p-4 text-primary-50 hover:bg-accent-500 transition-all duration-300 shadow-lg hover:shadow-xl group backdrop-blur-sm border border-white/10 hover:border-white/30"
-            aria-label="Next slide">
+            aria-label="{% trans 'Next slide' %}">
             <div class="relative">
                 <span class="text-xs opacity-30 group-hover:opacity-100 transition-opacity duration-300">{% include "icons/paw.html" with class="rotate-90 size-6" %}</span>
             </div>
@@ -82,7 +84,7 @@
         <div class="slider-indicators absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 space-x-3 backdrop-blur-sm bg-primary-900/30 px-4 py-2 rounded-full border border-white/10">
             {% for slide in slides %}
             <button class="slider-indicator w-3 h-3 rounded-full bg-primary-100/70 hover:bg-accent-500 transition-all duration-300 group"
-                aria-label="Go to slide {{ forloop.counter }}">
+                aria-label="{% blocktranslate with number=forloop.counter %}Go to slide {{ number }}{% endblocktranslate %}">
                 <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {% include "icons/paw.html" with class="w-4 h-4 text-accent-500" %}
                 </span>
@@ -91,20 +93,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    @keyframes float {
-        0%, 100% { transform: translateY(0) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(5deg); }
-    }
-    .animate-float-slow { animation: float 8s ease-in-out infinite; }
-    .animate-float-medium { animation: float 6s ease-in-out infinite 2s; }
-    
-    .slider-slide.active .animate__animated { 
-        animation-name: none; /* Pause animations when not active */
-    }
-    
-    .text-shadow-lg {
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-</style>

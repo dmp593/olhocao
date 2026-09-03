@@ -1,134 +1,55 @@
 from django.contrib import messages
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView, TemplateView
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.contrib.auth.views import (
-    LoginView,
-    LogoutView,
-    PasswordResetView,
-    PasswordResetConfirmView,
-    PasswordResetDoneView,
-    PasswordResetCompleteView,
-    PasswordChangeView,
-    PasswordChangeDoneView,
-)
-
-
-from toconline.services import toconline, TocOnlineResource
-
-import logging
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import TemplateView, UpdateView
 
 from accounts.forms import SignUpForm, UserChangeForm
 
 
+class RoleAwareLoginView(LoginView):
+    template_name = "accounts/login.html"
+
+    def get_success_url(self):
+        requested_destination = self.get_redirect_url()
+        if requested_destination:
+            return requested_destination
+        if self.request.user.is_staff:
+            return reverse("backoffice:dashboard")
+        return reverse("accounts:dashboard")
+
+
+def get_safe_auth_redirect(request):
+    """Return a same-origin post-authentication destination, when supplied."""
+    destination = request.POST.get("next") or request.GET.get("next")
+    if destination and url_has_allowed_host_and_scheme(
+        destination,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return destination
+    return ""
+
+
 def signup_view(request):
+    next_url = get_safe_auth_redirect(request)
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            try:
-                ensure_toconline_customer(
-                    user,
-                    vat=form.cleaned_data.get('vat'),
-                    phone=form.cleaned_data.get('phone'),
-                )
-            except Exception:  # noqa: BLE001 - external service: failure is non-critical
-                logging.exception(
-                    "TocOnline sync during signup failed for user %s", user.id
-                )
-
-            # Account is already created by SignUpForm.save(). Ensure TocOnline
-            # customer is synced but don't block signup on TocOnline failures.
             login(request, user)
 
             success_msg = _("Welcome") + f", {user.get_full_name()}"
             messages.success(request, success_msg)
 
-            return redirect("frontoffice:home")
+            return redirect(next_url or reverse("accounts:dashboard"))
     else:
         form = SignUpForm()
-    return render(request, "accounts/signup.html", {"form": form})
-
-
-def ensure_toconline_customer(user, vat=None, phone=None):
-    """Ensure a TocOnline customer exists for ``user.account``.
-
-    Centralizes the logic used to find/create/update a TocOnline customer.
-    """
-    # require account relationship
-    if user.account is None:
-        return
-
-    # try to find or create/update a toconline customer
-    toconline_customer = None
-
-    if not user.account.has_toconline_customer:
-        # try different lookups using provided data
-        if vat:
-            toconline_customer = toconline.first(
-                TocOnlineResource.CUSTOMERS,
-                tax_registration_number=vat,
-            )
-
-        if not toconline_customer:
-            toconline_customer = toconline.first(
-                TocOnlineResource.CUSTOMERS,
-                email=user.email,
-            )
-
-        if not toconline_customer and phone:
-            toconline_customer = toconline.first(
-                TocOnlineResource.CUSTOMERS,
-                mobile_number=phone,
-            )
-
-        if not toconline_customer and phone:
-            toconline_customer = toconline.first(
-                TocOnlineResource.CUSTOMERS,
-                phone_number=phone,
-            )
-
-        if not toconline_customer:
-            toconline_customer = toconline.create(
-                TocOnlineResource.CUSTOMERS,
-                business_name=user.get_full_name(),
-                contact_name=user.get_full_name(),
-                email=user.email,
-                mobile_number=phone,
-                internal_observations='Created by olhocao.pt',
-                tax_registration_number=vat,
-            )
-        else:
-            toconline.update(
-                TocOnlineResource.CUSTOMERS,
-                pk=toconline_customer['id'],
-                business_name=user.get_full_name(),
-                contact_name=user.get_full_name(),
-                email=user.email,
-                mobile_number=phone,
-                tax_registration_number=vat,
-            )
-
-        # attach and save
-        user.account.toconline_customer_id = toconline_customer['id']
-        user.account.save()
-    else:
-        # already has customer: update it
-        toconline.update(
-            TocOnlineResource.CUSTOMERS,
-            pk=user.account.toconline_customer_id,
-            business_name=user.get_full_name(),
-            contact_name=user.get_full_name(),
-            email=user.email,
-            mobile_number=phone,
-            tax_registration_number=vat,
-        )
+    return render(request, "accounts/signup.html", {"form": form, "next": next_url})
 
 
 class UserChangeView(LoginRequiredMixin, UpdateView):
@@ -137,36 +58,22 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     success_url = reverse_lazy("accounts:user_change_done")
 
-    def get_object(self, queryset=...):
+    def get_object(self, queryset=None):
         return self.request.user
 
     def get_initial(self):
         user = self.get_object()
         data = super().get_initial()
 
-        if hasattr(user, 'account'):
-            if user.account and user.account.has_toconline_customer:
-                toconline_customer = user.account.toconline_customer
-                customer_attrs = toconline_customer.get('attributes', {})
-
-                data['vat'] = customer_attrs.get('tax_registration_number')
-                data['phone'] = customer_attrs.get('mobile_number')
+        if hasattr(user, "customer_profile"):
+            data["vat"] = user.customer_profile.tax_number
+            data["phone"] = user.customer_profile.billing_phone
 
         return data
 
     def form_valid(self, form):
-        # Save the user instance first
-        user_obj = form.save()
-
-        # Ensure toconline customer is created/updated using the
-        # centralized helper. We pass cleaned data for vat/phone.
-        ensure_toconline_customer(
-            user_obj,
-            vat=form.cleaned_data.get('vat'),
-            phone=form.cleaned_data.get('phone'),
-        )
-
-        return super().form_valid(form)
+        form.save()
+        return redirect(self.get_success_url())
 
 
 class UserChangeDoneView(LoginRequiredMixin, TemplateView):
@@ -175,7 +82,34 @@ class UserChangeDoneView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = _("Account Updated")
-        context["message"] = _(
-            "Your account information has been successfully updated."
+        context["message"] = _("Your account information has been successfully updated.")
+        return context
+
+
+class CustomerDashboardView(LoginRequiredMixin, TemplateView):
+    template_name = "accounts/dashboard.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_staff:
+            return redirect("backoffice:dashboard")
+        if request.user.is_authenticated and not hasattr(request.user, "customer_profile"):
+            messages.info(request, _("Complete your account details to continue."))
+            return redirect("accounts:user_change")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        customer = self.request.user.customer_profile
+
+        context.update(
+            {
+                "dogs": customer.pets.filter(deleted_at__isnull=True).order_by("name")[:4],
+                "bookings": customer.bookings.prefetch_related("stays__pet").order_by(
+                    "-created_at"
+                )[:3],
+                "services": customer.service_entitlements.select_related(
+                    "pet", "offering__catalog_offer__catalog_item"
+                ).order_by("-created_at")[:3],
+            }
         )
         return context

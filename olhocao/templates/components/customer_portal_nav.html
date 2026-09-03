@@ -1,0 +1,11 @@
+{% load i18n %}
+<nav class="mb-8 overflow-x-auto rounded-2xl border border-primary-200 bg-white p-2 shadow-sm" aria-label="{% trans 'Customer area' %}">
+  <div class="flex min-w-max items-center gap-1">
+    <a href="{% url 'accounts:dashboard' %}" class="ui-nav-link {% if request.resolver_match.namespace == 'accounts' and request.resolver_match.url_name == 'dashboard' %}ui-nav-link-active{% endif %}"{% if request.resolver_match.namespace == 'accounts' and request.resolver_match.url_name == 'dashboard' %} aria-current="page"{% endif %}>{% trans "Overview" %}</a>
+    <a href="{% url 'pets:list' %}" class="ui-nav-link {% if request.resolver_match.namespace == 'pets' %}ui-nav-link-active{% endif %}"{% if request.resolver_match.namespace == 'pets' %} aria-current="page"{% endif %}>{% trans "My dogs" %}</a>
+    <a href="{% url 'hotel:booking_list' %}" class="ui-nav-link {% if request.resolver_match.namespace == 'hotel' and request.resolver_match.url_name != 'booking_stay' and request.resolver_match.url_name != 'booking_services' and request.resolver_match.url_name != 'booking_review' %}ui-nav-link-active{% endif %}">{% trans "Hotel bookings" %}</a>
+    <a href="{% url 'activities:portal' %}" class="ui-nav-link {% if request.resolver_match.namespace == 'activities' and request.resolver_match.url_name != 'documents' %}ui-nav-link-active{% endif %}">{% trans "Daycare and training" %}</a>
+    <a href="{% url 'activities:documents' %}" class="ui-nav-link {% if request.resolver_match.namespace == 'activities' and request.resolver_match.url_name == 'documents' %}ui-nav-link-active{% endif %}">{% trans "Documents" %}</a>
+    <a href="{% url 'accounts:user_change' %}" class="ui-nav-link {% if request.resolver_match.namespace == 'accounts' and request.resolver_match.url_name != 'dashboard' %}ui-nav-link-active{% endif %}">{% trans "Account" %}</a>
+  </div>
+</nav>

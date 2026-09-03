@@ -1,0 +1,12 @@
+{% load i18n %}
+<section class="ui-card" aria-labelledby="booking-customer-title">
+  <h2 id="booking-customer-title" class="flex items-center gap-2 font-serif text-lg font-bold text-primary-950">
+    {% include "icons/user.html" with class="size-5 text-accent-600" %}{% trans "Customer" %}
+  </h2>
+  <p class="mt-4 font-bold text-primary-900">{{ booking.customer.user.get_full_name|default:booking.customer.user.username }}</p>
+  <a class="mt-1 block break-all text-sm text-accent-700 underline" href="mailto:{{ booking.customer.user.email }}">{{ booking.customer.user.email }}</a>
+  <div class="mt-4 flex flex-wrap gap-2">
+    {% if booking.customer.phone_number %}<a class="ui-btn ui-btn-secondary ui-btn-compact" href="tel:{{ booking.customer.phone_number }}">{% trans "Call" %}</a>{% endif %}
+    <a class="ui-btn ui-btn-secondary ui-btn-compact" href="{% url 'backoffice:user_detail' booking.customer.user.id %}">{% trans "View customer" %}</a>
+  </div>
+</section>

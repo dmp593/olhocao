@@ -1,0 +1,9 @@
+<section class="ui-card border-red-200" aria-labelledby="confirmation-title">
+  <h2 id="confirmation-title" class="font-serif text-xl font-bold text-primary-950">{{ title }}</h2>
+  <p class="mt-2 text-primary-600">{{ description }}</p>
+  <form method="post" action="{{ action_url }}" class="mt-6 flex flex-col-reverse gap-3 border-t border-primary-200 pt-5 sm:flex-row sm:justify-end">
+    {% csrf_token %}
+    <a class="ui-btn ui-btn-secondary" href="{{ cancel_url }}">{{ cancel_label }}</a>
+    <button class="ui-btn {% if danger %}ui-btn-danger{% else %}ui-btn-primary{% endif %}" type="submit">{{ confirm_label }}</button>
+  </form>
+</section>

@@ -1,0 +1,60 @@
+{% load i18n static %}
+<nav class="fixed inset-x-0 top-0 z-[1001] h-20 border-b border-primary-200 bg-white/95 shadow-sm backdrop-blur" aria-label="{% trans 'Management navigation' %}">
+  <div class="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <a href="{% url 'backoffice:dashboard' %}" class="flex shrink-0 items-center gap-3 font-serif text-xl font-bold text-primary-950" aria-label="Olhó Cão — {% trans 'Management overview' %}">
+      <img src="{% static 'olhocao_transparent.webp' %}" alt="" class="h-12 w-auto sm:h-14">
+      <span class="hidden lg:inline">{% trans "Management" %}</span>
+    </a>
+
+    <button id="management-menu-button" type="button" class="ui-btn ui-btn-secondary xl:hidden" aria-label="{% trans 'Open management menu' %}" aria-controls="management-navigation-menu" aria-expanded="false" data-responsive-menu-button="management-navigation-menu">
+      {% include "icons/bars_3.html" with class="size-5" %}
+      {% trans "Menu" %}
+    </button>
+
+    <div id="management-navigation-menu" class="absolute inset-x-0 top-20 max-h-[calc(100vh-5rem)] overflow-y-auto border-b border-primary-200 bg-white p-4 shadow-xl xl:static xl:max-h-none xl:items-center xl:gap-1 xl:overflow-visible xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none" data-responsive-menu data-desktop-media="(min-width: 80rem)" data-open="false">
+      <div class="flex flex-col gap-1 xl:flex-row xl:items-center">
+        <a class="ui-nav-link {% if request.resolver_match.namespace == 'hotel' or request.resolver_match.namespace == 'backoffice' and request.resolver_match.url_name == 'dashboard' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:dashboard' %}">{% trans "Hotel bookings" %}</a>
+        <a class="ui-nav-link {% if request.resolver_match.namespace == 'backoffice' and request.resolver_match.url_name|slice:':5' == 'users' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:users_list' %}">{% trans "Customers" %}</a>
+        <a class="ui-nav-link {% if request.resolver_match.namespace == 'backoffice' and request.resolver_match.url_name == 'activities_dashboard' or request.resolver_match.url_name == 'activity_session_create' or request.resolver_match.url_name == 'activity_reservation_status' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:activities_dashboard' %}">{% trans "Daycare and training" %}</a>
+        <a class="ui-nav-link {% if request.resolver_match.namespace == 'backoffice' and request.resolver_match.url_name|slice:':12' == 'subscription' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:subscriptions' %}">{% trans "Subscriptions" %}</a>
+        <a class="ui-nav-link {% if request.resolver_match.namespace == 'backoffice' and request.resolver_match.url_name|slice:':7' == 'catalog' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:catalog' %}">{% trans "Catalog" %}</a>
+        <a class="ui-nav-link {% if request.resolver_match.namespace == 'discounts' %}ui-nav-link-active{% endif %}" href="{% url 'discounts:promotion_list' %}">{% trans "Discounts" %}</a>
+      </div>
+
+      <div class="mt-3 flex flex-col gap-1 border-t border-primary-100 pt-3 xl:ml-2 xl:mt-0 xl:flex-row xl:items-center xl:border-0 xl:pt-0">
+        <details class="relative" data-dropdown>
+          <summary class="ui-nav-link cursor-pointer list-none gap-2 [&::-webkit-details-marker]:hidden">
+            {% trans "More" %}
+            {% if unread_contact_requests_count %}<span class="ui-badge ui-badge-danger">{{ unread_contact_requests_count }}</span>{% endif %}
+            {% include "icons/chevron_down.html" with class="size-4" %}
+          </summary>
+          <div class="ui-menu-panel mt-2 w-full xl:absolute xl:right-0 xl:w-64">
+            <a class="ui-nav-link w-full justify-start {% if request.resolver_match.url_name|slice:':12' == 'site_content' or request.resolver_match.url_name == 'site_settings' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:site_content' %}">{% include "icons/frame.html" with class="size-4" %}{% trans "Website content" %}</a>
+            <a class="ui-nav-link w-full justify-start {% if request.resolver_match.url_name == 'contacts_requests' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:contacts_requests' %}">{% include "icons/chat_bubble_bottom_center_text.html" with class="size-4" %}{% trans "Contact requests" %}</a>
+            <a class="ui-nav-link w-full justify-start {% if request.resolver_match.url_name|slice:':14' == 'legal_document' %}ui-nav-link-active{% endif %}" href="{% url 'backoffice:legal_documents' %}">{% include "icons/license.html" with class="size-4" %}{% trans "Legal documents" %}</a>
+          </div>
+        </details>
+
+        {% include "components/language_switcher.html" with compact=True %}
+
+        <details class="relative" data-dropdown>
+          <summary class="ui-nav-link cursor-pointer list-none gap-2 [&::-webkit-details-marker]:hidden">
+            {% include "icons/user.html" with class="size-5" %}
+            <span class="max-w-28 truncate">{{ user.first_name|default:user.username }}</span>
+            {% include "icons/chevron_down.html" with class="size-4" %}
+          </summary>
+          <div class="ui-menu-panel mt-2 w-full xl:absolute xl:right-0 xl:w-72">
+            <a class="ui-nav-link w-full justify-start" href="{% url 'frontoffice:home' %}">{% include "icons/home.html" with class="size-4" %}{% trans "View public website" %}</a>
+            <a class="ui-nav-link w-full justify-start" href="{% url 'accounts:user_change' %}">{% include "icons/adjustments_horizontal.html" with class="size-4" %}{% trans "Account details" %}</a>
+            <a class="ui-nav-link w-full justify-start" href="{% url 'accounts:password_change' %}">{% include "icons/key.html" with class="size-4" %}{% trans "Password and security" %}</a>
+            {% if user.is_superuser %}<a class="ui-nav-link w-full justify-start" href="{% url 'admin:index' %}">{% include "icons/admin_panel.html" with class="size-4" %}{% trans "Django administration" %}</a>{% endif %}
+            <form class="ui-menu-divider" action="{% url 'accounts:logout' %}" method="post">
+              {% csrf_token %}
+              <button class="ui-nav-link w-full justify-start" type="submit">{% include "icons/logout.html" with class="size-4" %}{% trans "Sign out" %}</button>
+            </form>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</nav>

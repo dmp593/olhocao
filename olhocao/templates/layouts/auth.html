@@ -1,0 +1,9 @@
+{% extends "layouts/patterned.html" %}
+
+{% block patterned_content %}
+  <div class="flex min-h-[calc(100vh-11rem)] items-center justify-center">
+    <div class="w-full {% block auth_width %}max-w-lg{% endblock %}">
+      {% block auth_content %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

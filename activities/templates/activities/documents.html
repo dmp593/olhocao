@@ -1,0 +1,53 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "My documents" %} · Olhó Cão{% endblock %}
+
+{% block portal_content %}
+  {% url 'activities:portal' as portal_url %}
+  <a class="mb-4 inline-flex font-bold text-primary-700 hover:underline" href="{{ portal_url }}">← {% trans "Back to daycare and training" %}</a>
+  {% include "ui/page_header.html" with eyebrow=_("Customer area") title=_("Invoices and receipts") subtitle=_("Download the fiscal document issued for every paid purchase or subscription cycle.") only %}
+
+  <section class="mb-8" aria-labelledby="subscription-documents-title">
+    <h2 id="subscription-documents-title" class="mb-4 text-2xl font-bold text-primary-950">{% trans "Subscription receipts" %}</h2>
+    {% if subscription_cycles %}
+      <div class="grid gap-4 md:grid-cols-2">
+        {% for cycle in subscription_cycles %}
+          <article class="ui-card">
+            <div class="flex items-start justify-between gap-3"><div><h3 class="font-bold text-primary-950">{{ cycle.entitlement.item_name_snapshot }}</h3><p class="text-sm text-primary-600">{{ cycle.entitlement.pet.name }} · {{ cycle.period_start|date:"F Y" }}</p></div><span class="ui-badge ui-badge-success">{{ cycle.amount_eur }} €</span></div>
+            <div class="mt-4 flex flex-wrap gap-2 border-t border-primary-100 pt-4"><a class="ui-btn ui-btn-secondary" href="{% url 'activities:subscription_cycle_pdf' cycle.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Download receipt" %}</a>{% if cycle.toconline_amend_document_id %}<a class="ui-btn ui-btn-secondary" href="{% url 'activities:subscription_cycle_credit_pdf' cycle.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Download credit note" %}</a>{% endif %}</div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="ui-empty">{% trans "No subscription receipt is available yet." %}</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="purchase-documents-title">
+    <h2 id="purchase-documents-title" class="mb-4 text-2xl font-bold text-primary-950">{% trans "One-off and pack receipts" %}</h2>
+    {% if purchase_documents %}
+      <div class="grid gap-4 md:grid-cols-2">
+        {% for entitlement in purchase_documents %}
+          <article class="ui-card flex flex-col justify-between gap-4 sm:flex-row sm:items-center"><div><h3 class="font-bold text-primary-950">{{ entitlement.item_name_snapshot }}</h3><p class="text-sm text-primary-600">{{ entitlement.pet.name }} · {{ entitlement.paid_at|date:"DATE_FORMAT" }}</p></div><a class="ui-btn ui-btn-secondary" href="{% url 'activities:purchase_document_pdf' entitlement.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Download receipt" %}</a></article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="ui-empty">{% trans "No one-off or pack receipt is available yet." %}</p>
+    {% endif %}
+  </section>
+
+  {% if purchase_refund_documents %}
+    <section class="mt-8" aria-labelledby="purchase-refund-documents-title">
+      <h2 id="purchase-refund-documents-title" class="mb-4 text-2xl font-bold text-primary-950">{% trans "One-off and pack credit notes" %}</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        {% for refund in purchase_refund_documents %}
+          <article class="ui-card flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div><h3 class="font-bold text-primary-950">{{ refund.entitlement.item_name_snapshot }}</h3><p class="text-sm text-primary-600">{{ refund.entitlement.pet.name }} · {{ refund.refunded_at|date:"DATE_FORMAT" }} · {{ refund.amount_eur }} €</p></div>
+            <a class="ui-btn ui-btn-secondary" href="{% url 'activities:purchase_refund_document_pdf' refund.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Download credit note" %}</a>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

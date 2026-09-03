@@ -1,0 +1,83 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% if object %}{% trans "Review session" %}{% else %}{% trans "Schedule session" %}{% endif %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% trans "Operations" as kicker %}
+  {% if object %}
+    {% trans "Review activity session" as page_title %}
+    {% trans "Update the timetable and capacity, or cancel the session with an audited reason." as page_subtitle %}
+  {% else %}
+    {% trans "Schedule an activity session" as page_title %}
+    {% trans "Define the timetable, capacity and type of service available to customers." as page_subtitle %}
+  {% endif %}
+  {% include "ui/page_header.html" with kicker=kicker title=page_title subtitle=page_subtitle only %}
+  {% include "backoffice/partials/operations_subnav.html" %}
+
+  <div class="ui-card mx-auto max-w-3xl">
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="ui-alert ui-alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+      <div class="grid gap-5 md:grid-cols-2">
+        {% for field in form %}
+          {% if field.name == "notes" or field.name == "override_reason" %}
+            {% include "ui/form_field.html" with field=field wrapper_class="md:col-span-2" only %}
+          {% else %}
+            {% include "ui/form_field.html" with field=field only %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% url 'backoffice:calendar' as cancel_url %}
+      {% if object and object.is_cancelled %}
+        <div class="flex justify-end"><a class="ui-btn ui-btn-secondary" href="{{ cancel_url }}">{% trans "Return to calendar" %}</a></div>
+      {% else %}
+        {% if object %}{% trans "Save session" as submit_label %}{% else %}{% trans "Schedule session" as submit_label %}{% endif %}
+        {% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}
+      {% endif %}
+    </form>
+  </div>
+
+  {% if object %}
+    <div class="mx-auto mt-8 grid max-w-3xl gap-6 lg:grid-cols-2">
+      <section class="ui-card">
+        <h2 class="text-xl font-bold text-primary-950">{% trans "Operational history" %}</h2>
+        <p class="mt-1 text-sm text-primary-600">{% trans "Permanent record of scheduling decisions for this session." %}</p>
+        <ol class="mt-5 space-y-4">
+          {% for event in session_events %}
+            <li class="border-l-2 border-primary-200 pl-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <strong>{{ event.action|capfirst }}</strong>
+                <time class="text-sm text-primary-500">{{ event.created_at|date:"SHORT_DATETIME_FORMAT" }}</time>
+              </div>
+              <p class="mt-1 text-sm text-primary-600">
+                {% if event.actor %}{{ event.actor.get_full_name|default:event.actor.username }}{% else %}{% trans "System" %}{% endif %}
+              </p>
+              {% if event.details.reason %}<p class="mt-2 text-sm">{{ event.details.reason }}</p>{% endif %}
+              {% if event.details.override_reason %}<p class="mt-2 text-sm">{{ event.details.override_reason }}</p>{% endif %}
+            </li>
+          {% empty %}
+            <li class="text-sm text-primary-600">{% trans "No operational events have been recorded yet." %}</li>
+          {% endfor %}
+        </ol>
+      </section>
+
+      <section class="ui-card">
+        {% if object.is_cancelled %}
+          <div class="ui-alert ui-alert-danger">
+            <strong>{% trans "This session is cancelled." %}</strong>
+            <p class="mt-1">{% trans "It is kept in the calendar and audit history, but customers cannot book it." %}</p>
+          </div>
+        {% else %}
+          <h2 class="text-xl font-bold text-primary-950">{% trans "Cancel session" %}</h2>
+          <p class="mt-1 text-sm text-primary-600">{% trans "All customer reservations are released and applicable pack credits are returned." %}</p>
+          <form method="post" action="{% url 'backoffice:activity_session_cancel' object.pk %}" class="mt-5 space-y-5">
+            {% csrf_token %}
+            {% include "ui/form_field.html" with field=cancellation_form.reason only %}
+            <button class="ui-btn ui-btn-danger w-full" type="submit">{% trans "Cancel session and notify customers" %}</button>
+          </form>
+        {% endif %}
+      </section>
+    </div>
+  {% endif %}
+{% endblock %}

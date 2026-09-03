@@ -1,0 +1,56 @@
+{% load i18n %}
+<article class="overflow-hidden rounded-2xl border border-primary-200 bg-primary-50"
+         data-legal-section
+         data-section-index="{{ section_index }}">
+  {{ section_form.id }}
+  {{ section_form.order }}
+  {{ section_form.DELETE.as_hidden }}
+
+  <div class="flex items-center justify-between gap-4 bg-primary-100 px-5 py-4 sm:px-6">
+    <h3 class="font-serif text-lg font-bold text-primary-900">
+      {% trans "Section" %} <span data-section-number>{{ section_number }}</span>
+    </h3>
+    <button type="button"
+            class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-secondary-700 transition hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-secondary-500"
+            data-remove-section>
+      {% include "icons/trash.html" with class="size-4" %}
+      {% trans "Remove" %}
+    </button>
+  </div>
+
+  <div class="grid gap-6 p-5 sm:p-6">
+    {% include "ui/form_errors.html" with errors=section_form.non_field_errors title=section_error_title only %}
+    {% include "ui/form_field.html" with field=section_form.title_pt only %}
+    {% include "ui/form_field.html" with field=section_form.title_en only %}
+
+    <section aria-labelledby="clauses-title-{{ section_index }}">
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h3 id="clauses-title-{{ section_index }}" class="font-serif text-lg font-bold text-primary-900">
+          {% trans "Clauses" %}
+        </h3>
+        <button type="button" class="ui-btn ui-btn-secondary" data-add-clause>
+          {% include "icons/plus.html" with class="size-4" %}
+          {% trans "Add Clause" %}
+        </button>
+      </div>
+
+      {% if clause_formset %}
+        {{ clause_formset.management_form }}
+        {% include "ui/form_errors.html" with errors=clause_formset.non_form_errors title=clause_error_title only %}
+      {% else %}
+        <input type="hidden" name="lineitems-{{ section_index }}-TOTAL_FORMS" value="0" id="id_lineitems-{{ section_index }}-TOTAL_FORMS">
+        <input type="hidden" name="lineitems-{{ section_index }}-INITIAL_FORMS" value="0" id="id_lineitems-{{ section_index }}-INITIAL_FORMS">
+        <input type="hidden" name="lineitems-{{ section_index }}-MIN_NUM_FORMS" value="0" id="id_lineitems-{{ section_index }}-MIN_NUM_FORMS">
+        <input type="hidden" name="lineitems-{{ section_index }}-MAX_NUM_FORMS" value="1000" id="id_lineitems-{{ section_index }}-MAX_NUM_FORMS">
+      {% endif %}
+
+      <div class="grid gap-4" data-legal-clauses>
+        {% if clause_formset %}
+          {% for clause_form in clause_formset.forms %}
+            {% include "backoffice/partials/legal_clause_form.html" with clause_form=clause_form only %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</article>

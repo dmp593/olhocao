@@ -1,0 +1,92 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Daycare and training operations" %} | OlhóCão{% endblock %}
+
+{% block backoffice_content %}
+  {% url 'backoffice:activity_session_create' as create_session_url %}
+  {% include "ui/page_header.html" with kicker=_("Operations") title=_("Daycare and training") subtitle=_("A single operational view for attendance, care priorities, capacity and subscription payment issues.") action_url=create_session_url action_label=_("Schedule session") %}
+  {% include "backoffice/partials/operations_subnav.html" %}
+
+  <div class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    {% include "ui/stat_card.html" with label=_("Sessions today") value=stats.sessions_today %}
+    {% include "ui/stat_card.html" with label=_("Dogs today") value=stats.dogs_today %}
+    {% include "ui/stat_card.html" with label=_("Medication today") value=stats.medical_today %}
+    {% include "ui/stat_card.html" with label=_("Payment attention") value=stats.payment_attention %}
+  </div>
+
+  <section class="ui-card mb-6" aria-labelledby="activity-filters-title">
+    <div class="mb-4 flex justify-between gap-3">
+      <h2 id="activity-filters-title" class="text-xl font-bold text-primary-950">{% trans "Find reservations" %}</h2>
+      <a href="{% url 'backoffice:activities_dashboard' %}" class="text-sm font-bold text-primary-700 hover:underline">{% trans "Clear filters" %}</a>
+    </div>
+    <form method="get">
+      <div class="ui-filter-grid">{% for field in filter_form %}{% include "ui/form_field.html" with field=field %}{% endfor %}</div>
+      <div class="mt-5 flex justify-end"><button class="ui-btn ui-btn-primary" type="submit">{% trans "Apply filters" %}</button></div>
+    </form>
+  </section>
+
+  <section class="mb-8" aria-labelledby="service-requests-title">
+    <div class="mb-4 flex items-end justify-between gap-3">
+      <div>
+        <p class="ui-kicker">{% trans "Operational queue" %}</p>
+        <h2 id="service-requests-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Service requests" %}</h2>
+      </div>
+      <span class="text-sm text-primary-600">{% trans "Standalone services and hotel extras awaiting action" %}</span>
+    </div>
+    {% if open_fulfilments %}
+      <div class="ui-table-wrap">
+        <table class="ui-table">
+          <thead><tr><th>{% trans "Service" %}</th><th>{% trans "Customer and dog" %}</th><th>{% trans "Preference" %}</th><th>{% trans "Status" %}</th><th>{% trans "Action" %}</th></tr></thead>
+          <tbody class="divide-y divide-primary-100">
+            {% for fulfilment in open_fulfilments %}
+              <tr>
+                <td><strong>{{ fulfilment.source_label }}</strong>{% if fulfilment.booking_service_id %}<br><span class="text-xs text-primary-500">{% blocktranslate with booking_id=fulfilment.booking_service.stay.booking_id %}Hotel booking #{{ booking_id }}{% endblocktranslate %}</span>{% endif %}</td>
+                <td><a class="font-bold hover:underline" href="{% url 'backoffice:user_detail' fulfilment.customer.user_id %}">{{ fulfilment.customer.user.get_full_name|default:fulfilment.customer.user.username }}</a><br>{{ fulfilment.pet.name }}{% if fulfilment.pet.is_medicated %} <span class="ui-badge ui-badge-danger">{% trans "Medication" %}</span>{% endif %}</td>
+                <td>{% if fulfilment.scheduled_starts_at %}<strong>{{ fulfilment.scheduled_starts_at|date:'d/m/Y H:i' }}</strong>{% elif fulfilment.preferred_date %}{{ fulfilment.preferred_date|date:'d/m/Y' }}{% if fulfilment.preferred_time %} · {{ fulfilment.preferred_time|time:'H:i' }}{% endif %}{% else %}{% trans "Team chooses" %}{% endif %}</td>
+                <td><span class="ui-badge {% if fulfilment.status == 'scheduled' %}ui-badge-info{% else %}ui-badge-warning{% endif %}">{{ fulfilment.get_status_display }}</span></td>
+                <td><a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:service_fulfilment_detail' fulfilment.pk %}">{% trans "Manage" %}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      {% include "ui/empty_state.html" with title=_("No service requests need attention") description=_("New standalone services and hotel extras will appear here after payment confirmation.") %}
+    {% endif %}
+  </section>
+
+  {% if reservations %}
+    <div class="ui-table-wrap">
+      <table class="ui-table">
+        <thead><tr><th>{% trans "Session" %}</th><th>{% trans "Customer and dog" %}</th><th>{% trans "Care priority" %}</th><th>{% trans "Service" %}</th><th>{% trans "Status" %}</th><th>{% trans "Actions" %}</th></tr></thead>
+        <tbody class="divide-y divide-primary-100">
+        {% for reservation in reservations %}
+          <tr>
+            <td><strong>{{ reservation.session.title }}</strong><br><span class="text-sm text-slate-500">{{ reservation.session.starts_at|date:"d/m/Y H:i" }}</span></td>
+            <td><a class="font-bold hover:underline" href="{% url 'backoffice:user_detail' reservation.entitlement.customer.user_id %}">{{ reservation.entitlement.customer.user.get_full_name|default:reservation.entitlement.customer.user.username }}</a><br>{{ reservation.pet.name }}</td>
+            <td><div class="flex flex-wrap gap-1">{% if reservation.pet.is_medicated %}<span class="ui-badge ui-badge-danger">{% trans "Medication" %}</span>{% endif %}{% if reservation.pet.is_allergic %}<span class="ui-badge ui-badge-warning">{% trans "Allergies" %}</span>{% endif %}{% if not reservation.pet.is_medicated and not reservation.pet.is_allergic %}—{% endif %}</div></td>
+            <td>{{ reservation.entitlement.item_name_snapshot }}</td>
+            <td><span class="ui-badge {% if reservation.status == 'booked' %}ui-badge-info{% elif reservation.status == 'attended' %}ui-badge-success{% elif reservation.status == 'no_show' %}ui-badge-warning{% else %}ui-badge-danger{% endif %}">{{ reservation.get_status_display }}</span></td>
+            <td>
+              {% if reservation.status == 'booked' %}
+              <div class="flex flex-wrap gap-1">
+                <form method="post" action="{% url 'backoffice:activity_reservation_status' reservation.pk %}" class="flex gap-1">
+                  {% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <button class="ui-btn ui-btn-secondary" type="submit" name="status" value="attended">{% trans "Attended" %}</button>
+                  <button class="ui-btn ui-btn-ghost" type="submit" name="status" value="no_show">{% trans "No-show" %}</button>
+                </form>
+                <a class="ui-btn ui-btn-danger" href="{% url 'backoffice:activity_reservation_cancel' reservation.pk %}?next={{ request.get_full_path|urlencode }}">{% trans "Cancel" %}</a>
+              </div>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
+  {% else %}
+    {% include "ui/empty_state.html" with title=_("No reservations match these filters") description=_("Try a broader date range or remove a filter.") %}
+  {% endif %}
+{% endblock %}

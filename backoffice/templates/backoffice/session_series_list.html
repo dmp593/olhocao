@@ -1,0 +1,62 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Weekly schedules" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "backoffice:session_series_create" as create_url %}
+  {% include "ui/page_header.html" with kicker=_("Operations") title=_("Weekly schedules") subtitle=_("Create recurring rules that generate auditable calendar sessions without duplicating manual work.") action_url=create_url action_label=_("Create schedule") only %}
+  {% include "backoffice/partials/operations_subnav.html" %}
+
+  {% if series_list %}
+    <div class="grid gap-5 lg:grid-cols-2">
+      {% for series in series_list %}
+        <article class="ui-card flex h-full flex-col">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <span class="ui-badge ui-badge-info">{{ series.catalog_type.name }}</span>
+              <h2 class="mt-3 text-xl font-bold text-primary-950">{{ series.title }}</h2>
+              <p class="mt-1 text-sm text-primary-600">
+                {{ series.starts_on|date:"SHORT_DATE_FORMAT" }} — {{ series.ends_on|date:"SHORT_DATE_FORMAT" }}
+              </p>
+            </div>
+            <span class="ui-badge {% if series.is_active %}ui-badge-success{% else %}ui-badge-neutral{% endif %}">
+              {% if series.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
+            </span>
+          </div>
+
+          <dl class="mt-5 grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <dt class="text-primary-500">{% trans "Time" %}</dt>
+              <dd class="mt-1 font-bold">{{ series.starts_at_time|time:"H:i" }}–{{ series.ends_at_time|time:"H:i" }}</dd>
+            </div>
+            <div>
+              <dt class="text-primary-500">{% trans "Capacity" %}</dt>
+              <dd class="mt-1 font-bold">{{ series.effective_capacity }}</dd>
+            </div>
+            <div class="col-span-2">
+              <dt class="text-primary-500">{% trans "Trainers" %}</dt>
+              <dd class="mt-1">
+                {% for trainer in series.trainers.all %}
+                  <span class="ui-badge ui-badge-neutral">{{ trainer.name }}</span>
+                {% empty %}
+                  <span class="text-primary-500">{% trans "No trainer required" %}</span>
+                {% endfor %}
+              </dd>
+            </div>
+          </dl>
+
+          <div class="mt-auto flex flex-wrap gap-2 border-t border-primary-100 pt-5">
+            <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:session_series_edit' series.pk %}">{% trans "Edit" %}</a>
+            <form method="post" action="{% url 'backoffice:session_series_materialize' series.pk %}">
+              {% csrf_token %}
+              <button class="ui-btn ui-btn-primary" type="submit">{% trans "Generate missing sessions" %}</button>
+            </form>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include "ui/empty_state.html" with title=_("No weekly schedules yet") description=_("Create a schedule for recurring ATL days or training sessions.") action_url=create_url action_label=_("Create schedule") only %}
+  {% endif %}
+{% endblock %}

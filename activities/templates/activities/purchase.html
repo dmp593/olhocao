@@ -1,0 +1,52 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Confirm service" %} · OlhóCão{% endblock %}
+
+{% block portal_content %}
+  {% if activity_reservation %}
+    {% include "ui/page_header.html" with eyebrow=_("Optional service") title=offering.catalog_item.name subtitle=_("This service will be associated with the selected activity day. The team confirms the exact appointment.") %}
+  {% else %}
+    {% include "ui/page_header.html" with eyebrow=_("Secure checkout") title=offering.catalog_item.name subtitle=_("Select the dog who will use this service. Payment and card authorization take place securely at Easypay.") %}
+  {% endif %}
+  <div class="mx-auto mt-8 max-w-2xl ui-card">
+    <dl class="grid gap-4 rounded-2xl bg-primary-50 p-5 sm:grid-cols-2">
+      <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Type" %}</dt><dd class="mt-1 font-semibold">{{ offering.get_mode_display }}</dd></div>
+      <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Price" %}</dt><dd class="mt-1 font-semibold">{% if promotion_quote %}<span class="text-primary-500 line-through">{{ offering.price_eur }} €</span> <span class="ml-2 text-accent-700">{{ promotion_quote.total_amount_eur }} €</span>{% else %}{{ offering.price_eur }} €{% endif %}</dd></div>
+      {% if offering.mode == "pack" %}
+        <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Includes" %}</dt><dd>{% blocktranslate count counter=offering.included_sessions %}{{ counter }} session{% plural %}{{ counter }} sessions{% endblocktranslate %}</dd></div>
+        <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Valid for" %}</dt><dd>{{ offering.validity_days }} {% trans "days" %}</dd></div>
+      {% elif offering.mode == "subscription" %}
+        <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Weekly limit" %}</dt><dd>{% blocktranslate count counter=offering.sessions_per_week %}{{ counter }} session{% plural %}{{ counter }} sessions{% endblocktranslate %}</dd></div>
+        <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Billing" %}</dt><dd>{{ offering.get_billing_frequency_display }}</dd></div>
+      {% endif %}
+      {% if activity_reservation %}
+        <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Dog" %}</dt><dd class="mt-1 font-semibold">{{ activity_reservation.pet.name }}</dd></div>
+        <div><dt class="text-xs font-bold uppercase text-slate-500">{% trans "Activity date" %}</dt><dd class="mt-1 font-semibold">{{ activity_reservation.session.starts_at|date:"d/m/Y" }}</dd></div>
+      {% endif %}
+    </dl>
+    <form method="post" class="mt-6 space-y-5">
+      {% csrf_token %}
+      {% if form.pet.is_hidden %}{{ form.pet }}{% else %}{% include "ui/form_field.html" with field=form.pet only %}{% endif %}
+      {% if form.schedule_preference %}
+        <fieldset class="rounded-2xl border border-primary-100 bg-primary-50/60 p-5">
+          <legend class="px-2 font-serif text-lg font-bold text-primary-950">{% trans "Scheduling preference" %}</legend>
+          <p class="mb-4 text-sm text-primary-600">{% trans "You may ask for a date, a date and time, or leave scheduling to the team. The team confirms the final appointment." %}</p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="sm:col-span-2">{% include "ui/form_field.html" with field=form.schedule_preference only %}</div>
+            {% include "ui/form_field.html" with field=form.preferred_date only %}
+            {% include "ui/form_field.html" with field=form.preferred_time only %}
+            <div class="sm:col-span-2">{% include "ui/form_field.html" with field=form.customer_notes only %}</div>
+          </div>
+        </fieldset>
+      {% endif %}
+      <div class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+        {% include "ui/form_field.html" with field=form.promotion_code only %}
+        <button class="ui-btn ui-btn-secondary" type="submit" name="action" value="preview_promotion">{% trans "Apply code" %}</button>
+      </div>
+      {% if promotion_quote %}<div class="ui-alert ui-alert-success text-sm">{% if offering.mode == "subscription" %}{% blocktranslate with code=promotion_quote.promotion.code amount=promotion_quote.discount_amount_eur %}Code {{ code }} applied. You save {{ amount }} € on every billing cycle of this plan.{% endblocktranslate %}{% else %}{% blocktranslate with code=promotion_quote.promotion.code amount=promotion_quote.discount_amount_eur %}Code {{ code }} applied. You save {{ amount }} € on this pack.{% endblocktranslate %}{% endif %}</div>{% endif %}
+      {% if offering.mode == "subscription" %}<div class="ui-alert ui-alert-info text-sm">{% trans "You can stop renewal from your customer area. Access already paid for remains available until the end of the current period." %}</div>{% elif offering.mode == "pack" %}<div class="ui-alert ui-alert-info text-sm">{% trans "Pack credits expire on the date shown after payment and are not renewed automatically." %}</div>{% endif %}
+      <button class="ui-btn ui-btn-primary w-full" type="submit" name="action" value="purchase">{% trans "Continue to secure payment" %}</button>
+    </form>
+  </div>
+{% endblock %}

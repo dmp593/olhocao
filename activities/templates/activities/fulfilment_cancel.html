@@ -1,0 +1,19 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Cancel service" %} · OlhóCão{% endblock %}
+
+{% block portal_content %}
+  {% include "ui/page_header.html" with eyebrow=_('Customer area') title=_('Cancel service request') subtitle=fulfilment.catalog_offer.name only %}
+  <form class="ui-card mx-auto max-w-2xl" method="post">
+    {% csrf_token %}
+    <div class="ui-alert ui-alert-warning mb-5 text-sm">
+      {% trans "A late cancellation may still consume the purchased use. The applicable notice period is shown in your service terms." %}
+    </div>
+    {% trans "The service could not be cancelled" as error_title %}
+    {% include "ui/form_errors.html" with errors=form.non_field_errors title=error_title only %}
+    {% include "ui/form_field.html" with field=form.reason only %}
+    {% url 'activities:portal' as cancel_url %}
+    {% include "ui/form_actions.html" with submit_label=_('Confirm cancellation') cancel_url=cancel_url cancel_label=_('Keep service') destructive=True only %}
+  </form>
+{% endblock %}

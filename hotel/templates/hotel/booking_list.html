@@ -1,15 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'layouts/booking.html' %}
 {% load i18n %}
 {% load static %}
 
-{% block content %}
-<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white">
+{% block booking_content %}
+<section class="relative py-8 sm:py-12">
     <div class="container mx-auto px-4 relative z-10">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-            <h1 class="text-4xl font-bold text-primary-800 mb-4 md:mb-0">
-                {% if user.is_staff %}{% trans "All Hotel Bookings" %}{% else %}{% trans "My Hotel Bookings" %}{% endif %}
-                <span class="text-accent-500">🐾</span>
-            </h1>
+        <div class="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
+            <div>
+                <p class="ui-kicker">{% trans "Hotel" %}</p>
+                <h1 class="ui-title">{% if user.is_staff %}{% trans "All hotel bookings" %}{% else %}{% trans "My hotel bookings" %}{% endif %}</h1>
+            </div>
             
             <!-- Filter Dropdown -->
             <div class="relative">
@@ -18,14 +18,17 @@
                     <select 
                         id="status-filter" 
                         name="status"
-                        onchange="this.form.submit()"
-                        class="appearance-none bg-white border border-primary-300 rounded-lg pl-4 pr-10 py-2 text-primary-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                        data-submit-on-change
+                        class="ui-field pr-10"
                     >
                         <option value="all" {% if status_filter == 'all' %}selected{% endif %}>
                             {% trans "All Bookings" %}
                         </option>
-                        <option value="payment" {% if status_filter == 'payment' %}selected{% endif %}>
+                        <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>
                             {% trans "Needs Payment" %}
+                        </option>
+                        <option value="disputed" {% if status_filter == 'disputed' %}selected{% endif %}>
+                            {% trans "Payment disputed" %}
                         </option>
                         <option value="active" {% if status_filter == 'active' %}selected{% endif %}>
                             {% trans "Active Stays" %}

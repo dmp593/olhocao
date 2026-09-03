@@ -1,0 +1,12 @@
+{% load i18n %}
+<article class="rounded-2xl border border-primary-100 bg-primary-50 p-5">
+  <div class="flex items-start gap-4">
+    {% if offer.image_url %}<img class="size-20 rounded-2xl object-cover" src="{{ offer.image_url }}" alt="{{ offer.image_alt }}">{% endif %}
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-center justify-between gap-2"><h4 class="text-lg font-bold text-primary-950">{{ offer.name }}</h4><strong class="text-accent-700">{{ offer.catalog_item.unit_price_eur|floatformat:2 }} €</strong></div>
+      <p class="mt-1 text-sm text-primary-600">{{ offer.description|default:_('No description yet.') }}</p>
+      <div class="mt-3 flex flex-wrap gap-2"><span class="ui-badge {% if offer.is_public %}ui-badge-success{% else %}ui-badge-neutral{% endif %}">{% if offer.is_public %}{% trans "Public" %}{% else %}{% trans "Hidden" %}{% endif %}</span><span class="ui-badge {% if offer.catalog_item.sync_status == 'synced' %}ui-badge-success{% elif offer.catalog_item.sync_status == 'failed' or offer.catalog_item.sync_status == 'diverged' %}ui-badge-danger{% else %}ui-badge-warning{% endif %}">{{ offer.catalog_item.get_sync_status_display }}</span>{% if offer.activity_offering %}<span class="ui-badge ui-badge-info">{{ offer.activity_offering.get_mode_display }}</span>{% endif %}</div>
+    </div>
+  </div>
+  <a class="ui-btn ui-btn-secondary mt-4 w-full" href="{% url 'backoffice:catalog_offer_edit' catalog_type.pk offer.pk %}">{% trans "Edit price or plan" %}</a>
+</article>

@@ -1,0 +1,57 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Weekly schedule" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "backoffice:session_series" as cancel_url %}
+  {% include "ui/breadcrumb.html" with url=cancel_url label=_("Weekly schedules") only %}
+  <div class="mt-5">
+    {% if object %}
+      {% include "ui/page_header.html" with kicker=_("Operations") title=_("Edit weekly schedule") subtitle=_("Future missing sessions are generated from this rule. Existing sessions keep their own capacity and audit history.") only %}
+    {% else %}
+      {% include "ui/page_header.html" with kicker=_("Operations") title=_("Create weekly schedule") subtitle=_("Define weekdays, hours, capacity, eligible levels and trainers.") only %}
+    {% endif %}
+  </div>
+
+  <form method="post" class="ui-card mx-auto mt-8 max-w-5xl">
+    {% csrf_token %}
+    {% include "ui/form_errors.html" with form=form only %}
+
+    <fieldset>
+      <legend class="text-xl font-bold text-primary-950">{% trans "Service and period" %}</legend>
+      <div class="mt-5 grid gap-5 md:grid-cols-2">
+        {% include "ui/form_field.html" with field=form.catalog_type only %}
+        {% include "ui/form_field.html" with field=form.title only %}
+        {% include "ui/form_field.html" with field=form.starts_on only %}
+        {% include "ui/form_field.html" with field=form.ends_on only %}
+      </div>
+    </fieldset>
+
+    <fieldset class="mt-8 border-t border-primary-200 pt-8">
+      <legend class="text-xl font-bold text-primary-950">{% trans "Recurring slots" %}</legend>
+      <div class="mt-5 grid gap-5 md:grid-cols-2">
+        {% include "ui/form_field.html" with field=form.weekdays wrapper_class="md:col-span-2" only %}
+        {% include "ui/form_field.html" with field=form.starts_at_time only %}
+        {% include "ui/form_field.html" with field=form.ends_at_time only %}
+        {% include "ui/form_field.html" with field=form.capacity_override only %}
+        {% include "ui/form_field.html" with field=form.eligible_levels only %}
+        {% include "ui/form_field.html" with field=form.trainers wrapper_class="md:col-span-2" only %}
+      </div>
+    </fieldset>
+
+    <fieldset class="mt-8 border-t border-primary-200 pt-8">
+      <legend class="text-xl font-bold text-primary-950">{% trans "Operational rules" %}</legend>
+      <div class="mt-5 grid gap-5 md:grid-cols-2">
+        {% include "ui/form_field.html" with field=form.skip_closed_days only %}
+        {% include "ui/form_field.html" with field=form.is_active only %}
+        {% include "ui/form_field.html" with field=form.notes wrapper_class="md:col-span-2" only %}
+      </div>
+    </fieldset>
+
+    {% trans "Save schedule" as submit_label %}
+    <div class="mt-8">
+      {% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}
+    </div>
+  </form>
+{% endblock %}

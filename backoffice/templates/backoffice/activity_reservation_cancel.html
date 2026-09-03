@@ -1,0 +1,39 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Cancel reservation" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% include "ui/breadcrumb.html" with url=return_url label=_("Daycare and training") only %}
+  <div class="mt-5">
+    {% include "ui/page_header.html" with kicker=_("Customer care") title=_("Cancel activity reservation") subtitle=reservation.pet.name only %}
+  </div>
+
+  <div class="mx-auto mt-8 grid max-w-4xl gap-6 lg:grid-cols-[1fr_1.25fr]">
+    <aside class="ui-card h-fit">
+      <span class="ui-badge ui-badge-info">{{ reservation.session.catalog_type.name }}</span>
+      <h2 class="mt-4 text-xl font-bold text-primary-950">{{ reservation.session.title }}</h2>
+      <dl class="mt-5 space-y-3 text-sm">
+        <div><dt class="text-primary-500">{% trans "Customer" %}</dt><dd class="font-bold">{{ reservation.entitlement.customer.user.get_full_name|default:reservation.entitlement.customer.user.username }}</dd></div>
+        <div><dt class="text-primary-500">{% trans "Dog" %}</dt><dd class="font-bold">{{ reservation.pet.name }}</dd></div>
+        <div><dt class="text-primary-500">{% trans "Date" %}</dt><dd class="font-bold">{{ reservation.session.starts_at|date:"DATETIME_FORMAT" }}</dd></div>
+        <div><dt class="text-primary-500">{% trans "Service" %}</dt><dd class="font-bold">{{ reservation.entitlement.item_name_snapshot }}</dd></div>
+      </dl>
+    </aside>
+
+    <section class="ui-card">
+      <h2 class="text-xl font-bold text-primary-950">{% trans "Cancellation decision" %}</h2>
+      <p class="mt-1 text-sm text-primary-600">{% trans "The reservation is never deleted. The decision and reason remain in its audit history." %}</p>
+      <form method="post" class="mt-6 space-y-5">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ return_url }}">
+        {% include "ui/form_errors.html" with form=form only %}
+        {% for field in form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
+        <div class="flex flex-wrap justify-end gap-3 border-t border-primary-100 pt-5">
+          <a class="ui-btn ui-btn-secondary" href="{{ return_url }}">{% trans "Keep reservation" %}</a>
+          <button class="ui-btn ui-btn-danger" type="submit">{% trans "Confirm cancellation" %}</button>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}

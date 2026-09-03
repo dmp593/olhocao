@@ -1,0 +1,54 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Issue refund" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "hotel:booking_detail" booking.pk as booking_url %}
+  {% include "ui/breadcrumb.html" with url=booking_url label=_("Back to booking") only %}
+  {% include "ui/page_header.html" with kicker=_("Financial management") title=_("Issue booking refund") subtitle=_("Create a total or partial refund while preserving the original transaction and receipt.") only %}
+
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <form method="post" class="ui-card">
+      {% csrf_token %}
+      {% trans "The refund could not be requested" as form_error_title %}
+      {% include "ui/form_errors.html" with errors=form.non_field_errors title=form_error_title only %}
+
+      <div class="grid gap-4 rounded-2xl bg-primary-50 p-5 sm:grid-cols-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Captured payment" %}</p>
+          <p class="mt-1 text-xl font-bold text-primary-950">{{ payment.amount_eur|floatformat:2 }}€</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Already reserved or refunded" %}</p>
+          <p class="mt-1 text-xl font-bold text-primary-950">{{ already_refunded_amount|floatformat:2 }}€</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wide text-primary-500">{% trans "Refundable balance" %}</p>
+          <p class="mt-1 text-xl font-bold text-accent-700">{{ refundable_amount|floatformat:2 }}€</p>
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-5">
+        {% include "ui/form_field.html" with field=form.amount_eur only %}
+        {% include "ui/form_field.html" with field=form.reason only %}
+      </div>
+
+      <div class="ui-alert ui-alert-warning mt-6">
+        <strong>{% trans "Permanent financial record" %}</strong>
+        <p class="mt-1">{% trans "The original capture and fiscal receipt are never deleted or edited. After Easypay confirms the refund, TOConline receives a separate corrective document." %}</p>
+      </div>
+
+      {% trans "Request refund" as submit_label %}
+      {% include "ui/form_actions.html" with cancel_url=booking_url submit_label=submit_label only %}
+    </form>
+
+    <aside class="ui-card self-start">
+      <h2 class="font-serif text-xl font-bold text-primary-950">{% trans "Booking" %} #{{ booking.pk }}</h2>
+      <dl class="mt-4 space-y-3 text-sm">
+        <div><dt class="text-primary-500">{% trans "Customer" %}</dt><dd class="font-bold text-primary-950">{{ booking.customer.user.get_full_name|default:booking.customer.user.username }}</dd></div>
+        <div><dt class="text-primary-500">{% trans "Status" %}</dt><dd class="font-bold text-primary-950">{{ booking.get_status_display }}</dd></div>
+      </dl>
+    </aside>
+  </div>
+{% endblock %}

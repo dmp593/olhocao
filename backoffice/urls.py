@@ -2,81 +2,243 @@ from django.urls import path
 
 from backoffice import views
 
-
-app_name = 'backoffice'
+app_name = "backoffice"
 
 
 urlpatterns = [
+    path("dashboard/", views.DashboardView.as_view(), name="dashboard"),
+    path("site-content/", views.SiteContentIndexView.as_view(), name="site_content"),
     path(
-        'dashboard/',
-        views.DashboardView.as_view(),
-        name='dashboard'
-    ),
-
-    path(
-        'users/create/',
-        views.UserCreateView.as_view(),
-        name='user_create'
-    ),
-
-    path(
-        'users/',
-        views.UsersListView.as_view(),
-        name='users_list'
+        "site-content/settings/",
+        views.SiteSettingsUpdateView.as_view(),
+        name="site_settings",
     ),
     path(
-        'users/<int:pk>/',
-        views.UserDetailView.as_view(),
-        name='user_detail'
+        "site-content/<slug:collection>/",
+        views.ContentCollectionListView.as_view(),
+        name="site_content_collection",
     ),
     path(
-        'users/<int:pk>/edit/',
-        views.UserUpdateView.as_view(),
-        name='user_edit'
+        "site-content/<slug:collection>/create/",
+        views.ContentEntryCreateView.as_view(),
+        name="site_content_create",
     ),
     path(
-        'users/<int:pk>/toggle-active/',
+        "site-content/<slug:collection>/<int:pk>/edit/",
+        views.ContentEntryUpdateView.as_view(),
+        name="site_content_edit",
+    ),
+    path("activities/", views.ActivitiesDashboardView.as_view(), name="activities_dashboard"),
+    path(
+        "activities/service-requests/<int:pk>/",
+        views.ServiceFulfilmentDetailView.as_view(),
+        name="service_fulfilment_detail",
+    ),
+    path("activities/calendar/", views.CalendarView.as_view(), name="calendar"),
+    path("activities/trainers/", views.TrainerListView.as_view(), name="trainers"),
+    path(
+        "activities/trainers/create/",
+        views.TrainerCreateView.as_view(),
+        name="trainer_create",
+    ),
+    path(
+        "activities/trainers/<int:pk>/edit/",
+        views.TrainerUpdateView.as_view(),
+        name="trainer_edit",
+    ),
+    path(
+        "activities/schedules/",
+        views.SessionSeriesListView.as_view(),
+        name="session_series",
+    ),
+    path(
+        "activities/schedules/create/",
+        views.SessionSeriesCreateView.as_view(),
+        name="session_series_create",
+    ),
+    path(
+        "activities/schedules/<int:pk>/edit/",
+        views.SessionSeriesUpdateView.as_view(),
+        name="session_series_edit",
+    ),
+    path(
+        "activities/schedules/<int:pk>/materialize/",
+        views.SessionSeriesMaterializeView.as_view(),
+        name="session_series_materialize",
+    ),
+    path("activities/closures/", views.ClosureListView.as_view(), name="closures"),
+    path(
+        "activities/closures/create/",
+        views.ClosureCreateView.as_view(),
+        name="closure_create",
+    ),
+    path(
+        "activities/closures/<int:pk>/edit/",
+        views.ClosureUpdateView.as_view(),
+        name="closure_edit",
+    ),
+    path("subscriptions/", views.SubscriptionDashboardView.as_view(), name="subscriptions"),
+    path(
+        "subscriptions/<int:pk>/",
+        views.SubscriptionDetailView.as_view(),
+        name="subscription_detail",
+    ),
+    path(
+        "subscriptions/<int:pk>/action/",
+        views.SubscriptionActionView.as_view(),
+        name="subscription_action",
+    ),
+    path(
+        "subscriptions/cycles/<int:pk>/refund/",
+        views.SubscriptionCycleRefundView.as_view(),
+        name="subscription_cycle_refund",
+    ),
+    path(
+        "activities/entitlements/<int:pk>/access/",
+        views.EntitlementAccessView.as_view(),
+        name="entitlement_access",
+    ),
+    path(
+        "activities/entitlements/<int:pk>/",
+        views.EntitlementDetailView.as_view(),
+        name="entitlement_detail",
+    ),
+    path(
+        "activities/entitlements/<int:pk>/refund/",
+        views.EntitlementRefundView.as_view(),
+        name="entitlement_refund",
+    ),
+    path(
+        "activities/entitlements/<int:pk>/weekly-adjustment/",
+        views.WeeklyUsageAdjustmentCreateView.as_view(),
+        name="weekly_usage_adjustment",
+    ),
+    path("catalog/", views.CatalogListView.as_view(), name="catalog"),
+    path(
+        "catalog/optional-services/",
+        views.CatalogOptionalServicesView.as_view(),
+        name="catalog_optional_services",
+    ),
+    path(
+        "catalog/types/create/",
+        views.CatalogTypeCreateView.as_view(),
+        name="catalog_type_create",
+    ),
+    path(
+        "catalog/types/<int:pk>/",
+        views.CatalogTypeDetailView.as_view(),
+        name="catalog_type_detail",
+    ),
+    path(
+        "catalog/types/<int:pk>/edit/",
+        views.CatalogTypeUpdateView.as_view(),
+        name="catalog_type_edit",
+    ),
+    path(
+        "catalog/types/<int:type_pk>/levels/create/",
+        views.CatalogLevelCreateView.as_view(),
+        name="catalog_level_create",
+    ),
+    path(
+        "catalog/types/<int:type_pk>/levels/<int:pk>/edit/",
+        views.CatalogLevelUpdateView.as_view(),
+        name="catalog_level_edit",
+    ),
+    path(
+        "catalog/types/<int:type_pk>/levels/order/",
+        views.CatalogLevelOrderView.as_view(),
+        name="catalog_level_order",
+    ),
+    path(
+        "catalog/types/<int:type_pk>/offers/create/",
+        views.CatalogOfferCreateView.as_view(),
+        name="catalog_offer_create",
+    ),
+    path(
+        "catalog/types/<int:type_pk>/offers/<int:pk>/edit/",
+        views.CatalogOfferUpdateView.as_view(),
+        name="catalog_offer_edit",
+    ),
+    path(
+        "catalog/projections/",
+        views.CatalogProjectionListView.as_view(),
+        name="catalog_projections",
+    ),
+    path("catalog/sync/", views.CatalogSyncView.as_view(), name="catalog_sync"),
+    path(
+        "activities/sessions/create/",
+        views.ActivitySessionCreateView.as_view(),
+        name="activity_session_create",
+    ),
+    path(
+        "activities/sessions/<int:pk>/edit/",
+        views.ActivitySessionUpdateView.as_view(),
+        name="activity_session_edit",
+    ),
+    path(
+        "activities/sessions/<int:pk>/cancel/",
+        views.ActivitySessionCancelView.as_view(),
+        name="activity_session_cancel",
+    ),
+    path(
+        "activities/reservations/<int:pk>/status/",
+        views.ActivityReservationStatusView.as_view(),
+        name="activity_reservation_status",
+    ),
+    path(
+        "activities/reservations/<int:pk>/cancel/",
+        views.ActivityReservationCancelView.as_view(),
+        name="activity_reservation_cancel",
+    ),
+    path("users/create/", views.UserCreateView.as_view(), name="user_create"),
+    path("users/", views.UsersListView.as_view(), name="users_list"),
+    path("users/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
+    path("users/<int:pk>/edit/", views.UserUpdateView.as_view(), name="user_edit"),
+    path(
+        "users/<int:pk>/password/",
+        views.CustomerPasswordSetView.as_view(),
+        name="customer_password_set",
+    ),
+    path(
+        "users/<int:pk>/toggle-active/",
         views.UserToggleActiveView.as_view(),
-        name='user_toggle_active'
+        name="user_toggle_active",
     ),
     path(
-        'users/<int:pk>/book-hotel/',
-        views.BookHotelForUserView.as_view(),
-        name='book_hotel_for_user'
+        "users/<int:pk>/assisted-booking/",
+        views.AssistedBookingStartView.as_view(),
+        name="assisted_booking_start",
     ),
-
     path(
-        'legal-documents/',
-        views.LegalDocumentListView.as_view(),
-        name='legal_documents'
+        "assisted-booking/stop/",
+        views.AssistedBookingStopView.as_view(),
+        name="assisted_booking_stop",
     ),
-
     path(
-        'legal-documents/create/',
+        "users/<int:pk>/invitation/resend/",
+        views.CustomerInvitationResendView.as_view(),
+        name="customer_invitation_resend",
+    ),
+    path("legal-documents/", views.LegalDocumentListView.as_view(), name="legal_documents"),
+    path(
+        "legal-documents/create/",
         views.LegalDocumentCreateOrUpdateView.as_view(),
-        name='legal_document_create'
+        name="legal_document_create",
     ),
-
     path(
-        'legal-documents/<int:pk>/edit/',
+        "legal-documents/<int:pk>/edit/",
         views.LegalDocumentCreateOrUpdateView.as_view(),
-        name='legal_document_update'
+        name="legal_document_update",
     ),
-
     path(
-        'legal-documents/<int:pk>/delete/',
+        "legal-documents/<int:pk>/delete/",
         views.LegalDocumentDeleteView.as_view(),
-        name='legal_document_delete'
+        name="legal_document_delete",
     ),
-
+    path("contacts-requests/", views.ContactRequestListView.as_view(), name="contacts_requests"),
     path(
-        'contacts-requests/',
-        views.ContactRequestListView.as_view(),
-        name='contacts_requests'
-    ),
-    path(
-        'contacts-requests/mark-read/',
+        "contacts-requests/mark-read/",
         views.ContactRequestMarkReadView.as_view(),
-        name='contactrequest_mark_read'
+        name="contactrequest_mark_read",
     ),
 ]

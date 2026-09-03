@@ -1,0 +1,33 @@
+{% load i18n %}
+<section id="dog-daycare" class="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-accent-700 py-16">
+  <div class="pointer-events-none absolute inset-0 bg-dog-silhouette bg-[length:300px_300px] bg-repeat opacity-5"></div>
+  <div class="ui-container relative text-center">
+    <span class="ui-badge border-white/30 bg-white/15 text-white">{% trans "Daycare and training" %}</span>
+    <h2 class="mx-auto mt-5 max-w-4xl font-serif text-4xl font-bold text-white md:text-5xl">{% trans "Flexible services for different routines" %}</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-lg leading-8 text-primary-100">{% trans "Choose a session pack or a recurring plan, then reserve available dates from your customer area." %}</p>
+
+    <div class="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
+      <article class="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-400/20 text-accent-200">{% include "icons/frame.html" with class="h-8 w-8" %}</div>
+        <h3 class="mt-4 text-xl font-bold text-white">{% trans "Packs without renewal" %}</h3>
+        <p class="mt-2 text-primary-100">{% trans "Buy a defined number of sessions and use the credits within the stated validity period." %}</p>
+      </article>
+      <article class="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-400/20 text-accent-200">{% include "icons/dog_puppy_training_to_sit.html" with class="h-8 w-8" %}</div>
+        <h3 class="mt-4 text-xl font-bold text-white">{% trans "Recurring plans" %}</h3>
+        <p class="mt-2 text-primary-100">{% trans "Automatic billing with a clear weekly session allowance and online cancellation." %}</p>
+      </article>
+      <article class="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-400/20 text-accent-200">{% include "icons/goal.html" with class="h-8 w-8" %}</div>
+        <h3 class="mt-4 text-xl font-bold text-white">{% trans "Access tailored to each plan" %}</h3>
+        <p class="mt-2 text-primary-100">{% trans "The reservation system only shows sessions compatible with the access included in the purchased service." %}</p>
+      </article>
+    </div>
+
+    <div class="mt-10">
+      {% trans "Explore daycare and training" as cta_text %}
+      {% url "activities:offering_list" as cta_url %}
+      {% include "components/cta_pulse.html" with cta_url=cta_url cta_text=cta_text cta_post_icon="icons/arrow_right.html" %}
+    </div>
+  </div>
+</section>

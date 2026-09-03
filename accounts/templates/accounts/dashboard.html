@@ -1,0 +1,66 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Customer area" %} | Olhó Cão{% endblock %}
+
+{% block portal_content %}
+  {% url 'hotel:booking_stay' as book_hotel_url %}
+  {% firstof user.first_name user.username as customer_name %}
+  {% blocktranslate with name=customer_name asvar page_title %}Hello, {{ name }}{% endblocktranslate %}
+  {% include "ui/page_header.html" with kicker=_('Customer area') title=page_title subtitle=_('Everything about your dogs and services in one place.') action_url=book_hotel_url action_label=_('Book hotel') only %}
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <section class="ui-card" aria-labelledby="dashboard-dogs-title">
+      <div class="flex items-center justify-between gap-3">
+        <h2 id="dashboard-dogs-title" class="font-serif text-xl font-bold text-primary-950">{% trans "My dogs" %}</h2>
+        <a class="text-sm font-bold text-accent-700 hover:underline" href="{% url 'pets:list' %}">{% trans "View all" %}</a>
+      </div>
+      <div class="mt-5 space-y-3">
+        {% for dog in dogs %}
+          <a href="{% url 'pets:detail' dog.pk %}" class="flex items-center gap-3 rounded-xl border border-primary-100 p-3 transition hover:border-accent-300 hover:bg-accent-50">
+            <span class="flex size-10 items-center justify-center overflow-hidden rounded-full bg-primary-100">{% if dog.photo %}<img src="{{ dog.photo.url }}" alt="" class="size-full object-cover">{% else %}{% include "icons/paw.html" with class="size-5 text-primary-500" %}{% endif %}</span>
+            <span><strong class="block text-primary-950">{{ dog.name }}</strong><span class="text-sm text-primary-600">{{ dog.breed }}</span></span>
+          </a>
+        {% empty %}
+          <p class="text-sm text-primary-600">{% trans "Add your first dog to start making reservations." %}</p>
+        {% endfor %}
+      </div>
+      <a class="ui-btn ui-btn-secondary mt-5 w-full" href="{% url 'pets:create' %}">{% trans "Add dog" %}</a>
+    </section>
+
+    <section class="ui-card" aria-labelledby="dashboard-bookings-title">
+      <div class="flex items-center justify-between gap-3">
+        <h2 id="dashboard-bookings-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Hotel bookings" %}</h2>
+        <a class="text-sm font-bold text-accent-700 hover:underline" href="{% url 'hotel:booking_list' %}">{% trans "View all" %}</a>
+      </div>
+      <div class="mt-5 space-y-3">
+        {% for booking in bookings %}
+          <a href="{% url 'hotel:booking_detail' booking.pk %}" class="block rounded-xl border border-primary-100 p-3 transition hover:border-accent-300 hover:bg-accent-50">
+            <span class="flex items-center justify-between gap-2"><strong>{% trans "Booking" %} #{{ booking.pk }}</strong><span class="ui-badge {% if booking.status == 'paid' %}ui-badge-success{% elif booking.status == 'pending' %}ui-badge-warning{% else %}ui-badge-neutral{% endif %}">{{ booking.get_status_display }}</span></span>
+            <span class="mt-1 block text-sm text-primary-600">{% for stay in booking.stays.all %}{{ stay.pet.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+          </a>
+        {% empty %}
+          <p class="text-sm text-primary-600">{% trans "You do not have any hotel bookings yet." %}</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="ui-card" aria-labelledby="dashboard-services-title">
+      <div class="flex items-center justify-between gap-3">
+        <h2 id="dashboard-services-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Daycare and training" %}</h2>
+        <a class="text-sm font-bold text-accent-700 hover:underline" href="{% url 'activities:portal' %}">{% trans "Manage" %}</a>
+      </div>
+      <div class="mt-5 space-y-3">
+        {% for service in services %}
+          <a href="{% url 'activities:portal' %}" class="block rounded-xl border border-primary-100 p-3 transition hover:border-accent-300 hover:bg-accent-50">
+            <span class="flex items-center justify-between gap-2"><strong>{{ service.item_name_snapshot }}</strong><span class="ui-badge {% if service.has_access %}ui-badge-success{% else %}ui-badge-neutral{% endif %}">{{ service.get_status_display }}</span></span>
+            <span class="mt-1 block text-sm text-primary-600">{{ service.pet.name }}</span>
+          </a>
+        {% empty %}
+          <p class="text-sm text-primary-600">{% trans "You do not have any daycare or training services yet." %}</p>
+        {% endfor %}
+      </div>
+      <a class="ui-btn ui-btn-secondary mt-5 w-full" href="{% url 'activities:offering_list' %}">{% trans "Explore services" %}</a>
+    </section>
+  </div>
+{% endblock %}

@@ -511,6 +511,10 @@ pyrightconfig.json
 
 
 .backup/
+.staticfiles/
+.e2e/
+playwright-report/
+test-results/
 
-!.env.example
 .env.*
+!.env.example

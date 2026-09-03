@@ -1,0 +1,24 @@
+{% load i18n static %}
+<article id="family-{{ family.id }}" class="ui-card flex h-full flex-col overflow-hidden p-0">
+  <header class="bg-primary-800 px-6 py-4 text-white">
+    <h2 class="font-serif text-2xl font-bold">{{ family.name }}</h2>
+  </header>
+  <ul class="flex-1 divide-y divide-primary-100">
+    {% for service in family.services %}
+      <li id="service-{{ service.id }}" class="flex items-center gap-4 p-5">
+        <img src="{{ service.image_url }}"
+             alt="{{ service.image_alt }}" loading="lazy" class="h-16 w-16 shrink-0 rounded-xl object-cover">
+        <div class="min-w-0 flex-1">
+          <h3 class="font-bold text-primary-900">{{ service.name }}</h3>
+          {% if service.description %}<p class="mt-1 line-clamp-2 text-sm text-primary-600">{{ service.description }}</p>{% endif %}
+        </div>
+        <span class="ui-badge ui-badge-info whitespace-nowrap text-sm">{{ service.catalog_item.unit_price_eur|floatformat:2 }} €</span>
+      </li>
+    {% endfor %}
+  </ul>
+  {% if family.action_url %}
+    <footer class="border-t border-primary-100 p-5">
+      <a href="{{ family.action_url }}" class="ui-btn ui-btn-primary w-full">{{ family.action_label }}</a>
+    </footer>
+  {% endif %}
+</article>

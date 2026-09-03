@@ -1,0 +1,13 @@
+<div class="flex min-w-0 items-center gap-3">
+  <span class="size-12 shrink-0 overflow-hidden rounded-full bg-primary-100">
+    {% if pet.photo %}
+      <img src="{{ pet.photo.url }}" alt="" loading="lazy" class="size-full object-cover">
+    {% else %}
+      {% include "icons/paw.html" with class="size-full p-2 text-primary-400" %}
+    {% endif %}
+  </span>
+  <span class="min-w-0">
+    <strong class="block truncate text-primary-800">{{ pet.name }}</strong>
+    <span class="block truncate text-sm text-primary-600">{{ pet.species.name }}{% if pet.breed %} • {{ pet.breed }}{% endif %}</span>
+  </span>
+</div>

@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'layouts/booking.html' %}
 {% load static %}
 {% load i18n %}
 
-{% block content %}
-<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+{% block booking_content %}
+<section class="relative py-8 sm:py-12">
     <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl mx-auto text-center">
             <div class="w-24 h-24 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -18,7 +18,7 @@
                 {% trans "Thank you for your reservation. We're excited to care for your pets!" %}
             </p>
             
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 text-left">
+            <div class="ui-card mb-8 text-left">
                 <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center">
                     {% include "icons/receipt_percent.html" with class="w-6 h-6 mr-2 text-accent-500" %}
                     {% trans "Booking Details" %}
@@ -28,7 +28,7 @@
                     <div>
                         <h3 class="font-medium text-primary-700 mb-2">{% trans "Booking Reference" %}</h3>
                         <p class="text-primary-800 font-mono bg-primary-50 p-2 rounded-lg inline-block">
-                            #{{ booking_id }}
+                            #{{ booking.id }}
                         </p>
                     </div>
                     <div>
@@ -52,7 +52,7 @@
                         </li>
                         <li class="flex items-start">
                             <span class="mr-2 text-accent-500">✓</span>
-                            <span>{% trans "See you on" %} {{ booking.stays.first.start_date|date:"M j, Y" }}!</span>
+                            <span>{% trans "See you on" %} {{ booking.stays.first.start_date|date:"DATE_FORMAT" }}!</span>
                         </li>
                     </ul>
                 </div>
@@ -64,10 +64,10 @@
             </div>
             
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="{% url 'frontoffice:home' %}" class="flex items-center justify-center bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                <a href="{% url 'frontoffice:home' %}" class="ui-btn ui-btn-secondary">
                     {% trans "Back to Home" %}
                 </a>
-                <a href="{% url 'hotel:booking_stay' %}" class="flex items-center justify-center border-2 border-primary-500 text-primary-600 hover:text-primary-800 font-bold py-3 px-6 rounded-full transition-colors duration-300">
+                <a href="{% url 'hotel:booking_stay' %}" class="ui-btn ui-btn-primary">
                     {% trans "Create Another Booking" %}
                 </a>
             </div>

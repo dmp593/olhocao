@@ -1,6 +1,4 @@
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin, UserPassesTestMixin
-)
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class StaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):

@@ -2,13 +2,13 @@
 {% load custom_filters %}
 
 {% with current_date=current_date %}
-<div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-2
-        border-b-4
-        {% if booking.status == 'pending' and not booking.is_past %}border-red-500
+<article class="ui-card ui-card-interactive overflow-hidden border-b-4
+        {% if booking.status == 'payment_disputed' %}border-red-700
+        {% elif booking.status == 'pending' and not booking.is_past %}border-red-500
         {% elif booking.is_active %}border-accent-500
         {% elif booking.is_upcoming %}border-primary-500
         {% else %}border-primary-300{% endif %}">
-    <div class="p-6">
+    <div>
         <div class="flex justify-between items-start mb-4">
             <div>
                 <h3 class="text-xl font-bold text-primary-800">
@@ -17,33 +17,35 @@
                     </a>
                 </h3>
                 <p class="text-sm text-primary-600">
-                    {{ booking.earliest_start_date|date:"M j" }} - {{ booking.latest_end_date|date:"M j, Y" }}
+                    {{ booking.earliest_start_date|date:"SHORT_DATE_FORMAT" }} – {{ booking.latest_end_date|date:"SHORT_DATE_FORMAT" }}
                 </p>
             </div>
-            <span class="px-3 py-1 text-sm rounded-full 
-                {% if booking.status == 'pending' and not booking.is_past %}bg-red-100 text-red-800
+            <span class="ui-badge
+                {% if booking.status == 'payment_disputed' %}bg-red-100 text-red-900
+                {% elif booking.status == 'pending' and not booking.is_past %}bg-red-100 text-red-800
                 {% elif booking.is_active %}bg-accent-100 text-accent-800
                 {% elif booking.is_upcoming %}bg-primary-100 text-primary-800
                 {% else %}bg-primary-50 text-primary-600{% endif %}">
-                {% if booking.status == 'pending' %}
-                    {% if booking.is_past %}Expired{% else %}Payment Needed{% endif %}
-                {% elif booking.is_active %}Active
-                {% elif booking.is_upcoming %}Upcoming
-                {% else %}Completed{% endif %}
+                {% if booking.status == 'payment_disputed' %}{% trans "Payment disputed" %}
+                {% elif booking.status == 'pending' %}
+                    {% if booking.is_past %}{% trans "Expired" %}{% else %}{% trans "Payment needed" %}{% endif %}
+                {% elif booking.is_active %}{% trans "Active" %}
+                {% elif booking.is_upcoming %}{% trans "Upcoming" %}
+                {% else %}{% trans "Completed" %}{% endif %}
             </span>
         </div>
 
         <div class="space-y-2 text-primary-700">
             <div class="flex justify-between py-2">
                 <p class="font-medium">
-                    <a href="{% url 'backoffice:user_detail' booking.account.user.pk %}">{{ booking.account.user.get_full_name }}</a>
+                    <a href="{% url 'backoffice:user_detail' booking.customer.user.pk %}">{{ booking.customer.user.get_full_name }}</a>
                 </p>
                 <div class="flex flex-col items-end">
-                    {% if booking.account.user.email %}
-                    <a href="mailto:{{ booking.account.user.email }}" class="text-sm">✉️ {{ booking.account.user.email }}</a>
+                    {% if booking.customer.user.email %}
+                    <a href="mailto:{{ booking.customer.user.email }}" class="text-sm">✉️ {{ booking.customer.user.email }}</a>
                     {% endif %}
-                    {% if booking.account.phone_number %}
-                    <a href="tel:{{ booking.account.phone_number }}" class="text-sm">📞 {{ booking.account.phone_number }}</a>
+                    {% if booking.customer.phone_number %}
+                    <a href="tel:{{ booking.customer.phone_number }}" class="text-sm">📞 {{ booking.customer.phone_number }}</a>
                     {% endif %}
                 </div>
             </div>
@@ -55,25 +57,24 @@
                     </p>
                     <p class="text-sm">{{ stay.stay_name }}</p>
                 </div>
-                <p class="text-sm">{{ stay.duration_days }} {% trans "days" %}</p>
+                <p class="text-sm">{% blocktranslate count counter=stay.duration_days %}{{ counter }} day{% plural %}{{ counter }} days{% endblocktranslate %}</p>
             </div>
             {% endfor %}
         </div>
 
         <div class="mt-4 flex items-center justify-between">
             <p class="text-lg font-bold text-primary-800">
-                {{ booking.total_price_eur|divide:100|floatformat:2 }}€
+                {{ booking.total_price_eur|floatformat:2 }}€
             </p>
             {% if booking.toconline_sale_document_id %}
-            <a href="{% url 'hotel:booking_pdf' booking.id %}" target="_blank"
+            <a href="{% url 'hotel:booking_pdf' booking.id %}" target="_blank" rel="noopener noreferrer"
                class="px-4 py-2 text-white rounded-sm text-sm hover:bg-primary-200 transition-colors">
                 {% include "icons/pdf.html" with class="text-[#EB5757] size-6 mr-2" %}
             </a>
             {% endif %}
             {% if booking.status == 'pending' and not booking.is_past %}
-            <a href="{% url 'hotel:booking_retry' booking.id %}" 
-               class="px-4 py-2 bg-accent-500 text-white rounded-full text-sm hover:bg-accent-600 transition-colors">
-                {% trans "Complete Payment" %}
+            <a href="{% url 'hotel:booking_retry' booking.id %}" class="ui-btn ui-btn-primary">
+                {% if request.user.is_staff %}{% trans "Send link for payment" %}{% else %}{% trans "Complete Payment" %}{% endif %}
             </a>
             {% else %}
             <a href="{% url 'hotel:booking_detail' booking.id %}"
@@ -83,5 +84,5 @@
             {% endif %}
         </div>
     </div>
-</div>
+</article>
 {% endwith %}

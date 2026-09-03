@@ -1,0 +1,50 @@
+{% load i18n %}
+<section id="{{ section_id }}" class="relative overflow-hidden bg-gradient-to-b from-primary-100 to-white py-12 sm:py-16">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-paws bg-[length:150px_150px] bg-repeat opacity-[0.07]"></div>
+
+  <div class="ui-container relative z-10">
+    {% firstof object.name default_title as document_title %}
+    {% if object.effective_date %}
+      {% blocktranslate with effective_date=object.effective_date|date:"DATE_FORMAT" asvar document_subtitle %}Effective date: {{ effective_date }}{% endblocktranslate %}
+    {% endif %}
+    {% include "ui/public_page_header.html" with eyebrow=eyebrow title=document_title subtitle=document_subtitle icon=header_icon only %}
+
+    <div class="ui-card mx-auto max-w-4xl p-6 sm:p-8">
+      {% if object %}
+        <article class="prose prose-lg max-w-none text-primary-700">
+          {% if object.heading %}
+            <p class="mb-8 whitespace-pre-line text-lg italic text-primary-700">{{ object.heading }}</p>
+          {% endif %}
+
+          {% for section in object.sections.all %}
+            <section class="mb-8 last:mb-0">
+              <h2 class="mb-4 flex items-center text-2xl font-bold text-primary-800">
+                <span aria-hidden="true" class="mr-3 size-3 rounded-full bg-accent-500"></span>
+                {{ section.title }}
+              </h2>
+              <ul class="space-y-4">
+                {% for item in section.items.all %}
+                  <li class="flex items-start gap-3">
+                    {% include "icons/chevron_right.html" with class="mt-1 size-4 shrink-0 text-accent-600" %}
+                    <span class="whitespace-pre-line text-primary-700">{{ item.text }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endfor %}
+        </article>
+      {% else %}
+        <div class="ui-empty border-0">
+          <div class="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+            {% include empty_icon with class="size-9" %}
+          </div>
+          <h2 class="text-2xl font-bold text-primary-800">{{ empty_title }}</h2>
+          <p class="mt-2 text-primary-600">{{ empty_text }}</p>
+        </div>
+      {% endif %}
+    </div>
+
+    {% url "frontoffice:contact_us" as contact_url %}
+    {% include "components/cta.html" with cta_url=contact_url cta_text=cta_text only %}
+  </div>
+</section>

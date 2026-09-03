@@ -1,0 +1,9 @@
+{% load i18n %}
+<nav class="mb-8 mt-6 flex flex-wrap gap-2" aria-label="{% trans 'Activity operations' %}">
+  <a class="ui-btn {% if request.resolver_match.url_name == 'activities_dashboard' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:activities_dashboard' %}">{% include "icons/dashboard.html" with class="size-5" %}<span>{% trans "Reservations" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name == 'calendar' or request.resolver_match.url_name|slice:':17' == 'activity_session_' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:calendar' %}">{% include "icons/calendar.html" with class="size-5" %}<span>{% trans "Calendar" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name|slice:':15' == 'session_series_' or request.resolver_match.url_name == 'session_series' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:session_series' %}">{% include "icons/clock.html" with class="size-5" %}<span>{% trans "Weekly schedules" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name|slice:':7' == 'trainer' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:trainers' %}">{% include "icons/team.html" with class="size-5" %}<span>{% trans "Trainers" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name|slice:':7' == 'closure' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:closures' %}">{% include "icons/lock_closed.html" with class="size-5" %}<span>{% trans "Closures" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name|slice:':12' == 'subscription' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:subscriptions' %}">{% include "icons/credit_card.html" with class="size-5" %}<span>{% trans "Subscriptions" %}</span></a>
+</nav>

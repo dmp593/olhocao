@@ -1,0 +1,56 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Closures" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "backoffice:closure_create" as create_url %}
+  {% include "ui/page_header.html" with kicker=_("Operations") title=_("Closures and exceptions") subtitle=_("Block new operational reservations for holidays, team leave or exceptional closures. Accommodation date ranges always remain available.") action_url=create_url action_label=_("Add closure") only %}
+  {% include "backoffice/partials/operations_subnav.html" %}
+
+  <div class="ui-alert ui-alert-info mb-6">
+    {% trans "Saving a closure never cancels existing paid reservations. The team must review affected sessions and contact customers explicitly." %}
+  </div>
+
+  {% if closures %}
+    <div class="ui-table-wrap">
+      <table class="ui-table">
+        <thead>
+          <tr>
+            <th>{% trans "Closure" %}</th>
+            <th>{% trans "Period" %}</th>
+            <th>{% trans "Affected services" %}</th>
+            <th>{% trans "State" %}</th>
+            <th><span class="sr-only">{% trans "Actions" %}</span></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-primary-100">
+          {% for closure in closures %}
+            <tr>
+              <td>
+                <strong>{{ closure.name }}</strong>
+                <br><span class="text-sm text-primary-600">{{ closure.get_source_display }}</span>
+              </td>
+              <td>{{ closure.starts_at|date:"DATETIME_FORMAT" }}<br>{{ closure.ends_at|date:"DATETIME_FORMAT" }}</td>
+              <td>
+                {% if closure.all_operational_services %}
+                  {% trans "All non-accommodation services" %}
+                {% else %}
+                  {% for catalog_type in closure.catalog_types.all %}{{ catalog_type.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                {% endif %}
+              </td>
+              <td>
+                <span class="ui-badge {% if closure.is_active %}ui-badge-warning{% else %}ui-badge-neutral{% endif %}">
+                  {% if closure.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
+                </span>
+              </td>
+              <td><a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:closure_edit' closure.pk %}">{% trans "Review" %}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    {% include "ui/empty_state.html" with title=_("No closures configured") description=_("National holidays can be handled per service type; add only local or exceptional closures here.") action_url=create_url action_label=_("Add closure") only %}
+  {% endif %}
+{% endblock %}

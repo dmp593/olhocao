@@ -1,0 +1,16 @@
+{% extends "layouts/patterned.html" %}
+
+{% block navigation %}
+  {% if request.user.is_staff %}
+    {% include "components/backoffice_nav.html" %}
+  {% else %}
+    {% include "components/navbar.html" %}
+  {% endif %}
+{% endblock %}
+
+{% block patterned_content %}
+  {% if request.user.is_authenticated and not request.user.is_staff %}
+    {% include "components/customer_portal_nav.html" %}
+  {% endif %}
+  {% block portal_content %}{% endblock %}
+{% endblock %}

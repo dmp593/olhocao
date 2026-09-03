@@ -4,19 +4,21 @@
 <!DOCTYPE html>
 <html lang="{{ request.LANGUAGE_CODE }}">
 	<head>
-    <title>Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal</title>
+    <title>{% block title %}Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal{% endblock %}</title>
 		<meta charset="UTF-8">
-		<link rel="canonical" href="https://www.olhocao.pt/"/>
+		<link rel="icon" href="{% static 'paws.svg' %}" type="image/svg+xml">
+		<link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}"/>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<meta name="description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
+		<meta name="description" content="{% block meta_description %}Cuidados, hotel, ATL e treino para o seu melhor amigo em Leiria.{% endblock %}"/>
 		
 		<meta property="og:title" content="Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal"/>
 		<meta property="og:description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
 		<meta property="og:url" content="https://www.olhocao.pt/"/>
 		<meta property="og:site_name" content="OlhóCão Centro Canino"/>
 		<meta property="og:type" content="website"/>
+		<meta property="og:image" content="https://www.olhocao.pt/static/images/services/park-play.webp"/>
 		
 		<script type="application/ld+json">
 			{
@@ -24,7 +26,7 @@
 				"@type": "LocalBusiness",
 				"name": "OlhóCão Centro Canino",
 				"url": "https://www.olhocao.pt/",
-				"image": "https://static.wixstatic.com/media/bfbec2_df6c097894e14f27a3acb7ffd6c4208d~mv2.gif",
+				"image": "https://www.olhocao.pt/static/images/services/park-play.webp",
 				"address": {
 					"@type": "PostalAddress",
 					"addressCountry": "PT",
@@ -49,47 +51,22 @@
 		<meta name="twitter:card" content="summary_large_image"/>
 		<meta name="twitter:title" content="Olhó Cão Centro Canino | Hotel para cães em Leiria, Portugal"/>
 		<meta name="twitter:description" content="Cuidados e diversão para o seu melhor amigo. Treinos, passeios, banhos e tosquias, atl para cães. Descubra os melhores serviços para o seu cãopanheiro. Olhó Cão Centro Canino, olhamos por eles."/>
+		<meta name="twitter:image" content="https://www.olhocao.pt/static/images/services/park-play.webp"/>
 		<link href="{% static 'css/styles.css' %}" rel="stylesheet">
-	<style>.bg-paws { background-image: url("{% static 'paws.svg' %}"); }</style>
-	<style>.bg-dog-travel-bag { background-image: url("{% static 'dog_travel_bag.svg' %}"); }</style>
-	<style>.bg-dog-silhouette { background-image: url("{% static 'dog_silhouette.svg' %}"); }</style>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 	{% block styles %}{% endblock %}
 	</head>
 
-	<body class="font-sans leading-normal tracking-normal">
-		<!-- Messages from App 'django.contrib.messages' -->
-		{% include "components/messages.html" %}
-
-		<!-- Navbar -->
-		{% include "components/navbar.html" %}
-
-		<!-- Main Content -->
-		<main class="flex-grow mt-20"> <!-- navbar height: h-20 (class) -->
-			{% block content %}{% endblock %}
-		</main>
-
-		<!-- Footer -->
-		{% include "components/footer.html" %}
-		<script src="{% static 'js/components/navbar.js' %}"></script>
-		<script src="{% static 'js/components/messages.js' %}"></script>
-		
-		<!--Start of Tawk.to Script-->
-		{% comment %}
-		<script type="text/javascript">
-			var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-			(function(){
-			var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-			s1.async=true;
-			s1.src='https://embed.tawk.to/6813c529be6663190a6c659e/{% if request.LANGUAGE_CODE == "pt" %}1iq6jkao8{% else %}1iq6jtqi1{% endif %}';
-			s1.charset='UTF-8';
-			s1.setAttribute('crossorigin','*');
-			s0.parentNode.insertBefore(s1,s0);
-			})();
-		</script>
-		{% endcomment %}
-		<!--End of Tawk.to Script-->
-
-		{% block scripts %}{% endblock %}
+	<body class="flex min-h-screen flex-col font-sans leading-normal tracking-normal">
+			{% include "components/messages.html" %}
+			{% block navigation %}{% include "components/navbar.html" %}{% endblock %}
+			{% include "components/assisted_customer_banner.html" %}
+			<main id="main-content" class="mt-20 flex-grow {% if assisted_customer %}pt-20 sm:pt-14{% endif %}">
+				{% block content %}{% endblock %}
+			</main>
+			{% block footer %}{% include "components/footer.html" %}{% endblock %}
+			<script src="{% static 'js/components/navbar.js' %}"></script>
+			<script src="{% static 'js/components/messages.js' %}"></script>
+			<script src="{% static 'js/components/ui.js' %}"></script>
+			{% block scripts %}{% endblock %}
 	</body>
 </html>

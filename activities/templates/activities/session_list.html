@@ -1,0 +1,27 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Activity schedule" %} · OlhóCão{% endblock %}
+
+{% block portal_content %}
+  {% include "ui/page_header.html" with eyebrow=_("Schedule") title=_("Choose the next happy dog day") subtitle=_("Only sessions compatible with an active plan or pack can be confirmed.") %}
+  <div class="mt-8 grid gap-4 lg:grid-cols-2">
+    {% for session in sessions %}
+      <article class="ui-card flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+        <div>
+          <div class="flex flex-wrap gap-2">
+            <span class="ui-badge ui-badge-info">{{ session.catalog_type.name }}</span>
+            {% for level in session.eligible_levels.all %}<span class="ui-badge ui-badge-warning">{{ level.name }}</span>{% endfor %}
+          </div>
+          <h2 class="mt-3 font-serif text-xl font-bold text-primary-950">{{ session.title }}</h2>
+          <p class="mt-1 text-sm text-slate-600">{{ session.starts_at|date:"l, d F Y · H:i" }}–{{ session.ends_at|date:"H:i" }}</p>
+          <p class="mt-1 text-xs text-slate-500">{{ session.available_places }} {% trans "places available" %}</p>
+          {% if session.trainers.all %}<p class="mt-2 text-xs text-slate-500">{% trans "Team" %}: {% for trainer in session.trainers.all %}{{ trainer.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+        </div>
+        {% if session.available_places %}<a class="ui-btn ui-btn-primary" href="{% url 'activities:reserve' session.pk %}">{% trans "Book" %}</a>{% else %}<span class="ui-badge ui-badge-danger">{% trans "Full" %}</span>{% endif %}
+      </article>
+    {% empty %}
+      {% include "ui/empty_state.html" with title=_("No sessions scheduled") description=_("The team is preparing the next dates.") %}
+    {% endfor %}
+  </div>
+{% endblock %}

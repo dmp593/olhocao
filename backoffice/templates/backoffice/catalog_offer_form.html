@@ -1,0 +1,27 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+{% block title %}{% if offer %}{% trans "Edit price or plan" %}{% else %}{% trans "Create price or plan" %}{% endif %} | {{ catalog_type.name }}{% endblock %}
+{% block backoffice_content %}
+  {% url 'backoffice:catalog_type_detail' catalog_type.pk as cancel_url %}{% include "ui/breadcrumb.html" with url=cancel_url label=catalog_type.name only %}
+  <div class="mt-5">{% if offer %}{% include "ui/page_header.html" with kicker=_("Sale option") title=offer.name subtitle=_("Presentation is editable; published fiscal changes create a preserved successor in TOConline history.") only %}{% else %}{% include "ui/page_header.html" with kicker=_("Sale option") title=_("Create price or plan") subtitle=_("Define the final price and whether customers buy it once, as a pack, or as a subscription.") only %}{% endif %}</div>
+
+  <form method="post" enctype="multipart/form-data" class="ui-card mt-8 space-y-9">
+    {% csrf_token %}{% include "ui/form_errors.html" with form=form only %}
+    <fieldset><legend class="font-serif text-2xl font-bold text-primary-950">{% trans "What customers see" %}</legend><div class="mt-5 grid gap-5 md:grid-cols-2">{% for field in form %}{% if field.name == 'name_pt' or field.name == 'name_en' or field.name == 'description_pt' or field.name == 'description_en' or field.name == 'level' or field.name == 'image' or field.name == 'image_alt_pt' or field.name == 'image_alt_en' %}{% include "ui/form_field.html" with field=field only %}{% endif %}{% endfor %}</div></fieldset>
+
+    <fieldset class="border-t border-primary-100 pt-8"><legend class="font-serif text-2xl font-bold text-primary-950">{% trans "Price and VAT" %}</legend><p class="mt-2 max-w-3xl text-primary-600">{% trans "These fields form the fiscal projection. After publication, a price or VAT change creates a new version instead of rewriting transaction history." %}</p><div class="mt-5 grid gap-5 md:grid-cols-3">{% include "ui/form_field.html" with field=form.toconline_type only %}{% include "ui/form_field.html" with field=form.unit_price_eur only %}{% include "ui/form_field.html" with field=form.tax_code only %}</div></fieldset>
+
+    {% if catalog_type.workflow != 'date_range' %}
+      <fieldset class="border-t border-primary-100 pt-8"><legend class="font-serif text-2xl font-bold text-primary-950">{% trans "How it is sold" %}</legend><p class="mt-2 max-w-3xl text-primary-600">{% trans "A one-off purchase grants one use. Packs grant a fixed balance. Subscriptions grant a weekly allowance that never rolls over." %}</p><div class="mt-5 grid gap-5 md:grid-cols-3">{% include "ui/form_field.html" with field=form.sale_mode only %}{% include "ui/form_field.html" with field=form.included_sessions only %}{% include "ui/form_field.html" with field=form.sessions_per_week only %}{% include "ui/form_field.html" with field=form.validity_days only %}{% include "ui/form_field.html" with field=form.billing_frequency only %}{% include "ui/form_field.html" with field=form.cancellation_notice_hours only %}</div></fieldset>
+    {% else %}
+      <div class="ui-alert ui-alert-info">{% trans "This operational model is bought through a date-range reservation, so no pack or subscription terms are needed here." %}</div>
+    {% endif %}
+
+    <fieldset class="border-t border-primary-100 pt-8"><legend class="font-serif text-2xl font-bold text-primary-950">{% trans "Publication" %}</legend><div class="mt-5 grid gap-5 md:grid-cols-3">{% include "ui/form_field.html" with field=form.is_standalone only %}{% include "ui/form_field.html" with field=form.is_public only %}{% include "ui/form_field.html" with field=form.is_active only %}{% include "ui/form_field.html" with field=form.order only %}</div></fieldset>
+    {% trans "Save price or plan" as submit_label %}{% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}
+  </form>
+
+  {% if catalog_versions %}
+    <section class="ui-card mt-8" aria-labelledby="history-title"><h2 id="history-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Price and VAT history" %}</h2><p class="mt-2 text-primary-600">{% trans "Preserved fiscal versions; transaction snapshots continue to point to the version that was sold." %}</p><div class="ui-table-wrap mt-5"><table class="ui-table"><thead><tr><th>{% trans "Version" %}</th><th>{% trans "Price" %}</th><th>{% trans "VAT" %}</th><th>{% trans "Origin" %}</th><th>{% trans "Created" %}</th></tr></thead><tbody>{% for item in catalog_versions %}<tr><td>{{ item.item_code|default:item.pk }}</td><td>{{ item.unit_price_eur|floatformat:2 }} {{ item.currency }}</td><td>{{ item.tax_code|default:'—' }}</td><td>{{ item.get_origin_display }}</td><td>{{ item.created_at|date:"SHORT_DATETIME_FORMAT" }}</td></tr>{% endfor %}</tbody></table></div></section>
+  {% endif %}
+{% endblock %}

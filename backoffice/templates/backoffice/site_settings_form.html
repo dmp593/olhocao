@@ -1,0 +1,29 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "General website information" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  <a class="ui-back-link" href="{% url 'backoffice:site_content' %}">{% include "icons/arrow_left.html" with class="size-4" %}{% trans "Website content" %}</a>
+  <div class="mt-4">
+    {% include "ui/page_header.html" with kicker=_("Website content") title=_("General information") subtitle=_("Manage shared public information and translated section headings.") %}
+  </div>
+
+  <form method="post" class="mt-8 space-y-6" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="ui-alert ui-alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+    {% for fieldset in settings_fieldsets %}
+      <fieldset class="ui-card">
+        <legend class="px-2 font-serif text-2xl font-bold text-primary-950">{{ fieldset.title }}</legend>
+        <p class="mb-6 text-sm text-primary-600">{{ fieldset.description }}</p>
+        <div class="grid gap-5 md:grid-cols-2">
+          {% for field in fieldset.fields %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
+        </div>
+      </fieldset>
+    {% endfor %}
+    <div class="sticky bottom-4 flex justify-end gap-3 rounded-2xl border border-primary-200 bg-white/95 p-4 shadow-xl backdrop-blur">
+      <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:site_content' %}">{% trans "Cancel" %}</a>
+      <button class="ui-btn ui-btn-primary" type="submit">{% trans "Save information" %}</button>
+    </div>
+  </form>
+{% endblock %}

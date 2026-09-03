@@ -1,0 +1,12 @@
+<header class="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
+  {% if eyebrow %}<p class="ui-kicker">{{ eyebrow }}</p>{% endif %}
+  <div class="flex items-center justify-center gap-3">
+    {% if icon %}
+      <span class="hidden text-accent-600 sm:block">
+        {% include icon with class="size-9" %}
+      </span>
+    {% endif %}
+    <h1 class="font-serif text-4xl font-bold leading-tight text-primary-950 md:text-5xl">{{ title }}</h1>
+  </div>
+  {% if subtitle %}<p class="mt-4 text-lg leading-8 text-primary-600 sm:text-xl">{{ subtitle }}</p>{% endif %}
+</header>

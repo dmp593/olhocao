@@ -1,0 +1,45 @@
+{% extends "layouts/public.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Daycare and training" %} · OlhóCão{% endblock %}
+
+{% block public_content %}
+<section class="ui-page bg-gradient-to-b from-primary-50 to-white">
+  <div class="ui-container">
+    {% include "ui/public_page_header.html" with eyebrow=_("More happy dog days") title=_("Daycare, training and obedience") subtitle=_("Choose a flexible pack or recurring plan managed directly by the Olhó Cão team.") icon="icons/paw.html" only %}
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {% for offering in offerings %}
+        <article class="ui-card ui-card-interactive flex flex-col overflow-hidden p-0">
+          <img src="{{ offering.catalog_offer.image_url }}"
+               alt="{{ offering.catalog_offer.image_alt }}" class="h-52 w-full object-cover">
+          <div class="flex flex-1 flex-col p-6">
+            <div class="flex flex-wrap gap-2">
+              <span class="ui-badge ui-badge-info">{{ offering.catalog_type.name }}</span>
+              {% if offering.catalog_level %}<span class="ui-badge ui-badge-warning">{{ offering.catalog_level.name }}</span>{% endif %}
+              <span class="ui-badge">{{ offering.get_mode_display }}</span>
+            </div>
+            <h2 class="mt-4 font-serif text-2xl font-bold text-primary-950">{{ offering.catalog_offer.name }}</h2>
+            <p class="mt-2 flex-1 text-sm leading-6 text-slate-600">{{ offering.catalog_offer.description|default:_("A carefully supervised service tailored to your dog.") }}</p>
+            <div class="mt-5 flex items-end justify-between gap-4 border-t border-slate-100 pt-5">
+              <div>
+                <p class="text-3xl font-extrabold text-primary-900">{{ offering.price_eur }} €</p>
+                <p class="text-xs text-slate-500">
+                  {% if offering.mode == "one_off" %}{% trans "1 use" %}
+                  {% elif offering.mode == "pack" %}{% blocktranslate count counter=offering.included_sessions %}{{ counter }} session{% plural %}{{ counter }} sessions{% endblocktranslate %}
+                  {% else %}{{ offering.sessions_per_week }}×/{% trans "week" %} · {{ offering.get_billing_frequency_display }}{% endif %}
+                </p>
+              </div>
+              <a class="ui-btn ui-btn-primary" href="{% url 'activities:purchase' offering.pk %}">
+                {% if offering.mode == "subscription" %}{% trans "Subscribe" %}{% else %}{% trans "Buy" %}{% endif %}
+              </a>
+            </div>
+          </div>
+        </article>
+      {% empty %}
+        {% include "ui/empty_state.html" with title=_("Services are being prepared") description=_("Come back soon or contact our team for current availability.") %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

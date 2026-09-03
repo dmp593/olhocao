@@ -1,0 +1,44 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Promotions and discounts" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "discounts:promotion_create" as create_url %}
+  {% include "ui/page_header.html" with kicker=_("Commercial management") title=_("Promotions and discounts") subtitle=_("Create reusable rules without depending on product names. Every use and change remains auditable.") action_url=create_url action_label=_("Create promotion") only %}
+
+  <section class="ui-card mb-6" aria-labelledby="promotion-filters-title">
+    <div class="mb-4 flex items-center justify-between gap-3">
+      <h2 id="promotion-filters-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Find promotions" %}</h2>
+      <a href="{% url 'discounts:promotion_list' %}" class="text-sm font-bold text-primary-700 hover:underline">{% trans "Clear filters" %}</a>
+    </div>
+    <form method="get" class="grid gap-4 md:grid-cols-[minmax(0,1fr)_18rem_auto] md:items-end">
+      {% include "ui/form_field.html" with field=filter_form.query only %}
+      {% include "ui/form_field.html" with field=filter_form.status only %}
+      <button class="ui-btn ui-btn-secondary" type="submit">{% trans "Apply filters" %}</button>
+    </form>
+  </section>
+
+  {% if promotions %}
+    <div class="ui-table-wrap">
+      <table class="ui-table">
+        <thead><tr><th>{% trans "Promotion" %}</th><th>{% trans "Discount" %}</th><th>{% trans "Eligible sales" %}</th><th>{% trans "Use" %}</th><th>{% trans "Status" %}</th><th><span class="sr-only">{% trans "Actions" %}</span></th></tr></thead>
+        <tbody class="divide-y divide-primary-100">
+          {% for promotion in promotions %}
+            <tr>
+              <td><strong class="font-mono">{{ promotion.code }}</strong><p class="mt-1 text-xs text-primary-600">{{ promotion.name }}</p></td>
+              <td class="whitespace-nowrap font-bold">{% if promotion.discount_type == "percentage" %}{{ promotion.value|floatformat:2 }}%{% else %}{{ promotion.value|floatformat:2 }}€{% endif %}</td>
+              <td><div class="flex max-w-md flex-wrap gap-1">{% for label in promotion.sale_channel_labels %}<span class="ui-badge ui-badge-info">{{ label }}</span>{% endfor %}</div></td>
+              <td><strong>{{ promotion.consumed_use_count }}</strong> {% trans "completed" %}{% if promotion.active_use_count != promotion.consumed_use_count %}<p class="mt-1 text-xs text-primary-600">{{ promotion.active_use_count }} {% trans "including reserved" %}</p>{% endif %}</td>
+              <td><span class="ui-badge {% if promotion.max_redemptions and promotion.active_use_count >= promotion.max_redemptions %}ui-badge-neutral{% elif promotion.is_current %}ui-badge-success{% elif promotion.is_active %}ui-badge-warning{% else %}ui-badge-neutral{% endif %}">{% if promotion.max_redemptions and promotion.active_use_count >= promotion.max_redemptions %}{% trans "Usage limit reached" %}{% elif promotion.is_current %}{% trans "Available" %}{% elif promotion.is_active %}{% trans "Scheduled or expired" %}{% else %}{% trans "Inactive" %}{% endif %}</span></td>
+              <td class="text-right"><a class="ui-btn ui-btn-secondary ui-btn-compact" href="{% url 'discounts:promotion_update' promotion.pk %}">{% trans "Manage" %}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
+  {% else %}
+    {% include "ui/empty_state.html" with title=_("No promotions found") description=_("Create the first promotion or clear the current filters.") %}
+  {% endif %}
+{% endblock %}

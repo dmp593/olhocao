@@ -1,115 +1,107 @@
-{% extends 'base.html' %}
+{% extends "layouts/backoffice.html" %}
 {% load i18n %}
-{% load custom_filters %}
-{% load static %}
 
-{% block content %}
-<section class="relative py-8 bg-primary-50 min-h-screen-minus-navbar">
-    <div class="container mx-auto px-4">
-        <!-- Date Navigation -->
-        <div class="mb-8 bg-white p-4 rounded-xl shadow">
-            <form method="get" class="flex flex-col md:flex-row gap-4 items-end md:items-center">
-                <div class="flex flex-col md:flex-row gap-4 w-full">
-                    <div class="flex-1">
-                        <label for="start_date" class="block text-sm font-medium text-primary-700">
-                            {% trans "Start Date" %}
-                        </label>
-                        <input type="date" id="start_date" name="start_date" 
-                               value="{{ start_date|date:'Y-m-d' }}" 
-                               class="mt-1 block w-full rounded-md border-primary-300 shadow-sm focus:border-accent-500 focus:ring-accent-500">
-                    </div>
-                    <div class="flex-1">
-                        <label for="end_date" class="block text-sm font-medium text-primary-700">
-                            {% trans "End Date" %}
-                        </label>
-                        <input type="date" id="end_date" name="end_date" 
-                               value="{{ end_date|date:'Y-m-d' }}" 
-                               class="mt-1 block w-full rounded-md border-primary-300 shadow-sm focus:border-accent-500 focus:ring-accent-500">
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-white bg-accent-600 hover:bg-accent-700 focus:ring-accent-500">
-                        {% trans "Filter" %}
-                    </button>
-                    <a href="?start_date={% now 'Y-m-d' %}&end_date={% now 'Y-m-d' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-primary-700 bg-white border-primary-300 hover:bg-primary-50 focus:ring-primary-500">
-                        {% trans "Today" %}
-                    </a>
-                </div>
-            </form>
-            
-            <!-- Previous/Next Navigation -->
-            <div class="mt-4 flex justify-between">
-                <a href="?start_date={{ previous_start|date:'Y-m-d' }}&end_date={{ previous_end|date:'Y-m-d' }}"
-                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-primary-700 bg-white border-primary-300 hover:bg-primary-50 focus:ring-primary-500">
-                    ← {% trans "Previous" %}
-                </a>
-                <a href="?start_date={{ next_start|date:'Y-m-d' }}&end_date={{ next_end|date:'Y-m-d' }}"
-                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 text-primary-700 bg-white border-primary-300 hover:bg-primary-50 focus:ring-primary-500">
-                    {% trans "Next" %} →
-                </a>
-            </div>
-        </div>
+{% block title %}{% trans "Operations dashboard" %} | Olhó Cão{% endblock %}
 
-        <!-- KPI Summary -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div class="bg-white rounded-xl shadow p-4 text-center">
-                <div class="text-sm text-primary-600">{% trans "Check-ins" %}</div>
-                <div class="text-2xl font-semibold text-primary-900">{{ stats.checkins_count }}</div>
-            </div>
-            <div class="bg-white rounded-xl shadow p-4 text-center">
-                <div class="text-sm text-primary-600">{% trans "Check-outs" %}</div>
-                <div class="text-2xl font-semibold text-primary-900">{{ stats.checkouts_count }}</div>
-            </div>
-            <div class="bg-white rounded-xl shadow p-4 text-center">
-                <div class="text-sm text-primary-600">{% trans "Active stays" %}</div>
-                <div class="text-2xl font-semibold text-primary-900">{{ stats.active_count }}</div>
-            </div>
-            <div class="bg-white rounded-xl shadow p-4 text-center">
-                <div class="text-sm text-primary-600">{% trans "Revenue (est.)" %}</div>
-                <div class="text-2xl font-semibold text-primary-900">{{ stats.revenue_cents|divide:100|floatformat:2 }} €</div>
-            </div>
-        </div>
+{% block backoffice_content %}
+{% trans "Operations" as kicker %}
+{% trans "Hotel management" as page_title %}
+{% trans "Today's priorities and a complete, searchable view of every stay." as page_subtitle %}
+{% trans "Invite customer" as action_label %}
+{% url 'backoffice:user_create' as action_url %}
+{% include "ui/page_header.html" with kicker=kicker title=page_title subtitle=page_subtitle action_label=action_label action_url=action_url only %}
 
-        <!-- Dashboard Content -->
-        <div class="grid gap-6 md:grid-cols-2">
-            <!-- Check-ins Section -->
-            <div class="bg-green-50 p-6 rounded-xl ring-1 ring-green-100">
-                <h2 class="text-2xl font-semibold text-primary mb-4 text-center">
-                    {% trans "Check-ins" %}
-                </h2>
-                {% for stay in checkins %}
-                    {% include "backoffice/_stay_card.html" with stay=stay %}
-                {% empty %}
-                    <p class="text-primary-600 text-center">{% trans "No check-ins" %}</p>
-                {% endfor %}
-            </div>
+<div class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  {% trans "Check-ins today" as label %}{% include "ui/stat_card.html" with label=label value=stats.checkins_count only %}
+  {% trans "Check-outs today" as label %}{% include "ui/stat_card.html" with label=label value=stats.checkouts_count only %}
+  {% trans "Dogs staying now" as label %}{% include "ui/stat_card.html" with label=label value=stats.active_count only %}
+  {% trans "Medication priority" as label %}{% include "ui/stat_card.html" with label=label value=stats.medication_count only %}
+</div>
 
-            <!-- Check-outs Section -->
-            <div class="bg-yellow-50 p-6 rounded-xl ring-1 ring-yellow-100">
-                <h2 class="text-2xl font-semibold text-primary mb-4 text-center">
-                    {% trans "Check-outs" %}
-                </h2>
-                {% for stay in checkouts %}
-                    {% include "backoffice/_stay_card.html" with stay=stay %}
-                {% empty %}
-                    <p class="text-primary-600 text-center">{% trans "No check-outs" %}</p>
-                {% endfor %}
-            </div>
-        </div>
+{% if payment_attention_count or document_attention_count %}
+<div class="ui-alert ui-alert-warning mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+  <p class="font-bold">{% trans "Financial attention required" %}</p>
+  <p>
+    {% blocktrans with payments=payment_attention_count documents=document_attention_count %}{{ payments }} payment issue(s) and {{ documents }} TOConline document issue(s).{% endblocktrans %}
+  </p>
+</div>
+{% endif %}
 
-        <!-- Active Stays Section -->
-    <div class="mt-6 bg-blue-50 p-6 rounded-xl ring-1 ring-blue-100">
-            <h2 class="text-2xl font-semibold text-primary mb-4 text-center">
-                {% trans "Active Stays" %}
-            </h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                {% for stay in stays %}
-                    {% include "backoffice/_stay_card.html" with stay=stay %}
-                {% empty %}
-                    <p class="text-primary-600 text-center">{% trans "No active stays" %}</p>
-                {% endfor %}
-            </div>
-        </div>
+{% if integration_attention_count %}
+<div class="ui-alert ui-alert-warning mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+  <div><p class="font-bold">{% trans "Integration reconciliation required" %}</p><p>{% blocktranslate count counter=integration_attention_count %}{{ counter }} TOConline projection or document needs attention.{% plural %}{{ counter }} TOConline projections or documents need attention.{% endblocktranslate %}</p></div>
+  <a href="{% url 'backoffice:catalog' %}" class="ui-btn ui-btn-secondary">{% trans "Review catalog" %}</a>
+</div>
+{% endif %}
+
+<section class="ui-card mb-6" aria-labelledby="stay-filters-title">
+  <div class="mb-4 flex items-center justify-between gap-3">
+    <h2 id="stay-filters-title" class="text-xl font-bold text-primary-950">{% trans "Find stays" %}</h2>
+    <a href="{% url 'backoffice:dashboard' %}" class="text-sm font-bold text-primary-600 hover:text-primary-950 hover:underline">{% trans "Clear filters" %}</a>
+  </div>
+  <form method="get">
+    <div class="ui-filter-grid">
+      {% for field in filter_form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
     </div>
+    <div class="mt-5 flex justify-end">
+      <button type="submit" class="ui-btn ui-btn-primary">{% trans "Apply filters" %}</button>
+    </div>
+  </form>
+</section>
+
+<section aria-labelledby="stay-results-title">
+  <div class="mb-4 flex items-end justify-between gap-4">
+    <div>
+      <h2 id="stay-results-title" class="text-2xl font-bold text-primary-950">{% trans "Stays" %}</h2>
+      <p class="text-sm text-primary-600">{% blocktrans count counter=paginator.count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktrans %}</p>
+    </div>
+  </div>
+
+  {% if stays %}
+  <div class="ui-table-wrap">
+    <table class="ui-table">
+      <thead>
+        <tr>
+          <th>{% trans "Stay" %}</th>
+          <th>{% trans "Customer and dog" %}</th>
+          <th>{% trans "Dates" %}</th>
+          <th>{% trans "Care" %}</th>
+          <th>{% trans "Status" %}</th>
+          <th><span class="sr-only">{% trans "Actions" %}</span></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-primary-100">
+        {% for stay in stays %}
+        <tr class="hover:bg-primary-50">
+          <td>
+            <a href="{% url 'hotel:booking_detail' stay.booking_id %}" class="font-bold text-accent-800 hover:underline">#{{ stay.booking_id }} · {{ stay.stay_name }}</a>
+            {% if stay.services.all %}<p class="mt-1 text-xs text-primary-500">{% blocktrans count counter=stay.services.all|length %}{{ counter }} extra{% plural %}{{ counter }} extras{% endblocktrans %}</p>{% endif %}
+          </td>
+          <td>
+            <a href="{% url 'backoffice:user_detail' stay.booking.customer.user_id %}" class="font-bold hover:underline">{{ stay.booking.customer.user.get_full_name|default:stay.booking.customer.user.username }}</a>
+            <p class="text-primary-600">{{ stay.pet.name }}</p>
+          </td>
+          <td class="whitespace-nowrap">{{ stay.start_date|date:"d M Y" }}<br><span class="text-primary-500">{{ stay.end_date|date:"d M Y" }}</span></td>
+          <td>
+            <div class="flex flex-wrap gap-1.5">
+              {% if stay.pet.is_medicated %}<span class="ui-badge ui-badge-danger">{% trans "Medication" %}</span>{% endif %}
+              {% if stay.pet.is_allergic %}<span class="ui-badge ui-badge-warning">{% trans "Allergies" %}</span>{% endif %}
+              {% if stay.pet.has_notes %}<span class="ui-badge ui-badge-info">{% trans "Notes" %}</span>{% endif %}
+              {% if not stay.pet.is_medicated and not stay.pet.is_allergic and not stay.pet.has_notes %}<span class="text-primary-400">—</span>{% endif %}
+            </div>
+          </td>
+          <td><span class="ui-badge {% if stay.booking.status == 'paid' or stay.booking.status == 'complimentary' %}ui-badge-success{% elif stay.booking.status == 'cancelled' %}ui-badge-danger{% else %}ui-badge-warning{% endif %}">{{ stay.booking.get_status_display }}</span></td>
+          <td class="text-right"><a href="{% url 'hotel:booking_detail' stay.booking_id %}" class="ui-btn ui-btn-secondary">{% trans "Manage" %}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
+  {% else %}
+    {% trans "No stays match these filters" as empty_title %}
+    {% trans "Try a broader date range or clear one of the status filters." as empty_description %}
+    {% include "ui/empty_state.html" with title=empty_title description=empty_description only %}
+  {% endif %}
 </section>
 {% endblock %}

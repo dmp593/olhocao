@@ -1,0 +1,5 @@
+{% load i18n %}
+<div class="{{ wrapper_class|default:'flex flex-col-reverse gap-3 border-t border-primary-200 pt-5 sm:flex-row sm:justify-end' }}">
+  <a href="{{ cancel_url }}" class="ui-btn ui-btn-secondary">{% if cancel_label %}{{ cancel_label }}{% else %}{% trans "Cancel" %}{% endif %}</a>
+  <button type="submit" class="ui-btn ui-btn-primary">{{ submit_label }}</button>
+</div>

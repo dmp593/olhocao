@@ -1,0 +1,108 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n l10n %}
+
+{% block title %}{{ entitlement.item_name_snapshot }} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% trans "System" as system_label %}
+  {% url 'backoffice:subscriptions' as subscriptions_url %}
+  <a class="mb-4 inline-flex font-bold text-primary-700 hover:underline" href="{{ subscriptions_url }}">← {% trans "Back to subscriptions" %}</a>
+  {% include "ui/page_header.html" with kicker=_("Subscription") title=entitlement.item_name_snapshot subtitle=entitlement.pet.name only %}
+  {% include "backoffice/partials/operations_subnav.html" %}
+
+  <div class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    {% include "ui/stat_card.html" with label=_("Customer") value=entitlement.customer.user.get_full_name|default:entitlement.customer.user.username only %}
+    {% include "ui/stat_card.html" with label=_("Dog") value=entitlement.pet.name only %}
+    {% include "ui/stat_card.html" with label=_("State") value=entitlement.get_status_display only %}
+    {% include "ui/stat_card.html" with label=_("Weekly limit") value=entitlement.sessions_per_week_snapshot only %}
+  </div>
+
+  {% if entitlement.access_blocked_at %}
+    <div class="ui-alert ui-alert-danger mb-6"><strong>{% trans "Operational access blocked" %}</strong><br>{{ entitlement.access_blocked_reason }}</div>
+  {% endif %}
+  {% if entitlement.last_payment_error %}
+    <div class="ui-alert ui-alert-warning mb-6"><strong>{% trans "Payment attention required" %}</strong><br>{{ entitlement.last_payment_error }}</div>
+  {% endif %}
+  {% if entitlement.resume_scheduled_at %}
+    <div class="ui-alert ui-alert-info mb-6">{% blocktrans with date=entitlement.resume_scheduled_at|date:"DATETIME_FORMAT" %}Resume scheduled for {{ date }}. Access is restored after a successful charge.{% endblocktrans %}</div>
+  {% endif %}
+
+  <div class="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(20rem,1fr)]">
+    <div class="space-y-6">
+      <section class="ui-card" aria-labelledby="cycles-title">
+        <h2 id="cycles-title" class="text-2xl font-bold text-primary-950">{% trans "Billing cycles and documents" %}</h2>
+        {% if cycles %}
+          <div class="mt-5 space-y-4">
+            {% for cycle in cycles %}
+              <article class="rounded-2xl border border-primary-100 p-4">
+                <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+                  <div><p class="font-bold text-primary-950">{% if cycle.period_start %}{{ cycle.period_start|date:"F Y" }}{% else %}{{ cycle.created_at|date:"F Y" }}{% endif %}</p><p class="text-sm text-primary-600">{{ cycle.amount_eur }} € · <span class="ui-badge {% if cycle.status == 'paid' %}ui-badge-success{% elif cycle.status == 'disputed' %}ui-badge-danger{% else %}ui-badge-warning{% endif %}">{{ cycle.get_status_display }}</span></p></div>
+                  <div class="flex flex-wrap gap-2">
+                    {% if cycle.toconline_sale_document_id %}<a class="ui-btn ui-btn-secondary" href="{% url 'activities:subscription_cycle_pdf' cycle.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Receipt PDF" %}</a>{% endif %}
+                    {% if cycle.toconline_amend_document_id %}<a class="ui-btn ui-btn-secondary" href="{% url 'activities:subscription_cycle_credit_pdf' cycle.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Credit note PDF" %}</a>{% endif %}
+                  </div>
+                </div>
+                {% if cycle.document_status == 'failed' %}<p class="mt-3 text-sm font-bold text-red-700">{% trans "TOConline document requires attention." %}</p>{% endif %}
+                {% if cycle.status == 'disputed' %}<p class="ui-alert ui-alert-danger mt-3 text-sm">{% trans "This charge is disputed. Keep the original receipt and complete a financial and fiscal review before issuing any corrective document." %}</p>{% endif %}
+                <dl class="mt-3 grid gap-2 text-sm sm:grid-cols-3"><div><dt class="text-primary-500">{% trans "Refund" %}</dt><dd class="font-bold">{{ cycle.get_refund_status_display }}</dd></div><div><dt class="text-primary-500">{% trans "Start" %}</dt><dd>{{ cycle.period_start|date:"SHORT_DATE_FORMAT"|default:"—" }}</dd></div><div><dt class="text-primary-500">{% trans "End" %}</dt><dd>{{ cycle.period_end|date:"SHORT_DATE_FORMAT"|default:"—" }}</dd></div></dl>
+                {% if cycle.status == 'paid' and cycle.refund_status != 'pending' and cycle.refund_status != 'refunded' %}
+                  <details class="mt-4 rounded-xl bg-primary-50 p-3">
+                    <summary class="cursor-pointer font-bold text-primary-800">{% trans "Request refund" %}</summary>
+                    <form class="mt-3 grid gap-3 sm:grid-cols-[10rem_1fr_auto] sm:items-end" method="post" action="{% url 'backoffice:subscription_cycle_refund' cycle.pk %}">
+                      {% csrf_token %}
+                      <div><label class="ui-label" for="refund-amount-{{ cycle.pk }}">{% trans "Amount" %}</label><input class="ui-field" id="refund-amount-{{ cycle.pk }}" name="amount" type="number" min="0.01" max="{{ cycle.amount_eur|unlocalize }}" step="0.01" value="{{ cycle.amount_eur|unlocalize }}" required></div>
+                      <div><label class="ui-label" for="refund-reason-{{ cycle.pk }}">{% trans "Reason" %}</label><input class="ui-field" id="refund-reason-{{ cycle.pk }}" name="reason" maxlength="500" required></div>
+                      <button class="ui-btn ui-btn-danger" type="submit">{% trans "Request refund" %}</button>
+                    </form>
+                  </details>
+                {% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="ui-empty mt-5">{% trans "No billing cycle has been received yet." %}</p>
+        {% endif %}
+      </section>
+
+      <section class="ui-card" aria-labelledby="history-title">
+        <h2 id="history-title" class="text-2xl font-bold text-primary-950">{% trans "Administrative history" %}</h2>
+        <ol class="mt-5 space-y-3">
+          {% for event in management_events %}
+            <li class="border-l-2 border-accent-300 pl-4"><p class="font-bold">{{ event.get_action_display }}</p><p class="text-sm text-primary-600">{{ event.reason }}</p><p class="mt-1 text-xs text-primary-500">{{ event.created_at|date:"DATETIME_FORMAT" }} · {{ event.actor.get_full_name|default:event.actor.username|default:system_label }}</p></li>
+          {% empty %}<li class="ui-empty">{% trans "No administrative changes yet." %}</li>{% endfor %}
+        </ol>
+      </section>
+
+      <section class="ui-card" aria-labelledby="weekly-adjustments-title">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 id="weekly-adjustments-title" class="text-2xl font-bold text-primary-950">{% trans "Extra weekly uses" %}</h2>
+            <p class="mt-2 text-sm text-primary-600">{% trans "Temporary customer-care allowances never change the contracted plan and never roll over." %}</p>
+          </div>
+          <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:weekly_usage_adjustment' entitlement.pk %}">{% trans "Grant uses" %}</a>
+        </div>
+        <ol class="mt-5 space-y-3">
+          {% for adjustment in weekly_adjustments %}
+            <li class="rounded-xl border border-primary-100 p-4">
+              <p class="font-bold">+{{ adjustment.extra_uses }} · {% blocktranslate with week=adjustment.week_start|date:"SHORT_DATE_FORMAT" %}week of {{ week }}{% endblocktranslate %}</p>
+              <p class="mt-1 text-sm text-primary-600">{{ adjustment.reason }}</p>
+              <p class="mt-1 text-xs text-primary-500">{{ adjustment.created_at|date:"DATETIME_FORMAT" }} · {{ adjustment.created_by.get_full_name|default:adjustment.created_by.username|default:system_label }}</p>
+            </li>
+          {% empty %}
+            <li class="ui-empty">{% trans "No additional weekly uses have been granted." %}</li>
+          {% endfor %}
+        </ol>
+      </section>
+    </div>
+
+    <aside class="ui-card h-fit" aria-labelledby="manage-title">
+      <h2 id="manage-title" class="text-2xl font-bold text-primary-950">{% trans "Manage subscription" %}</h2>
+      <p class="mt-2 text-sm text-primary-600">{% trans "Financial history is never rewritten. Every action below is recorded permanently." %}</p>
+      <form class="mt-5 space-y-4" method="post" action="{% url 'backoffice:subscription_action' entitlement.pk %}">
+        {% csrf_token %}
+        {% for field in management_form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
+        <button class="ui-btn ui-btn-primary w-full" type="submit">{% trans "Apply administrative action" %}</button>
+      </form>
+    </aside>
+  </div>
+{% endblock %}

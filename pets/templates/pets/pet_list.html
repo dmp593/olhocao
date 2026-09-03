@@ -1,72 +1,41 @@
-{% extends 'base.html' %}
+{% extends "layouts/customer_portal.html" %}
 {% load i18n %}
 
-{% block content %}
-  <section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white animate__animated animate__fadeIn">
-    <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
-    <div class="container mx-auto px-4 relative z-10">
-      <div class="max-w-6xl mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
-        <div class="bg-primary-700 px-6 py-8 text-center">
-          <h2 class="text-3xl font-bold text-white mb-0"><span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">{% trans 'My Pets' %}</span></h2>
-        </div>
-        <div class="p-8">
-          <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {% for pet in pets %}
-              <div class="bg-primary-50 border border-primary-100 rounded-2xl shadow hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
-                {% if pet.photo %}
-                  <div class="relative h-56 overflow-hidden">
-                    <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full object-cover" />
-                  </div>
-                {% else %}
-                  <div class="h-56 bg-primary-100 flex items-center justify-center">
-                    <span class="text-primary-400">{% include 'icons/paw.html' with class='w-16 h-16' %}</span>
-                  </div>
-                {% endif %}
-                <div class="p-6">
-                  <h3 class="font-bold text-2xl text-primary-800 mb-1 flex flex-row">
-                    {{ pet.name }}
-                    {% if request.user.is_staff and pet.deleted_at %}
-                      <span class="ml-2 inline-block px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-700 self-center justify-self-end">{% trans "Deleted" %}</span>
-                    {% endif %}
-                  </h3>
-                  {% if request.user.is_staff %}
-                  <a href="{% url 'backoffice:user_detail' pet.owner.pk %}" class="text-accent-600 mb-2">{{ pet.owner }}</a>
-                  {% endif %}
-                  <p class="text-primary-600 mb-4">{{ pet.species.name }} • {{ pet.breed }}</p>
-                  <div class="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end sm:space-x-2">
-                      <a href="{% url 'pets:detail' pet.pk %}" class="w-full sm:w-auto text-center text-xs md:text-sm px-3 py-2 rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200 transition-colors">{% trans 'View' %}</a>
-                      <a href="{% url 'pets:update' pet.pk %}" class="w-full sm:w-auto text-center text-xs md:text-sm px-3 py-2 rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition-colors">{% trans 'Edit' %}</a>
-                    {% if request.user.is_staff and pet.deleted_at %}
-                      <form action="{% url 'pets:restore' pet.pk %}" method="post" class="contents">
-                        {% csrf_token %}
-                          <button type="submit" class="w-full sm:w-auto text-center text-xs md:text-sm px-3 py-2 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">{% trans 'Restore' %}</button>
-                      </form>
-                    {% else %}
-                        <a href="{% url 'pets:delete' pet.pk %}" class="w-full sm:w-auto text-center text-xs md:text-sm px-3 py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors">{% trans 'Delete' %}</a>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-            {% empty %}
-              <div class="col-span-full text-center py-16 animate__animated animate__fadeIn animate__delay-1s">
-                <p class="text-primary-500 text-xl mb-4">
-                  {% trans "You haven't added any pets yet." %}
-                </p>
-                <a href="{% url 'pets:create' %}" class="inline-flex items-center px-6 py-3 rounded-full text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors animate__animated animate__pulse animate__infinite animate__slower">
-                  {% include 'icons/paw.html' with class='w-6 h-6 mr-2' %}
-                  {% trans 'Add Your First Pet' %}
-                </a>
-              </div>
-            {% endfor %}
+{% block title %}{% trans "Dogs" %} | Olhó Cão{% endblock %}
+
+{% block portal_content %}
+  {% url 'pets:create' as create_dog_url %}
+  {% include "ui/page_header.html" with kicker=_("Customer area") title=_("Dogs") subtitle=_("Keep each dog's identity, health and care information up to date.") action_url=create_dog_url action_label=_("Add dog") %}
+
+  {% if request.user.is_staff %}
+    <nav class="mb-6 flex flex-wrap gap-2" aria-label="{% trans 'Dog status filters' %}">
+      <a href="?status=all" class="ui-btn {% if status == 'all' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}">{% trans "All" %}</a>
+      <a href="?status=active" class="ui-btn {% if status == 'active' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}">{% trans "Active" %}</a>
+      <a href="?status=deleted" class="ui-btn {% if status == 'deleted' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}">{% trans "Deleted" %}</a>
+    </nav>
+  {% endif %}
+
+  {% if pets %}
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {% for pet in pets %}
+        <article class="ui-card ui-card-interactive overflow-hidden p-0">
+          <div class="h-52 bg-primary-100">{% if pet.photo %}<img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="size-full object-cover">{% else %}<div class="flex size-full items-center justify-center">{% include "icons/paw.html" with class="size-16 text-primary-300" %}</div>{% endif %}</div>
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-3">
+              <div><h2 class="font-serif text-2xl font-bold text-primary-950">{{ pet.name }}</h2><p class="mt-1 text-primary-600">{{ pet.species.name }}{% if pet.breed %} · {{ pet.breed }}{% endif %}</p></div>
+              {% if pet.deleted_at %}<span class="ui-badge ui-badge-danger">{% trans "Deleted" %}</span>{% endif %}
+            </div>
+            {% if request.user.is_staff %}<p class="mt-3 text-sm"><span class="font-bold">{% trans "Customer" %}:</span> <a class="text-accent-700 hover:underline" href="{% url 'backoffice:user_detail' pet.owner.user_id %}">{{ pet.owner }}</a></p>{% endif %}
+            <div class="mt-5 flex flex-wrap justify-end gap-2 border-t border-primary-100 pt-4">
+              <a href="{% url 'pets:detail' pet.pk %}" class="ui-btn ui-btn-secondary">{% trans "View" %}</a>
+              <a href="{% url 'pets:update' pet.pk %}" class="ui-btn ui-btn-secondary">{% trans "Edit" %}</a>
+              {% if request.user.is_staff and pet.deleted_at %}<form action="{% url 'pets:restore' pet.pk %}" method="post">{% csrf_token %}<button type="submit" class="ui-btn ui-btn-primary">{% trans "Restore" %}</button></form>{% else %}<a href="{% url 'pets:delete' pet.pk %}" class="ui-btn ui-btn-danger">{% trans "Delete" %}</a>{% endif %}
+            </div>
           </div>
-          <div class="flex justify-end mt-10">
-            <a href="{% url 'pets:create' %}" class="inline-flex items-center px-6 py-3 rounded-full text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors animate__animated animate__pulse animate__infinite animate__slower">
-              {% include 'icons/paw.html' with class='w-6 h-6 mr-2' %}
-              {% trans 'Add Pet' %}
-            </a>
-          </div>
-        </div>
-      </div>
+        </article>
+      {% endfor %}
     </div>
-  </section>
+  {% else %}
+    {% include "ui/empty_state.html" with title=_("No dogs yet") description=_("Add the first dog to start booking hotel, daycare or training services.") action_url=create_dog_url action_label=_("Add dog") %}
+  {% endif %}
 {% endblock %}

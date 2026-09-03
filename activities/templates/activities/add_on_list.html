@@ -1,0 +1,35 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Optional services" %} · OlhóCão{% endblock %}
+
+{% block portal_content %}
+  {% url 'activities:portal' as portal_url %}
+  {% include "ui/page_header.html" with eyebrow=_("Activity reservation") title=_("Add an optional service") subtitle=reservation.session.title action_url=portal_url action_label=_("Back to my services") %}
+
+  <div class="ui-card mt-8 grid gap-4 sm:grid-cols-3">
+    <div><p class="ui-kicker">{% trans "Dog" %}</p><p class="mt-1 font-bold text-primary-950">{{ reservation.pet.name }}</p></div>
+    <div><p class="ui-kicker">{% trans "Date" %}</p><p class="mt-1 font-bold text-primary-950">{{ reservation.session.starts_at|date:"d/m/Y" }}</p></div>
+    <div><p class="ui-kicker">{% trans "Activity" %}</p><p class="mt-1 font-bold text-primary-950">{{ reservation.session.catalog_type.name }}</p></div>
+  </div>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {% for offering in offerings %}
+      <article class="ui-card flex h-full flex-col overflow-hidden p-0">
+        <img src="{{ offering.catalog_offer.image_url }}" alt="{{ offering.catalog_offer.image_alt }}" class="h-44 w-full object-cover">
+        <div class="flex flex-1 flex-col p-6">
+          <h2 class="font-serif text-xl font-bold text-primary-950">{{ offering.catalog_offer.name }}</h2>
+          <p class="mt-2 flex-1 text-sm leading-6 text-slate-600">{{ offering.catalog_offer.description }}</p>
+          <div class="mt-5 flex items-center justify-between gap-4">
+            <strong class="text-2xl text-primary-950">{{ offering.price_eur }} €</strong>
+            <a class="ui-btn ui-btn-primary" href="{% url 'activities:purchase_reservation_add_on' reservation.pk offering.pk %}">{% trans "Add and pay" %}</a>
+          </div>
+        </div>
+      </article>
+    {% empty %}
+      <div class="md:col-span-2 xl:col-span-3">
+        {% include "ui/empty_state.html" with title=_("No optional services available") description=_("There are no extra services configured for this activity type or level.") %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

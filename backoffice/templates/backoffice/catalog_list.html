@@ -1,0 +1,46 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Catalog" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url 'backoffice:catalog_type_create' as create_url %}
+  {% include "ui/page_header.html" with kicker=_("Configuration") title=_("Catalog") subtitle=_("Organize what you sell as service types, optional levels, and final prices or plans. TOConline receives the fiscal projection in the background.") action_url=create_url action_label=_("Create catalog type") only %}
+  {% include "backoffice/partials/catalog_subnav.html" %}
+
+  {% if sync_attention_count %}
+    <div class="ui-alert ui-alert-danger mb-6">
+      {% blocktranslate count counter=sync_attention_count %}One fiscal projection needs attention.{% plural %}{{ counter }} fiscal projections need attention.{% endblocktranslate %}
+      <a class="ml-2 font-bold underline" href="{% url 'backoffice:catalog_projections' %}">{% trans "Review synchronization" %}</a>
+    </div>
+  {% elif pending_sync_count %}
+    <div class="ui-alert ui-alert-info mb-6">
+      {% blocktranslate count counter=pending_sync_count %}One catalog change is waiting for TOConline synchronization.{% plural %}{{ counter }} catalog changes are waiting for TOConline synchronization.{% endblocktranslate %}
+    </div>
+  {% endif %}
+
+  {% if catalog_types %}
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {% for catalog_type in catalog_types %}
+        <article class="ui-card flex h-full flex-col overflow-hidden p-0">
+          {% if catalog_type.image_url %}<img class="h-44 w-full object-cover" src="{{ catalog_type.image_url }}" alt="{{ catalog_type.image_alt }}">{% endif %}
+          <div class="flex flex-1 flex-col p-6">
+            <div data-catalog-card-badges class="flex flex-wrap items-start gap-2">
+              <span class="ui-badge max-w-full shrink-0 text-left leading-5 {% if catalog_type.is_active %}ui-badge-success{% else %}ui-badge-neutral{% endif %}">{{ catalog_type.get_workflow_display }}</span>
+              <span class="ui-badge ui-badge-info shrink-0 whitespace-nowrap leading-5">{{ catalog_type.offers.all|length }} {% trans "sale options" %}</span>
+            </div>
+            <h2 class="mt-3 font-serif text-2xl font-bold text-primary-950">{{ catalog_type.name }}</h2>
+            <p class="mt-3 flex-1 leading-7 text-primary-600">{{ catalog_type.description|default:_('No public description yet.') }}</p>
+            <dl class="mt-5 grid grid-cols-2 gap-3 rounded-2xl bg-primary-50 p-4 text-sm">
+              <div><dt class="text-primary-500">{% trans "Levels" %}</dt><dd class="mt-1 font-bold text-primary-950">{{ catalog_type.levels.all|length }}</dd></div>
+              <div><dt class="text-primary-500">{% trans "Default capacity" %}</dt><dd class="mt-1 font-bold text-primary-950">{{ catalog_type.default_capacity|default:_('Not applicable') }}</dd></div>
+            </dl>
+            <a class="ui-btn ui-btn-secondary mt-5" href="{% url 'backoffice:catalog_type_detail' catalog_type.pk %}">{% trans "Manage structure" %}</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% include "ui/empty_state.html" with title=_("The catalog is empty") description=_("Create the first catalog type, then add optional levels and the prices or plans customers can buy.") action_url=create_url action_label=_("Create catalog type") only %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "My daycare and training" %} · OlhóCão{% endblock %}
+
+{% block portal_content %}
+  {% url 'activities:offering_list' as offers_url %}
+  {% include "ui/page_header.html" with eyebrow=_("Customer area") title=_("Daycare and training") subtitle=_("Manage plans, pack credits and your dog's upcoming sessions.") action_url=offers_url action_label=_("Get a service") %}
+  <div class="-mt-3 mb-8 flex justify-end"><a class="ui-btn ui-btn-secondary" href="{% url 'activities:documents' %}">{% trans "Invoices and receipts" %}</a></div>
+
+  <div class="mt-10 grid gap-6 lg:grid-cols-2">
+    {% for entitlement in entitlements %}
+      <article class="ui-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="ui-kicker">{{ entitlement.pet.name }}</p>
+            <h2 class="mt-1 font-serif text-xl font-bold text-primary-950">{{ entitlement.item_name_snapshot }}</h2>
+          </div>
+          <span class="ui-badge {% if entitlement.status == 'active' %}ui-badge-success{% elif entitlement.status == 'pending' %}ui-badge-warning{% else %}ui-badge-danger{% endif %}">{{ entitlement.get_status_display }}</span>
+        </div>
+        <div class="mt-5 grid grid-cols-2 gap-3 rounded-2xl bg-slate-50 p-4 text-sm">
+          <div><span class="block text-slate-500">{% trans "Mode" %}</span><strong>{{ entitlement.get_offering_mode_snapshot_display }}</strong></div>
+          {% if entitlement.offering_mode_snapshot == "pack" or entitlement.offering_mode_snapshot == "one_off" %}
+            <div><span class="block text-slate-500">{% trans "Credits" %}</span><strong>{{ entitlement.credit_balance }}</strong></div>
+          {% else %}
+            <div><span class="block text-slate-500">{% trans "Limit" %}</span><strong>{{ entitlement.sessions_per_week_snapshot }}×/{% trans "week" %}</strong></div>
+          {% endif %}
+          {% if entitlement.current_period_end %}<div class="col-span-2"><span class="block text-slate-500">{% trans "Access until" %}</span><strong>{{ entitlement.current_period_end|date:"d/m/Y H:i" }}</strong></div>{% endif %}
+        </div>
+        {% if entitlement.access_blocked_at %}
+          <div class="ui-alert ui-alert-danger mt-4 text-sm">
+            <strong>{% trans "Access temporarily blocked" %}</strong>
+            <p class="mt-1">{{ entitlement.access_blocked_reason }}</p>
+            <a class="mt-2 inline-flex font-bold underline" href="{% url 'frontoffice:contact_us' %}">{% trans "Contact the team" %}</a>
+          </div>
+        {% endif %}
+        <div class="mt-5 flex flex-wrap gap-2">
+          {% if entitlement.has_access %}
+            {% if entitlement.offering.catalog_offer.catalog_type.workflow == "flexible" %}
+              <a class="ui-btn ui-btn-primary" href="{% url 'activities:request_fulfilment' entitlement.pk %}">{% trans "Request service" %}</a>
+            {% else %}
+              <a class="ui-btn ui-btn-primary" href="{% url 'activities:session_list' %}">{% trans "Book a session" %}</a>
+            {% endif %}
+          {% endif %}
+          {% if entitlement.status == "pending" and entitlement.payment_url %}
+            {% if request.user.is_staff %}
+              <span class="ui-badge ui-badge-warning">{% trans "Payment link sent to customer" %}</span>
+            {% else %}
+              <a class="ui-btn ui-btn-primary" href="{{ entitlement.payment_url }}">{% trans "Continue secure payment" %}</a>
+            {% endif %}
+          {% endif %}
+          {% if entitlement.status == "past_due" %}<a class="ui-btn ui-btn-secondary" href="{% url 'frontoffice:contact_us' %}">{% trans "Get payment help" %}</a>{% endif %}
+          {% if entitlement.offering_mode_snapshot == "subscription" and entitlement.status != "cancelled" and entitlement.status != "expired" %}
+            <button class="ui-btn ui-btn-danger" type="button" data-dialog-open="cancel-subscription-{{ entitlement.pk }}">{% trans "Stop renewal" %}</button>
+            {% url 'activities:cancel_subscription' entitlement.pk as cancel_url %}
+            {% with entitlement.pk|stringformat:"s" as entitlement_id %}
+              {% with "cancel-subscription-"|add:entitlement_id as dialog_id %}
+                {% include "ui/confirm_dialog.html" with dialog_id=dialog_id title=_("Stop this subscription?") description=_("No further renewals will be charged. Access already paid for remains available until the end of the current period.") action_url=cancel_url confirm_label=_("Stop renewal") cancel_label=_("Keep it") %}
+              {% endwith %}
+            {% endwith %}
+          {% endif %}
+        </div>
+      </article>
+    {% empty %}
+      {% include "ui/empty_state.html" with title=_("No services yet") description=_("Choose a daycare or training pack to get started.") action_url=offers_url action_label=_("See services") %}
+    {% endfor %}
+  </div>
+
+  <div class="mt-12 flex items-center justify-between gap-4">
+    <h2 class="font-serif text-2xl font-bold text-primary-950">{% trans "Service requests" %}</h2>
+  </div>
+  <div class="mt-4 space-y-3">
+    {% for fulfilment in fulfilments %}
+      <article class="ui-card flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="font-bold text-primary-950">{{ fulfilment.catalog_offer.name }} · {{ fulfilment.pet.name }}</p>
+            <span class="ui-badge {% if fulfilment.status == 'completed' %}ui-badge-success{% elif fulfilment.status == 'cancelled' %}ui-badge-neutral{% else %}ui-badge-warning{% endif %}">{{ fulfilment.get_status_display }}</span>
+          </div>
+          {% if fulfilment.scheduled_starts_at %}
+            <p class="mt-1 text-sm text-primary-600">{% blocktranslate with appointment=fulfilment.scheduled_starts_at|date:'d/m/Y H:i' %}Confirmed appointment: {{ appointment }}{% endblocktranslate %}</p>
+          {% elif fulfilment.preferred_date %}
+            <p class="mt-1 text-sm text-primary-600">{% blocktranslate with preferred=fulfilment.preferred_date|date:'d/m/Y' %}Preferred date: {{ preferred }}{% endblocktranslate %}{% if fulfilment.preferred_time %} · {{ fulfilment.preferred_time|time:'H:i' }}{% endif %}</p>
+          {% else %}
+            <p class="mt-1 text-sm text-primary-600">{% trans "The team will choose the most suitable date." %}</p>
+          {% endif %}
+        </div>
+        {% if fulfilment.status == 'requested' or fulfilment.status == 'scheduled' %}
+          <a class="ui-btn ui-btn-secondary" href="{% url 'activities:cancel_fulfilment' fulfilment.pk %}">{% trans "Cancel request" %}</a>
+        {% endif %}
+      </article>
+    {% empty %}
+      <p class="ui-empty">{% trans "You have no standalone or hotel service requests yet." %}</p>
+    {% endfor %}
+  </div>
+
+  <div class="mt-12 flex items-center justify-between">
+    <h2 class="font-serif text-2xl font-bold text-primary-950">{% trans "Upcoming sessions" %}</h2>
+    <a class="ui-btn ui-btn-secondary" href="{% url 'activities:session_list' %}">{% trans "View schedule" %}</a>
+  </div>
+  <div class="mt-4 space-y-3">
+    {% for reservation in reservations %}
+      <article class="ui-card flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+          <p class="font-bold text-primary-950">{{ reservation.session.title }} · {{ reservation.pet.name }}</p>
+          <p class="mt-1 text-sm text-slate-600">{{ reservation.session.starts_at|date:"l, d F Y · H:i" }}</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a class="ui-btn ui-btn-secondary" href="{% url 'activities:reservation_add_ons' reservation.pk %}">{% trans "Add a service" %}</a>
+          <form method="post" action="{% url 'activities:cancel_reservation' reservation.pk %}">
+            {% csrf_token %}<button class="ui-btn ui-btn-ghost" type="submit">{% trans "Cancel" %}</button>
+          </form>
+        </div>
+      </article>
+    {% empty %}
+      <p class="ui-empty">{% trans "You have no upcoming sessions." %}</p>
+    {% endfor %}
+  </div>
+{% endblock %}

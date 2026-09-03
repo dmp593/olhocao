@@ -1,47 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'layouts/booking.html' %}
 {% load static %}
 {% load i18n %}
 {% load custom_filters %}
 {% load product_filters %}
 
-{% block content %}
-<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
+{% block booking_content %}
+<section class="relative py-8 sm:py-12">
     <div class="container mx-auto px-4 relative z-10">
-        <!-- Section header -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
-                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
-                    {% trans "Book a Stay" %}
-                </span>
-                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
-            </h1>
-            <p class="text-xl text-primary-600 max-w-3xl mx-auto">
-                {% trans "Choose accommodation for your pet" %}
-            </p>
-        </div>
+        {% include "ui/page_header.html" with eyebrow=_("Hotel") title=_("Book a stay") subtitle=_("Choose the accommodation, dogs and dates for this stay.") %}
 
         <form method="post" class="max-w-4xl mx-auto">
             {% csrf_token %}
             
-            <!-- Step indicator -->
-            <div class="flex justify-between mb-8">
-                <div class="flex-1 text-center border-b-2 border-accent-500 pb-2">
-                    <span class="bg-accent-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</span>
-                    <span class="font-medium text-accent-700">{% trans "Select Stay" %}</span>
-                </div>
-                <div class="flex-1 text-center border-b-2 border-primary-200 pb-2">
-                    <span class="bg-primary-200 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</span>
-                    <span class="text-primary-500">{% trans "Add Services" %}</span>
-                </div>
-                <div class="flex-1 text-center border-b-2 border-primary-200 pb-2">
-                    <span class="bg-primary-200 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</span>
-                    <span class="text-primary-500">{% trans "Review & Pay" %}</span>
-                </div>
-            </div>
+            {% include "ui/booking_steps.html" with current_step=1 only %}
 
             <!-- Stay Selection -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="ui-card mb-8">
                 <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
                     {% include "icons/pet_hotel.html" with class="w-6 h-6 mr-2 text-accent-500" %}
                     {% trans "Select Accommodation" %}
@@ -50,18 +24,16 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {% for stay in stays %}
                     <div class="relative">
-                        <input type="radio" name="stay_id" id="stay-{{ stay.id }}" value="{{ stay.id }}" class="absolute opacity-0 peer" {% if forloop.first %}checked{% endif %}>
+                        <input type="radio" name="offer_id" id="stay-{{ stay.id }}" value="{{ stay.id }}" class="absolute opacity-0 peer" {% if forloop.first %}checked{% endif %}>
                         <label for="stay-{{ stay.id }}" 
                                class="block p-4 border-2 border-primary-200 rounded-lg cursor-pointer transition-all duration-200 peer-checked:border-accent-500 peer-checked:ring-2 peer-checked:ring-accent-200 peer-checked:bg-accent-50 h-full">
                             <div class="flex justify-between items-start mb-2">
-                                <h3 class="text-lg font-bold text-primary-800">{{ stay|product_name }}</h3>
+                                <h3 class="text-lg font-bold text-primary-800">{{ stay.name }}</h3>
                                 <span class="bg-accent-100 text-accent-800 text-lg font-bold px-3 py-1 rounded-full">
-                                    {{ stay.default_price.unit_amount|divide:100|floatformat:2 }} {{ stay.default_price.currency }}
+                                    {{ stay.catalog_item.unit_price_eur|floatformat:2 }} {{ stay.catalog_item.currency }}
                                 </span>
                             </div>
-                            {% if stay.stripe_data.images|length > 0 %}
-                                <img src="{{ stay.stripe_data.images.0 }}" alt="{{ stay.name }}" loading="lazy">
-                            {% endif %}
+                            <img src="{{ stay.image_url }}" alt="{{ stay.image_alt|default:stay.name }}" loading="lazy" class="w-full h-40 object-cover rounded-lg">
                             <p class="text-primary-600 text-sm">{% trans "Per day" %}</p>
                         </label>
                     </div>
@@ -70,7 +42,7 @@
             </div>
 
             <!-- Pet Selection -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="ui-card mb-8">
                 <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
                     {% include "icons/paw.html" with class="w-6 h-6 mr-2 text-accent-500" %}
                     {% trans "Select Your Pet" %}
@@ -78,7 +50,7 @@
                 
                 {% if pets %}
                 <div class="flex items-center mb-4">
-                    <input type="checkbox" id="select-all-pets" class="mr-2">
+                    <input type="checkbox" id="select-all-pets" class="ui-checkbox mr-2">
                     <label for="select-all-pets" class="text-sm font-medium text-primary-700">
                         {% trans "Select all pets" %}
                     </label>
@@ -87,31 +59,20 @@
                     {% for pet in pets %}
                     <div class="relative">
                         <input type="checkbox" name="pet_ids" id="pet-{{ pet.id }}" value="{{ pet.id }}"
-                            class="absolute opacity-0 peer">
+                            class="peer sr-only">
                         <label for="pet-{{ pet.id }}"
-                            class="block p-4 border-2 border-primary-200 rounded-lg cursor-pointer transition-all duration-200 peer-checked:border-accent-500 peer-checked:ring-2 peer-checked:ring-accent-200 peer-checked:bg-accent-50 h-full">
-                            <div class="flex items-center">
-                                <div class="size-12 rounded-full bg-primary-100 overflow-hidden mr-4">
-                                    {% if pet.photo %}
-                                    <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full object-cover">
-                                    {% else %}
-                                    {% include "icons/paw.html" with class="w-full h-full p-2 text-primary-400" %}
-                                    {% endif %}
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-primary-800">{{ pet.name }}</h3>
-                                    <p class="text-sm text-primary-600">{{ pet.species.name }} • {{ pet.breed }}</p>
-                                </div>
-                            </div>
+                            class="block p-4 border-2 border-primary-200 rounded-lg cursor-pointer transition-all duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-accent-500 peer-focus-visible:ring-offset-2 peer-checked:border-accent-500 peer-checked:ring-2 peer-checked:ring-accent-200 peer-checked:bg-accent-50 h-full">
+                            {% include "ui/pet_identity.html" with pet=pet only %}
                         </label>
                     </div>
                     {% endfor %}
                 </div>
                 {% else %}
-                <div class="bg-primary-50 rounded-lg p-4 text-center">
-                    <p class="text-primary-700 mb-4">{% trans "You don't have any pets registered yet." %}</p>
-                    {% if request.user.is_staff and request.session.acting_user_id %}
-                        <a href="{% url 'pets:create' %}?owner={{ request.session.acting_user_id }}" class="inline-flex items-center text-accent-600 font-medium">
+                <div id="booking-requirement" class="ui-alert ui-alert-warning text-center">
+                    <p class="font-bold">{% trans "Add a dog before continuing with the booking." %}</p>
+                    <p class="mt-1 text-sm">{% trans "Accommodation and dates can be selected now, but a dog is required to continue." %}</p>
+                    {% if request.user.is_staff and request.session.assisted_customer_id %}
+                        <a href="{% url 'pets:create' %}?owner={{ request.session.assisted_customer_id }}" class="inline-flex items-center text-accent-600 font-medium">
                             {% trans "Add a pet for user" %}
                             <span class="ml-1">→</span>
                         </a>
@@ -126,7 +87,7 @@
             </div>
 
             <!-- Date Selection -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="ui-card mb-8">
                 <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
                     {% include "icons/calendar.html" with class="w-6 h-6 mr-2 text-accent-500" %}
                     {% trans "Select Dates" %}
@@ -138,7 +99,7 @@
                             {% trans "Check-in Date" %}
                         </label>
                         <input type="date" name="start_date" id="start_date" 
-                               class="w-full px-4 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                               class="ui-field"
                                min="{{ today|date:'Y-m-d' }}" required>
                     </div>
                     <div>
@@ -146,7 +107,7 @@
                             {% trans "Check-out Date" %}
                         </label>
                         <input type="date" name="end_date" id="end_date" 
-                               class="w-full px-4 py-2 border border-primary-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                               class="ui-field"
                                min="{{ today|date:'Y-m-d' }}" required>
                     </div>
                 </div>
@@ -156,8 +117,8 @@
             <div class="flex justify-end">
                 <button
                     type="submit"
-                    class="flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                    {% if not pets %}disabled{% endif %}>
+                    class="ui-btn ui-btn-primary"
+                    {% if not pets %}disabled aria-describedby="booking-requirement"{% endif %}>
                     {% trans "Continue to Services" %}
                     <span class="ml-2">→</span>
                 </button>
@@ -168,35 +129,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Set minimum end date based on start date
-    const startDateInput = document.getElementById('start_date');
-    const endDateInput = document.getElementById('end_date');
-    
-    startDateInput.addEventListener('change', function() {
-        if (this.value) {
-            endDateInput.min = this.value;
-            if (endDateInput.value && endDateInput.value < this.value) {
-                endDateInput.value = this.value;
-            }
-        }
-    });
-    
-    // Set default dates (today and tomorrow)
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-    
-    startDateInput.valueAsDate = today;
-    endDateInput.valueAsDate = tomorrow;
-
-    // Select all pets toggler
-    document.getElementById('select-all-pets').addEventListener('change', function() {
-        document.querySelectorAll('input[name="pet_ids"]').forEach(checkbox => {
-            checkbox.checked = this.checked;
-        });
-    });
-});
-</script>
+<script src="{% static 'js/hotel/booking_stay.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,7 @@
+{% load i18n %}
+<nav class="mb-8 mt-6 flex flex-wrap gap-2" aria-label="{% trans 'Catalog sections' %}">
+  <a class="ui-btn {% if request.resolver_match.url_name == 'catalog' or request.resolver_match.url_name|slice:':13' == 'catalog_type_' or request.resolver_match.url_name|slice:':14' == 'catalog_level_' or request.resolver_match.url_name|slice:':14' == 'catalog_offer_' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:catalog' %}">{% include "icons/list_bullet.html" with class="size-5" %}<span>{% trans "Structure" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name == 'catalog_optional_services' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:catalog_optional_services' %}">{% include "icons/sparkles.html" with class="size-5" %}<span>{% trans "Optional services" %}</span></a>
+  <a class="ui-btn {% if request.resolver_match.url_name == 'catalog_projections' %}ui-btn-primary{% else %}ui-btn-secondary{% endif %}" href="{% url 'backoffice:catalog_projections' %}">{% include "icons/receipt_percent.html" with class="size-5" %}<span>{% trans "TOConline projections" %}</span></a>
+  <form method="post" action="{% url 'backoffice:catalog_sync' %}">{% csrf_token %}<button class="ui-btn ui-btn-secondary" type="submit">{% include "icons/arrow_right.html" with class="size-5" %}<span>{% trans "Synchronize now" %}</span></button></form>
+</nav>

@@ -1,0 +1,18 @@
+{% load i18n %}
+<article class="rounded-xl border border-primary-200 bg-white p-4 shadow-xs" data-legal-clause>
+  {{ clause_form.id }}
+  {{ clause_form.order }}
+  {{ clause_form.DELETE.as_hidden }}
+  <div class="flex items-start gap-4">
+    <div class="grid min-w-0 flex-1 gap-4">
+      {% include "ui/form_field.html" with field=clause_form.text_pt only %}
+      {% include "ui/form_field.html" with field=clause_form.text_en only %}
+    </div>
+    <button type="button"
+            class="rounded-lg p-2 text-secondary-700 transition hover:bg-secondary-50 hover:text-secondary-900 focus:outline-none focus:ring-2 focus:ring-secondary-500"
+            data-remove-clause
+            aria-label="{% trans 'Remove clause' %}">
+      {% include "icons/x_mark.html" with class="size-5" %}
+    </button>
+  </div>
+</article>

@@ -1,0 +1,38 @@
+{% load i18n %}
+<section class="ui-card mb-8" aria-label="{% trans 'Booking summary' %}">
+  <div class="grid gap-6 md:grid-cols-3 md:divide-x md:divide-primary-100">
+    <div class="md:pr-6">
+      <h2 class="mb-4 flex items-center gap-2 font-serif text-lg font-bold text-primary-950">
+        {% include "icons/paw.html" with class="size-5 text-accent-600" %}{% trans "Dogs" %}
+      </h2>
+      <ul class="space-y-3">
+        {% for stay in booking.stays.all %}<li>{% include "ui/pet_identity.html" with pet=stay.pet only %}</li>{% endfor %}
+      </ul>
+    </div>
+
+    <div class="md:px-6">
+      <h2 class="mb-4 flex items-center gap-2 font-serif text-lg font-bold text-primary-950">
+        {% include "icons/calendar.html" with class="size-5 text-accent-600" %}{% trans "Dates" %}
+      </h2>
+      <dl class="space-y-3 text-sm">
+        <div><dt class="text-primary-600">{% trans "Check-in" %}</dt><dd class="font-bold text-primary-900">{{ booking.earliest_start_date|date:"DATE_FORMAT" }}</dd></div>
+        <div><dt class="text-primary-600">{% trans "Check-out" %}</dt><dd class="font-bold text-primary-900">{{ booking.latest_end_date|date:"DATE_FORMAT" }}</dd></div>
+        <div><dt class="text-primary-600">{% trans "Total days" %}</dt><dd class="font-bold text-primary-900">{{ booking.stays.first.duration_days }}</dd></div>
+      </dl>
+    </div>
+
+    <div class="md:pl-6">
+      <h2 class="mb-4 flex items-center gap-2 font-serif text-lg font-bold text-primary-950">
+        {% include "icons/currency_euro.html" with class="size-5 text-accent-600" %}{% trans "Price summary" %}
+      </h2>
+      <dl class="space-y-2 text-sm">
+        <div class="flex justify-between gap-3"><dt class="text-primary-600">{% trans "Accommodation" %}</dt><dd class="font-bold">{{ booking.gross_accommodation_price_eur|floatformat:2 }}€</dd></div>
+        {% for stay in booking.stays.all %}
+          {% for service in stay.services.all %}<div class="flex justify-between gap-3"><dt class="text-primary-600">{{ service.service_name }}</dt><dd class="font-bold">{{ service.gross_total_price_eur|floatformat:2 }}€</dd></div>{% endfor %}
+        {% endfor %}
+        {% if booking.has_discount %}<div class="flex justify-between gap-3 border-t border-primary-100 pt-2 text-emerald-800"><dt>{% if booking.promotion_code_snapshot %}{{ booking.promotion_code_snapshot }}{% else %}{% trans "Commercial adjustment" %}{% endif %}</dt><dd class="font-bold">−{{ booking.discount_amount_eur_snapshot|floatformat:2 }}€</dd></div>{% endif %}
+        <div class="mt-3 flex justify-between gap-3 border-t border-primary-200 pt-3 text-base"><dt class="font-bold">{% trans "Total" %}</dt><dd class="font-bold text-accent-700">{{ booking.total_price_eur|floatformat:2 }}€</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>

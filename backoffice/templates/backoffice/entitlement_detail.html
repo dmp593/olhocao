@@ -1,0 +1,167 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{{ entitlement.item_name_snapshot }} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% trans "System" as system_label %}
+  <a class="mb-5 inline-flex font-bold text-primary-700 hover:underline" href="{% url 'backoffice:user_detail' entitlement.customer.user_id %}">← {% trans "Back to customer" %}</a>
+  {% include "ui/page_header.html" with kicker=entitlement.get_offering_mode_snapshot_display title=entitlement.item_name_snapshot subtitle=entitlement.pet.name only %}
+  {% include "backoffice/partials/operations_subnav.html" %}
+
+  <div class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    {% include "ui/stat_card.html" with label=_("Customer") value=entitlement.customer.user.get_full_name|default:entitlement.customer.user.username only %}
+    {% include "ui/stat_card.html" with label=_("Dog") value=entitlement.pet.name only %}
+    {% include "ui/stat_card.html" with label=_("State") value=entitlement.get_status_display only %}
+    {% include "ui/stat_card.html" with label=_("Paid total") value=entitlement.total_price_eur suffix="€" only %}
+  </div>
+
+  {% if entitlement.access_blocked_at %}
+    <div class="ui-alert ui-alert-danger mb-6">
+      <strong>{% trans "Operational access blocked" %}</strong><br>
+      {{ entitlement.access_blocked_reason }}
+    </div>
+  {% endif %}
+  {% if entitlement.last_payment_error %}
+    <div class="ui-alert ui-alert-warning mb-6">
+      <strong>{% trans "Payment attention required" %}</strong><br>
+      {{ entitlement.last_payment_error }}
+    </div>
+  {% endif %}
+
+  <div class="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(20rem,.75fr)]">
+    <div class="space-y-6">
+      <section class="ui-card" aria-labelledby="purchase-financial-title">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 id="purchase-financial-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Original purchase" %}</h2>
+            <p class="mt-2 text-sm text-primary-600">{% trans "This financial record and its payment identifiers are permanent." %}</p>
+          </div>
+          <span class="ui-badge {% if entitlement.paid_at %}ui-badge-success{% else %}ui-badge-warning{% endif %}">
+            {% if entitlement.paid_at %}{% trans "Payment captured" %}{% else %}{% trans "Awaiting payment" %}{% endif %}
+          </span>
+        </div>
+        <dl class="mt-5 grid gap-4 rounded-2xl bg-primary-50 p-5 sm:grid-cols-2">
+          <div><dt class="text-xs font-bold uppercase text-primary-500">{% trans "Catalog type" %}</dt><dd class="mt-1 font-bold">{{ entitlement.catalog_type_name_snapshot }}</dd></div>
+          <div><dt class="text-xs font-bold uppercase text-primary-500">{% trans "Level" %}</dt><dd class="mt-1 font-bold">{{ entitlement.catalog_level_name_snapshot|default:"—" }}</dd></div>
+          <div><dt class="text-xs font-bold uppercase text-primary-500">{% trans "Original price" %}</dt><dd class="mt-1 font-bold">{{ entitlement.unit_price_eur_snapshot }} €</dd></div>
+          <div><dt class="text-xs font-bold uppercase text-primary-500">{% trans "Discount" %}</dt><dd class="mt-1 font-bold">{{ entitlement.discount_amount_eur_snapshot }} €</dd></div>
+          <div><dt class="text-xs font-bold uppercase text-primary-500">{% trans "Purchased" %}</dt><dd class="mt-1">{{ entitlement.created_at|date:"DATETIME_FORMAT" }}</dd></div>
+          <div><dt class="text-xs font-bold uppercase text-primary-500">{% trans "Paid" %}</dt><dd class="mt-1">{{ entitlement.paid_at|date:"DATETIME_FORMAT"|default:"—" }}</dd></div>
+        </dl>
+        <div class="mt-5 flex flex-wrap gap-2 border-t border-primary-100 pt-5">
+          {% if entitlement.toconline_sale_document_id %}
+            <a class="ui-btn ui-btn-secondary" href="{% url 'activities:purchase_document_pdf' entitlement.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Receipt PDF" %}</a>
+          {% elif entitlement.paid_at %}
+            <span class="ui-badge ui-badge-warning">{% trans "Fiscal document pending" %}</span>
+          {% endif %}
+        </div>
+      </section>
+
+      <section class="ui-card" aria-labelledby="delivery-title">
+        <h2 id="delivery-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Uses and service delivery" %}</h2>
+        {% if entitlement.offering_mode_snapshot == "pack" %}
+          <p class="mt-2 text-primary-600">{% blocktrans with balance=entitlement.credit_balance %}{{ balance }} pack uses remain.{% endblocktrans %}</p>
+        {% endif %}
+        {% if fulfilments %}
+          <div class="mt-5 space-y-3">
+            {% for fulfilment in fulfilments %}
+              <article class="flex flex-col justify-between gap-3 rounded-2xl border border-primary-100 p-4 sm:flex-row sm:items-center">
+                <div>
+                  <p class="font-bold text-primary-950">{% blocktrans with number=fulfilment.source_unit_number %}Service request {{ number }}{% endblocktrans %}</p>
+                  <p class="mt-1 text-sm text-primary-600">
+                    {{ fulfilment.get_status_display }}
+                    {% if fulfilment.scheduled_starts_at %} · {{ fulfilment.scheduled_starts_at|date:"DATETIME_FORMAT" }}{% elif fulfilment.preferred_date %} · {% blocktrans with date=fulfilment.preferred_date|date:"SHORT_DATE_FORMAT" %}preferred {{ date }}{% endblocktrans %}{% endif %}
+                  </p>
+                </div>
+                <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:service_fulfilment_detail' fulfilment.pk %}">{% trans "Manage service" %}</a>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="ui-empty mt-5">{% trans "No operational service request has been created." %}</p>
+        {% endif %}
+
+        {% if credit_entries %}
+          <details class="mt-5 rounded-2xl border border-primary-100 p-4">
+            <summary class="cursor-pointer font-bold text-primary-800">{% trans "Credit ledger" %}</summary>
+            <ol class="mt-4 space-y-3">
+              {% for entry in credit_entries %}
+                <li class="flex justify-between gap-4 border-b border-primary-100 pb-3 text-sm last:border-0 last:pb-0">
+                  <span><strong>{{ entry.delta|stringformat:"+d" }}</strong> · {{ entry.get_reason_display }}{% if entry.note %}<br><span class="text-primary-600">{{ entry.note }}</span>{% endif %}</span>
+                  <time class="shrink-0 text-primary-500">{{ entry.created_at|date:"SHORT_DATETIME_FORMAT" }}</time>
+                </li>
+              {% endfor %}
+            </ol>
+          </details>
+        {% endif %}
+      </section>
+
+      <section class="ui-card" aria-labelledby="refund-history-title">
+        <h2 id="refund-history-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Refunds and corrective documents" %}</h2>
+        <p class="mt-2 text-sm text-primary-600">{% trans "Refunds are additional immutable records; the original transaction is never deleted or rewritten." %}</p>
+        {% if refunds %}
+          <div class="mt-5 space-y-4">
+            {% for refund in refunds %}
+              <article class="rounded-2xl border border-primary-100 p-4">
+                <div class="flex flex-wrap items-start justify-between gap-3">
+                  <div><p class="font-bold text-primary-950">{{ refund.amount_eur }} €</p><p class="mt-1 text-sm text-primary-600">{{ refund.reason }}</p></div>
+                  <span class="ui-badge {% if refund.status == 'refunded' %}ui-badge-success{% elif refund.status == 'failed' %}ui-badge-danger{% else %}ui-badge-warning{% endif %}">{{ refund.get_status_display }}</span>
+                </div>
+                <p class="mt-3 text-xs text-primary-500">{{ refund.requested_at|date:"DATETIME_FORMAT" }} · {{ refund.requested_by.get_full_name|default:refund.requested_by.username|default:system_label }}</p>
+                {% if refund.provider_error %}<p class="ui-alert ui-alert-danger mt-3 text-sm">{{ refund.provider_error }}</p>{% endif %}
+                {% if refund.document_error %}<p class="ui-alert ui-alert-warning mt-3 text-sm">{% trans "The refund is confirmed, but its TOConline credit note still requires an automatic retry." %}</p>{% endif %}
+                {% if refund.toconline_amend_document_id %}
+                  <div class="mt-4 border-t border-primary-100 pt-4"><a class="ui-btn ui-btn-secondary" href="{% url 'activities:purchase_refund_document_pdf' refund.pk %}" target="_blank" rel="noopener noreferrer">{% trans "Credit note PDF" %}</a></div>
+                {% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="ui-empty mt-5">{% trans "No refund has been requested." %}</p>
+        {% endif %}
+      </section>
+
+      <section class="ui-card" aria-labelledby="purchase-history-title">
+        <h2 id="purchase-history-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Administrative history" %}</h2>
+        <ol class="mt-5 space-y-3">
+          {% for event in management_events %}
+            <li class="border-l-2 border-accent-300 pl-4"><p class="font-bold">{{ event.get_action_display }}</p><p class="text-sm text-primary-600">{{ event.reason }}</p><p class="mt-1 text-xs text-primary-500">{{ event.created_at|date:"DATETIME_FORMAT" }} · {{ event.actor.get_full_name|default:event.actor.username|default:system_label }}</p></li>
+          {% empty %}<li class="ui-empty">{% trans "No administrative changes yet." %}</li>{% endfor %}
+        </ol>
+      </section>
+    </div>
+
+    <aside class="space-y-6 self-start xl:sticky xl:top-28">
+      <section class="ui-card" aria-labelledby="access-management-title">
+        <h2 id="access-management-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Operational access" %}</h2>
+        <p class="mt-2 text-sm text-primary-600">{% trans "Temporarily block or restore future use without altering payment history." %}</p>
+        <form class="mt-5 space-y-4" method="post" action="{% url 'backoffice:entitlement_access' entitlement.pk %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          {% for field in access_form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
+          <button class="ui-btn {% if entitlement.access_blocked_at %}ui-btn-primary{% else %}ui-btn-secondary{% endif %} w-full" type="submit">
+            {% if entitlement.access_blocked_at %}{% trans "Restore access" %}{% else %}{% trans "Block access" %}{% endif %}
+          </button>
+        </form>
+      </section>
+
+      <section class="ui-card" aria-labelledby="refund-management-title">
+        <h2 id="refund-management-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Refund purchase" %}</h2>
+        <p class="mt-2 text-sm text-primary-600">{% blocktrans with amount=refundable_balance %}Refundable balance: {{ amount }} €.{% endblocktrans %}</p>
+        {% if can_request_refund %}
+          <form class="mt-5 space-y-4" method="post" action="{% url 'backoffice:entitlement_refund' entitlement.pk %}">
+            {% csrf_token %}
+            {% for field in refund_form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
+            <div class="ui-alert ui-alert-warning text-sm">{% trans "Only a confirmed provider refund revokes access and creates the corrective fiscal document." %}</div>
+            <button class="ui-btn ui-btn-danger w-full" type="submit">{% trans "Request refund" %}</button>
+          </form>
+        {% elif not entitlement.paid_at %}
+          <p class="ui-empty mt-5">{% trans "An unpaid purchase cannot be refunded." %}</p>
+        {% else %}
+          <p class="ui-empty mt-5">{% trans "There is no refundable balance remaining." %}</p>
+        {% endif %}
+      </section>
+    </aside>
+  </div>
+{% endblock %}

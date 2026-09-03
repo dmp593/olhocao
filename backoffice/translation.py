@@ -1,30 +1,25 @@
-from modeltranslation.translator import translator, TranslationOptions
+from modeltranslation.translator import TranslationOptions, translator
 
-from .models import (
-    LegalDocument, LegalDocumentSection, LegalDocumentSectionLineItem
-)
+from .models import LegalDocument, LegalDocumentSection, LegalDocumentSectionLineItem
 
 
 class LegalDocumentTranslationOptions(TranslationOptions):
-    fields = ('name', 'heading',)
+    fields = (
+        "name",
+        "heading",
+    )
 
 
 class LegalDocumentSectionTranslationOptions(TranslationOptions):
-    fields = ('title',)
+    fields = ("title",)
 
 
 class LegalDocumentSectionLineItemTranslationOption(TranslationOptions):
-    fields = ('text',)
+    fields = ("text",)
 
 
-translator.register(
-    LegalDocument, LegalDocumentTranslationOptions
-)
+translator.register(LegalDocument, LegalDocumentTranslationOptions)
 
-translator.register(
-    LegalDocumentSection, LegalDocumentSectionTranslationOptions
-)
+translator.register(LegalDocumentSection, LegalDocumentSectionTranslationOptions)
 
-translator.register(
-    LegalDocumentSectionLineItem, LegalDocumentSectionLineItemTranslationOption
-)
+translator.register(LegalDocumentSectionLineItem, LegalDocumentSectionLineItemTranslationOption)

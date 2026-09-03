@@ -1,0 +1,12 @@
+{% extends "layouts/customer_portal.html" %}
+{% load i18n %}
+
+{% block portal_content %}
+  {% include "ui/page_header.html" with eyebrow=_("Reservation") title=session.title subtitle=session.starts_at|date:"l, d F Y · H:i" %}
+  <form method="post" class="ui-card mx-auto mt-8 max-w-2xl space-y-5">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="ui-alert ui-alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+    {% for field in form %}{% include "ui/form_field.html" with field=field %}{% endfor %}
+    <button class="ui-btn ui-btn-primary w-full" type="submit">{% trans "Confirm reservation" %}</button>
+  </form>
+{% endblock %}

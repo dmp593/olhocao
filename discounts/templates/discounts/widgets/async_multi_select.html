@@ -1,0 +1,61 @@
+{% load i18n %}
+<div
+  id="{{ widget.attrs.id }}-widget"
+  class="rounded-2xl border border-primary-200 bg-primary-50 p-3"
+  data-async-multi-select
+  data-search-url="{{ widget.search_url }}"
+  data-field-name="{{ widget.name }}"
+  data-search-error="{% trans 'Search is temporarily unavailable. Please try again.' %}"
+>
+  <div class="space-y-2" data-async-selected-list>
+    {% for option in widget.selected_options %}
+      <div class="flex items-center justify-between gap-3 rounded-xl border border-primary-200 bg-white px-3 py-2" data-async-selected-item data-option-id="{{ option.value }}">
+        <div class="min-w-0">
+          <strong class="block truncate text-sm text-primary-950">{{ option.label }}</strong>
+          {% if option.description %}<span class="block truncate text-xs text-primary-500">{{ option.description }}</span>{% endif %}
+        </div>
+        <button type="button" class="ui-btn ui-btn-secondary ui-btn-compact shrink-0" data-async-remove aria-label="{% blocktranslate with item_name=option.label %}Remove {{ item_name }}{% endblocktranslate %}">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <input type="hidden" name="{{ widget.name }}" value="{{ option.value }}">
+      </div>
+    {% endfor %}
+  </div>
+  <p class="rounded-xl border border-dashed border-primary-300 bg-white p-3 text-center text-sm text-primary-500 {% if widget.selected_options %}hidden{% endif %}" data-async-selected-empty>{% trans "No restrictions selected." %}</p>
+
+  <div class="relative mt-3">
+    <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-3 size-5 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.6-5.4a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path></svg>
+    <input
+      id="{{ widget.attrs.id }}"
+      class="ui-field pl-10"
+      type="search"
+      autocomplete="off"
+      placeholder="{% trans 'Type to search…' %}"
+      aria-controls="{{ widget.attrs.id }}-results"
+      data-async-search
+    >
+  </div>
+  <div id="{{ widget.attrs.id }}-results" class="mt-2 hidden overflow-hidden rounded-xl border border-primary-200 bg-white" data-async-results-panel>
+    <div class="max-h-64 divide-y divide-primary-100 overflow-y-auto" data-async-results role="listbox"></div>
+    <p class="hidden p-3 text-center text-sm text-primary-500" data-async-results-empty>{% trans "No matching results." %}</p>
+    <button type="button" class="w-full border-t border-primary-100 px-3 py-2 text-sm font-bold text-accent-800 hover:bg-accent-50" data-async-load-more hidden>{% trans "Load more results" %}</button>
+  </div>
+  <p class="mt-2 text-xs text-primary-500" role="status" aria-live="polite" data-async-status></p>
+
+  <template data-async-result-template>
+    <button type="button" class="block w-full px-3 py-2 text-left hover:bg-accent-50 focus:bg-accent-50 focus:outline-none" data-async-result role="option">
+      <strong class="block text-sm text-primary-950" data-option-label></strong>
+      <span class="block text-xs text-primary-500" data-option-description></span>
+    </button>
+  </template>
+  <template data-async-selected-template>
+    <div class="flex items-center justify-between gap-3 rounded-xl border border-primary-200 bg-white px-3 py-2" data-async-selected-item>
+      <div class="min-w-0">
+        <strong class="block truncate text-sm text-primary-950" data-option-label></strong>
+        <span class="block truncate text-xs text-primary-500" data-option-description></span>
+      </div>
+      <button type="button" class="ui-btn ui-btn-secondary ui-btn-compact shrink-0" data-async-remove><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Remove" %}</span></button>
+      <input type="hidden">
+    </div>
+  </template>
+</div>

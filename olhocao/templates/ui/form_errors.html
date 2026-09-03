@@ -1,0 +1,6 @@
+{% if errors %}
+  <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">
+    <p class="font-bold">{{ title }}</p>
+    <div class="mt-1">{{ errors }}</div>
+  </div>
+{% endif %}

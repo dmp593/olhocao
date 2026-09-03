@@ -1,123 +1,92 @@
-{% extends 'base.html' %}
+{% extends "layouts/backoffice.html" %}
 {% load i18n %}
-{% load custom_filters %}
 
-{% block content %}
-<section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white animate__animated animate__fadeIn">
-  <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="max-w-7xl mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
-      <div class="bg-primary-700 px-6 py-8 text-center">
-        <h1 class="text-3xl font-bold text-white mb-0">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
-            {{ user_obj.get_full_name|default:user_obj.username }}
-          </span>
-        </h1>
-        <p class="text-primary-100 mt-2">
-          <a href="mailto:{{ user_obj.email }}" class="underline underline-offset-2">{{ user_obj.email }}</a>
-          {% if account and account.phone_number %}
-            • <a href="tel:{{ account.phone_number }}" class="underline underline-offset-2">{{ account.phone_number }}</a>
-          {% endif %}
-          {% if toconline_customer %}
-            • VAT: {{ toconline_customer.attributes.tax_registration_number }}
-          {% endif %}
-        </p>
-      </div>
+{% block title %}{{ user_obj.get_full_name|default:user_obj.username }} | Olhó Cão{% endblock %}
 
-      <div class="px-6 py-8">
-        <h2 class="text-xl font-semibold mb-4">{% trans "Recent Bookings" %}</h2>
-        {% if bookings %}
-          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {% for b in bookings %}
-              {% include "hotel/partials/booking_card.html" with booking=b current_date=current_date %}
-            {% endfor %}
-          </div>
-          <div class="mt-6">
-            {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
-          </div>
-        {% else %}
-          <p class="text-primary-600">{% trans "No recent bookings." %}</p>
-        {% endif %}
-      </div>
+{% block backoffice_content %}
+  {% trans "Customer" as kicker %}
+  {% include "ui/page_header.html" with kicker=kicker title=user_obj.get_full_name|default:user_obj.username subtitle=user_obj.email only %}
 
-      <!-- User Pets -->
-      <div class="px-6 py-8">
-        <h2 class="text-xl font-semibold mb-4">{% trans "Pets" %}</h2>
-        {% if user_pets %}
-          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {% for pet in user_pets %}
-            <div class="bg-primary-50 border border-primary-100 rounded-2xl shadow hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
-              {% if pet.photo %}
-                <div class="relative h-40 overflow-hidden">
-                  <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full object-cover">
-                </div>
-              {% else %}
-                <div class="h-40 bg-primary-100 flex items-center justify-center">
-                  <span class="text-primary-400">{% include "icons/paw.html" with class="w-12 h-12" %}</span>
-                </div>
-              {% endif %}
-              <div class="p-4">
-                <h3 class="font-bold text-lg text-primary-800 mb-1">
-                  {{ pet.name }}
-                  {% if pet.deleted_at %}
-                    <span class="ml-2 inline-block px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-700">{% trans "Deleted" %}</span>
-                  {% endif %}
-                </h3>
-                <p class="text-primary-600 mb-3">{{ pet.species.name }}{% if pet.breed %} • {{ pet.breed }}{% endif %}</p>
-                <div class="flex flex-wrap gap-2 justify-end">
-                  <a href="{% url 'pets:detail' pet.pk %}" class="px-3 py-2 text-xs rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200">{% trans "View" %}</a>
-                  <a href="{% url 'pets:update' pet.pk %}" class="px-3 py-2 text-xs rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200">{% trans "Edit" %}</a>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        {% else %}
-          <p class="text-primary-600">{% trans "No pets found." %}</p>
-        {% endif %}
-      </div>
-
-      <!-- Action bar (responsive) -->
-      <div class="px-6 py-8">
-        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <a href="{% url 'backoffice:users_list' %}"
-             class="w-full md:w-auto text-center px-6 py-3 rounded-full text-base md:text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors">
-            {% trans "Back to Users" %}
-          </a>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:auto-cols-max md:grid-flow-col gap-2 w-full md:w-auto">
-            <a href="{% url 'backoffice:user_edit' user_obj.pk %}"
-               class="w-full md:w-auto text-center px-4 py-2 rounded-full text-sm md:text-base border border-secondary-600 text-secondary-600 hover:bg-secondary-50 transition-colors">
-              {% trans "Edit" %}
-            </a>
-            {% if not user_obj.is_staff %}
-            <form action="{% url 'backoffice:book_hotel_for_user' user_obj.pk %}" method="post" class="contents">
-              {% csrf_token %}
-              <button type="submit"
-                      class="w-full md:w-auto text-center px-4 py-2 rounded-full text-sm md:text-base border border-primary-600 text-primary-600 hover:bg-primary-50 transition-colors">
-                {% trans "Book Hotel" %}
-              </button>
-            </form>
-            {% endif %}
-            {% if user_obj.pk != request.user.pk %}
-            <form action="{% url 'backoffice:user_toggle_active' user_obj.pk %}" method="post" class="contents">
-              {% csrf_token %}
-              {% if user_obj.is_active %}
-                <button type="submit"
-                        class="w-full md:w-auto text-center px-4 py-2 rounded-full text-sm md:text-base border border-red-600 text-red-600 hover:bg-red-50 transition-colors">
-                  {% trans "Deactivate" %}
-                </button>
-              {% else %}
-                <button type="submit"
-                        class="w-full md:w-auto text-center px-4 py-2 rounded-full text-sm md:text-base border border-emerald-600 text-emerald-600 hover:bg-emerald-50 transition-colors">
-                  {% trans "Activate" %}
-                </button>
-              {% endif %}
-            </form>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="ui-card"><p class="text-xs font-bold uppercase tracking-wide text-primary-600">{% trans "Account" %}</p><p class="mt-2 font-bold">{% if user_obj.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}</p></div>
+    <div class="ui-card"><p class="text-xs font-bold uppercase tracking-wide text-primary-600">{% trans "Phone" %}</p><p class="mt-2 font-bold">{{ customer_profile.phone_number|default:"—" }}</p></div>
+    <div class="ui-card"><p class="text-xs font-bold uppercase tracking-wide text-primary-600">{% trans "VAT" %}</p><p class="mt-2 font-bold">{{ customer_profile.tax_number|default:"—" }}</p></div>
+    <div class="ui-card"><p class="text-xs font-bold uppercase tracking-wide text-primary-600">TOConline</p><p class="mt-2 font-bold">{{ customer_profile.get_toconline_sync_status_display }}</p>{% if customer_profile.toconline_sync_status == 'failed' %}<p class="mt-1 text-xs text-red-700">{% trans "Automatic synchronization will be retried." %}</p>{% endif %}</div>
   </div>
-</section>
+
+  {% if not user_obj.is_staff %}
+    <section class="ui-card mb-8" aria-labelledby="customer-actions-title">
+      <h2 id="customer-actions-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Customer actions" %}</h2>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <a href="{% url 'backoffice:user_edit' user_obj.pk %}" class="ui-btn ui-btn-secondary">{% trans "Edit profile" %}</a>
+        <a href="{% url 'backoffice:customer_password_set' user_obj.pk %}" class="ui-btn ui-btn-secondary">{% trans "Set password" %}</a>
+        <form action="{% url 'backoffice:assisted_booking_start' user_obj.pk %}" method="post">
+          {% csrf_token %}<input type="hidden" name="destination" value="hotel"><button type="submit" class="ui-btn ui-btn-primary">{% trans "Book hotel" %}</button>
+        </form>
+        <form action="{% url 'backoffice:assisted_booking_start' user_obj.pk %}" method="post">
+          {% csrf_token %}<input type="hidden" name="destination" value="activities"><button type="submit" class="ui-btn ui-btn-primary">{% trans "Manage daycare/training" %}</button>
+        </form>
+        {% if not user_obj.has_usable_password %}
+          <form action="{% url 'backoffice:customer_invitation_resend' user_obj.pk %}" method="post">
+            {% csrf_token %}<button type="submit" class="ui-btn ui-btn-secondary">{% trans "Resend invitation" %}</button>
+          </form>
+        {% endif %}
+        {% if user_obj.pk != request.user.pk %}
+          <form action="{% url 'backoffice:user_toggle_active' user_obj.pk %}" method="post">
+            {% csrf_token %}<button type="submit" class="ui-btn {% if user_obj.is_active %}ui-btn-danger{% else %}ui-btn-secondary{% endif %}">{% if user_obj.is_active %}{% trans "Deactivate" %}{% else %}{% trans "Activate" %}{% endif %}</button>
+          </form>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="mb-10" aria-labelledby="customer-bookings-title">
+    <h2 id="customer-bookings-title" class="mb-4 font-serif text-2xl font-bold text-primary-950">{% trans "Recent bookings" %}</h2>
+    {% if bookings %}
+      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{% for booking in bookings %}{% include "hotel/partials/booking_card.html" with booking=booking current_date=current_date %}{% endfor %}</div>
+      {% include "components/pagination.html" with page_obj=page_obj paginator=paginator is_paginated=is_paginated %}
+    {% else %}<p class="ui-empty">{% trans "No recent bookings." %}</p>{% endif %}
+  </section>
+
+  <section class="mb-10" aria-labelledby="customer-dogs-title">
+    <h2 id="customer-dogs-title" class="mb-4 font-serif text-2xl font-bold text-primary-950">{% trans "Dogs" %}</h2>
+    {% if user_pets %}
+      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {% for pet in user_pets %}
+          <article class="ui-card ui-card-interactive">
+            <div class="flex items-center gap-4">
+              <div class="size-16 shrink-0 overflow-hidden rounded-2xl bg-primary-100">{% if pet.photo %}<img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="size-full object-cover">{% else %}{% include "icons/paw.html" with class="size-full p-3 text-primary-400" %}{% endif %}</div>
+              <div><h3 class="font-serif text-xl font-bold text-primary-950">{{ pet.name }}</h3><p class="text-sm text-primary-600">{{ pet.species.name }}{% if pet.breed %} · {{ pet.breed }}{% endif %}</p></div>
+            </div>
+            <div class="mt-4 flex justify-end gap-2 border-t border-primary-100 pt-4"><a href="{% url 'pets:detail' pet.pk %}" class="ui-btn ui-btn-secondary">{% trans "View" %}</a><a href="{% url 'pets:update' pet.pk %}" class="ui-btn ui-btn-secondary">{% trans "Edit" %}</a></div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}<p class="ui-empty">{% trans "No dogs found." %}</p>{% endif %}
+  </section>
+
+  <section aria-labelledby="customer-activities-title">
+    <h2 id="customer-activities-title" class="mb-4 font-serif text-2xl font-bold text-primary-950">{% trans "Daycare and training services" %}</h2>
+    {% if activity_entitlements %}
+      <div class="grid gap-5 md:grid-cols-2">
+        {% for entitlement in activity_entitlements %}
+          <article class="ui-card">
+            <div class="flex items-start justify-between gap-3">
+              <div><h3 class="font-bold text-primary-950">{{ entitlement.item_name_snapshot }}</h3><p class="text-sm text-primary-600">{{ entitlement.pet.name }} · {{ entitlement.get_offering_mode_snapshot_display }}</p></div>
+              <span class="ui-badge {% if entitlement.status == 'active' %}ui-badge-success{% elif entitlement.status == 'pending' or entitlement.status == 'suspended' or entitlement.status == 'cancel_at_period_end' %}ui-badge-warning{% else %}ui-badge-danger{% endif %}">{{ entitlement.get_status_display }}</span>
+            </div>
+            {% if entitlement.offering_mode_snapshot == 'pack' %}<p class="mt-4 text-sm">{% trans "Remaining credits" %}: <strong>{{ entitlement.credit_balance }}</strong></p>{% endif %}
+            {% if entitlement.access_blocked_at %}<p class="ui-alert ui-alert-danger mt-4 text-sm"><strong>{% trans "Access blocked" %}:</strong> {{ entitlement.access_blocked_reason }}</p>{% endif %}
+            <div class="mt-4 border-t border-primary-100 pt-4">
+              {% if entitlement.offering_mode_snapshot == 'subscription' %}
+                <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:subscription_detail' entitlement.pk %}">{% trans "Manage subscription" %}</a>
+              {% else %}
+                <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:entitlement_detail' entitlement.pk %}">{% trans "Manage purchase" %}</a>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}<p class="ui-empty">{% trans "No daycare or training service yet." %}</p>{% endif %}
+  </section>
 {% endblock %}

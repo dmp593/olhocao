@@ -1,0 +1,31 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% if object %}{% trans "Edit" %}{% else %}{% trans "Add" %}{% endif %} {{ collection.singular }} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  <a class="ui-back-link" href="{% url 'backoffice:site_content_collection' collection.slug %}">{% include "icons/arrow_left.html" with class="size-4" %}{{ collection.title }}</a>
+  <div class="mt-4">
+    {% include "ui/page_header.html" with kicker=_("Website content") title=collection.title subtitle=_("Complete both languages. Changes preserve the established layout and design system.") %}
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="ui-card mx-auto mt-8 max-w-5xl" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="ui-alert ui-alert-danger mb-6">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="grid gap-5 md:grid-cols-2">
+      {% for field in form %}
+        {% include "ui/form_field.html" with field=field only %}
+      {% endfor %}
+    </div>
+    {% if object.image_url %}
+      <div class="mt-6 border-t border-primary-100 pt-6">
+        <p class="ui-label">{% trans "Current image" %}</p>
+        <img src="{{ object.image_url }}" alt="" class="mt-2 h-40 max-w-full rounded-xl object-cover">
+      </div>
+    {% endif %}
+    <div class="mt-8 flex flex-wrap justify-end gap-3 border-t border-primary-100 pt-6">
+      <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:site_content_collection' collection.slug %}">{% trans "Cancel" %}</a>
+      <button class="ui-btn ui-btn-primary" type="submit">{% trans "Save content" %}</button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,92 +1,45 @@
 from typing import Any
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView
+
 from django.contrib import messages
-from django.utils.translation import gettext_lazy as _
+from django.db.models import Prefetch, Q
+from django.urls import reverse_lazy
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import FormView, TemplateView
 
 from backoffice.models import LegalDocument
-from toconline.services import toconline, TocOnlineResource
-
+from catalog.models import CatalogOffer, CatalogType, CatalogWorkflow
 
 from . import forms
+from .models import HomeSlide, HomeSlideKind, ServiceHighlight, TeamMember, Testimonial
 
 
 class HomeView(TemplateView):
     template_name = "frontoffice/home.html"
 
-    extra_context = {
-        "home_slides": [
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slides = HomeSlide.objects.filter(is_active=True).order_by("order", "id")
+        context.update(
             {
-                "src": "https://placedog.net/3840/2160?r=1",
-                "alt": _("OlhóCão having fun!"),
-                "title": _("OlhóCão having fun!"),
-                "description": _("OlhóCão is a wild park where your dog goes full zoomies, makes furry friends, and forgets taxes exist. It's a doggy dreamland for fun and freedom."),
-                "cta_link": reverse_lazy('frontoffice:pricing'),
-                "cta_text": _("Discover Our Services"),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=2",
-                "alt": _("LavóCão so he smells nice!"),
-                "title": _("LavóCão so he smells nice!"),
-                "description": _("We wash, fluff, and de-funk your furry beast. LavóCão turns your stink monster into a soft, snuggly cloud that’s finally welcome on the couch again."),
-                "cta_link": reverse_lazy('frontoffice:pricing'),
-                "cta_text": _("Discover Our Services"),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=3",
-                "alt": _("TreinóCão to be a good boy!"),
-                "title": _("TreinóCão to be a good boy!"),
-                "description": _("From couch destroyer to polite pupper—TreinóCão teaches obedience, social skills, and how *not* to embarrass you at the park."),
-                "cta_link": reverse_lazy('frontoffice:pricing'),
-                "cta_text": _("Discover Our Services"),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=4",
-                "alt": _("DeixóCão: we take care while you take off!"),
-                "title": _("DeixóCão: we take care while you take off!"),
-                "description": _("Vacation time? DeixóCão is your dog's home away from home—with playtime, cuddles, and way too many treats. You relax, we handle the tail-wagging."),
-                "cta_link": reverse_lazy('frontoffice:pricing'),
-                "cta_text": _("Discover Our Services"),
-            },
-        ],
-        "benefits_slides": [
-            {
-                "src": "https://placedog.net/3840/2160?r=4",
-                "alt": _('Trust in the best training'),
-                "title": _('Trust in the best training'),
-                "description": _("Our pros have years of experience and Jedi-level dog-whispering skills. Your furry tornado is in safe hands."),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=5",
-                "alt": _("Fun for everyone!"),
-                "title": _("Fun for everyone!"),
-                "description": _("It’s basically a theme park for dogs. Walks, jumps, races, tail chases, group zoomies—we've got it all. Humans might get jealous."),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=6",
-                "alt": _("Socialization and cognitive development"),
-                "title": _("Socialization and cognitive development"),
-                "description": _("Shy pups? Overly excited bark machines? We help them mingle, grow brains, and maybe even learn not to eat your socks."),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=7",
-                "alt": _("More comfort for the whole family"),
-                "title": _("More comfort for the whole family"),
-                "description": _("No time? No car? No problem. We pick up and drop off your pup, all clean and happy. It’s like Uber, but fluffier."),
-            },
-            {
-                "src": "https://placedog.net/3840/2160?r=8",
-                "alt": _("Tailored for your dog’s needs"),
-                "title": _("Tailored for your dog’s needs"),
-                "description": _("Big or small, shy or hyper—we customize the fun. Your dog’s happiness program is designed like a 5-star dogcation."),
-            },
-        ],
-    }
+                "home_slides": slides.filter(kind=HomeSlideKind.HERO),
+                "benefits_slides": slides.filter(kind=HomeSlideKind.BENEFIT),
+                "service_highlights": ServiceHighlight.objects.filter(is_active=True).order_by(
+                    "order", "id"
+                ),
+                "testimonials": Testimonial.objects.filter(is_active=True).order_by("order", "id"),
+            }
+        )
+        return context
 
 
 class AboutUsView(TemplateView):
     template_name = "frontoffice/about_us.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["team_members"] = TeamMember.objects.filter(is_active=True).order_by("order", "id")
+        return context
 
 
 class PricingView(TemplateView):
@@ -95,43 +48,55 @@ class PricingView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        toc_families = toconline.list(TocOnlineResource.ITEM_FAMILIES)
-
-        context["families"] = []
-
-        for toc_family in toc_families:
-            toc_family_services = toconline.list(
-                TocOnlineResource.SERVICES,
-                item_families=toc_family["id"],
+        available_offers = (
+            CatalogOffer.objects.filter(
                 is_active=True,
+                is_public=True,
+                catalog_item__is_active=True,
             )
-
-            family_services = list(
-                map(
-                    lambda svc: {
-                        "id": svc["id"],
-                        "name": svc["attributes"]["item_description"],
-                        "price": svc["attributes"]["sales_price"],
-                    },
-                    toc_family_services,
+            .filter(
+                Q(catalog_item__origin="website")
+                | Q(
+                    catalog_item__remote_deleted_at__isnull=True,
+                    catalog_item__toconline_id__isnull=False,
                 )
             )
+            .select_related("catalog_item", "level")
+            .order_by("level__order", "order", "name")
+        )
+        catalog_types = CatalogType.objects.filter(is_active=True).prefetch_related(
+            Prefetch("offers", queryset=available_offers, to_attr="public_offers")
+        )
 
-            family = {
-                "id": toc_family["id"],
-                "name": toc_family["attributes"]["name"],
-                "services": family_services,
-            }
+        families = []
+        for catalog_type in catalog_types:
+            if not catalog_type.public_offers:
+                continue
+            if catalog_type.workflow == CatalogWorkflow.DATE_RANGE:
+                action_label = _("Book")
+            elif catalog_type.is_scheduled:
+                action_label = _("See plans")
+            else:
+                action_label = _("See services")
+            families.append(
+                {
+                    "id": catalog_type.slug,
+                    "name": catalog_type.name,
+                    "services": catalog_type.public_offers,
+                    "action_url": catalog_type.public_url,
+                    "action_label": action_label,
+                }
+            )
 
-            context["families"].append(family)
+        context["families"] = families
 
         return context
 
 
 class ContactUsView(FormView):
     form_class = forms.ContactUsForm
-    template_name = 'frontoffice/contact_us.html'
-    success_url = reverse_lazy('frontoffice:contact_us')
+    template_name = "frontoffice/contact_us.html"
+    success_url = reverse_lazy("frontoffice:contact_us")
 
     def form_valid(self, form):
         form.save()
@@ -146,8 +111,8 @@ class LegalDocumentDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         where = {
-            'doc_type': self.doc_type,
-            'effective_date__lte': now().today(),
+            "doc_type": self.doc_type,
+            "effective_date__lte": now().today(),
         }
 
         context["object"] = LegalDocument.objects_active.filter(**where).first()
@@ -156,10 +121,10 @@ class LegalDocumentDetailView(TemplateView):
 
 
 class TermsAndConditionsView(LegalDocumentDetailView):
-    template_name = 'frontoffice/terms_and_conditions.html'
+    template_name = "frontoffice/terms_and_conditions.html"
     doc_type = LegalDocument.DocumentType.TERMS
 
 
 class PrivacyPolicyView(LegalDocumentDetailView):
-    template_name = 'frontoffice/privacy_policy.html'
+    template_name = "frontoffice/privacy_policy.html"
     doc_type = LegalDocument.DocumentType.PRIVACY

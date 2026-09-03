@@ -1,9 +1,10 @@
-from modeltranslation.translator import translator, TranslationOptions
+from modeltranslation.translator import TranslationOptions, translator
+
 from .models import PetSpecies
 
 
 class PetSpeciesTranslationOptions(TranslationOptions):
-    fields = ('name',)
+    fields = ("name",)
 
 
 translator.register(PetSpecies, PetSpeciesTranslationOptions)

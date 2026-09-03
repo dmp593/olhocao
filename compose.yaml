@@ -1,0 +1,37 @@
+services:
+  web:
+    build: .
+    command: >-
+      sh -c "python manage.py migrate --noinput &&
+      gunicorn olhocao.wsgi:application --bind=0.0.0.0:8000
+      --no-control-socket --access-logfile=- --error-logfile=-"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: mysql://olhocao:local-development-only@database:3306/olhocao
+    ports:
+      - "8000:8000"
+    volumes:
+      - media_data:/app/media
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mariadb:11.8
+    environment:
+      MARIADB_DATABASE: olhocao
+      MARIADB_USER: olhocao
+      MARIADB_PASSWORD: local-development-only
+      MARIADB_ROOT_PASSWORD: local-root-development-only
+    volumes:
+      - database_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  database_data:
+  media_data:

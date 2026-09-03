@@ -1,19 +1,20 @@
-from django.http import HttpResponseRedirect
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
-from django.views import View
-from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils import timezone
+from django.views import View
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
-from accounts.models import Account
+from accounts.models import CustomerProfile
+
+from .forms import PetAdminForm, PetForm
 from .models import Pet
-from .forms import PetForm, PetAdminForm
 
 
 class PetListView(LoginRequiredMixin, ListView):
@@ -33,11 +34,7 @@ class PetListView(LoginRequiredMixin, ListView):
 
             return qs
 
-        return (
-            Pet.objects
-            .filter(owner__user=self.request.user, deleted_at__isnull=True)
-            .all()
-        )
+        return Pet.objects.filter(owner__user=self.request.user, deleted_at__isnull=True).all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,14 +51,7 @@ class PetDetailView(LoginRequiredMixin, DetailView):
         if self.request.user.is_staff:
             return Pet.objects.all()
 
-        return (
-            Pet.objects
-            .filter(
-                owner__user=self.request.user,
-                deleted_at__isnull=True
-            )
-            .all()
-        )
+        return Pet.objects.filter(owner__user=self.request.user, deleted_at__isnull=True).all()
 
 
 class PetCreateView(LoginRequiredMixin, CreateView):
@@ -70,11 +60,9 @@ class PetCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("pets:list")
 
     def form_valid(self, form):
-        # If staff and using admin form, owner comes from the form
-        if self.request.user.is_staff and isinstance(form, PetAdminForm):
-            pass
-        else:
-            form.instance.owner = self.request.user.account
+        owner_was_selected_by_staff = self.request.user.is_staff and isinstance(form, PetAdminForm)
+        if not owner_was_selected_by_staff:
+            form.instance.owner = self.request.user.customer_profile
         return super().form_valid(form)
 
     def get_form_class(self):
@@ -85,25 +73,18 @@ class PetCreateView(LoginRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         if self.request.user.is_staff:
-            owner_user_id = (
-                self.request.GET.get('owner')
-                or self.request.session.get('acting_user_id')
+            owner_user_id = self.request.GET.get("owner") or self.request.session.get(
+                "assisted_customer_id"
             )
             if owner_user_id:
-                try:
-                    initial['owner'] = Account.objects.get(
-                        user_id=owner_user_id
-                    )
-                except Account.DoesNotExist:
-                    pass
+                owner = CustomerProfile.objects.filter(pk=owner_user_id).first()
+                if owner:
+                    initial["owner"] = owner
         return initial
 
     def get_success_url(self):
-        if (
-            self.request.user.is_staff
-            and self.request.session.get('acting_user_id')
-        ):
-            return reverse_lazy('hotel:booking_stay')
+        if self.request.user.is_staff and self.request.session.get("assisted_customer_id"):
+            return reverse_lazy("hotel:booking_stay")
         return super().get_success_url()
 
 

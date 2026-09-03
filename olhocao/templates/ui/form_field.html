@@ -1,0 +1,19 @@
+{% load custom_filters %}
+<div class="{{ wrapper_class|default:'' }}">
+  {% if field.widget_type == "checkbox" %}
+    <label for="{{ field.id_for_label }}" class="flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2 text-sm font-bold text-primary-800">
+      {{ field|add_class:"ui-checkbox" }}
+      <span>{{ field.label }}</span>
+    </label>
+  {% elif field.widget_type == "checkboxselectmultiple" %}
+    <fieldset>
+      <legend class="ui-label">{{ field.label }}</legend>
+      <div class="ui-checkbox-list">{{ field|add_class:"ui-checkbox" }}</div>
+    </fieldset>
+  {% else %}
+    <label for="{{ field.id_for_label }}" class="ui-label">{{ field.label }}</label>
+    {{ field|add_class:"ui-field" }}
+  {% endif %}
+  {% if field.help_text %}<p class="ui-help">{{ field.help_text|safe }}</p>{% endif %}
+  {% if field.errors %}<div class="ui-error">{{ field.errors }}</div>{% endif %}
+</div>

@@ -1,0 +1,55 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{{ collection.title }} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url 'backoffice:site_content_create' collection.slug as create_url %}
+  <a class="ui-back-link" href="{% url 'backoffice:site_content' %}">{% include "icons/arrow_left.html" with class="size-4" %}{% trans "Website content" %}</a>
+  <div class="mt-4">
+    {% include "ui/page_header.html" with kicker=_("Website content") title=collection.title subtitle=collection.description action_url=create_url action_label=_("Add content") %}
+  </div>
+
+  <div class="mt-8">
+    {% if content_entries %}
+      <div class="ui-table-wrap">
+        <table class="ui-table">
+          <thead>
+            <tr>
+              <th>{% trans "Content" %}</th>
+              <th>{% trans "Order" %}</th>
+              <th>{% trans "Status" %}</th>
+              <th>{% trans "Last change" %}</th>
+              <th><span class="sr-only">{% trans "Actions" %}</span></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-primary-100">
+            {% for entry in content_entries %}
+              <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    {% if entry.image_url %}<img src="{{ entry.image_url }}" alt="" class="size-14 rounded-xl object-cover">{% endif %}
+                    <div>
+                      <strong>{{ entry }}</strong>
+                      {% if entry.kind %}<p class="mt-1 text-xs text-primary-600">{{ entry.get_kind_display }}</p>{% endif %}
+                      {% if entry.platform %}<p class="mt-1 text-xs text-primary-600">{{ entry.get_platform_display }}</p>{% endif %}
+                    </div>
+                  </div>
+                </td>
+                <td>{{ entry.order }}</td>
+                <td>{% if entry.is_active %}<span class="ui-badge ui-badge-success">{% trans "Published" %}</span>{% else %}<span class="ui-badge ui-badge-neutral">{% trans "Hidden" %}</span>{% endif %}</td>
+                <td>
+                  {% if entry.updated_at %}{{ entry.updated_at|date:"SHORT_DATETIME_FORMAT" }}{% else %}—{% endif %}
+                  {% if entry.updated_by %}<div class="mt-1 text-xs text-primary-600">{{ entry.updated_by.get_full_name|default:entry.updated_by.username }}</div>{% endif %}
+                </td>
+                <td class="text-right"><a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:site_content_edit' collection.slug entry.pk %}">{% trans "Edit" %}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      {% include "ui/empty_state.html" with title=_("No content yet") description=_("Add the first item to this section.") action_url=create_url action_label=_("Add content") %}
+    {% endif %}
+  </div>
+{% endblock %}

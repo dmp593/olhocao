@@ -1,0 +1,26 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Grant extra weekly uses" %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url "backoffice:subscription_detail" entitlement.pk as cancel_url %}
+  {% include "ui/breadcrumb.html" with url=cancel_url label=entitlement.item_name_snapshot only %}
+  <div class="mt-5">
+    {% include "ui/page_header.html" with kicker=_("Customer care") title=_("Grant extra weekly uses") subtitle=entitlement.pet.name only %}
+  </div>
+
+  <div class="ui-alert ui-alert-info mx-auto mt-6 max-w-3xl">
+    {% trans "This is a one-week, append-only allowance. Unused contracted uses never roll over and the original subscription is not rewritten." %}
+  </div>
+
+  <form method="post" class="ui-card mx-auto mt-6 max-w-3xl">
+    {% csrf_token %}
+    {% include "ui/form_errors.html" with form=form only %}
+    <div class="space-y-5">
+      {% for field in form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}
+    </div>
+    {% trans "Grant uses" as submit_label %}
+    <div class="mt-8">{% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}</div>
+  </form>
+{% endblock %}

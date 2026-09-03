@@ -1,36 +1,15 @@
-{% extends 'base.html' %}
+{% extends "layouts/customer_portal.html" %}
 {% load i18n %}
 
-{% block content %}
-<section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white animate__animated animate__fadeIn">
-  <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="max-w-md mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown text-center">
-      <div class="bg-primary-700 px-6 py-8">
-        <h2 class="text-3xl font-bold text-white">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
-            {% trans "Delete Pet" %}
-          </span>
-        </h2>
-      </div>
-      <div class="p-8">
-        {% if pet.photo %}
-          <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="h-32 object-cover mx-auto rounded-lg mb-4">
-        {% endif %}
-        <p class="mb-6 text-lg">{% trans "Are you sure you want to delete" %} <strong>{{ pet.name }}</strong>?</p>
-        <form method="post">
-          {% csrf_token %}
-          <div class="flex justify-center space-x-3">
-            <a href="{% url 'pets:detail' pet.pk %}" class="px-4 py-2 border border-primary-300 rounded-full hover:bg-primary-50 transition-colors">
-              {% trans "Cancel" %}
-            </a>
-            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
-              {% trans "Delete" %}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+{% block title %}{% trans "Remove dog" %} | Olhó Cão{% endblock %}
+
+{% block portal_content %}
+  <div class="ui-card mx-auto max-w-lg text-center">
+    <div class="mx-auto flex size-14 items-center justify-center rounded-2xl bg-red-100 text-red-700">{% include "icons/paw.html" with class="size-8" %}</div>
+    <h1 class="mt-5 font-serif text-3xl font-bold text-primary-950">{% trans "Remove dog?" %}</h1>
+    <p class="mt-3 text-primary-600">{% blocktranslate with name=pet.name %}{{ name }} will no longer be available for new bookings. Existing booking history is preserved.{% endblocktranslate %}</p>
+    <form method="post" class="mt-6 flex flex-col-reverse justify-center gap-3 sm:flex-row">
+      {% csrf_token %}<a href="{% url 'pets:detail' pet.pk %}" class="ui-btn ui-btn-secondary">{% trans "Keep dog" %}</a><button type="submit" class="ui-btn ui-btn-danger">{% trans "Remove dog" %}</button>
+    </form>
   </div>
-</section>
 {% endblock %}

@@ -1,69 +1,42 @@
-{% extends 'base.html' %}
+{% extends "layouts/customer_portal.html" %}
 {% load i18n %}
 
-{% block content %}
-<section class="relative min-h-screen-minus-navbar flex items-center justify-center bg-gradient-to-b from-primary-100 to-white animate__animated animate__fadeIn">
-  <div class="absolute inset-0 opacity-10 bg-paws bg-repeat bg-[length:128px_128px]"></div>
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="max-w-2xl mx-auto my-16 bg-white rounded-2xl shadow-xl overflow-hidden animate__animated animate__fadeInDown">
-      <div class="bg-primary-700 px-6 py-8 text-center">
-        <h2 class="text-3xl font-bold text-white mb-0">
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-accent-300">
-            {{ pet.name }}
-          </span>
-        </h2>
-      </div>
-      {% if pet.photo %}
-        <div class="relative mb-6 overflow-hidden">
-          <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-64 object-cover">
-        </div>
-      {% endif %}
-      <!-- Remove the previous edit/delete button row -->
-      <div class="grid gap-8 md:grid-cols-2 px-8 pb-8">
-        <div>
-          <h2 class="font-bold text-lg mb-3 text-primary-800">{% trans "Basic Info" %}</h2>
-          <div class="space-y-2">
-            {% if request.user.is_staff %}
-              <p>
-                <span class="font-medium">{% trans "Owner:" %}</span>
-                <a href="{% url 'backoffice:user_detail' pet.owner.pk %}">{{ pet.owner }}</a>
-              </p>
-            {% endif %}
-            <p><span class="font-medium">{% trans "Birthdate:" %}</span> {{ pet.birthdate|date:"Y-m-d" }}</p>
-            <p><span class="font-medium">{% trans "Weight:" %}</span> {{ pet.weight }} kg</p>
-            <p><span class="font-medium">{% trans "Microchip:" %}</span> {{ pet.microship_number|default:"-" }}</p>
-          </div>
-        </div>
-        <div>
-          <h2 class="font-bold text-lg mb-3 text-primary-800">{% trans "Health Info" %}</h2>
-          <div class="space-y-2">
-            <p><span class="font-medium">{% trans "Sterilized:" %}</span> {{ pet.is_sterilized|yesno }}</p>
-            <p><span class="font-medium">{% trans "Vaccinated:" %}</span> {{ pet.is_vaccinated|yesno }}</p>
-            <p><span class="font-medium">{% trans "Allergies:" %}</span> {{ pet.allergies|default:"-"|linebreaks }}</p>
-            <p><span class="font-medium">{% trans "Medication:" %}</span> {{ pet.medication|default:"-"|linebreaks }}</p>
-          </div>
-        </div>
-      </div>
-      {% if pet.notes %}
-        <div class="px-8 pb-8">
-          <h2 class="font-bold text-lg mb-2 text-primary-800">{% trans "Notes" %}</h2>
-          <p class="text-primary-700">{{ pet.notes|linebreaks }}</p>
-        </div>
-      {% endif %}
-      <div class="px-8 pb-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <a href="{% url 'pets:list' %}" class="px-6 py-3 rounded-full text-lg font-medium text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors">
-          {% trans "Back to My Pets" %}
-        </a>
-        <div class="flex space-x-2 justify-end">
-          <a href="{% url 'pets:update' pet.pk %}" class="px-4 py-2 border border-secondary-600 text-secondary-600 rounded-full hover:bg-secondary-50 transition-colors">
-            {% trans "Edit" %}
-          </a>
-          <a href="{% url 'pets:delete' pet.pk %}" class="px-4 py-2 border border-red-600 text-red-600 rounded-full hover:bg-red-50 transition-colors">
-            {% trans "Delete" %}
-          </a>
-        </div>
-      </div>
+{% block title %}{{ pet.name }} | Olhó Cão{% endblock %}
+
+{% block portal_content %}
+  {% trans "Dog profile" as kicker %}
+  {% include "ui/page_header.html" with kicker=kicker title=pet.name subtitle=pet.breed only %}
+
+  <div class="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
+    <aside class="ui-card h-fit">
+      <div class="aspect-square overflow-hidden rounded-2xl bg-primary-100">{% if pet.photo %}<img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="size-full object-cover">{% else %}<div class="flex size-full items-center justify-center">{% include "icons/paw.html" with class="size-20 text-primary-300" %}</div>{% endif %}</div>
+      <div class="mt-5 flex flex-wrap gap-2"><a href="{% url 'pets:update' pet.pk %}" class="ui-btn ui-btn-primary flex-1">{% trans "Edit" %}</a><a href="{% url 'pets:delete' pet.pk %}" class="ui-btn ui-btn-danger flex-1">{% trans "Delete" %}</a></div>
+      <a href="{% url 'pets:list' %}" class="ui-btn ui-btn-ghost mt-2 w-full">{% trans "Back to dogs" %}</a>
+    </aside>
+
+    <div class="space-y-6">
+      <section class="ui-card" aria-labelledby="dog-identity-title">
+        <h2 id="dog-identity-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Identity" %}</h2>
+        <dl class="mt-5 grid gap-4 sm:grid-cols-2">
+          {% if request.user.is_staff %}<div><dt class="text-sm font-bold text-primary-600">{% trans "Customer" %}</dt><dd class="mt-1"><a class="text-accent-700 hover:underline" href="{% url 'backoffice:user_detail' pet.owner.user_id %}">{{ pet.owner }}</a></dd></div>{% endif %}
+          <div><dt class="text-sm font-bold text-primary-600">{% trans "Species" %}</dt><dd class="mt-1">{{ pet.species.name }}</dd></div>
+          <div><dt class="text-sm font-bold text-primary-600">{% trans "Breed" %}</dt><dd class="mt-1">{{ pet.breed }}</dd></div>
+          <div><dt class="text-sm font-bold text-primary-600">{% trans "Birthdate" %}</dt><dd class="mt-1">{{ pet.birthdate|date:"d/m/Y" }}</dd></div>
+          <div><dt class="text-sm font-bold text-primary-600">{% trans "Weight" %}</dt><dd class="mt-1">{{ pet.weight_kg|default:"—" }}{% if pet.weight_kg %} kg{% endif %}</dd></div>
+          <div><dt class="text-sm font-bold text-primary-600">{% trans "Height" %}</dt><dd class="mt-1">{{ pet.height_cm|default:"—" }}{% if pet.height_cm %} cm{% endif %}</dd></div>
+          <div><dt class="text-sm font-bold text-primary-600">{% trans "Microchip" %}</dt><dd class="mt-1">{{ pet.microship_number|default:"—" }}</dd></div>
+        </dl>
+      </section>
+
+      <section class="ui-card" aria-labelledby="dog-care-title">
+        <h2 id="dog-care-title" class="font-serif text-xl font-bold text-primary-950">{% trans "Health and care" %}</h2>
+        <div class="mt-4 flex flex-wrap gap-2"><span class="ui-badge {% if pet.is_vaccinated %}ui-badge-success{% else %}ui-badge-warning{% endif %}">{% if pet.is_vaccinated %}{% trans "Vaccinated" %}{% else %}{% trans "Vaccination not confirmed" %}{% endif %}</span><span class="ui-badge {% if pet.is_sterilized %}ui-badge-success{% else %}ui-badge-neutral{% endif %}">{% if pet.is_sterilized %}{% trans "Sterilized" %}{% else %}{% trans "Not sterilized" %}{% endif %}</span></div>
+        <dl class="mt-5 grid gap-5 sm:grid-cols-2">
+          <div><dt class="text-sm font-bold text-primary-700">{% trans "Medication" %}</dt><dd class="mt-1 whitespace-pre-line">{{ pet.medication|default:"—" }}</dd></div>
+          <div><dt class="text-sm font-bold text-primary-700">{% trans "Allergies" %}</dt><dd class="mt-1 whitespace-pre-line">{{ pet.allergies|default:"—" }}</dd></div>
+          <div class="sm:col-span-2"><dt class="text-sm font-bold text-primary-700">{% trans "Notes" %}</dt><dd class="mt-1 whitespace-pre-line">{{ pet.notes|default:"—" }}</dd></div>
+        </dl>
+      </section>
     </div>
   </div>
-</section>
 {% endblock %}

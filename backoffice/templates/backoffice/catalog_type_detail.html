@@ -1,0 +1,97 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n static %}
+
+{% block title %}{{ catalog_type.name }} | {% trans "Catalog" %}{% endblock %}
+
+{% block backoffice_content %}
+  {% url 'backoffice:catalog' as catalog_url %}
+  {% include "ui/breadcrumb.html" with url=catalog_url label=_("Catalog") only %}
+  <div class="mt-5 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+    {% include "ui/page_header.html" with kicker=catalog_type.get_workflow_display title=catalog_type.name subtitle=catalog_type.description only %}
+    <div class="flex flex-wrap gap-2">
+      <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:catalog_type_edit' catalog_type.pk %}">{% include "icons/pencil_square.html" with class="size-5" %}<span>{% trans "Edit type" %}</span></a>
+      <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:catalog_level_create' catalog_type.pk %}">{% include "icons/plus.html" with class="size-5" %}<span>{% trans "Add level" %}</span></a>
+      <a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:catalog_optional_services' %}?target=type:{{ catalog_type.pk }}">{% include "icons/sparkles.html" with class="size-5" %}<span>{% trans "Optional services" %}</span></a>
+      <a class="ui-btn ui-btn-primary" href="{% url 'backoffice:catalog_offer_create' catalog_type.pk %}">{% include "icons/plus.html" with class="size-5" %}<span>{% trans "Add price or plan" %}</span></a>
+    </div>
+  </div>
+
+  <section class="ui-card mt-8" aria-labelledby="catalog-rules-title">
+    <h2 id="catalog-rules-title" class="sr-only">{% trans "Operational rules" %}</h2>
+    <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div><p class="text-sm text-primary-500">{% trans "Operational behavior" %}</p><p class="mt-1 font-bold text-primary-950">{{ catalog_type.get_workflow_display }}</p></div>
+      <div><p class="text-sm text-primary-500">{% trans "Default capacity" %}</p><p class="mt-1 font-bold text-primary-950">{{ catalog_type.default_capacity|default:_('Not applicable') }}</p></div>
+      <div><p class="text-sm text-primary-500">{% trans "Cancellation notice" %}</p><p class="mt-1 font-bold text-primary-950">{{ catalog_type.default_cancellation_notice_hours }}h</p></div>
+      <div><p class="text-sm text-primary-500">{% trans "National holidays" %}</p><p class="mt-1 font-bold text-primary-950">{% if catalog_type.closes_on_national_holidays %}{% trans "Closed automatically" %}{% else %}{% trans "Open unless manually closed" %}{% endif %}</p></div>
+    </div>
+  </section>
+
+  <section class="mt-10" aria-labelledby="levels-title">
+    <div class="mb-5">
+      <p class="ui-kicker">{% trans "Hierarchy" %}</p>
+      <h2 id="levels-title" class="mt-1 font-serif text-3xl font-bold text-primary-950">{% trans "Levels, prices and plans" %}</h2>
+      <p class="mt-2 max-w-4xl text-primary-600">{% trans "A level defines operational rules such as capacity. Each price or plan below defines what the customer buys: a one-off service, a pack, or a subscription." %}</p>
+      {% if catalog_type.levels.all|length > 1 %}
+        <p id="level-ordering-help" class="mt-2 text-sm text-primary-500">{% trans "Drag the six-dot handle to reorder levels. With the handle focused, use the up and down arrow keys." %}</p>
+        <p data-level-order-status class="mt-2 hidden text-sm font-bold" role="status" aria-live="polite"></p>
+      {% endif %}
+    </div>
+    <div
+      class="space-y-5"
+      data-level-ordering
+      data-reorder-url="{% url 'backoffice:catalog_level_order' catalog_type.pk %}"
+      data-saving-message="{% trans 'Saving level order…' %}"
+      data-saved-message="{% trans 'Level order saved.' %}"
+      data-error-message="{% trans 'The level order could not be saved. Please try again.' %}"
+    >
+      {% for level in catalog_type.levels.all %}
+        <article class="ui-card" data-level-order-item data-level-id="{{ level.pk }}">
+          {% if catalog_type.levels.all|length > 1 %}
+            <div class="-mt-3 mb-2 flex justify-center">
+              <button
+                type="button"
+                class="ui-drag-handle"
+                draggable="true"
+                data-level-drag-handle
+                aria-label="{% blocktranslate with level_name=level.name %}Reorder {{ level_name }}{% endblocktranslate %}"
+                aria-describedby="level-ordering-help"
+              >
+                {% include "icons/drag_handle.html" with class="size-5" %}
+              </button>
+            </div>
+          {% endif %}
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div class="flex flex-wrap items-center gap-2"><h3 class="font-serif text-2xl font-bold text-primary-950">{{ level.name }}</h3>{% if not level.is_active %}<span class="ui-badge ui-badge-neutral">{% trans "Inactive" %}</span>{% endif %}</div>
+              <p class="mt-2 text-primary-600">{{ level.description|default:_('No description yet.') }}</p>
+              <p class="mt-3 text-sm text-primary-500">{% trans "Capacity" %}: <strong>{{ level.effective_capacity|default:_('Not applicable') }}</strong> · {% trans "Cancellation" %}: <strong>{{ level.effective_cancellation_notice_hours }}h</strong></p>
+            </div>
+            <div class="flex gap-2"><a class="ui-btn ui-btn-secondary" href="{% url 'backoffice:catalog_level_edit' catalog_type.pk level.pk %}">{% trans "Edit level" %}</a><a class="ui-btn ui-btn-primary" href="{% url 'backoffice:catalog_offer_create' catalog_type.pk %}?level={{ level.pk }}">{% trans "Add price or plan" %}</a></div>
+          </div>
+          <div class="mt-6 grid gap-4 lg:grid-cols-2">
+            {% for offer in level.offers.all %}
+              {% include "backoffice/partials/catalog_offer_card.html" with offer=offer catalog_type=catalog_type only %}
+            {% empty %}
+              <div class="rounded-2xl border border-dashed border-primary-200 p-5 text-primary-600">{% trans "This level has no prices or plans yet." %}</div>
+            {% endfor %}
+          </div>
+        </article>
+      {% empty %}
+        <div class="ui-alert ui-alert-info">{% trans "This type has no intermediate levels. A directly purchasable price or plan can still be created below." %}</div>
+      {% endfor %}
+    </div>
+
+    <article class="ui-card mt-5">
+      <h3 class="font-serif text-2xl font-bold text-primary-950">{% trans "Prices or plans without a level" %}</h3>
+      <p class="mt-2 text-primary-600">{% trans "Use these when an intermediate level adds no useful meaning." %}</p>
+      <div class="mt-6 grid gap-4 lg:grid-cols-2">
+        {% for offer in catalog_type.offers.all %}{% if not offer.level_id %}{% include "backoffice/partials/catalog_offer_card.html" with offer=offer catalog_type=catalog_type only %}{% endif %}{% empty %}<div class="rounded-2xl border border-dashed border-primary-200 p-5 text-primary-600">{% trans "There are no prices or plans without a level." %}</div>{% endfor %}
+      </div>
+    </article>
+  </section>
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/backoffice/catalog_level_ordering.js' %}" defer></script>
+{% endblock %}

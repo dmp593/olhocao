@@ -1,0 +1,16 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+
+{% block title %}{% if object %}{% trans "Edit catalog type" %}{% else %}{% trans "Create catalog type" %}{% endif %} | Olhó Cão{% endblock %}
+
+{% block backoffice_content %}
+  {% url 'backoffice:catalog' as cancel_url %}
+  {% include "ui/breadcrumb.html" with url=cancel_url label=_("Catalog") only %}
+  <div class="mt-5">{% include "ui/page_header.html" with kicker=_("Catalog structure") title=_("Edit catalog type")|default:_("Create catalog type") subtitle=_("The name is commercial content. The operational model is the stable behavior used by reservations.") only %}</div>
+  <form method="post" enctype="multipart/form-data" class="ui-card mx-auto mt-8 max-w-5xl space-y-8">
+    {% csrf_token %}{% include "ui/form_errors.html" with form=form only %}
+    <fieldset><legend class="font-serif text-2xl font-bold text-primary-950">{% trans "Names and presentation" %}</legend><div class="mt-5 grid gap-5 md:grid-cols-2">{% for field in form %}{% if field.name == 'name_pt' or field.name == 'name_en' or field.name == 'slug' or field.name == 'description_pt' or field.name == 'description_en' or field.name == 'image' or field.name == 'image_alt_pt' or field.name == 'image_alt_en' %}{% include "ui/form_field.html" with field=field only %}{% endif %}{% endfor %}</div></fieldset>
+    <fieldset class="border-t border-primary-100 pt-8"><legend class="font-serif text-2xl font-bold text-primary-950">{% trans "Operational rules" %}</legend><p class="mt-2 text-primary-600">{% trans "Capacity can later be overridden by a level or by a concrete calendar session." %}</p><div class="mt-5 grid gap-5 md:grid-cols-2">{% for field in form %}{% if field.name == 'workflow' or field.name == 'default_capacity' or field.name == 'default_cancellation_notice_hours' or field.name == 'closes_on_national_holidays' or field.name == 'order' or field.name == 'is_active' %}{% include "ui/form_field.html" with field=field only %}{% endif %}{% endfor %}</div></fieldset>
+    {% trans "Save catalog type" as submit_label %}{% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}
+  </form>
+{% endblock %}

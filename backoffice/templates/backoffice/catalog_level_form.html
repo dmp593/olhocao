@@ -1,0 +1,8 @@
+{% extends "layouts/backoffice.html" %}
+{% load i18n %}
+{% block title %}{% if level %}{% trans "Edit level" %}{% else %}{% trans "Create level" %}{% endif %} | {{ catalog_type.name }}{% endblock %}
+{% block backoffice_content %}
+  {% url 'backoffice:catalog_type_detail' catalog_type.pk as cancel_url %}{% include "ui/breadcrumb.html" with url=cancel_url label=catalog_type.name only %}
+  <div class="mt-5">{% include "ui/page_header.html" with kicker=_("Catalog level") title=level.name|default:_("Create level") subtitle=_("A level groups related prices or plans and can override capacity, cancellation and imagery.") only %}</div>
+  <form method="post" enctype="multipart/form-data" class="ui-card mx-auto mt-8 max-w-5xl"><div class="grid gap-5 md:grid-cols-2">{% csrf_token %}{% include "ui/form_errors.html" with form=form only %}{% for field in form %}{% include "ui/form_field.html" with field=field only %}{% endfor %}</div>{% trans "Save level" as submit_label %}<div class="mt-8">{% include "ui/form_actions.html" with cancel_url=cancel_url submit_label=submit_label only %}</div></form>
+{% endblock %}

@@ -1,286 +1,104 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load i18n %}
-{% load custom_filters %}
-{% load product_filters %}
+{% extends "layouts/booking.html" %}
+{% load static i18n %}
 
-{% block content %}
-<section class="relative py-16 bg-gradient-to-b from-primary-100 to-white overflow-hidden">
-    <div class="container mx-auto px-4 relative z-10">
-        <!-- Section header -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-primary-800 mb-4">
-                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower">🐾</span>
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-accent-500 mx-2">
-                    {% trans "Add Services" %}
-                </span>
-                <span class="inline-block animate__animated animate__rubberBand animate__infinite animate__slower animate__delay-1s">🐾</span>
-            </h1>
-            <p class="text-xl text-primary-600 max-w-3xl mx-auto">
-                {% trans "Customize services for each pet" %}
-            </p>
+{% block booking_content %}
+<section class="relative py-8 sm:py-12">
+  <div class="container relative z-10 mx-auto px-4">
+    {% include "ui/page_header.html" with eyebrow=_("Hotel") title=_("Add services") subtitle=_("Choose an optional service for each dog and tell us whether you have a preferred date.") only %}
+
+    <form method="post" class="mx-auto max-w-6xl">
+      {% csrf_token %}
+      {% include "ui/booking_steps.html" with current_step=2 only %}
+      {% trans "The services could not be saved" as form_error_title %}
+      {% include "ui/form_errors.html" with errors=form.non_field_errors title=form_error_title only %}
+
+      <section class="ui-card mb-8" aria-labelledby="stay-summary-title">
+        <h2 id="stay-summary-title" class="flex items-center gap-2 font-serif text-2xl font-bold text-primary-950">
+          {% include "icons/info.html" with class="h-6 w-6 text-accent-600" %}
+          {% trans "Your booking summary" %}
+        </h2>
+        <div class="mt-5 grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 class="ui-label">{% trans "Selected dogs" %}</h3>
+            <ul class="mt-2 space-y-2">
+              {% for pet in pets %}<li>{% include "ui/pet_identity.html" with pet=pet only %}</li>{% endfor %}
+            </ul>
+          </div>
+          <div>
+            <h3 class="ui-label">{% trans "Stay dates" %}</h3>
+            <dl class="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+              <dt class="text-primary-600">{% trans "Check-in" %}</dt><dd class="text-right font-bold">{{ start_date|date:"DATE_FORMAT" }}</dd>
+              <dt class="text-primary-600">{% trans "Check-out" %}</dt><dd class="text-right font-bold">{{ end_date|date:"DATE_FORMAT" }}</dd>
+              <dt class="text-primary-600">{% trans "Duration" %}</dt><dd class="text-right font-bold">{% blocktranslate count days=duration %}{{ days }} day{% plural %}{{ days }} days{% endblocktranslate %}</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-5" aria-labelledby="available-services-title">
+        <div>
+          <h2 id="available-services-title" class="font-serif text-2xl font-bold text-primary-950">{% trans "Optional services" %}</h2>
+          <p class="ui-help mt-1">{% trans "A date is optional. When no date is chosen, management schedules the service at the most suitable time during the stay." %}</p>
         </div>
 
-        <form method="post" class="max-w-6xl mx-auto">
-            {% csrf_token %}
-            
-            <!-- Step indicator -->
-            <div class="flex justify-between mb-8">
-                <div class="flex-1 text-center border-b-2 border-primary-200 pb-2">
-                    <span class="bg-primary-200 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</span>
-                    <span class="text-primary-500">{% trans "Select Stay" %}</span>
+        {% for row in form.selection_rows %}
+          <article class="ui-card overflow-hidden" data-service-row>
+            <header class="flex flex-col gap-4 border-b border-primary-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
+              <div class="flex min-w-0 items-center gap-4">
+                <img src="{{ row.service.image_url }}" alt="{{ row.service.image_alt|default:row.service.name }}" loading="lazy" class="h-16 w-16 rounded-2xl object-cover">
+                <div class="min-w-0">
+                  <h3 class="font-serif text-xl font-bold text-primary-950">{{ row.service.name }}</h3>
+                  {% if row.service.description %}<p class="mt-1 text-sm text-primary-600">{{ row.service.description }}</p>{% endif %}
                 </div>
-                <div class="flex-1 text-center border-b-2 border-accent-500 pb-2">
-                    <span class="bg-accent-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</span>
-                    <span class="font-medium text-accent-700">{% trans "Add Services" %}</span>
-                </div>
-                <div class="flex-1 text-center border-b-2 border-primary-200 pb-2">
-                    <span class="bg-primary-200 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</span>
-                    <span class="text-primary-500">{% trans "Review & Pay" %}</span>
-                </div>
-            </div>
+              </div>
+              <span class="ui-badge ui-badge-info whitespace-nowrap text-base">{{ row.service.catalog_item.unit_price_eur|floatformat:2 }} {{ row.service.catalog_item.currency }}</span>
+            </header>
 
-            <!-- Booking Summary -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-                <h2 class="text-2xl font-bold text-primary-800 mb-4 flex items-center">
-                    {% include "icons/info.html" with class="w-6 h-6 mr-2 text-accent-500" %}
-                    {% trans "Your Booking Summary" %}
-                </h2>
-                
-                <div class="grid md:grid-cols-2 gap-6">
+            <div class="mt-5 grid gap-4 lg:grid-cols-2">
+              {% for fields in row.pet_fields %}
+                <fieldset class="rounded-2xl border border-primary-200 bg-primary-50/60 p-4" data-service-selection>
+                  <legend class="px-2 font-bold text-primary-950">{{ fields.pet.name }}</legend>
+                  <div class="grid gap-4 sm:grid-cols-2">
                     <div>
-                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Selected Pets" %}</h3>
-                        <ul class="space-y-2">
-                            {% for pet in pets %}
-                            <li class="flex items-center">
-                                <span class="w-8 h-8 rounded-full bg-primary-100 mr-3 flex items-center justify-center">
-                                    {% if pet.photo %}
-                                    <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full rounded-full object-cover">
-                                    {% else %}
-                                    {% include "icons/paw.html" with class="w-4 h-4 text-primary-400" %}
-                                    {% endif %}
-                                </span>
-                                <span>{{ pet.name }} ({{ pet.breed }})</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
+                      <label for="{{ fields.quantity.id_for_label }}" class="ui-label">{% trans "Quantity" %}</label>
+                      {{ fields.quantity }}
+                      {% if fields.quantity.errors %}<div class="ui-error">{{ fields.quantity.errors }}</div>{% endif %}
                     </div>
-                    
                     <div>
-                        <h3 class="font-medium text-primary-700 mb-2">{% trans "Stay Details" %}</h3>
-                        <ul class="space-y-2">
-                            <li class="flex justify-between">
-                                <span>{% trans "Check-in" %}</span>
-                                <span class="font-medium">{{ start_date|date:"M j, Y" }}</span>
-                            </li>
-                            <li class="flex justify-between">
-                                <span>{% trans "Check-out" %}</span>
-                                <span class="font-medium">{{ end_date|date:"M j, Y" }}</span>
-                            </li>
-                            <li class="flex justify-between">
-                                <span>{% trans "Duration" %}</span>
-                                <span class="font-medium">{{ duration }} {% trans "day" %}{{ duration|pluralize }}</span>
-                            </li>
-                        </ul>
+                      <label for="{{ fields.schedule.id_for_label }}" class="ui-label">{% trans "Scheduling preference" %}</label>
+                      {{ fields.schedule }}
+                      {% if fields.schedule.errors %}<div class="ui-error">{{ fields.schedule.errors }}</div>{% endif %}
                     </div>
-                </div>
+                    <div data-preferred-date-wrapper>
+                      <label for="{{ fields.date.id_for_label }}" class="ui-label">{% trans "Preferred date" %}</label>
+                      {{ fields.date }}
+                      {% if fields.date.errors %}<div class="ui-error">{{ fields.date.errors }}</div>{% endif %}
+                    </div>
+                    <div data-preferred-time-wrapper>
+                      <label for="{{ fields.time.id_for_label }}" class="ui-label">{% trans "Preferred time" %}</label>
+                      {{ fields.time }}
+                      {% if fields.time.errors %}<div class="ui-error">{{ fields.time.errors }}</div>{% endif %}
+                    </div>
+                  </div>
+                </fieldset>
+              {% endfor %}
             </div>
+          </article>
+        {% empty %}
+          <div class="ui-card">
+            {% include "ui/empty_state.html" with title=_("No optional services available") description=_("You can continue without extras. Management can enable reusable add-ons from the catalog.") only %}
+            {% if request.user.is_staff %}<div class="mt-5 text-center"><a href="{% url 'backoffice:catalog' %}" class="ui-btn ui-btn-secondary">{% trans "Open catalog" %}</a></div>{% endif %}
+          </div>
+        {% endfor %}
+      </section>
 
-            <!-- Services Selection -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 overflow-hidden">
-                <h2 class="text-2xl font-bold text-primary-800 mb-6 flex items-center">
-                    {% include "icons/dog_training.html" with class="w-6 h-6 mr-2 text-accent-500" %}
-                    {% trans "Available Services" %}
-                </h2>
-                
-                {% if services %}
-                <div class="overflow-x-auto">
-                    <table class="w-full min-w-max">
-                        <thead>
-                            <tr class="border-b border-primary-200">
-                                <th class="text-left pb-4 pl-2">{% trans "Service" %}</th>
-                                <th class="text-right pb-4 pr-4">{% trans "Price" %}</th>
-                                {% for pet in pets %}
-                                <th class="text-center pb-4 px-2">
-                                    <div class="flex flex-col items-center min-w-[100px]">
-                                        <div class="w-10 h-10 rounded-full bg-primary-100 mb-1 overflow-hidden flex-shrink-0">
-                                            {% if pet.photo %}
-                                            <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" loading="lazy" class="w-full h-full object-cover">
-                                            {% else %}
-                                            {% include "icons/paw.html" with class="w-full h-full p-2 text-primary-400" %}
-                                            {% endif %}
-                                        </div>
-                                        <span class="text-sm font-medium text-center">{{ pet.name }}</span>
-                                    </div>
-                                </th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for service in services %}
-                            <tr class="border-b border-primary-100 service-row" data-service-id="{{ service.id }}">
-                                <td class="py-4 pl-2">
-                                    <div class="font-bold text-primary-800">{{ service|product_name }}</div>
-                                    <div class="text-sm text-primary-600">
-                                        {% trans "One-time service" %}
-                                    </div>
-                                </td>
-                                <td class="text-right py-4 pr-4">
-                                    <span class="bg-accent-100 text-accent-800 text-lg font-bold px-3 py-1 rounded-full whitespace-nowrap">
-                                        {{ service.default_price.unit_amount|divide:100|floatformat:2 }} {{ service.default_price.currency }}
-                                    </span>
-                                </td>
-                                {% for pet in pets %}
-                                <td class="text-center py-4 px-2">
-                                    <input type="number"
-                                           name="pet-{{ pet.id }}-service-{{ service.id }}"
-                                           id="pet-{{ pet.id }}-service-{{ service.id }}"
-                                           min="0"
-                                           max="{{ duration }}"
-                                           value="0"
-                                           class="w-20 text-center border border-primary-300 rounded-lg py-1 px-2 focus:ring-2 focus:ring-accent-500 focus:border-transparent service-quantity"
-                                           data-pet-id="{{ pet.id }}"
-                                           data-service-id="{{ service.id }}"
-                                           aria-label="Quantity for {{ pet.name }} - {{ service.name }}">
-                                </td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="mt-6 text-sm text-primary-600">
-                    <p class="flex items-start">
-                        <span class="mr-2">{% include "icons/info.html" with class="w-4 h-4 flex-shrink-0" %}</span>
-                        <span>
-                            {% trans "Each service can be booked up to the max days of stay." %}
-                        </span>
-                    </p>
-                </div>
-                {% else %}
-                <div class="bg-primary-50 rounded-lg p-4 text-center">
-                    <p class="text-primary-700">{% trans "No additional services available at this time." %}</p>
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Navigation -->
-            <div class="flex justify-between">
-                <a href="{% url 'hotel:booking_stay' %}" class="flex items-center text-primary-600 hover:text-primary-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200">
-                    <span class="mr-1">←</span>
-                    {% trans "Back to Stay Selection" %}
-                </a>
-                <button type="submit" class="flex items-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-3 px-6 rounded-full transition-colors duration-300 transform hover:scale-105">
-                    {% trans "Review Booking" %}
-                    <span class="ml-2">→</span>
-                </button>
-            </div>
-        </form>
-    </div>
+      <nav class="mt-8 flex flex-col-reverse justify-between gap-3 sm:flex-row" aria-label="{% trans 'Booking steps' %}">
+        <a href="{% url 'hotel:booking_stay' %}" class="ui-btn ui-btn-secondary">← {% trans "Back to stay selection" %}</a>
+        <button type="submit" class="ui-btn ui-btn-primary">{% trans "Review booking" %} →</button>
+      </nav>
+    </form>
+  </div>
 </section>
 {% endblock %}
 
-{% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Quantity input validation and visual feedback
-    document.querySelectorAll('.service-quantity').forEach(input => {
-        // Initialize visual state
-        updateRowHighlight(input);
-        
-        // Add event listeners
-        input.addEventListener('change', function() {
-            validateQuantity(this);
-            updateRowHighlight(this);
-        });
-        
-        input.addEventListener('input', function() {
-            validateQuantity(this, true);
-        });
-    });
-    
-    function validateQuantity(input, isLive = false) {
-        const max = parseInt(input.getAttribute('max'));
-        let value = parseInt(input.value) || 0;
-        
-        if (value < 0) {
-            input.value = 0;
-        } else if (value > max) {
-            if (isLive && value.toString().length > max.toString().length) {
-                // Prevent typing values longer than max
-                input.value = max;
-            } else if (!isLive) {
-                // Correct on blur/change
-                input.value = max;
-            }
-        }
-    }
-    
-    function updateRowHighlight(input) {
-        const row = input.closest('.service-row');
-        const allInputs = row.querySelectorAll('.service-quantity');
-        let hasSelection = false;
-        
-        allInputs.forEach(i => {
-            if (parseInt(i.value) > 0) {
-                hasSelection = true;
-            }
-        });
-        
-        if (hasSelection) {
-            row.classList.add('bg-accent-50');
-        } else {
-            row.classList.remove('bg-accent-50');
-        }
-    }
-});
-</script>
-{% endblock %}
-
-{% block styles %}
-<style>
-.service-quantity::-webkit-outer-spin-button,
-.service-quantity::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.service-quantity {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-
-.service-row {
-    transition: background-color 0.2s ease;
-}
-
-.service-row.bg-accent-50 {
-    background-color: rgba(16, 185, 129, 0.05);
-}
-
-@media (max-width: 768px) {
-    .overflow-x-auto {
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    table {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    
-    th, td {
-        min-width: 120px;
-    }
-    
-    th:first-child, td:first-child {
-        position: sticky;
-        left: 0;
-        background-color: white;
-        z-index: 1;
-    }
-}
-</style>
-{% endblock %}
+{% block scripts %}<script src="{% static 'js/hotel/booking_services.js' %}"></script>{% endblock %}

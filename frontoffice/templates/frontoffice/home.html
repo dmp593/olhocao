@@ -1,15 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'layouts/public.html' %}
 {% load i18n %}
 {% load static %}
 
-{% block content %}
-<style>.h-screen-minus-navbar { height: calc(100vh - 5rem); }</style>
+{% block public_content %}
 
-{% include 'components/slider.html' with slides=home_slides height="h-screen-minus-navbar" only %}
-{% include 'frontoffice/partials/our_services.html' %}
-{% include "frontoffice/partials/dog_daycare_premium.html" %}
-{% include 'components/slider.html' with slides=benefits_slides height="h-screen-minus-navbar" only %}
-{% include 'frontoffice/partials/testimonials.html' %}
+{% if home_slides %}{% include 'components/slider.html' with slides=home_slides height="h-screen-minus-navbar" primary_heading=True only %}{% endif %}
+{% if service_highlights %}{% include 'frontoffice/partials/our_services.html' %}{% endif %}
+{% include "frontoffice/partials/dog_daycare.html" %}
+{% if benefits_slides %}{% include 'components/slider.html' with slides=benefits_slides height="h-screen-minus-navbar" only %}{% endif %}
+{% if testimonials %}{% include 'frontoffice/partials/testimonials.html' %}{% endif %}
 
 {% endblock %}
 

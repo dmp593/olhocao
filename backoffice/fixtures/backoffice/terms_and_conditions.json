@@ -8,8 +8,8 @@
             "name_pt": "Termos e Condições",
             "heading_en": "Welcome to OlhóCão!\nThese Terms and Conditions (\"Terms\") govern the use of our services, including pet hotel, grooming, training, and leisure activities (\"Services\"). By booking or using any of our services, you agree to these Terms.",
             "heading_pt": "Bem-vindo ao OlhóCão!\nEstes Termos e Condições (\"Termos\") regulam a utilização dos nossos serviços, incluindo hotel para animais, banho e tosquia, treino e atividades de lazer (\"Serviços\"). Ao reservar ou utilizar qualquer um dos nossos serviços, está a aceitar estes Termos.",
-            "effective_date": "2023-01-01",
-            "updated_at": "2023-01-01T00:00:00Z",
+            "effective_date": "2026-09-01",
+            "updated_at": "2026-09-01T00:00:00Z",
             "deleted_at": null
         }
     },
@@ -78,8 +78,8 @@
         "pk": 5,
         "fields": {
             "section": 2,
-            "text_en": "Cancellations must be made at least 72 hours in advance to avoid charges.",
-            "text_pt": "Cancelamentos devem ser feitos com pelo menos 72 horas de antecedência para evitar cobrança de taxa.",
+            "text_en": "Online hotel bookings may be cancelled or rescheduled up to 7 days before check-in.",
+            "text_pt": "As reservas online de hotel podem ser canceladas ou reagendadas até 7 dias antes do check-in.",
             "order": 2
         }
     },
@@ -88,8 +88,8 @@
         "pk": 6,
         "fields": {
             "section": 2,
-            "text_en": "Refunds will be made by bank transfer.",
-            "text_pt": "A devolução será feita feito por transferência bancária.",
+            "text_en": "Eligible cancellations are refunded at 85% through the original payment method.",
+            "text_pt": "Os cancelamentos elegíveis são reembolsados em 85% através do método de pagamento original.",
             "order": 3
         }
     },
@@ -228,8 +228,8 @@
         "pk": 15,
         "fields": {
             "section": 7,
-            "text_en": "Payment is made at the time of delivery or after service, unless otherwise agreed.",
-            "text_pt": "O pagamento é feito no momento da entrega ou após o serviço, salvo acordo em contrário.",
+            "text_en": "Online hotel bookings are paid when confirmed; other services are paid at delivery or after the service, unless otherwise agreed.",
+            "text_pt": "As reservas online de hotel são pagas no momento da confirmação; os restantes serviços são pagos no momento da entrega ou após o serviço, salvo acordo em contrário.",
             "order": 1
         }
     },
@@ -238,8 +238,8 @@
         "pk": 16,
         "fields": {
             "section": 7,
-            "text_en": "We accept debit or credit card.",
-            "text_pt": "Aceitamos cartão de débito ou crédito.",
+            "text_en": "Online payment methods include debit or credit card, MB WAY and Multibanco.",
+            "text_pt": "Os métodos de pagamento online incluem cartão de débito ou crédito, MB WAY e Multibanco.",
             "order": 2
         }
     },

@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    env:
+      DEBUG: "off"
+      SECRET_KEY: ci-only-secret-key-with-more-than-fifty-characters-and-high-entropy-9x7
+      DATABASE_URL: sqlite:////tmp/olhocao-ci.sqlite3
+      ALLOWED_HOSTS: ci.example.invalid
+      CSRF_TRUSTED_ORIGINS: https://ci.example.invalid
+      PUBLIC_BASE_URL: https://ci.example.invalid
+      EASYPAY_ENVIRONMENT: production
+      EASYPAY_ACCOUNT_ID: ci-placeholder
+      EASYPAY_API_KEY: ci-placeholder
+      EASYPAY_WEBHOOK_USERNAME: ci-placeholder
+      EASYPAY_WEBHOOK_PASSWORD: ci-placeholder-with-at-least-24-characters
+      TOCONLINE_OAUTH_CLIENT_ID: ci-placeholder
+      TOCONLINE_OAUTH_CLIENT_SECRET: ci-placeholder
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install Poetry
+        run: pip install poetry==2.4.1
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Check dependency consistency
+        run: poetry run python -m pip check
+
+      - name: Audit dependencies
+        run: poetry run pip-audit --local --skip-editable
+
+      - name: Install and audit frontend dependencies
+        run: |
+          npm ci
+          npm audit
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Lint and format
+        run: |
+          poetry run ruff check .
+          poetry run ruff format --check .
+
+      - name: Validate Django configuration and migrations
+        run: |
+          poetry run python manage.py check
+          poetry run python manage.py check --deploy
+          poetry run python manage.py makemigrations --check --dry-run
+          poetry run python manage.py collectstatic --clear --noinput
+
+      - name: Test
+        env:
+          SECURE_SSL_REDIRECT: "off"
+        run: poetry run python manage.py test
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Test browser journeys
+        env:
+          PLAYWRIGHT_CHANNEL: chromium
+        run: poetry run npm run test:e2e
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build production image
+        run: docker build --tag olhocao:ci .
+
+      - name: Reject local secrets and databases in the image
+        run: |
+          docker run --rm olhocao:ci sh -c '
+            test ! -e /app/.env &&
+            test ! -e /app/.env.prod &&
+            test ! -e /app/db.sqlite3 &&
+            test ! -e /app/.backup &&
+            test ! -e /app/.staticfiles
+          '
+
+      - name: Test the production image
+        run: |
+          docker run --rm --read-only \
+            --tmpfs /tmp:rw,noexec,nosuid,size=128m \
+            --tmpfs /app/media:rw,noexec,nosuid,size=64m \
+            --env DEBUG=off \
+            --env SECURE_SSL_REDIRECT=off \
+            --env SECRET_KEY=ci-container-secret-key-with-more-than-fifty-characters \
+            --env DATABASE_URL=sqlite:////tmp/olhocao-ci.sqlite3 \
+            --env ALLOWED_HOSTS=testserver,localhost,127.0.0.1 \
+            --env CSRF_TRUSTED_ORIGINS=https://testserver \
+            --env PUBLIC_BASE_URL=https://testserver \
+            --env EASYPAY_ENVIRONMENT=production \
+            --env EASYPAY_ACCOUNT_ID=ci-placeholder \
+            --env EASYPAY_API_KEY=ci-placeholder \
+            --env EASYPAY_WEBHOOK_USERNAME=ci-placeholder \
+            --env EASYPAY_WEBHOOK_PASSWORD=ci-placeholder-with-at-least-24-characters \
+            olhocao:ci python manage.py test
