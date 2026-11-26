@@ -87,6 +87,8 @@ env = environ.Env(
     CATALOG_IMAGE_MAX_UPLOAD_BYTES=(int, 10485760),
     FRONTOFFICE_IMAGE_MAX_UPLOAD_BYTES=(int, 10485760),
     PUBLIC_BASE_URL=(str, "http://localhost:8000"),
+    DEMO_DATA_ALLOWED=(bool, False),
+    DEMO_DATA_PASSWORD=(str, ""),
 )
 
 # Quick-start development settings - unsuitable for production
@@ -97,6 +99,8 @@ SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
+DEMO_DATA_ALLOWED = env("DEMO_DATA_ALLOWED")
+DEMO_DATA_PASSWORD = env("DEMO_DATA_PASSWORD")
 
 MAILERS = {
     "default": {
@@ -113,9 +117,10 @@ MAILERS = {
     },
 }
 
-if os.environ.get("E2E_TESTING") == "True":
+if os.environ.get("E2E_TESTING") == "True" or (DEBUG and DEMO_DATA_ALLOWED):
     # Browser tests must never contact an external SMTP server, even when a
-    # developer has real credentials in their local environment file.
+    # developer has real credentials in their local environment file. The
+    # local demo database follows the same rule.
     MAILERS["default"] = {
         "BACKEND": "django.core.mail.backends.locmem.EmailBackend",
         "OPTIONS": {},

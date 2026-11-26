@@ -46,6 +46,17 @@ poetry run python manage.py createsuperuser
 poetry run python manage.py runserver
 ```
 
+Para testar os percursos de cliente e gestão com dados representativos, use a
+base SQLite isolada de demonstração:
+
+```bash
+./scripts/start_demo_server.sh
+```
+
+O comando mostra as contas locais no terminal e nunca contacta a Easypay ou o
+TOConline. Consulte o [guia de dados demo e produção](docs/demo-and-production-data.md)
+antes de carregar qualquer fixture num ambiente partilhado.
+
 Para recompilar estilos:
 
 ```bash

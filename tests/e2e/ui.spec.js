@@ -253,17 +253,17 @@ test("appearance switcher supports light, dark and automatic themes", async ({ p
     "true",
   );
 
-  const automaticIconParts = await mobilePicker
+  const automaticIcon = mobilePicker
     .getByRole("button", { name: "Automatic" })
-    .locator("svg g")
-    .evaluateAll((parts) =>
-      parts.map((part) => {
-        const rectangle = part.getBoundingClientRect();
-        return { left: rectangle.left, right: rectangle.right };
-      }),
-    );
-  expect(automaticIconParts).toHaveLength(2);
-  expect(automaticIconParts[0].right).toBeLessThan(automaticIconParts[1].left);
+    .locator("svg");
+  await expect(automaticIcon).toBeVisible();
+  expect(
+    await automaticIcon.evaluate((icon) => ({
+      height: icon.getBoundingClientRect().height,
+      width: icon.getBoundingClientRect().width,
+      embeddedStyles: icon.querySelectorAll("style").length,
+    })),
+  ).toEqual({ height: 20, width: 20, embeddedStyles: 0 });
 
   await mobilePicker.getByRole("button", { name: "Dark" }).click();
   await expect(root).toHaveAttribute("data-theme-resolved", "dark");
